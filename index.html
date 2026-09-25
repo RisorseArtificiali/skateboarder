@@ -46,6 +46,19 @@
   .dtable td { padding:.3rem .6rem; border-bottom:1px solid #262626; vertical-align:top; }
   .dtable td:first-child { color:var(--mut); white-space:nowrap; width:11rem; }
   .dtable td:last-child { color:var(--txt); word-break:break-all; }
+  /* compare mode */
+  .cmpbar { display:flex; align-items:center; gap:.5rem; margin-bottom:.75rem; }
+  .cmpbar button { background:#0d0d0d; color:var(--mut); border:1px solid var(--border);
+                   border-radius:6px; padding:.25rem .6rem; cursor:pointer; font-size:.78rem; }
+  .cmpbar button.active { color:#111; background:var(--accent); border-color:var(--accent); }
+  .cmpbar .hint { color:var(--mut); font-size:.75rem; }
+  body.comparing #list .item .cmpbox { display:inline-block; }
+  .cmpbox { display:none; width:15px; height:15px; accent-color:var(--accent); cursor:pointer; flex:none; }
+  .cmpstack .card { margin-bottom:2rem; }
+  .cmpstack .card h2 { font-size:1.05rem; }
+  .cmptag { display:inline-block; background:var(--accent); color:#111; border-radius:4px;
+            font-size:.7rem; font-weight:700; padding:.05rem .4rem; margin-left:.4rem; vertical-align:middle; }
+  .cmptag.a { background:#5f5; } .cmptag.b { background:#f7f; }
   @media (max-width:800px){ body{flex-direction:column} aside{position:static;width:100%;height:auto;border-right:0;border-bottom:1px solid var(--border)} }
 </style>
 </head>
@@ -61,6 +74,10 @@
     <button data-f="ok">ok</button>
     <button data-f="err">errors</button>
   </div>
+  <div class="cmpbar">
+    <button id="cmp-toggle">compare</button>
+    <span class="hint" id="cmp-hint"></span>
+  </div>
   <div id="list"></div>
 </aside>
 <main>
@@ -73,7 +90,7 @@
   </details></div>
 </main>
 <script>
-const state = { q:"", f:"all", entries:[] };
+const state = { q:"", f:"all", entries:[], comparing:false, picked:[] };
 
 async function boot(){
   const idx = await fetch("results/index.json").then(r=>r.json());
@@ -102,11 +119,79 @@ function renderList(){
   for (const e of items){
     const d = document.createElement("div");
     d.className = "item"; d.dataset.id = e.id;
-    d.innerHTML = `<span>${e.id}</span>` + (e.error ? `<span class='err'>err</span>` : `<span class='ok'>${(e.svg_len/1024).toFixed(1)}kB</span>`);
-    d.onclick = ()=>show(e);
+    d.innerHTML = `<input type="checkbox" class="cmpbox" data-id="${e.id}" ${state.picked.some(p=>p.id===e.id)?"checked":""} title="pick for compare">` +
+      `<span>${e.id}</span>` + (e.error ? `<span class='err'>err</span>` : `<span class='ok'>${(e.svg_len/1024).toFixed(1)}kB</span>`);
+    d.querySelector(".cmpbox").onclick = ev=>{
+      ev.stopPropagation();
+      togglePick(e, ev.target.checked);
+    };
+    d.onclick = ()=> state.comparing ? togglePick(e, true) : show(e);
     list.appendChild(d);
   }
 }
+
+function togglePick(e, on){
+  const i = state.picked.findIndex(p=>p.id===e.id);
+  if (on && i<0){
+    if (state.picked.length>=2) state.picked.shift();  // keep last two
+    state.picked.push(e);
+  } else if (!on && i>=0) state.picked.splice(i,1);
+  syncCmpBoxes();
+  renderCompare();
+}
+
+function syncCmpBoxes(){
+  document.querySelectorAll("#list .cmpbox").forEach(cb=>{
+    cb.checked = state.picked.some(p=>p.id===cb.dataset.id);
+  });
+  const h = document.getElementById("cmp-hint");
+  h.textContent = state.comparing
+    ? (state.picked.length<2 ? `pick ${2-state.picked.length} more` : "showing 2 — pick another to replace the oldest")
+    : "";
+}
+
+function renderCompare(){
+  const detail = document.getElementById("detail");
+  const prompts = detail.querySelector(".prompts");
+  document.getElementById("cmp-toggle").classList.toggle("active", state.comparing);
+  document.body.classList.toggle("comparing", state.comparing);
+  detail.querySelectorAll(".cmpstack").forEach(n=>n.remove());
+  if (!state.comparing){ syncCmpBoxes(); return; }
+  if (!state.picked.length){
+    const s = document.createElement("div");
+    s.className = "cmpstack";
+    s.innerHTML = `<div class="card"><h2>compare mode</h2><p class="meta">tick two runs in the sidebar to see their SVGs stacked here</p></div>`;
+    detail.insertBefore(s, prompts);
+    return;
+  }
+  const tags = ["a","b"];
+  const s = document.createElement("div");
+  s.className = "cmpstack";
+  s.innerHTML = state.picked.map((e,i)=>{
+    const tag = `<span class="cmptag ${tags[i]}">${tags[i].toUpperCase()}</span>`;
+    const body = (e.error || !e.svg)
+      ? `<div class="errorbox">ERROR: ${e.error||"no SVG"}${e.finish_reason?` (finish: ${e.finish_reason})`:''}</div>`
+      : `<div class="svgwrap"><iframe src="${e.svg}" loading="lazy"></iframe></div>
+         <div class="actions"><a class="openbtn" href="${e.svg}" target="_blank" rel="noopener">Open raw SVG ↗</a></div>`;
+    return `<div class="card"><h2>${e.id}${tag}</h2><p class="meta">${fmt(e)}</p>${body}</div>`;
+  }).join("");
+  detail.insertBefore(s, prompts);
+  document.getElementById("run-details").innerHTML =
+    state.picked.map((e,i)=>`<p><b>Run ${tags[i].toUpperCase()} — ${e.id}</b></p>${detailsTable(e)}`).join("");
+}
+
+document.getElementById("cmp-toggle").onclick = ()=>{
+  state.comparing = !state.comparing;
+  if (!state.comparing){
+    state.picked = [];
+    show(state.entries.find(e=>e.id===document.querySelector("#list .item.sel")?.dataset.id) || state.entries[0]);
+  }
+  syncCmpBoxes();
+  renderCompare();
+  if (state.comparing) detailTop();
+  else document.querySelectorAll("#list .item").forEach(i=>i.classList.toggle("sel", i.dataset.id===(state.picked[0]||{}).id));
+};
+function detailTop(){ document.querySelector("main").scrollIntoView({behavior:"smooth"}); }
 
 function contribLink(name){
   const safe = String(name).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
