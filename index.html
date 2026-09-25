@@ -158,8 +158,7 @@ function renderList(){
 function togglePick(e, on){
   const i = state.picked.findIndex(p=>p.id===e.id);
   if (on && i<0){
-    if (state.picked.length>=2) state.picked.shift();  // keep last two
-    state.picked.push(e);
+    state.picked.push(e);  // allow more than 2: layout goes stacked
   } else if (!on && i>=0) state.picked.splice(i,1);
   syncCmpBoxes();
   renderCompare();
@@ -170,16 +169,19 @@ function syncCmpBoxes(){
     cb.checked = state.picked.some(p=>p.id===cb.dataset.id);
   });
   const h = document.getElementById("cmp-hint");
-  h.textContent = state.comparing
-    ? (state.picked.length<2 ? `pick ${2-state.picked.length} more` : "showing 2 — pick another to replace the oldest")
-    : "";
+  h.textContent = !state.comparing ? "" :
+    state.picked.length===0 ? "pick 2 runs to compare side by side" :
+    state.picked.length===1 ? "pick 1 more" :
+    state.picked.length===2 ? "2 picked — side by side" :
+    `${state.picked.length} picked — stacked view`;
 }
 
 function renderCompare(){
   const detail = document.getElementById("detail");
   const prompts = detail.querySelector(".prompts");
   document.getElementById("cmp-toggle").classList.toggle("active", state.comparing);
-  document.getElementById("cmp-side").style.display = state.comparing ? "" : "none";
+  const twoPicked = state.comparing && state.picked.length===2;
+  document.getElementById("cmp-side").style.display = twoPicked ? "" : "none";
   document.getElementById("cmp-side").classList.toggle("active", state.sideBySide);
   document.body.classList.toggle("comparing", state.comparing);
   detail.querySelectorAll(".cmpstack").forEach(n=>n.remove());
@@ -191,9 +193,10 @@ function renderCompare(){
     detail.insertBefore(s, prompts);
     return;
   }
-  const tags = ["a","b"];
+  const tags = [..."abcdefghijklmnopqrstuvwxyz"];  // a, b, c, … for however many runs are picked
+  const canSide = state.sideBySide && state.picked.length===2;
   const s = document.createElement("div");
-  s.className = "cmpstack" + (state.sideBySide ? " side" : "");
+  s.className = "cmpstack" + (canSide ? " side" : "");
   const cards = state.picked.map((e,i)=>{
     const tag = `<span class="cmptag ${tags[i]}">${tags[i].toUpperCase()}</span>`;
     const body = (e.error || !e.svg)
@@ -202,9 +205,7 @@ function renderCompare(){
          <div class="actions"><a class="openbtn" href="${e.svg}" target="_blank" rel="noopener">Open raw SVG ↗</a></div>`;
     return `<div class="card"><h2>${e.id}${tag}</h2><p class="meta">${fmt(e)}</p>${body}</div>`;
   }).join("");
-  s.innerHTML = state.sideBySide && state.picked.length===2
-    ? `<div class="cards2">${cards}</div>`
-    : cards;
+  s.innerHTML = canSide ? `<div class="cards2">${cards}</div>` : cards;
   detail.insertBefore(s, prompts);
   document.getElementById("run-details").innerHTML =
     state.picked.map((e,i)=>`<p><b>Run ${tags[i].toUpperCase()} — ${e.id}</b></p>${detailsTable(e)}`).join("");
