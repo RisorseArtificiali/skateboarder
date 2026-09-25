@@ -33,7 +33,8 @@ for mpath in sorted(glob.glob(os.path.join(RESULTS, "*.json"))):
     entry = {"id": name, **{k: meta.get(k) for k in (
         "benchmark", "prompt", "model", "endpoint", "timestamp", "params",
         "usage", "reasoning_tokens", "finish_reason", "svg_len", "has_animation",
-        "uses_js", "error", "seconds", "contributor", "cost_usd", "note")}, "svg": svg_file if os.path.exists(svg_path) else None}
+        "uses_js", "error", "seconds", "contributor", "cost_usd", "note",
+        "hardware", "engine", "quantization")}, "svg": svg_file if os.path.exists(svg_path) else None}
     entries.append(entry)
 
 usage = os.path.join(HERE, "results", "index.json")
