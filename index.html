@@ -90,20 +90,37 @@
     <p class="meta">results are loaded from <code>results/index.json</code></p></div>
   <details class="prompts"><summary>Show details</summary>
     <div id="run-details"><p class="meta">select a model to see its run details</p></div>
-    <p><b>Prompt 1 — minimal</b> (verbatim, typos included)</p><pre id="p-min"></pre>
-    <p><b>Prompt 2 — constrained</b></p><pre id="p-con"></pre>
+    <div id="prompt-block"></div>
   </details></div>
 </main>
 <script>
 const state = { q:"", f:"all", entries:[], comparing:false, picked:[], sideBySide:true };
+const PROMPTS = {};  // variant -> verbatim text, fetched at boot
 
 async function boot(){
   const idx = await fetch("results/index.json").then(r=>r.json());
   state.entries = idx.entries;
-  for (const [id,el] of [["p-min","minimal"],["p-con","constrained"]]){
-    el && fetch(`prompts/${el}.txt`).then(r=>r.text()).then(t=>document.getElementById(id).textContent=t);
+  for (const v of ["minimal","constrained"]){
+    PROMPTS[v] = await fetch(`prompts/${v}.txt`).then(r=>r.text());
   }
+  renderPromptBlock();
   renderList();
+}
+
+// Show only the prompt(s) actually used: one in single view; in compare,
+// both, but each only once even when the two runs share a variant.
+function renderPromptBlock(){
+  const el = document.getElementById("prompt-block");
+  let variants;
+  if (state.comparing && state.picked.length){
+    variants = [...new Set(state.picked.map(e=>e.prompt).filter(Boolean))];
+  } else {
+    const cur = state.entries.find(e=>e.id===document.querySelector("#list .item.sel")?.dataset.id);
+    variants = cur && cur.prompt ? [cur.prompt] : [];
+  }
+  el.innerHTML = variants.length
+    ? variants.map(v=>`<p><b>Prompt — ${v}</b> (verbatim, typos included)</p><pre>${PROMPTS[v]||""}</pre>`).join("")
+    : `<p class="meta">select a model to see the prompt used</p>`;
 }
 
 function visible(){
@@ -188,6 +205,7 @@ function renderCompare(){
   detail.insertBefore(s, prompts);
   document.getElementById("run-details").innerHTML =
     state.picked.map((e,i)=>`<p><b>Run ${tags[i].toUpperCase()} — ${e.id}</b></p>${detailsTable(e)}`).join("");
+  renderPromptBlock();
 }
 
 document.getElementById("cmp-toggle").onclick = ()=>{
@@ -263,6 +281,7 @@ function show(e){
   detail.querySelector(".card:not(:first-of-type)")?.remove();
   // readable per-run details above the prompts in "Show details"
   document.getElementById("run-details").innerHTML = detailsTable(e);
+  renderPromptBlock();
 }
 
 document.getElementById("search").addEventListener("input", ev=>{ state.q=ev.target.value.toLowerCase(); renderList(); });
