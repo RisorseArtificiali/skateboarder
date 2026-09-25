@@ -1,0 +1,18 @@
+{
+  "benchmark": "skateboard",
+  "prompt": null,
+  "model": "mimo-v2-6-flash-constrained",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": null,
+  "contributor": "maeste",
+  "params": {
+    "max_tokens": 128000
+  },
+  "legacy_wave": "wave8-new-models.json",
+  "error": "no SVG in response",
+  "finish_reason": "length",
+  "usage": {
+    "total_tokens": null
+  },
+  "seconds": 1090.9
+}

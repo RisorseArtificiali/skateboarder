@@ -1,0 +1,26 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "minimal",
+  "model": "xiaomi/mimo-v2.6-flash",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": null,
+  "contributor": "maeste",
+  "params": {
+    "max_tokens": 128000
+  },
+  "legacy_wave": "wave8-new-models.json",
+  "svg": "results/mimo-v2-6-flash-minimal-minimal.svg",
+  "svg_len": 11542,
+  "has_animation": true,
+  "uses_js": false,
+  "seconds": 1024.5,
+  "usage": {
+    "total_tokens": 119603,
+    "completion_tokens": 119572,
+    "prompt_tokens": null
+  },
+  "cost_usd": 0.0334845,
+  "finish_reason": "stop",
+  "reasoning_tokens": 113517,
+  "note": null
+}
