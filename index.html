@@ -80,7 +80,7 @@
   </div>
   <div class="cmpbar">
     <button id="cmp-toggle">compare</button>
-    <button id="cmp-side" style="display:none">⬌ side by side</button>
+    <button id="cmp-side" style="display:none" class="active">⬌ side by side</button>
     <span class="hint" id="cmp-hint"></span>
   </div>
   <div id="list"></div>
@@ -95,7 +95,7 @@
   </details></div>
 </main>
 <script>
-const state = { q:"", f:"all", entries:[], comparing:false, picked:[], sideBySide:false };
+const state = { q:"", f:"all", entries:[], comparing:false, picked:[], sideBySide:true };
 
 async function boot(){
   const idx = await fetch("results/index.json").then(r=>r.json());
