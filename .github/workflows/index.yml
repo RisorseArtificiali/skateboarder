@@ -1,6 +1,10 @@
 name: build index
 
 on:
+  # PR: rebuild index as validation (bot commit stays on the PR branch)
+  pull_request:
+    paths: ["results/**"]
+  # merge to main: rebuild and commit so the site is always in sync
   push:
     branches: [main]
     paths: ["results/**"]
@@ -14,13 +18,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # PRs from forks arrive as refs/pull/N/merge; checkout the head instead
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          repository: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name || github.repository }}
+          fetch-depth: 0
+
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: python3 build_index.py
-      - name: commit index
+
+      - name: rebuild index
+        run: python3 build_index.py
+
+      - name: commit rebuilt index (push to main only)
+        if: github.event_name == 'push'
         run: |
           git config user.name "skateboarder-bot"
           git config user.email "actions@users.noreply.github.com"
           git add results/index.json
-          git diff --cached --quiet || git commit -m "rebuild index.json"
+          git diff --cached --quiet || git commit -m "rebuild index.json [skip ci]"
           git push
+
+      # PR validation: index.json rebuilt cleanly = check passes.
+      # We do NOT commit to contributor branches; main gets the canonical index at merge.
+      - name: validate (PR)
+        if: github.event_name == 'pull_request'
+        run: echo "index.json rebuilt successfully from PR results"

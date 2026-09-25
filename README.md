@@ -51,8 +51,8 @@ TCP keepalive is patched in so long reasoning phases survive gateway idle resets
 ## Submit your results
 
 1. Fork, run the benchmark (one or both variants).
-2. Check the sidecar JSON in `results/` has model, timestamp, usage filled in.
-3. `python3 build_index.py` then open a PR. Failed runs are welcome too — errors with metadata are data.
+2. Run the benchmark (one or both variants), check the sidecar JSON in `results/` has model, timestamp, usage filled in.
+3. Open a PR — that's it. A GitHub Action rebuilds `results/index.json` for you on every PR (validation) and again at merge. Failed runs are welcome too: errors with metadata are data.
 
 Naming: `results/<model-slug>-<variant>.svg` (handled automatically).
 Multiple runs of the same model are fine: append a suffix (`-v2`, `-lowtemp`, `-m2`, …).

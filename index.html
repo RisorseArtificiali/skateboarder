@@ -103,13 +103,19 @@ function renderList(){
   }
 }
 
+function contribLink(name){
+  const safe = String(name).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const url = safe === "maeste" ? "https://maeste.it" : `https://github.com/${safe}`;
+  return `<a href="${url}" target="_blank" rel="noopener" style="color:inherit">${safe}</a>`;
+}
+
 function fmt(e){
   const u = e.usage||{};
   const cost = e.cost_usd!=null ? ` · $${(+e.cost_usd).toFixed(e.cost_usd<0.01?4:2)}` : "";
   const tok = u.total_tokens!=null ? ` · ${u.total_tokens} tok` : "";
   const rs = e.reasoning_tokens ? ` (${e.reasoning_tokens} reasoning)` : "";
   const sec = e.seconds ? ` · ${e.seconds}s` : "";
-  const who = e.contributor ? ` · by ${e.contributor}` : "";
+  const who = e.contributor ? ` · by ${contribLink(e.contributor)}` : "";
   return `${e.model||e.id} · <b>${e.prompt||"?"}</b>${tok}${rs}${sec}${cost}${who}`;
 }
 
