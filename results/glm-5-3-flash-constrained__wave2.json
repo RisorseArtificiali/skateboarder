@@ -1,0 +1,18 @@
+{
+  "benchmark": "skateboard",
+  "prompt": null,
+  "model": "glm-5-3-flash-constrained",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": null,
+  "contributor": "maeste",
+  "params": {
+    "max_tokens": 128000
+  },
+  "legacy_wave": "wave2.json",
+  "error": "no SVG in response",
+  "finish_reason": null,
+  "usage": {
+    "total_tokens": null
+  },
+  "seconds": null
+}

@@ -1,0 +1,24 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "constrained",
+  "model": "deepseek/deepseek-v4-flash",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": null,
+  "contributor": "maeste",
+  "params": {
+    "max_tokens": 128000
+  },
+  "legacy_wave": "wave2.json",
+  "svg": "results/deepseek-v4-flash-constrained-constrained.svg",
+  "svg_len": 15024,
+  "has_animation": true,
+  "uses_js": false,
+  "seconds": 1151.2,
+  "usage": {
+    "total_tokens": 5359,
+    "completion_tokens": 5115,
+    "prompt_tokens": 244
+  },
+  "cost_usd": 0.0008758876,
+  "finish_reason": null
+}

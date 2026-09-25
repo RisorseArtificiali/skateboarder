@@ -1,0 +1,24 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "constrained",
+  "model": "openai/gpt-6-astra",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": null,
+  "contributor": "maeste",
+  "params": {
+    "max_tokens": 128000
+  },
+  "legacy_wave": "wave2.json",
+  "svg": "results/gpt-6-astra-constrained-constrained.svg",
+  "svg_len": 12912,
+  "has_animation": true,
+  "uses_js": false,
+  "seconds": 309.3,
+  "usage": {
+    "total_tokens": 11712,
+    "completion_tokens": 11467,
+    "prompt_tokens": 245
+  },
+  "cost_usd": 0.5758,
+  "finish_reason": null
+}

@@ -1,0 +1,18 @@
+{
+  "benchmark": "skateboard",
+  "prompt": null,
+  "model": "deepseek-v4-1-flash-constrained",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": null,
+  "contributor": "maeste",
+  "params": {
+    "max_tokens": 128000
+  },
+  "legacy_wave": "wave7-v41flash.json",
+  "error": "no SVG in response",
+  "finish_reason": null,
+  "usage": {
+    "total_tokens": 32270
+  },
+  "seconds": 130.4
+}

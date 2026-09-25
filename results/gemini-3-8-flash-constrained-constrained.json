@@ -1,0 +1,24 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "constrained",
+  "model": "google/gemini-3.8-flash",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": null,
+  "contributor": "maeste",
+  "params": {
+    "max_tokens": 128000
+  },
+  "legacy_wave": "wave3.json",
+  "svg": "results/gemini-3-8-flash-constrained-constrained.svg",
+  "svg_len": 21880,
+  "has_animation": true,
+  "uses_js": false,
+  "seconds": 151.1,
+  "usage": {
+    "total_tokens": 24421,
+    "completion_tokens": 24178,
+    "prompt_tokens": 243
+  },
+  "cost_usd": 0.09084975,
+  "finish_reason": null
+}

@@ -1,0 +1,977 @@
+{
+  "version": 1,
+  "count": 37,
+  "entries": [
+    {
+      "id": "claude-fable-5-1-constrained-constrained",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "anthropic/claude-fable-5.1",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 30617,
+        "completion_tokens": 30228,
+        "prompt_tokens": 389
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": 9811,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 379.9,
+      "contributor": "maeste",
+      "cost_usd": 1.51529,
+      "note": null,
+      "svg": "results/claude-fable-5-1-constrained-constrained.svg"
+    },
+    {
+      "id": "claude-fable-5-1-minimal-minimal",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "anthropic/claude-fable-5.1",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 24464,
+        "completion_tokens": 24419,
+        "prompt_tokens": 45
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": 8055,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 296.7,
+      "contributor": "maeste",
+      "cost_usd": 1.2214,
+      "note": null,
+      "svg": "results/claude-fable-5-1-minimal-minimal.svg"
+    },
+    {
+      "id": "claude-opus-5-5-constrained-constrained",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "anthropic/claude-opus-5.5",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 20759,
+        "completion_tokens": 20370,
+        "prompt_tokens": null
+      },
+      "reasoning_tokens": 15762,
+      "finish_reason": "stop",
+      "svg_len": 9178,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 257.8,
+      "contributor": "maeste",
+      "cost_usd": 0.408956,
+      "note": null,
+      "svg": "results/claude-opus-5-5-constrained-constrained.svg"
+    },
+    {
+      "id": "claude-opus-5-5-minimal-minimal",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "anthropic/claude-opus-5.5",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 20279,
+        "completion_tokens": 20234,
+        "prompt_tokens": null
+      },
+      "reasoning_tokens": 13121,
+      "finish_reason": "stop",
+      "svg_len": 12379,
+      "has_animation": true,
+      "uses_js": true,
+      "error": null,
+      "seconds": 244.1,
+      "contributor": "maeste",
+      "cost_usd": 0.40486,
+      "note": null,
+      "svg": "results/claude-opus-5-5-minimal-minimal.svg"
+    },
+    {
+      "id": "claude-opus-5-constrained-constrained",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "anthropic/claude-opus-5",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 51707,
+        "completion_tokens": 51320,
+        "prompt_tokens": 387
+      },
+      "reasoning_tokens": 45407,
+      "finish_reason": null,
+      "svg_len": 11398,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 658.1,
+      "contributor": "maeste",
+      "cost_usd": 1.284935,
+      "note": "retry with max_tokens=64000 (32k run: all tokens consumed by reasoning, finish=length)",
+      "svg": "results/claude-opus-5-constrained-constrained.svg"
+    },
+    {
+      "id": "claude-opus-5-constrained__wave5",
+      "benchmark": "skateboard",
+      "prompt": null,
+      "model": "claude-opus-5-constrained",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": null
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "no SVG in response",
+      "seconds": null,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "svg": null
+    },
+    {
+      "id": "claude-opus-5-minimal__wave5",
+      "benchmark": "skateboard",
+      "prompt": null,
+      "model": "claude-opus-5-minimal",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": null
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "no SVG in response",
+      "seconds": null,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "svg": null
+    },
+    {
+      "id": "claude-opus-5-minimal__wave6-opus64k",
+      "benchmark": "skateboard",
+      "prompt": null,
+      "model": "claude-opus-5-minimal",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 64043
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "length",
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "no SVG in response",
+      "seconds": null,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "svg": null
+    },
+    {
+      "id": "claude-sonnet-5-constrained__wave3",
+      "benchmark": "skateboard",
+      "prompt": null,
+      "model": "claude-sonnet-5-constrained",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": null
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "no SVG in response",
+      "seconds": null,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "svg": null
+    },
+    {
+      "id": "claude-sonnet-5-minimal__wave3",
+      "benchmark": "skateboard",
+      "prompt": null,
+      "model": "claude-sonnet-5-minimal",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": null
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "no SVG in response",
+      "seconds": null,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "svg": null
+    },
+    {
+      "id": "deepseek-v4-1-flash-constrained-constrained",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 73946,
+        "completion_tokens": 73676,
+        "prompt_tokens": 270
+      },
+      "reasoning_tokens": 70823,
+      "finish_reason": "stop",
+      "svg_len": 7280,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 296.5,
+      "contributor": "maeste",
+      "cost_usd": 0.088454568,
+      "note": "reasoning enabled, max_tokens=128000",
+      "svg": "results/deepseek-v4-1-flash-constrained-constrained.svg"
+    },
+    {
+      "id": "deepseek-v4-1-flash-constrained__wave7-v41flash",
+      "benchmark": "skateboard",
+      "prompt": null,
+      "model": "deepseek-v4-1-flash-constrained",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 32270
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "no SVG in response",
+      "seconds": 130.4,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "svg": null
+    },
+    {
+      "id": "deepseek-v4-1-flash-minimal-minimal",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 46831,
+        "completion_tokens": 46776,
+        "prompt_tokens": 55
+      },
+      "reasoning_tokens": 45140,
+      "finish_reason": "stop",
+      "svg_len": 5146,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 183.1,
+      "contributor": "maeste",
+      "cost_usd": 0.0561477,
+      "note": "reasoning enabled, max_tokens=128000",
+      "svg": "results/deepseek-v4-1-flash-minimal-minimal.svg"
+    },
+    {
+      "id": "deepseek-v4-1-flash-minimal__wave7-v41flash",
+      "benchmark": "skateboard",
+      "prompt": null,
+      "model": "deepseek-v4-1-flash-minimal",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 32055
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "no SVG in response",
+      "seconds": 119.1,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "svg": null
+    },
+    {
+      "id": "deepseek-v4-flash-constrained-constrained",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "deepseek/deepseek-v4-flash",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 5359,
+        "completion_tokens": 5115,
+        "prompt_tokens": 244
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": 15024,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 1151.2,
+      "contributor": "maeste",
+      "cost_usd": 0.0008758876,
+      "note": null,
+      "svg": "results/deepseek-v4-flash-constrained-constrained.svg"
+    },
+    {
+      "id": "deepseek-v4-flash-minimal-minimal",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "deepseek/deepseek-v4-flash",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 3148,
+        "completion_tokens": 3119,
+        "prompt_tokens": 29
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": 8123,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 296.2,
+      "contributor": "maeste",
+      "cost_usd": 0.0005259611,
+      "note": null,
+      "svg": "results/deepseek-v4-flash-minimal-minimal.svg"
+    },
+    {
+      "id": "gemini-3-8-flash-constrained-constrained",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "google/gemini-3.8-flash",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 24421,
+        "completion_tokens": 24178,
+        "prompt_tokens": 243
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": 21880,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 151.1,
+      "contributor": "maeste",
+      "cost_usd": 0.09084975,
+      "note": null,
+      "svg": "results/gemini-3-8-flash-constrained-constrained.svg"
+    },
+    {
+      "id": "gemini-3-8-flash-minimal-minimal",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "google/gemini-3.8-flash",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 17495,
+        "completion_tokens": 17471,
+        "prompt_tokens": 24
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": 27992,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 100.7,
+      "contributor": "maeste",
+      "cost_usd": 0.06553425,
+      "note": null,
+      "svg": "results/gemini-3-8-flash-minimal-minimal.svg"
+    },
+    {
+      "id": "glm-5-3-flash-constrained__wave2",
+      "benchmark": "skateboard",
+      "prompt": null,
+      "model": "glm-5-3-flash-constrained",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": null
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "no SVG in response",
+      "seconds": null,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "svg": null
+    },
+    {
+      "id": "glm-5-3-flash-minimal__wave2",
+      "benchmark": "skateboard",
+      "prompt": null,
+      "model": "glm-5-3-flash-minimal",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": null
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "no SVG in response",
+      "seconds": null,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "svg": null
+    },
+    {
+      "id": "gpt-5-6-luna-constrained-constrained",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "openai/gpt-5.6-luna",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 4394,
+        "completion_tokens": 4149,
+        "prompt_tokens": 245
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": 7078,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 41.1,
+      "contributor": "maeste",
+      "cost_usd": 0.0050278,
+      "note": null,
+      "svg": "results/gpt-5-6-luna-constrained-constrained.svg"
+    },
+    {
+      "id": "gpt-5-6-luna-minimal-minimal",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "openai/gpt-5.6-luna",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 4057,
+        "completion_tokens": 4027,
+        "prompt_tokens": 30
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": 6635,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 30.1,
+      "contributor": "maeste",
+      "cost_usd": 0.0048384,
+      "note": null,
+      "svg": "results/gpt-5-6-luna-minimal-minimal.svg"
+    },
+    {
+      "id": "gpt-5-6-sol-constrained-constrained",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "openai/gpt-5.6-sol",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 6786,
+        "completion_tokens": 6541,
+        "prompt_tokens": 245
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": 10157,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 80.5,
+      "contributor": "maeste",
+      "cost_usd": 0.0659,
+      "note": null,
+      "svg": "results/gpt-5-6-sol-constrained-constrained.svg"
+    },
+    {
+      "id": "gpt-5-6-sol-minimal-minimal",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "openai/gpt-5.6-sol",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 7459,
+        "completion_tokens": 7429,
+        "prompt_tokens": 30
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": 7750,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 158.6,
+      "contributor": "maeste",
+      "cost_usd": 0.07435,
+      "note": null,
+      "svg": "results/gpt-5-6-sol-minimal-minimal.svg"
+    },
+    {
+      "id": "gpt-5-6-terra-constrained-constrained",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "openai/gpt-5.6-terra",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 5210,
+        "completion_tokens": 4965,
+        "prompt_tokens": 245
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": 8028,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 70.5,
+      "contributor": "maeste",
+      "cost_usd": 0.06007,
+      "note": null,
+      "svg": "results/gpt-5-6-terra-constrained-constrained.svg"
+    },
+    {
+      "id": "gpt-5-6-terra-minimal-minimal",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "openai/gpt-5.6-terra",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 5926,
+        "completion_tokens": 5896,
+        "prompt_tokens": 30
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": 9100,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 87.2,
+      "contributor": "maeste",
+      "cost_usd": 0.070812,
+      "note": null,
+      "svg": "results/gpt-5-6-terra-minimal-minimal.svg"
+    },
+    {
+      "id": "gpt-6-astra-constrained-constrained",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "openai/gpt-6-astra",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 11712,
+        "completion_tokens": 11467,
+        "prompt_tokens": 245
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": 12912,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 309.3,
+      "contributor": "maeste",
+      "cost_usd": 0.5758,
+      "note": null,
+      "svg": "results/gpt-6-astra-constrained-constrained.svg"
+    },
+    {
+      "id": "gpt-6-luna-constrained-constrained",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "openai/gpt-6-luna",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 7013,
+        "completion_tokens": 6768,
+        "prompt_tokens": null
+      },
+      "reasoning_tokens": 4804,
+      "finish_reason": "stop",
+      "svg_len": 5356,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 56.1,
+      "contributor": "maeste",
+      "cost_usd": 0.0034085,
+      "note": null,
+      "svg": "results/gpt-6-luna-constrained-constrained.svg"
+    },
+    {
+      "id": "gpt-6-luna-minimal-minimal",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "openai/gpt-6-luna",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 4671,
+        "completion_tokens": 4641,
+        "prompt_tokens": null
+      },
+      "reasoning_tokens": 2841,
+      "finish_reason": "stop",
+      "svg_len": 4773,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 48.9,
+      "contributor": "maeste",
+      "cost_usd": 0.0023235,
+      "note": null,
+      "svg": "results/gpt-6-luna-minimal-minimal.svg"
+    },
+    {
+      "id": "gpt-6-sol-constrained-constrained",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "openai/gpt-6-sol",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 5001,
+        "completion_tokens": 4756,
+        "prompt_tokens": null
+      },
+      "reasoning_tokens": 3355,
+      "finish_reason": "stop",
+      "svg_len": 3928,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 95.0,
+      "contributor": "maeste",
+      "cost_usd": 0.04805,
+      "note": null,
+      "svg": "results/gpt-6-sol-constrained-constrained.svg"
+    },
+    {
+      "id": "gpt-6-sol-minimal-minimal",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "openai/gpt-6-sol",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 5295,
+        "completion_tokens": 5265,
+        "prompt_tokens": null
+      },
+      "reasoning_tokens": 3550,
+      "finish_reason": "stop",
+      "svg_len": 4770,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 97.3,
+      "contributor": "maeste",
+      "cost_usd": 0.05271,
+      "note": null,
+      "svg": "results/gpt-6-sol-minimal-minimal.svg"
+    },
+    {
+      "id": "kimi-k3-constrained__wave3",
+      "benchmark": "skateboard",
+      "prompt": null,
+      "model": "kimi-k3-constrained",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": null
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "no SVG in response",
+      "seconds": null,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "svg": null
+    },
+    {
+      "id": "kimi-k3-minimal__wave3",
+      "benchmark": "skateboard",
+      "prompt": null,
+      "model": "kimi-k3-minimal",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": null
+      },
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "no SVG in response",
+      "seconds": null,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "svg": null
+    },
+    {
+      "id": "mimo-v2-6-flash-constrained__wave8-new-models",
+      "benchmark": "skateboard",
+      "prompt": null,
+      "model": "mimo-v2-6-flash-constrained",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": null
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "length",
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "no SVG in response",
+      "seconds": 1090.9,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "svg": null
+    },
+    {
+      "id": "mimo-v2-6-flash-minimal-minimal",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "xiaomi/mimo-v2.6-flash",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": 119603,
+        "completion_tokens": 119572,
+        "prompt_tokens": null
+      },
+      "reasoning_tokens": 113517,
+      "finish_reason": "stop",
+      "svg_len": 11542,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 1024.5,
+      "contributor": "maeste",
+      "cost_usd": 0.0334845,
+      "note": null,
+      "svg": "results/mimo-v2-6-flash-minimal-minimal.svg"
+    },
+    {
+      "id": "mimo-v2-6-pro-constrained__wave8-new-models",
+      "benchmark": "skateboard",
+      "prompt": null,
+      "model": "mimo-v2-6-pro-constrained",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": null
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "length",
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "no SVG in response",
+      "seconds": 4105.9,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "svg": null
+    },
+    {
+      "id": "mimo-v2-6-pro-minimal__wave8-new-models",
+      "benchmark": "skateboard",
+      "prompt": null,
+      "model": "mimo-v2-6-pro-minimal",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": null,
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "total_tokens": null
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "length",
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "no SVG in response",
+      "seconds": 2618.9,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "svg": null
+    }
+  ]
+}

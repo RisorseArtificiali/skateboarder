@@ -1,0 +1,24 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "constrained",
+  "model": "anthropic/claude-fable-5.1",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": null,
+  "contributor": "maeste",
+  "params": {
+    "max_tokens": 128000
+  },
+  "legacy_wave": "wave3.json",
+  "svg": "results/claude-fable-5-1-constrained-constrained.svg",
+  "svg_len": 9811,
+  "has_animation": true,
+  "uses_js": false,
+  "seconds": 379.9,
+  "usage": {
+    "total_tokens": 30617,
+    "completion_tokens": 30228,
+    "prompt_tokens": 389
+  },
+  "cost_usd": 1.51529,
+  "finish_reason": null
+}

@@ -1,0 +1,26 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "constrained",
+  "model": "openai/gpt-6-luna",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": null,
+  "contributor": "maeste",
+  "params": {
+    "max_tokens": 128000
+  },
+  "legacy_wave": "wave8-new-models.json",
+  "svg": "results/gpt-6-luna-constrained-constrained.svg",
+  "svg_len": 5356,
+  "has_animation": true,
+  "uses_js": false,
+  "seconds": 56.1,
+  "usage": {
+    "total_tokens": 7013,
+    "completion_tokens": 6768,
+    "prompt_tokens": null
+  },
+  "cost_usd": 0.0034085,
+  "finish_reason": "stop",
+  "reasoning_tokens": 4804,
+  "note": null
+}

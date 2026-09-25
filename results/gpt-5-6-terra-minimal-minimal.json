@@ -1,0 +1,24 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "minimal",
+  "model": "openai/gpt-5.6-terra",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": null,
+  "contributor": "maeste",
+  "params": {
+    "max_tokens": 128000
+  },
+  "legacy_wave": "wave4.json",
+  "svg": "results/gpt-5-6-terra-minimal-minimal.svg",
+  "svg_len": 9100,
+  "has_animation": true,
+  "uses_js": false,
+  "seconds": 87.2,
+  "usage": {
+    "total_tokens": 5926,
+    "completion_tokens": 5896,
+    "prompt_tokens": 30
+  },
+  "cost_usd": 0.070812,
+  "finish_reason": null
+}

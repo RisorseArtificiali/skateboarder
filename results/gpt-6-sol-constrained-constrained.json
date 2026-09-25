@@ -1,0 +1,26 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "constrained",
+  "model": "openai/gpt-6-sol",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": null,
+  "contributor": "maeste",
+  "params": {
+    "max_tokens": 128000
+  },
+  "legacy_wave": "wave8-new-models.json",
+  "svg": "results/gpt-6-sol-constrained-constrained.svg",
+  "svg_len": 3928,
+  "has_animation": true,
+  "uses_js": false,
+  "seconds": 95.0,
+  "usage": {
+    "total_tokens": 5001,
+    "completion_tokens": 4756,
+    "prompt_tokens": null
+  },
+  "cost_usd": 0.04805,
+  "finish_reason": "stop",
+  "reasoning_tokens": 3355,
+  "note": null
+}

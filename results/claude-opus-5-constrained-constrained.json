@@ -1,0 +1,26 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "constrained",
+  "model": "anthropic/claude-opus-5",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": null,
+  "contributor": "maeste",
+  "params": {
+    "max_tokens": 128000
+  },
+  "legacy_wave": "wave6-opus64k.json",
+  "svg": "results/claude-opus-5-constrained-constrained.svg",
+  "svg_len": 11398,
+  "has_animation": true,
+  "uses_js": false,
+  "seconds": 658.1,
+  "usage": {
+    "total_tokens": 51707,
+    "completion_tokens": 51320,
+    "prompt_tokens": 387
+  },
+  "cost_usd": 1.284935,
+  "finish_reason": null,
+  "reasoning_tokens": 45407,
+  "note": "retry with max_tokens=64000 (32k run: all tokens consumed by reasoning, finish=length)"
+}

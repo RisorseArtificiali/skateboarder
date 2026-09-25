@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>skateboarder — LLM animated SVG benchmark</title>
+<style>
+  :root { --bg:#111; --card:#1c1c1c; --border:#333; --accent:#ffd700; --txt:#ddd; --mut:#888; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt);
+         font:16px/1.5 -apple-system,"Segoe UI",Roboto,sans-serif;
+         display:flex; min-height:100vh; }
+  aside { width:300px; min-width:260px; background:#161616; border-right:1px solid var(--border);
+          padding:1.25rem; position:sticky; top:0; height:100vh; overflow-y:auto; }
+  aside h1 { font-size:1.15rem; color:var(--accent); margin:0 0 .25rem; }
+  aside .sub { color:var(--mut); font-size:.8rem; margin-bottom:1rem; }
+  #search { width:100%; background:#0d0d0d; border:1px solid var(--border); color:var(--txt);
+            border-radius:8px; padding:.5rem .75rem; font-size:.9rem; margin-bottom:.5rem; }
+  #search:focus { outline:none; border-color:var(--accent); }
+  .filters { display:flex; gap:.4rem; margin-bottom:1rem; flex-wrap:wrap; }
+  .filters button { background:#0d0d0d; color:var(--mut); border:1px solid var(--border);
+                    border-radius:6px; padding:.25rem .6rem; cursor:pointer; font-size:.78rem; }
+  .filters button.active { color:#111; background:var(--accent); border-color:var(--accent); }
+  #list .item { padding:.5rem .6rem; border-radius:8px; cursor:pointer; font-size:.85rem;
+                display:flex; justify-content:space-between; gap:.5rem; align-items:center; }
+  #list .item:hover { background:#222; }
+  #list .item.sel { background:var(--accent); color:#111; }
+  #list .item .err { color:#ff5555; font-size:.75rem; }
+  #list .item .ok { color:#5f5; font-size:.75rem; }
+  main { flex:1; padding:2rem; max-width:1000px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; }
+  .card h2 { color:var(--accent); margin:0 0 .25rem; font-size:1.2rem; }
+  .meta { color:var(--mut); font-size:.85rem; margin:.25rem 0 1rem; }
+  .meta b { color:var(--txt); font-weight:600; }
+  .svgwrap { background:#000; border-radius:8px; overflow:hidden; }
+  .svgwrap iframe { width:100%; height:480px; border:0; background:#000; }
+  .actions { margin-top:1rem; display:flex; gap:.6rem; }
+  .openbtn { display:inline-block; background:var(--accent); color:#111; padding:.35rem .9rem;
+             border-radius:6px; text-decoration:none; font-size:.85rem; font-weight:600; }
+  .openbtn:hover { background:#ffe44d; }
+  .errorbox { color:#ff5555; background:#2a1515; border:1px solid #552222; border-radius:8px; padding:1rem; }
+  .prompts summary { color:var(--accent); cursor:pointer; margin-top:1.5rem; }
+  .prompts pre { white-space:pre-wrap; color:#bbb; font-size:.8rem; background:var(--card);
+                 border:1px solid var(--border); border-radius:8px; padding:.75rem; }
+  @media (max-width:800px){ body{flex-direction:column} aside{position:static;width:100%;height:auto;border-right:0;border-bottom:1px solid var(--border)} }
+</style>
+</head>
+<body>
+<aside>
+  <h1>🛹 skateboarder</h1>
+  <div class="sub">LLM animated-SVG benchmark · <a style="color:var(--accent)" href="https://github.com/RisorseArtificiali/skateboarder">repo</a></div>
+  <input id="search" type="search" placeholder="search model…" autocomplete="off">
+  <div class="filters">
+    <button data-f="all" class="active">all</button>
+    <button data-f="minimal">minimal</button>
+    <button data-f="constrained">constrained</button>
+    <button data-f="ok">ok</button>
+    <button data-f="err">errors</button>
+  </div>
+  <div id="list"></div>
+</aside>
+<main>
+  <div id="detail"><div class="card"><h2>select a model from the sidebar</h2>
+    <p class="meta">results are loaded from <code>results/index.json</code></p></div>
+  <details class="prompts"><summary>Show the prompts</summary>
+    <p><b>Prompt 1 — minimal</b> (verbatim, typos included)</p><pre id="p-min"></pre>
+    <p><b>Prompt 2 — constrained</b></p><pre id="p-con"></pre>
+  </details></div>
+</main>
+<script>
+const state = { q:"", f:"all", entries:[] };
+
+async function boot(){
+  const idx = await fetch("results/index.json").then(r=>r.json());
+  state.entries = idx.entries;
+  for (const [id,el] of [["p-min","minimal"],["p-con","constrained"]]){
+    el && fetch(`prompts/${el}.txt`).then(r=>r.text()).then(t=>document.getElementById(id).textContent=t);
+  }
+  renderList();
+}
+
+function visible(){
+  return state.entries.filter(e=>{
+    if (state.f==="minimal"&&e.prompt!=="minimal") return false;
+    if (state.f==="constrained"&&e.prompt!=="constrained") return false;
+    if (state.f==="ok"&&e.error) return false;
+    if (state.f==="err"&&!e.error) return false;
+    if (state.q && !e.id.toLowerCase().includes(state.q)) return false;
+    return true;
+  });
+}
+
+function renderList(){
+  const list = document.getElementById("list");
+  const items = visible();
+  list.innerHTML = items.length ? "" : "<div class='item'><span class='err'>no matches</span></div>";
+  for (const e of items){
+    const d = document.createElement("div");
+    d.className = "item"; d.dataset.id = e.id;
+    d.innerHTML = `<span>${e.id}</span>` + (e.error ? `<span class='err'>err</span>` : `<span class='ok'>${(e.svg_len/1024).toFixed(1)}kB</span>`);
+    d.onclick = ()=>show(e);
+    list.appendChild(d);
+  }
+}
+
+function fmt(e){
+  const u = e.usage||{};
+  const cost = e.cost_usd!=null ? ` · $${(+e.cost_usd).toFixed(e.cost_usd<0.01?4:2)}` : "";
+  const tok = u.total_tokens!=null ? ` · ${u.total_tokens} tok` : "";
+  const rs = e.reasoning_tokens ? ` (${e.reasoning_tokens} reasoning)` : "";
+  const sec = e.seconds ? ` · ${e.seconds}s` : "";
+  const who = e.contributor ? ` · by ${e.contributor}` : "";
+  return `${e.model||e.id} · <b>${e.prompt||"?"}</b>${tok}${rs}${sec}${cost}${who}`;
+}
+
+function show(e){
+  document.querySelectorAll("#list .item").forEach(i=>i.classList.toggle("sel", i.dataset.id===e.id));
+  const detail = document.getElementById("detail");
+  const meta = `<div class="card"><h2>${e.id}</h2><p class="meta">${fmt(e)}</p>`;
+  let body;
+  if (e.error || !e.svg){
+    body = `<div class="errorbox">ERROR: ${e.error||"no SVG"}${e.finish_reason?` (finish: ${e.finish_reason})`:""}</div>`;
+  } else {
+    body = `<div class="svgwrap"><iframe src="${e.svg}" loading="lazy"></iframe></div>
+      <div class="actions"><a class="openbtn" href="${e.svg}" target="_blank" rel="noopener">Open raw SVG ↗</a></div>`;
+  }
+  detail.insertAdjacentHTML("afterbegin", meta+body+"</div>");
+  detail.querySelector(".card:not(:first-of-type)")?.remove();
+}
+
+document.getElementById("search").addEventListener("input", ev=>{ state.q=ev.target.value.toLowerCase(); renderList(); });
+document.querySelectorAll(".filters button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active"); state.f=b.dataset.f; renderList();
+});
+boot();
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "minimal",
+  "model": "openai/gpt-6-sol",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": null,
+  "contributor": "maeste",
+  "params": {
+    "max_tokens": 128000
+  },
+  "legacy_wave": "wave8-new-models.json",
+  "svg": "results/gpt-6-sol-minimal-minimal.svg",
+  "svg_len": 4770,
+  "has_animation": true,
+  "uses_js": false,
+  "seconds": 97.3,
+  "usage": {
+    "total_tokens": 5295,
+    "completion_tokens": 5265,
+    "prompt_tokens": null
+  },
+  "cost_usd": 0.05271,
+  "finish_reason": "stop",
+  "reasoning_tokens": 3550,
+  "note": null
+}
