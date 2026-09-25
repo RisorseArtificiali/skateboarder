@@ -42,6 +42,10 @@
   .prompts summary { color:var(--accent); cursor:pointer; margin-top:1.5rem; }
   .prompts pre { white-space:pre-wrap; color:#bbb; font-size:.8rem; background:var(--card);
                  border:1px solid var(--border); border-radius:8px; padding:.75rem; }
+  .dtable { border-collapse:collapse; margin:.75rem 0 1rem; font-size:.85rem; width:100%; }
+  .dtable td { padding:.3rem .6rem; border-bottom:1px solid #262626; vertical-align:top; }
+  .dtable td:first-child { color:var(--mut); white-space:nowrap; width:11rem; }
+  .dtable td:last-child { color:var(--txt); word-break:break-all; }
   @media (max-width:800px){ body{flex-direction:column} aside{position:static;width:100%;height:auto;border-right:0;border-bottom:1px solid var(--border)} }
 </style>
 </head>
@@ -62,7 +66,8 @@
 <main>
   <div id="detail"><div class="card"><h2>select a model from the sidebar</h2>
     <p class="meta">results are loaded from <code>results/index.json</code></p></div>
-  <details class="prompts"><summary>Show the prompts</summary>
+  <details class="prompts"><summary>Show details</summary>
+    <div id="run-details"><p class="meta">select a model to see its run details</p></div>
     <p><b>Prompt 1 — minimal</b> (verbatim, typos included)</p><pre id="p-min"></pre>
     <p><b>Prompt 2 — constrained</b></p><pre id="p-con"></pre>
   </details></div>
@@ -119,19 +124,46 @@ function fmt(e){
   return `${e.model||e.id} · <b>${e.prompt||"?"}</b>${tok}${rs}${sec}${cost}${who}`;
 }
 
+function detailsTable(e){
+  const u = e.usage||{};
+  const row = (k,v)=> v==null||v==="" ? "" : `<tr><td>${k}</td><td>${v}</td></tr>`;
+  const ct = u.completion_tokens_details||{};
+  return `<table class="dtable">
+    ${row("model", e.model)}
+    ${row("variant", e.prompt)}
+    ${row("contributor", e.contributor ? contribLink(e.contributor) : null)}
+    ${row("endpoint", e.endpoint)}
+    ${row("timestamp", e.timestamp)}
+    ${row("svg size", e.svg_len!=null ? e.svg_len+" B" : null)}
+    ${row("animation", e.has_animation==null ? null : (e.has_animation ? "yes" : "no"))}
+    ${row("javascript", e.uses_js ? "yes (violates rules)" : "no")}
+    ${row("prompt tokens", u.prompt_tokens)}
+    ${row("completion tokens", u.completion_tokens)}
+    ${row("reasoning tokens", e.reasoning_tokens || ct.reasoning_tokens)}
+    ${row("total tokens", u.total_tokens)}
+    ${row("cost", e.cost_usd!=null ? "$"+(+e.cost_usd).toFixed(e.cost_usd<0.01?4:2) : null)}
+    ${row("duration", e.seconds ? e.seconds+" s" : null)}
+    ${row("finish reason", e.finish_reason)}
+    ${row("params", e.params ? Object.entries(e.params).map(([k,v])=>`${k}=${v}`).join(", ") : null)}
+    ${row("error", e.error)}
+  </table>`;
+}
+
 function show(e){
   document.querySelectorAll("#list .item").forEach(i=>i.classList.toggle("sel", i.dataset.id===e.id));
   const detail = document.getElementById("detail");
   const meta = `<div class="card"><h2>${e.id}</h2><p class="meta">${fmt(e)}</p>`;
   let body;
   if (e.error || !e.svg){
-    body = `<div class="errorbox">ERROR: ${e.error||"no SVG"}${e.finish_reason?` (finish: ${e.finish_reason})`:""}</div>`;
+    body = `<div class="errorbox">ERROR: ${e.error||"no SVG"}${e.finish_reason?` (finish: ${e.finish_reason})`:''}</div>`;
   } else {
     body = `<div class="svgwrap"><iframe src="${e.svg}" loading="lazy"></iframe></div>
       <div class="actions"><a class="openbtn" href="${e.svg}" target="_blank" rel="noopener">Open raw SVG ↗</a></div>`;
   }
   detail.insertAdjacentHTML("afterbegin", meta+body+"</div>");
   detail.querySelector(".card:not(:first-of-type)")?.remove();
+  // readable per-run details above the prompts in "Show details"
+  document.getElementById("run-details").innerHTML = detailsTable(e);
 }
 
 document.getElementById("search").addEventListener("input", ev=>{ state.q=ev.target.value.toLowerCase(); renderList(); });
