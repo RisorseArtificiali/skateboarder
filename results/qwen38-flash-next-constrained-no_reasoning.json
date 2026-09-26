@@ -36,5 +36,5 @@
   "has_animation": true,
   "uses_js": false,
   "error": null,
-  "file": "results/qwen38-flash-next-constrained.svg"
+  "file": "results/qwen38-flash-next-constrained-no_reasoning.svg"
 }
