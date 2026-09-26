@@ -266,6 +266,10 @@ function detailsTable(e){
     ${row("duration", e.seconds ? e.seconds+" s" : null)}
     ${row("finish reason", e.finish_reason)}
     ${row("params", e.params ? Object.entries(e.params).map(([k,v])=>`${k}=${v}`).join(", ") : null)}
+    ${row("hardware", e.hardware ? Object.entries(e.hardware).map(([k,v])=>`${k}=${v}`).join(", ") : null)}
+    ${row("engine", e.engine ? [e.engine.name, e.engine.version].filter(Boolean).join(" ") : null)}
+    ${row("quantization", e.quantization)}
+    ${row("notes", e.note)}
     ${row("error", e.error)}
   </table>`;
 }
