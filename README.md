@@ -1,6 +1,6 @@
 # 🛹 skateboarder
 
-Animated-SVG benchmark for LLMs, from [Risorse Artificiali](https://risorseartificiali.com/skateboard/):
+Animated-SVG benchmark for LLMs, from [Risorse Artificiali](https://risorseartificiali.com/skateboarder/):
 send a fixed prompt to any model (OpenRouter or a local llama.cpp / ollama / vLLM endpoint) and collect the animated SVG it produces. Physics-aware: can the model encode gravity, momentum and pendulum motion in code?
 
 Contributions welcome: run the benchmark against your model and open a PR with the SVG + metadata.
