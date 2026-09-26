@@ -1,0 +1,275 @@
+<svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Sky gradient -->
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    
+    <!-- Ramp gradient -->
+    <linearGradient id="rampGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#555"/>
+      <stop offset="100%" style="stop-color:#333"/>
+    </linearGradient>
+    
+    <!-- Coping gradient -->
+    <linearGradient id="copingGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ccc"/>
+      <stop offset="100%" style="stop-color:#888"/>
+    </linearGradient>
+    
+    <!-- Skateboard deck -->
+    <linearGradient id="deckGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e63946"/>
+      <stop offset="50%" style="stop-color:#c1121f"/>
+      <stop offset="100%" style="stop-color:#e63946"/>
+    </linearGradient>
+
+    <!-- Ground -->
+    <linearGradient id="groundGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d3436"/>
+      <stop offset="100%" style="stop-color:#1e272e"/>
+    </linearGradient>
+
+    <!-- Shadow filter -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.5"/>
+    </filter>
+
+    <!-- Glow for speed -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="500" height="400" fill="url(#sky)"/>
+  
+  <!-- Stars -->
+  <g opacity="0.6">
+    <circle cx="50" cy="30" r="1" fill="white"/>
+    <circle cx="150" cy="50" r="1.5" fill="white"/>
+    <circle cx="250" cy="20" r="1" fill="white"/>
+    <circle cx="350" cy="45" r="1.2" fill="white"/>
+    <circle cx="420" cy="25" r="1" fill="white"/>
+    <circle cx="80" cy="70" r="0.8" fill="white"/>
+    <circle cx="300" cy="60" r="1.3" fill="white"/>
+    <circle cx="450" cy="55" r="0.9" fill="white"/>
+  </g>
+
+  <!-- Halfpipe Structure -->
+  <!-- Outer shell -->
+  <path d="M 80 160 
+           A 170 170 0 0 0 130 260 
+           L 370 260 
+           A 170 170 0 0 0 420 160
+           L 420 380 L 80 380 Z" 
+        fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+  
+  <!-- Inner ramp surface -->
+  <path d="M 100 160 
+           A 150 150 0 0 0 150 280 
+           L 350 280 
+           A 150 150 0 0 0 400 160
+           L 400 370 L 100 370 Z" 
+        fill="url(#rampGrad)"/>
+  
+  <!-- Ramp surface highlight -->
+  <path d="M 100 160 
+           A 150 150 0 0 0 150 280 
+           L 350 280 
+           A 150 150 0 0 0 400 160" 
+        fill="none" stroke="#666" stroke-width="1" opacity="0.5"/>
+
+  <!-- Transition lines on ramp -->
+  <path d="M 110 180 A 140 140 0 0 0 155 270" fill="none" stroke="#4a4a4a" stroke-width="0.5" opacity="0.3"/>
+  <path d="M 390 180 A 140 140 0 0 1 345 270" fill="none" stroke="#4a4a4a" stroke-width="0.5" opacity="0.3"/>
+
+  <!-- Coping (metal edge at top of ramp) -->
+  <!-- Left coping -->
+  <ellipse cx="100" cy="160" rx="8" ry="6" fill="url(#copingGrad)" stroke="#999" stroke-width="1"/>
+  <!-- Right coping -->
+  <ellipse cx="400" cy="160" rx="8" ry="6" fill="url(#copingGrad)" stroke="#999" stroke-width="1"/>
+  
+  <!-- Deck/platform top surface -->
+  <rect x="60" y="155" width="48" height="8" rx="2" fill="#444"/>
+  <rect x="392" y="155" width="48" height="8" rx="2" fill="#444"/>
+  
+  <!-- Ground -->
+  <rect x="0" y="370" width="500" height="30" fill="url(#groundGrad)"/>
+
+  <!-- Skater group with motion animation -->
+  <!-- The path represents: right air → down right wall → across bottom → up left wall → left air → down left wall → across bottom → up right wall (loop) -->
+  
+  <!-- Shadow on ground/ramp that follows skater -->
+  <ellipse cx="0" cy="0" rx="15" ry="4" fill="rgba(0,0,0,0.3)">
+    <animateMotion
+      dur="4.5s"
+      repeatCount="indefinite"
+      path="M 400,155 
+            C 420,120 430,100 420,85 
+            C 410,70 400,80 400,160
+            A 150 150 0 0 1 250,275
+            L 250,275
+            A 150 150 0 0 1 100,160
+            C 80,120 70,100 80,85
+            C 90,70 100,80 100,160
+            A 150 150 0 0 0 250,275
+            L 250,275
+            A 150 150 0 0 0 400,160
+            Z"
+      keyPoints="0;0.06;0.08;0.12;0.25;0.38;0.5;0.56;0.58;0.62;0.75;0.88;1;1"
+      keyTimes="0;0.15;0.18;0.22;0.35;0.48;0.5;0.65;0.68;0.72;0.85;0.98;1;1"
+      calcMode="linear"
+    />
+    <animate attributeName="opacity" 
+      values="0;0.4;0.4;0.4;0.4;0.4;0.4;0.4;0.4;0.4;0.4;0.4;0;0"
+      keyTimes="0;0.18;0.22;0.35;0.48;0.5;0.65;0.72;0.85;0.98;0.99;1;1;1"
+      dur="4.5s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- Speed lines (visible during fast bottom sections) -->
+  <g opacity="0">
+    <line x1="-20" y1="0" x2="-35" y2="0" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+    <line x1="-18" y1="-5" x2="-30" y2="-5" stroke="#fff" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
+    <line x1="-18" y1="5" x2="-28" y2="5" stroke="#fff" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
+    <animateMotion
+      dur="4.5s"
+      repeatCount="indefinite"
+      path="M 400,160 
+            A 150 150 0 0 1 250,275
+            L 250,275
+            A 150 150 0 0 1 100,160
+            C 80,120 70,100 80,85
+            C 90,70 100,80 100,160
+            A 150 150 0 0 0 250,275
+            L 250,275
+            A 150 150 0 0 0 400,160
+            C 420,120 430,100 420,85
+            C 410,70 400,80 400,160
+            Z"
+      rotate="auto"
+    />
+    <animate attributeName="opacity" 
+      values="0;0;1;1;0;0;0;1;1;0;0"
+      keyTimes="0;0.04;0.12;0.22;0.38;0.5;0.54;0.62;0.72;0.88;1"
+      dur="4.5s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- SKATER FIGURE -->
+  <g>
+    <animateMotion
+      dur="4.5s"
+      repeatCount="indefinite"
+      path="M 400,155 
+            C 425,115 435,95 425,78
+            C 415,62 400,75 400,160
+            A 150 150 0 0 1 250,275
+            A 150 150 0 0 1 100,160
+            C 75,115 65,95 75,78
+            C 85,62 100,75 100,160
+            A 150 150 0 0 0 250,275
+            A 150 150 0 0 0 400,160
+            Z"
+      rotate="auto"
+      keyPoints="0;0.04;0.07;0.11;0.18;0.30;0.42;0.50;0.54;0.57;0.61;0.68;0.80;0.92;1;1"
+      keyTimes="0;0.12;0.14;0.17;0.24;0.36;0.48;0.50;0.62;0.64;0.67;0.74;0.86;0.98;1;1"
+      calcMode="linear"
+    />
+    
+    <!-- Body (centered at origin, rotated by path) -->
+    <g>
+      <!-- Skateboard -->
+      <rect x="-14" y="2" width="28" height="4" rx="2" fill="url(#deckGrad)" stroke="#900" stroke-width="0.5"/>
+      <!-- Wheels -->
+      <circle cx="-9" cy="7" r="2.5" fill="#f9ca24" stroke="#e6a700" stroke-width="0.5"/>
+      <circle cx="9" cy="7" r="2.5" fill="#f9ca24" stroke="#e6a700" stroke-width="0.5"/>
+      <!-- Trucks -->
+      <rect x="-11" y="4" width="4" height="3" rx="1" fill="#888"/>
+      <rect x="7" y="4" width="4" height="3" rx="1" fill="#888"/>
+      
+      <!-- Legs -->
+      <!-- Left leg (front) -->
+      <path d="M -4,2 L -6,-6 L -5,-12" stroke="#2d3436" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <!-- Right leg (back) -->
+      <path d="M 4,2 L 5,-5 L 3,-12" stroke="#2d3436" stroke-width="3" fill="none" stroke-linecap="round"/>
+      
+      <!-- Shoes -->
+      <ellipse cx="-4" cy="1.5" rx="4" ry="2" fill="#0984e3"/>
+      <ellipse cx="5" cy="1.5" rx="4" ry="2" fill="#0984e3"/>
+      
+      <!-- Torso -->
+      <path d="M -1,-12 L 0,-24" stroke="#6c5ce7" stroke-width="4" fill="none" stroke-linecap="round"/>
+      
+      <!-- Hoodie/Jacket -->
+      <path d="M -3,-14 L -4,-22 L 4,-22 L 3,-14 Z" fill="#6c5ce7" opacity="0.8"/>
+      
+      <!-- Arms -->
+      <!-- Left arm (out for balance) -->
+      <path d="M -2,-20 L -10,-16 L -14,-18" stroke="#dfe6e9" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Right arm (out for balance) -->
+      <path d="M 2,-20 L 10,-14 L 14,-16" stroke="#dfe6e9" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      
+      <!-- Head -->
+      <circle cx="0" cy="-28" r="4.5" fill="#ffeaa7"/>
+      <!-- Helmet -->
+      <path d="M -4,-29 A 4.5 4.5 0 0 1 4,-29 L 3,-31 A 5 5 0 0 0 -3,-31 Z" fill="#e17055"/>
+      <path d="M -4.5,-28 A 5 5 0 0 1 4.5,-28" fill="#e17055" stroke="#c0392b" stroke-width="0.5"/>
+      
+      <!-- Face -->
+      <circle cx="-1.5" cy="-28.5" r="0.7" fill="#2d3436"/>
+      <circle cx="1.5" cy="-28.5" r="0.7" fill="#2d3436"/>
+      <path d="M -1,-26.5 Q 0,-26 1,-26.5" stroke="#2d3436" stroke-width="0.5" fill="none"/>
+    </g>
+    
+    <!-- Rotation override during air tricks -->
+    <animateTransform attributeName="transform" type="rotate"
+      values="0;0;0;360;360;360;0;0;0;-360;-360;-360;0;0;0"
+      keyTimes="0;0.04;0.10;0.14;0.18;0.20;0.24;0.50;0.54;0.58;0.62;0.64;0.68;1;1"
+      dur="4.5s" repeatCount="indefinite" additive="sum"/>
+  </g>
+
+  <!-- Motion trail / ghost effect -->
+  <g opacity="0.15">
+    <circle r="3" fill="#e63946">
+      <animateMotion
+        dur="4.5s"
+        repeatCount="indefinite"
+        path="M 400,155 
+              C 425,115 435,95 425,78
+              C 415,62 400,75 400,160
+              A 150 150 0 0 1 250,275
+              A 150 150 0 0 1 100,160
+              C 75,115 65,95 75,78
+              C 85,62 100,75 100,160
+              A 150 150 0 0 0 250,275
+              A 150 150 0 0 0 400,160
+              Z"
+        rotate="auto"
+        keyPoints="0;0.04;0.07;0.11;0.18;0.30;0.42;0.50;0.54;0.57;0.61;0.68;0.80;0.92;1;1"
+        keyTimes="0;0.12;0.14;0.17;0.24;0.36;0.48;0.50;0.62;0.64;0.67;0.74;0.86;0.98;1;1"
+      />
+    </circle>
+  </g>
+
+  <!-- "GRAVITY" indicator - shows the effective gravity direction -->
+  <g opacity="0.3">
+    <line x1="250" y1="10" x2="250" y2="30" stroke="#74b9ff" stroke-width="1.5" stroke-linecap="round"/>
+    <polygon points="246,28 250,35 254,28" fill="#74b9ff"/>
+    <text x="260" y="25" fill="#74b9ff" font-size="8" font-family="monospace">g</text>
+  </g>
+
+  <!-- Height reference markers -->
+  <g opacity="0.2" stroke="#74b9ff" stroke-width="0.5" stroke-dasharray="3,3">
+    <line x1="60" y1="160" x2="440" y2="160"/>
+    <line x1="60" y1="275" x2="440" y2="275"/>
+  </g>
+  
+  <!-- Labels -->
+  <text x="445" y="163" fill="#74b9ff" font-size="7" font-family="monospace" opacity="0.4">coping</text>
+  <text x="445" y="278" fill="#74b9ff" font-size="7" font-family="monospace" opacity="0.4">flat bottom</text>
+</svg>

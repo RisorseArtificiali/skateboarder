@@ -1,0 +1,41 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "constrained",
+  "model": "qwen38-flash-next",
+  "endpoint": "http://localhost:8080/v1",
+  "timestamp": "2026-09-26T01:14:01",
+  "params": {
+    "max_tokens": 128000,
+    "reasoning_effort": "medium"
+  },
+  "contributor": "asoldano",
+  "hardware": {
+    "os": "Linux 6.18.13-200.fc43.x86_64 x86_64",
+    "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+    "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Strix Halo [Radeon Graphics / Radeon 8050S Graphics / Radeon 8060S Graphics] (rev c1)",
+    "ram_gb": 125
+  },
+  "engine": {
+    "name": "llama.cpp",
+    "version": "b10804-3466b4880"
+  },
+  "quantization": "ROCmFP4-FAST-imatrix",
+  "note": "--reasoning-effort medium --max-tokens 128000",
+  "seconds": 936.7,
+  "usage": {
+    "completion_tokens": 27284,
+    "prompt_tokens": 257,
+    "total_tokens": 27541,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    }
+  },
+  "reasoning_tokens": null,
+  "finish_reason": "stop",
+  "content_len": 6593,
+  "svg_len": 6582,
+  "has_animation": true,
+  "uses_js": false,
+  "error": null,
+  "file": "results/qwen38-flash-next-constrained-reasoning_medium.svg"
+}

@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8fd3ff"/>
+      <stop offset="1" stop-color="#e9f7ff"/>
+    </linearGradient>
+    <linearGradient id="rampGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfa878"/>
+      <stop offset="1" stop-color="#9d7751"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background sky -->
+  <rect width="900" height="500" fill="url(#sky)"/>
+
+  <!-- Half-pipe ramp: left quarter pipe, bottom, right quarter pipe, and outside decks -->
+  <g id="ramp">
+    <path
+      d="M0 180 H180 C180 248.37 271.63 340 340 340 L560 340 C648.37 340 720 271.63 720 180 H900 V500 H0 Z"
+      fill="url(#rampGrad)"
+      stroke="#5a3b24"
+      stroke-width="4"
+      stroke-linejoin="round"/>
+  </g>
+
+  <!-- Coping circles at the top edges of the half-pipe -->
+  <g id="copings">
+    <circle cx="180" cy="180" r="4" fill="#d8d8d8" stroke="#555" stroke-width="1.5"/>
+    <circle cx="720" cy="180" r="4" fill="#d8d8d8" stroke="#555" stroke-width="1.5"/>
+  </g>
+
+  <!-- Skater group: SMIL translation along the pendulum/air path.
+       Keyframe times are chosen so motion is slower near the coping and faster at the bottom.
+       The trick phase is a parabolic launch, spin, and landing. -->
+  <g id="skater" transform="translate(180 180)">
+    <animateTransform
+      attributeName="transform"
+      type="translate"
+      dur="6s"
+      repeatCount="indefinite"
+      calcMode="linear"
+      keyTimes="0;0.09;0.144;0.18;0.2;0.229167;0.258333;0.298333;0.342333;0.402333;0.458333;0.508333;0.541133;0.588333;0.628333;0.658333;0.67875;0.700333;0.716667;0.745833;0.775;0.82;0.8695;0.937;1"
+      values="
+        180 180;
+        201.44 260;
+        248.23 311.06;
+        298.59 334.55;
+        340 340;
+        450 340;
+        560 340;
+        640 318.56;
+        691.02 271.78;
+        714.55 221.41;
+        720 180;
+        711.23 95.70;
+        705.47 80.00;
+        697.19 112.34;
+        690.17 190.77;
+        684.90 280.00;
+        651.77 311.06;
+        601.41 334.55;
+        560 340;
+        450 340;
+        340 340;
+        260 318.56;
+        208.94 271.78;
+        185.45 221.41;
+        180 180"/>
+
+    <!-- Rig group: rotates the whole rider and board to follow the ramp lean.
+         Returns to upright during the aerial phase, then realigns to the ramp for landing. -->
+    <g id="rig" transform="rotate(-90 0 0)">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        dur="6s"
+        repeatCount="indefinite"
+        calcMode="linear"
+        keyTimes="0;0.09;0.144;0.18;0.2;0.258333;0.298333;0.342333;0.402333;0.458333;0.48;0.508333;0.588333;0.628333;0.658333;0.67875;0.700333;0.716667;0.775;0.82;0.8695;0.937;1"
+        values="
+          -90 0 0;
+          -60 0 0;
+          -35 0 0;
+          -15 0 0;
+          0 0 0;
+          0 0 0;
+          -30 0 0;
+          -55 0 0;
+          -75 0 0;
+          -90 0 0;
+          -45 0 0;
+          0 0 0;
+          0 0 0;
+          -25 0 0;
+          -50 0 0;
+          -35 0 0;
+          -15 0 0;
+          0 0 0;
+          0 0 0;
+          -30 0 0;
+          -55 0 0;
+          -75 0 0;
+          -90 0 0"/>
+
+      <!-- Skateboard group: deck, four trucks/wheels. It spins 360 degrees during the trick,
+           then realigns before landing. Rotation is about the deck center. -->
+      <g id="board" transform="rotate(0 0 -12)">
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          dur="6s"
+          repeatCount="indefinite"
+          calcMode="linear"
+          keyTimes="0;0.458333;0.48;0.515;0.555;0.595;0.628333;1"
+          values="
+            0 0 -12;
+            0 0 -12;
+            0 0 -12;
+            90 0 -12;
+            180 0 -12;
+            270 0 -12;
+            360 0 -12;
+            360 0 -12"/>
+
+        <!-- Trucks and wheels: two near wheels and two far wheels imply four wheels in side view. -->
+        <rect x="-25" y="-10" width="8" height="5" rx="2" fill="#666"/>
+        <rect x="17" y="-10" width="8" height="5" rx="2" fill="#666"/>
+        <circle cx="-27" cy="-7" r="4.5" fill="#333"/>
+        <circle cx="27" cy="-7" r="4.5" fill="#333"/>
+        <circle cx="-21" cy="-5.5" r="5.5" fill="#111"/>
+        <circle cx="21" cy="-5.5" r="5.5" fill="#111"/>
+
+        <!-- Deck with nose and tail kick -->
+        <path d="M-40 -16 Q-52 -16 -56 -22 L-44 -16 Z" fill="#b6743f"/>
+        <path d="M40 -16 Q52 -16 56 -22 L44 -16 Z" fill="#b6743f"/>
+        <rect x="-40" y="-16" width="80" height="8" rx="4" fill="#b6743f" stroke="#5c361d" stroke-width="1.5"/>
+      </g>
+
+      <!-- Rider group: simple stick-figure man standing on the board. -->
+      <g id="rider" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Back leg and front leg -->
+        <path d="M-2 -30 L-10 -22 L-14 -16" stroke="#0b5394" stroke-width="6"/>
+        <path d="M2 -30 L10 -22 L14 -16" stroke="#0b5394" stroke-width="6"/>
+
+        <!-- Shoes -->
+        <ellipse cx="-14" cy="-15.5" rx="7" ry="3" fill="#222" stroke="none"/>
+        <ellipse cx="14" cy="-15.5" rx="7" ry="3" fill="#222" stroke="none"/>
+
+        <!-- Torso and arms -->
+        <path d="M0 -32 L2 -46" stroke="#0b5394" stroke-width="7"/>
+        <path d="M2 -44 L18 -39" stroke="#0b5394" stroke-width="5"/>
+        <path d="M1 -45 L-14 -36" stroke="#0b5394" stroke-width="5"/>
+
+        <!-- Head and cap -->
+        <circle cx="3" cy="-53" r="7" fill="#f3c39b" stroke="#6b3d1a" stroke-width="1"/>
+        <path d="M-4 -53 A7 7 0 0 1 10 -53 Z" fill="#c33" stroke="none"/>
+        <rect x="8" y="-54" width="6" height="2" rx="1" fill="#c33" stroke="none"/>
+      </g>
+    </g>
+  </g>
+</svg>
