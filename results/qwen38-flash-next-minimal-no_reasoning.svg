@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="900" height="600"
+     style="display:block;margin:auto;background:transparent">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#3a5a92"/><stop offset="0.5" stop-color="#7799c0"/>
+    <stop offset="0.8" stop-color="#f0a24b"/><stop offset="1" stop-color="#ffce99"/>
+  </linearGradient>
+  <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#fff7e2" stop-opacity="0.95"/>
+    <stop offset="45%" stop-color="#ffe4ad" stop-opacity="0.5"/>
+    <stop offset="100%" stop-color="#ffe4ad" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="concrete" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#9fa4a7"/><stop offset="1" stop-color="#5f6467"/>
+  </linearGradient>
+  <radialGradient id="shadow" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#000" stop-opacity="0.5"/>
+    <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="11" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+  <style><![CDATA[
+    text{font-family:Georgia,'Times New Roman',serif;letter-spacing:1.5px;fill:#151b26;}
+    .t-main{font-size:30px;font-weight:bold;}
+    .t-sub{font-size:10.5px;letter-spacing:4px;font-family:Helvetica,Arial,sans-serif;}
+    .t-phys{font-size:10px;letter-spacing:3px;font-family:Helvetica,Arial,sans-serif;}
+  ]]></style>
+</defs>
+
+<!-- sky -->
+<rect width="900" height="600" fill="url(#sky)"/>
+
+<!-- sun + glow -->
+<circle cx="250" cy="118" r="95" fill="url(#sun)">
+  <animate attributeName="r" dur="9s" repeatCount="indefinite"
+    keyTimes="0;.5;1" values="92;100;92" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1"/>
+</circle>
+<circle cx="250" cy="118" r="30" fill="#fff4d6"/>
+
+<!-- birds -->
+<g stroke="#223247" stroke-width="2.2" fill="none" stroke-linecap="round">
+  <g>
+    <animateTransform attributeName="transform" type="translate" dur="72s" repeatCount="indefinite" values="-40 0;940 0"/>
+    <path d="M0 0 q6 -6 12 0 q6 -6 12 0">
+      <animate attributeName="d" dur="1.4s" repeatCount="indefinite"
+        values="M0 0 q6 -6 12 0 q6 -6 12 0;M0 0 q6 4 12 0 q6 4 12 0;M0 0 q6 -6 12 0 q6 -6 12 0"/>
+    </path>
+    <path d="M24 6 q6 -6 12 0 q6 -6 12 0" stroke="#2f4763">
+      <animate attributeName="d" dur="1.7s" repeatCount="indefinite"
+        values="M24 6 q6 -6 12 0 q6 -6 12 0;M24 6 q6 4 12 0 q6 4 12 0;M24 6 q6 -6 12 0 q6 -6 12 0"/>
+    </path>
+  </g>
+</g>
+
+<!-- ramp (grounded, drawn once) -->
+<g id="ramp">
+  <path d="M 0 470 L 400 470 L 400 440 A 180 180 0 0 0 580 260 L 640 260 L 640 470 Z"
+        fill="url(#concrete)" stroke="#474c4f" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M 400 440 A 180 180 0 0 0 580 260" fill="none" stroke="#797e81" stroke-width="3" opacity="0.55"/>
+  <path d="M 400 470 L 400 440 A 180 180 0 0 0 580 260" fill="none" stroke="#000" stroke-opacity="0.16" stroke-width="9"/>
+  <path d="M 400 455 L 592 455" stroke="#000" stroke-opacity="0.10" stroke-width="10"/>
+  <path d="M 400 470 L 400 440 A 180 180 0 0 0 580 260" fill="none" stroke="#ffffff" stroke-width="5"
+        stroke-linecap="round" stroke-dasharray="9 16" opacity="0.9">
+    <animate attributeName="stroke-dashoffset" dur="0.6s" repeatCount="indefinite" from="0" to="25"/>
+  </path>
+  <rect x="0" y="466" width="900" height="6" fill="#8f9497" opacity="0.5"/>
+  <rect x="640" y="254" width="58" height="9" rx="4" fill="#6f7477" stroke="#474c4f"/>
+  <g fill="#6f7477" stroke="#474c4f">
+    <circle cx="650" cy="258" r="2.4"/><circle cx="666" cy="258" r="2.4"/><circle cx="682" cy="258" r="2.4"/>
+  </g>
+</g>
+
+<!-- concrete grain -->
+<rect width="900" height="600" fill="#000" filter="url(#grain)" opacity="0.14" pointer-events="none"/>
+
+<!-- ground shadow (tracks height) -->
+<ellipse cx="445" cy="468" rx="50" ry="11" fill="url(#shadow)">
+  <animate attributeName="rx" dur="4s" repeatCount="indefinite" keyPoints="0;0.5;0"
+    keyTimes="0;.5;1" calcMode="linear" values="50;16;50"/>
+  <animate attributeName="ry" dur="4s" repeatCount="indefinite" keyPoints="0;0.5;0"
+    keyTimes="0;.5;1" calcMode="linear" values="11;4;11"/>
+  <animate attributeName="cx" dur="4s" repeatCount="indefinite"
+    keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1"
+    values="445;445;445;445;445;523.2;580;523.2;445"
+    keySplines="0 0 1 1;.5 .5 .5 1;0 0 1 1;0 0 1 1;.5 .5 .5 1;0 0 1 1;0 0 1 1;.5 .5 .5 1"/>
+</ellipse>
+
+<!-- ===================== SKATER ===================== -->
+<g id="skater">
+  <!-- position -->
+  <animateTransform attributeName="transform" type="translate" dur="4s" repeatCount="indefinite"
+    keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1"
+    values="445 440;445 440;445 185.4;445 84.7;445 40;445 84.7;445 185.4;445 440;445 440"
+    keySplines="0 0 1 1;.5 .5 .5 1;0 0 1 1;0 0 1 1;.5 .5 .5 1;0 0 1 1;0 0 1 1;.5 .5 .5 1"
+    calcMode="spline"/>
+
+  <g id="skaterRot">
+    <!-- rotation (parabolic launch + gravity, constant spin through air) -->
+    <animateTransform attributeName="transform" type="rotate" dur="4s" repeatCount="indefinite"
+      keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1"
+      values="0 0 0;0 0 0;-36 0 0;-40 0 0;0 0 0;40 0 0;36 0 0;0 0 0;0 0 0"
+      keySplines="0 0 1 1;.5 .5 .5 1;0 0 1 1;0 0 1 1;.5 .5 .5 1;0 0 1 1;0 0 1 1;.5 .5 .5 1"
+      calcMode="spline"/>
+
+    <!-- BOARD (behind feet) -->
+    <g transform="translate(0 -10) rotate(-12)">
+      <g>
+        <animateTransform attributeName="transform" type="translate" dur="4s" repeatCount="indefinite"
+          keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1"
+          values="0 0;0 0;0 0;0 0;0 0;0 -7;0 0;0 0;0 0"
+          keySplines="0 0 1 1;.5 .5 .5 1;0 0 1 1;0 0 1 1;.5 .5 .5 1;0 0 1 1;0 0 1 1;.5 .5 .5 1"
+          calcMode="spline"/>
+        <rect x="-45" y="0" width="6" height="7" rx="2" fill="#33363d"/>
+        <rect x="39"  y="0" width="6" height="7" rx="2" fill="#33363d"/>
+        <ellipse cx="-42" cy="8" rx="5" ry="5" fill="#2b2e34" stroke="#17191c" stroke-width="1"/>
+        <ellipse cx="42"  cy="8" rx="5" ry="5" fill="#2b2e34" stroke="#17191c" stroke-width="1"/>
+        <ellipse cx="-42" cy="8" rx="1.6" ry="1.6" fill="#cfd3d8"/>
+        <ellipse cx="42"  cy="8" rx="1.6" ry="1.6" fill="#cfd3d8"/>
+        <path d="M -45 2 Q -49 -1 -50 -5 L 50 -5 Q 49 -1 45 2 Z" fill="#b23b2c"/>
+        <path d="M -45 2 Q -49 -1 -50 -5 L 50 -5 Q 49 -1 45 2 Z" fill="none" stroke="#7c2418" stroke-width="1.4"/>
+        <rect x="-14" y="-7" width="28" height="2.4" rx="1.2" fill="#efe6d6" opacity="0.85"/>
+      </g>
+    </g>
+
+    <!-- FAR LEG -->
+    <line x1="-4" y1="-46" x2="8"  y2="-25" stroke="#1f6f5d" stroke-width="11" stroke-linecap="round"/>
+    <line x1="8"  y1="-25" x2="19" y2="-15" stroke="#1f6f5d" stroke-width="9"  stroke-linecap="round"/>
+    <!-- FAR SHOE -->
+    <g transform="translate(22 -13) rotate(-12)"><path d="M -9 -4 Q -9 5 -3 5 L 11 5 Q 15 5 15 1 L 15 -3 Q 9 -7 0 -5 Z" fill="#22262d"/><rect x="-7" y="5" width="20" height="2" fill="#e9e9ea"/></g>
+
+    <!-- NEAR LEG -->
+    <line x1="-2" y1="-44" x2="-14" y2="-25" stroke="#2b927f" stroke-width="12" stroke-linecap="round"/>
+    <line x1="-14" y1="-25" x2="-21" y2="-15" stroke="#2b927f" stroke-width="10" stroke-linecap="round"/>
+    <!-- NEAR SHOE -->
+    <g transform="translate(-24 -13) rotate(-12)"><path d="M -9 -4 Q -9 5 -3 5 L 11 5 Q 15 5 15 1 L 15 -3 Q 9 -7 0 -5 Z" fill="#2b3038"/><rect x="-7" y="5" width="20" height="2" fill="#efe8d8"/></g>
+
+    <!-- TORSO -->
+    <line x1="-1" y1="-44" x2="3" y2="-78" stroke="#e64a33" stroke-width="16" stroke-linecap="round"/>
+
+    <!-- ARMS + HANDS (rigged via animated d) -->
+    <g fill="none" stroke="#e64a33" stroke-linecap="round">
+      <path stroke-width="6">
+        <animate attributeName="d" dur="4s" repeatCount="indefinite"
+          keyTimes="0;0.125;0.25;0.5;0.75;0.875;1"
+          values="M 5 -76 L 18 -85 L 30 -76;
+                  M 5 -76 L 18 -85 L 30 -76;
+                  M 5 -76 L 16 -80 L 26 -72;
+                  M 5 -76 L 26 -64 L 42 -58;
+                  M 5 -76 L 16 -80 L 26 -72;
+                  M 5 -76 L 18 -85 L 30 -76;
+                  M 5 -76 L 18 -85 L 30 -76"
+          keySplines="0 0 1 1;.4 .1 .4 1;0 0 1 1;0 0 1 1;.4 .1 .4 1;0 0 1 1" calcMode="spline"/>
+      </path>
+      <path stroke-width="7">
+        <animate attributeName="d" dur="4s" repeatCount="indefinite"
+          keyTimes="0;0.125;0.25;0.5;0.75;0.875;1"
+          values="M 3 -76 L 20 -84 L 33 -74;
+                  M 3 -76 L 20 -84 L 33 -74;
+                  M 3 -76 L 18 -82 L 31 -72;
+                  M 3 -76 L 22 -90 L 40 -104;
+                  M 3 -76 L 18 -82 L 31 -72;
+                  M 3 -76 L 20 -84 L 33 -74;
+                  M 3 -76 L 20 -84 L 33 -74"
+          keySplines="0 0 1 1;.4 .1 .4 1;0 0 1 1;0 0 1 1;.4 .1 .4 1;0 0 1 1" calcMode="spline"/>
+      </path>
+    </g>
+    <!-- hands -->
+    <circle r="3.4" fill="#d98d5e"><animate attributeName="cx" dur="4s" repeatCount="indefinite" keyTimes="0;0.125;0.25;0.5;0.75;0.875;1" values="30;-76;26;-72;42;-58;26;-72;30;-76" keySplines="0 0 1 1;.4 .1 .4 1;0 0 1 1;0 0 1 1;.4 .1 .4 1;0 0 1 1" calcMode="spline"/><animate attributeName="cy" dur="4s" repeatCount="indefinite" keyTimes="0;0.125;0.25;0.5;0.75;0.875;1" values="-76;-72;-58;-72;-76" keySplines="0 0 1 1;.4 .1 .4 1;0 0 1 1;0 0 1 1;.4 .1 .4 1;0 0 1 1" calcMode="spline"/></circle>
+    <circle r="4" fill="#e79b68"><animate attributeName="cx" dur="4s" repeatCount="indefinite" keyTimes="0;0.125;0.25;0.5;0.75;0.875;1" values="33;31;40;31;33" keySplines="0 0 1 1;.4 .1 .4 1;0 0 1 1;0 0 1 1;.4 .1 .4 1;0 0 1 1" calcMode="spline"/><animate attributeName="cy" dur="4s" repeatCount="indefinite" keyTimes="0;0.125;0.25;0.5;0.75;0.875;1" values="-74;-72;-104;-72;-74" keySplines="0 0 1 1;.4 .1 .4 1;0 0 1 1;0 0 1 1;.4 .1 .4 1;0 0 1 1" calcMode="spline"/></circle>
+
+    <!-- HEAD -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" dur="4s" repeatCount="indefinite"
+        keyTimes="0;0.125;0.25;0.5;0.75;0.875;1" values="0 3 -78;0 3 -78;-4 3 -78;4 3 -78;-4 3 -78;0 3 -78;0 3 -78"
+        keySplines="0 0 1 1;.4 .1 .4 1;0 0 1 1;0 0 1 1;.4 .1 .4 1;0 0 1 1" calcMode="spline"/>
+      <line x1="3" y1="-78" x2="5" y2="-86" stroke="#d98d5e" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="6" cy="-92" r="9" fill="#e79b68"/>
+      <path d="M -3 -92 Q -6 -85 -3 -80 L 1 -81 Q -3 -86 -3 -92 Z" fill="#241a12"/>
+      <path d="M 10.5 -93 Q 14.5 -92.5 13.5 -88.5 Q 11 -88.5 10.5 -91 Z" fill="#d98d5e"/>
+      <path d="M -3 -92 Q -1 -102 8 -101 Q 16 -100 15 -93 Q 13 -95 11 -96 Q 3 -97 -3 -92 Z" fill="#241a12"/>
+      <path d="M 3 -95.5 Q 5 -97 7.5 -95.5" stroke="#241a12" stroke-width="1" fill="none"/>
+      <path d="M 4.5 -93 Q 6 -91.8 7.5 -93" stroke="#141414" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    </g>
+  </g>
+</g>
+
+<!-- impact dust on landing -->
+<g fill="#d3d0c8" opacity="0">
+  <animate attributeName="opacity" dur="4s" repeatCount="indefinite"
+    keyTimes="0;0.115;0.2;0.5;0.8;0.87;0.98;1"
+    values="0;0;0;0;0;0.7;0;0" calcMode="linear"/>
+  <circle cx="430" cy="462" r="3"><animate attributeName="r" dur="4s" repeatCount="indefinite" keyTimes="0;0.87;0.99;1" values="2;2;14;18" keySplines="0 0 1 1;.1 .7 .3 1;0 0 1 1" calcMode="spline"/><animate attributeName="cy" dur="4s" repeatCount="indefinite" keyTimes="0;0.87;0.99;1" values="462;462;452;454" keySplines="0 0 1 1;.1 .7 .3 1;0 0 1 1" calcMode="spline"/></circle>
+  <circle cx="448" cy="463" r="3"><animate attributeName="r" dur="4s" repeatCount="indefinite" keyTimes="0;0.87;0.99;1" values="2;2;12;16" keySplines="0 0 1 1;.1 .7 .3 1;0 0 1 1" calcMode="spline"/><animate attributeName="cy" dur="4s" repeatCount="indefinite" keyTimes="0;0.87;0.99;1" values="463;463;454;456" keySplines="0 0 1 1;.1 .7 .3 1;0 0 1 1" calcMode="spline"/></circle>
+  <circle cx="462" cy="462" r="3"><animate attributeName="r" dur="4s" repeatCount="indefinite" keyTimes="0;0.87;0.99;1" values="2;2;13;17" keySplines="0 0 1 1;.1 .7 .3 1;0 0 1 1" calcMode="spline"/><animate attributeName="cy" dur="4s" repeatCount="indefinite" keyTimes="0;0.87;0.99;1" values="462;462;453;455" keySplines="0 0 1 1;.1 .7 .3 1;0 0 1 1" calcMode="spline"/></circle>
+</g>
+
+<!-- scale bar -->
+<g stroke="#151b26" stroke-width="1.5">
+  <line x1="18" y1="560" x2="18" y2="554"/><line x1="18" y1="560" x2="286" y2="560"/><line x1="286" y1="560" x2="286" y2="554"/>
+</g>
+<text class="t-phys" x="18" y="575">SCALE ≈ 5 FT · g = 9.8 m/s² · HANG TIME ≈ 0.9 s</text>
+
+<!-- title -->
+<text class="t-main" x="26" y="48">FULL PIPE</text>
+<text class="t-sub"  x="27" y="66">GRAVITY · PARABOLA · SPIN</text>
+</svg>

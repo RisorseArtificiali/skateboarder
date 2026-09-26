@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <title>Skater on a halfpipe — gravity-accurate loop with an air trick</title>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8fd7f7"/><stop offset="1" stop-color="#e8f8ff"/>
+    </linearGradient>
+
+    <!-- Rider: upright riding pose, faces +x, wheels touch origin (0,0) -->
+    <g id="rider">
+      <circle cx="-10" cy="-4.5" r="4.5" fill="#ff7043"/>
+      <circle cx="10"  cy="-4.5" r="4.5" fill="#ff7043"/>
+      <rect x="-18" y="-12" width="36" height="4.5" rx="2.2" fill="#37474f"/>
+      <path d="M-9,-12 L-13,-24 L-4,-34" fill="none" stroke="#263238" stroke-width="4.5" stroke-linecap="round"/>
+      <path d="M8,-12 L9,-23 L1,-34"     fill="none" stroke="#263238" stroke-width="4.5" stroke-linecap="round"/>
+      <path d="M-2,-34 L-5,-53"          fill="none" stroke="#00897b" stroke-width="8" stroke-linecap="round"/>
+      <path d="M-4,-50 L7,-44"           fill="none" stroke="#e8b98a" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M-4,-50 L-15,-55"         fill="none" stroke="#e8b98a" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="-6" cy="-60" r="5.5" fill="#e8b98a"/>
+      <path d="M-11.5,-60 a5.5,5.5 0 0 1 11,0" fill="#d84315"/>
+    </g>
+
+    <!-- Rider in a grab pose (knees tucked, hand reaching to board) -->
+    <g id="riderGrabBody">
+      <path d="M-9,-12 L-17,-20 L-7,-27" fill="none" stroke="#263238" stroke-width="4.5" stroke-linecap="round"/>
+      <path d="M8,-12 L15,-18 L3,-27"    fill="none" stroke="#263238" stroke-width="4.5" stroke-linecap="round"/>
+      <path d="M-2,-27 L-6,-45"          fill="none" stroke="#00897b" stroke-width="8" stroke-linecap="round"/>
+      <path d="M-5,-42 L0,-15"           fill="none" stroke="#e8b98a" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M-5,-43 L-18,-49"         fill="none" stroke="#e8b98a" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="-8" cy="-52" r="5.5" fill="#e8b98a"/>
+      <path d="M-13.5,-52 a5.5,5.5 0 0 1 11,0" fill="#d84315"/>
+    </g>
+  </defs>
+
+  <!-- ======================= SCENE ======================= -->
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <circle cx="700" cy="70" r="34" fill="#ffd54f"/>
+  <g fill="#ffffff" opacity="0.9">
+    <ellipse cx="150" cy="80" rx="52" ry="16"/><ellipse cx="190" cy="68" rx="34" ry="13"/>
+    <ellipse cx="450" cy="55" rx="44" ry="14"/>
+  </g>
+
+  <!-- pipe solid -->
+  <path d="M0,270 H180 A160,160 0 0 0 340,430 H460 A160,160 0 0 0 620,270 H800 V462 H0 Z"
+        fill="#c98a4b"/>
+  <path d="M0,270 H180 A160,160 0 0 0 340,430 H460 A160,160 0 0 0 620,270 H800"
+        fill="none" stroke="#8a5a2e" stroke-width="6"/>
+  <path d="M0,300 H120 M680,300 H800 M0,330 H90 M710,330 H800" stroke="#b57a3c" stroke-width="4"/>
+  <rect x="0" y="462" width="800" height="38" fill="#8aae62"/>
+
+  <!-- copings -->
+  <circle cx="180" cy="270" r="5" fill="#9e9e9e"/>
+  <circle cx="620" cy="270" r="5" fill="#9e9e9e"/>
+
+  <!-- landing "pow" spark when the skater drops back in -->
+  <circle cx="620" cy="270" r="4" fill="none" stroke="#ffffff" stroke-width="3" opacity="0">
+    <animate attributeName="r" values="2;2;22;22" keyTimes="0;0.7885;0.81;1"
+             dur="15.6s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;0;0.9;0;0" keyTimes="0;0.7885;0.792;0.82;1"
+             dur="15.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- ============ PHASE A : rides the pipe (t = 0 → 11.1s) ============ -->
+  <!-- keySplines: down = ease-in (gravity accel), up = ease-out (slowing at the lip) -->
+  <g>
+    <animateMotion dur="15.6s" repeatCount="indefinite" calcMode="spline" rotate="auto-reverse"
+      path="M180,270 A160,160 0 0 0 340,430 L460,430 A160,160 0 0 0 620,270"
+      keyTimes="0;0.1026;0.2179;0.2372;0.3397;0.4551;0.4744;0.5769;0.6923;0.7115;1"
+      keyPoints="0;0.5;1;1;0.5;0;0;0.5;1;1;1"
+      keySplines="0.55 0.085 0.68 0.53;  0.25 0.46 0.45 0.94;  0.5 0.5 0.5 0.5;
+                  0.55 0.085 0.68 0.53;  0.25 0.46 0.45 0.94;  0.5 0.5 0.5 0.5;
+                  0.55 0.085 0.68 0.53;  0.25 0.46 0.45 0.94;  0.5 0.5 0.5 0.5;  0.5 0.5 0.5 0.5"/>
+    <animate attributeName="opacity" values="1;0" keyTimes="0;0.7115" calcMode="discrete"
+             dur="15.6s" repeatCount="indefinite"/>
+    <use href="#rider"/>
+  </g>
+
+  <!-- ============ PHASE B : the air trick (t = 11.1 → 12.3s) ============ -->
+  <!-- Quadratic Bézier + LINEAR timing = exact constant-gravity parabola -->
+  <g opacity="0">
+    <animateMotion dur="15.6s" repeatCount="indefinite" calcMode="spline"
+      path="M620,270 Q690,-10 620,270"
+      keyTimes="0;0.7115;0.7885;1" keyPoints="0;0;1;1"
+      keySplines="0.5 0.5 0.5 0.5;  0 0 1 1;  0.5 0.5 0.5 0.5"/>
+    <animate attributeName="opacity" values="0;1;0" keyTimes="0;0.7115;0.7885" calcMode="discrete"
+             dur="15.6s" repeatCount="indefinite"/>
+    <g>
+      <!-- slight body tilt through the air (tray/melon style) -->
+      <animateTransform attributeName="transform" type="rotate" additive="sum"
+        values="0 0 0; -14 0 0; -14 0 0; 0 0 0" keyTimes="0;0.722;0.778;1"
+        dur="15.6s" repeatCount="indefinite"/>
+      <use href="#riderGrabBody"/>
+      <!-- board spins once under his feet mid-air -->
+      <g>
+        <animateTransform attributeName="transform" type="rotate"
+          values="0 0 -10; 0 0 -10; -360 0 -10; -360 0 -10" keyTimes="0;0.7212;0.7789;1"
+          dur="15.6s" repeatCount="indefinite"/>
+        <circle cx="-10" cy="-4.5" r="4.5" fill="#ff7043"/>
+        <circle cx="10"  cy="-4.5" r="4.5" fill="#ff7043"/>
+        <rect x="-18" y="-12" width="36" height="4.5" rx="2.2" fill="#37474f"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ============ PHASE C : drops back in, rides home (t = 12.3 → 15.6s) ============ -->
+  <g opacity="0">
+    <animateMotion dur="15.6s" repeatCount="indefinite" calcMode="spline" rotate="auto-reverse"
+      path="M180,270 A160,160 0 0 0 340,430 L460,430 A160,160 0 0 0 620,270"
+      keyTimes="0;0.7885;0.8846;1" keyPoints="1;1;0.5;0"
+      keySplines="0.5 0.5 0.5 0.5;  0.55 0.085 0.68 0.53;  0.25 0.46 0.45 0.94"/>
+    <animate attributeName="opacity" values="0;1" keyTimes="0;0.7885" calcMode="discrete"
+             dur="15.6s" repeatCount="indefinite"/>
+    <use href="#rider"/>
+  </g>
+</svg>

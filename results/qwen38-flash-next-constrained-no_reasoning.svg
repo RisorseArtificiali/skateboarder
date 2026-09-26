@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="900" height="600" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <!-- CSS: ambient motion (clouds drift, sun pulses) and a subtle ground shadow under the board. -->
+    <style><![CDATA[
+      .cloud{ animation: drift 46s ease-in-out infinite alternate; }
+      @keyframes drift{ from{ transform: translateX(0);} to{ transform: translateX(34px);} }
+      .sun{ transform-box: fill-box; transform-origin:center; animation: pulse 6s ease-in-out infinite; }
+      @keyframes pulse{ 0%,100%{ opacity:.95; } 50%{ opacity:1; } }
+      .groundShadow{ transform-box: fill-box; transform-origin:center; animation: shadowFade 3.5s ease-in-out infinite; }
+      @keyframes shadowFade{ 0%,100%{ opacity:.30; } 50%{ opacity:.04; } }
+      /* Keep every SMIL timing linear so the pendulum arc is a true cosine (physical) curve. */
+    ]]></style>
+
+    <!-- Sky gradient -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b63b0"/>
+      <stop offset="0.55" stop-color="#5aa2d8"/>
+      <stop offset="1" stop-color="#cfe8f6"/>
+    </linearGradient>
+    <!-- Ramp surface (smooth, lit top, shaded bottom) -->
+    <linearGradient id="rampGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#525a66"/>
+      <stop offset="0.55" stop-color="#363c46"/>
+      <stop offset="1" stop-color="#1f242c"/>
+    </linearGradient>
+    <linearGradient id="deckGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3f4753"/>
+      <stop offset="1" stop-color="#20252d"/>
+    </linearGradient>
+    <radialGradient id="sunGrad" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff6cf"/>
+      <stop offset="1" stop-color="#ffd873"/>
+    </radialGradient>
+    <radialGradient id="haze" cx="0.5" cy="1" r="0.9">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Clip the ramp highlight to the ramp silhouette -->
+    <clipPath id="rampClip">
+      <path d="M120,135 L120,165 C120,378 260,445 450,445 C640,445 780,378 780,165 L780,135 L780,445 L120,445 Z"/>
+    </clipPath>
+
+    <!-- Reusable skateboard: deck (3D top edge + grip side), nose & tail kicktails,
+         two trucks, four wheels. Origin (0,0) sits at the deck underside (board centre). -->
+    <g id="skateboard">
+      <g fill="url(#deckGrad)" stroke="#0d0f14" stroke-width="1">
+        <path d="M-58,0 L-56,-2"/>
+        <path d="M58,0 L56,-2"/>
+        <rect x="-56" y="-2" width="112" height="2" rx="1" fill="#667081" stroke="none"/>
+        <rect x="-56" y="0" width="112" height="7" rx="3.5"/>
+        <path d="M-56,2 Q-63,3 -64,0"/>
+        <path d="M56,2 Q63,3 64,0"/>
+      </g>
+      <g stroke="#98a2b0" stroke-width="3" stroke-linecap="round">
+        <line x1="-30" y1="7" x2="-30" y2="13"/>
+        <line x1="30" y1="7" x2="30" y2="13"/>
+      </g>
+      <g fill="#c8d0dc" stroke="#33373e" stroke-width="1">
+        <circle cx="-30" cy="13" r="4"/>
+        <circle cx="30" cy="13" r="4"/>
+        <circle cx="-30" cy="21" r="6"/>
+        <circle cx="-30" cy="21" r="2" fill="#5b6472" stroke="none"/>
+        <circle cx="30" cy="21" r="6"/>
+        <circle cx="30" cy="21" r="2" fill="#5b6472" stroke="none"/>
+      </g>
+    </g>
+  </defs>
+
+  <!-- ===================== BACKGROUND ===================== -->
+  <g id="background">
+    <rect x="0" y="0" width="900" height="600" fill="url(#sky)"/>
+    <!-- sun -->
+    <circle class="sun" cx="150" cy="90" r="44" fill="url(#sunGrad)"/>
+    <!-- clouds -->
+    <g class="cloud" fill="#ffffff" opacity="0.92">
+      <ellipse cx="640" cy="90" rx="46" ry="17"/>
+      <ellipse cx="600" cy="100" rx="34" ry="15"/>
+      <ellipse cx="676" cy="100" rx="30" ry="14"/>
+    </g>
+    <g class="cloud" fill="#ffffff" opacity="0.8" transform="translate(-20,120)">
+      <ellipse cx="330" cy="70" rx="40" ry="15"/>
+      <ellipse cx="300" cy="80" rx="26" ry="12"/>
+      <ellipse cx="360" cy="80" rx="24" ry="11"/>
+    </g>
+    <!-- soft haze near the deck line -->
+    <ellipse cx="450" cy="520" rx="560" ry="150" fill="url(#haze)"/>
+    <!-- distant city skyline -->
+    <g fill="#9fb4c6" opacity="0.4">
+      <rect x="40" y="405" width="46" height="90"/>
+      <rect x="90" y="430" width="30" height="65"/>
+      <rect x="128" y="398" width="52" height="97"/>
+      <rect x="740" y="415" width="44" height="80"/>
+      <rect x="786" y="388" width="56" height="107"/>
+      <rect x="846" y="430" width="34" height="65"/>
+    </g>
+    <!-- foreground plaza / skate park concrete -->
+    <rect x="0" y="514" width="900" height="86" fill="#797f88"/>
+    <rect x="0" y="514" width="900" height="4" fill="#8b929c"/>
+    <g stroke="#6a7079" stroke-width="1.4" opacity="0.55">
+      <line x1="0" y1="556" x2="900" y2="556"/>
+      <line x1="120" y1="514" x2="90" y2="600"/>
+      <line x1="450" y1="514" x2="450" y2="600"/>
+      <line x1="780" y1="514" x2="812" y2="600"/>
+    </g>
+  </g>
+
+  <!-- ===================== HALF-PIPE / VERT RAMP ===================== -->
+  <g id="halfpipe">
+    <!-- two quarter-pipes facing each other, with a flat deck (coping line) at y=165 -->
+    <path d="M120,135 L120,165 C120,378 260,445 450,445 C640,445 780,378 780,165 L780,135 L780,445 L120,445 Z"
+          fill="url(#rampGrad)" stroke="#171b21" stroke-width="2"/>
+    <!-- glossy highlight clipped to the ramp surface -->
+    <g clip-path="url(#rampClip)">
+      <g opacity="0.16" stroke="#ffffff" stroke-width="7" fill="none">
+        <path d="M135,172 C135,372 268,436 450,436"/>
+        <path d="M765,172 C765,372 632,436 450,436"/>
+      </g>
+      <!-- deck (platform) lines -->
+      <line x1="120" y1="165" x2="450" y2="165" stroke="#3b414b" stroke-width="3"/>
+      <line x1="780" y1="165" x2="450" y2="165" stroke="#3b414b" stroke-width="3"/>
+      <!-- coping edge highlight where transitions meet the deck -->
+      <line x1="120" y1="167" x2="450" y2="167" stroke="#8fa0b4" stroke-width="2"/>
+      <line x1="780" y1="167" x2="450" y2="167" stroke="#8fa0b4" stroke-width="2"/>
+    </g>
+    <!-- coping bars (metal lips at each deck edge) -->
+    <g>
+      <rect x="112" y="161" width="16" height="6" rx="3" fill="#c9d3de" stroke="#6a7482" stroke-width="1"/>
+      <rect x="772" y="161" width="16" height="6" rx="3" fill="#c9d3de" stroke="#6a7482" stroke-width="1"/>
+      <ellipse cx="120" cy="164" rx="5" ry="4" fill="#eef4fa"/>
+      <ellipse cx="780" cy="164" rx="5" ry="4" fill="#eef4fa"/>
+    </g>
+  </g>
+
+  <!-- soft ground shadow that fades as the skater lifts into the air -->
+  <ellipse class="groundShadow" cx="450" cy="452" rx="70" ry="10" fill="#111318"/>
+
+  <!-- ===================== SKATER (positioned along the ramp, pendulum) ===================== -->
+  <!-- The whole figure is translated along the ramp surface; its orientation is set
+       inside the body group. Position & body angle share one cosine curve so the
+       velocity is maximal at the bottom and near-zero at the tops (real physics). -->
+  <g id="skater">
+    <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="3.5s"
+      repeatCount="indefinite" calcMode="linear"
+      values="120,165; 146.8,376.1; 262.5,422.3; 450,445; 637.5,422.3; 753.2,376.1; 780,165; 780,165; 753.2,376.1; 637.5,422.3; 450,445; 262.5,422.3; 146.8,376.1; 120,165"
+      keyTimes="0; 0.0417; 0.0833; 0.1667; 0.25; 0.3333; 0.375; 0.4167; 0.4583; 0.5417; 0.625; 0.7083; 0.7917; 1"/>
+
+    <!-- Body group: rotates to match the local ramp tangent (upright in the bowl, vertical
+         on the walls), and performs a 360 spin during the airtime window (125°). -->
+    <g id="body" transform="rotate(-32.2 0 0)">
+      <animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="3.5s"
+        repeatCount="indefinite" calcMode="linear" additive="replace"
+        values="-32.2 0 0; 26.5 0 0; 60 0 0; 90 0 0; 120 0 0; 153.5 0 0; 212.2 0 0; 292.2 0 0; 212.2 0 0; 153.5 0 0; 120 0 0; 90 0 0; 60 0 0; 26.5 0 0; -32.2 0 0"
+        keyTimes="0; 0.0417; 0.0833; 0.1667; 0.25; 0.3333; 0.375; 0.4167; 0.4583; 0.5417; 0.625; 0.7083; 0.7917; 0.9583; 1"/>
+
+      <!-- legs (bend to absorb the landing) -->
+      <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <polyline id="legB" stroke="#14181f" stroke-width="12" points="-13,-6 -23,-32 -12,-52">
+          <animate attributeName="points" dur="3.5s" repeatCount="indefinite" calcMode="linear"
+            values="-13,-6 -23,-32 -12,-52; -13,-6 -25,-22 -12,-52; -13,-6 -25,-22 -12,-52; -13,-6 -23,-32 -12,-52; -13,-6 -25,-22 -12,-52; -13,-6 -25,-22 -12,-52; -13,-6 -23,-32 -12,-52"
+            keyTimes="0; 0.125; 0.1667; 0.375; 0.4583; 0.875; 1"/>
+        </polyline>
+        <polyline id="legF" stroke="#242c3a" stroke-width="12" points="13,-6 23,-32 12,-52">
+          <animate attributeName="points" dur="3.5s" repeatCount="indefinite" calcMode="linear"
+            values="13,-6 23,-32 12,-52; 13,-6 25,-22 12,-52; 13,-6 25,-22 12,-52; 13,-6 23,-32 12,-52; 13,-6 25,-22 12,-52; 13,-6 25,-22 12,-52; 13,-6 23,-32 12,-52"
+            keyTimes="0; 0.125; 0.1667; 0.375; 0.4583; 0.875; 1"/>
+        </polyline>
+      </g>
+
+      <!-- torso (hoodie) -->
+      <path d="M-16,-48 L-11,-72 C-11,-78 -4,-80 0,-80 C4,-80 11,-78 11,-72 L16,-48 C12,-44 -12,-44 -16,-48 Z" fill="#d9463c" stroke="#a32f27" stroke-width="1.5"/>
+      <!-- hood -->
+      <path d="M-14,-76 C-18,-86 -8,-94 0,-94 C8,-94 18,-86 14,-76 C6,-82 -6,-82 -14,-76 Z" fill="#bf3831" stroke="#932922" stroke-width="1"/>
+
+      <!-- head -->
+      <g>
+        <circle cx="0" cy="-96" r="11" fill="#e9b189"/>
+        <circle cx="5" cy="-97" r="1.4" fill="#3a2c24"/>
+        <path d="M4,-90 q3,2 6,0" fill="none" stroke="#7a4b30" stroke-width="1.4" stroke-linecap="round"/>
+      </g>
+
+      <!-- arms (raised while airborne to keep the air position, down while riding) -->
+      <g fill="none" stroke="#d9463c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+        <polyline id="armB" stroke="#b3332b" stroke-width="8" points="-11,-70 -26,-64 -30,-78">
+          <animate attributeName="points" dur="3.5s" repeatCount="indefinite" calcMode="linear"
+            values="-11,-70 -26,-64 -30,-78; -11,-70 -26,-72 -34,-90; -11,-70 -26,-72 -34,-90; -11,-70 -26,-64 -30,-78; -11,-70 -26,-72 -34,-90; -11,-70 -26,-72 -34,-90; -11,-70 -26,-64 -30,-78"
+            keyTimes="0; 0.125; 0.1667; 0.375; 0.4583; 0.875; 1"/>
+        </polyline>
+        <polyline id="armF" stroke="#e56357" stroke-width="8" points="11,-70 26,-64 30,-78">
+          <animate attributeName="points" dur="3.5s" repeatCount="indefinite" calcMode="linear"
+            values="11,-70 26,-64 30,-78; 11,-70 26,-72 34,-90; 11,-70 26,-72 34,-90; 11,-70 26,-64 30,-78; 11,-70 26,-72 34,-90; 11,-70 26,-72 34,-90; 11,-70 26,-64 30,-78"
+            keyTimes="0; 0.125; 0.1667; 0.375; 0.4583; 0.875; 1"/>
+        </polyline>
+      </g>
+
+      <!-- feet -->
+      <g fill="#171a20">
+        <rect x="-16" y="-11" width="13" height="7" rx="3"/>
+        <rect x="3" y="-11" width="13" height="7" rx="3"/>
+      </g>
+    </g>
+
+    <!-- BOARD: rotates with the ramp tangent, then executes a full 360 during the 0.7 s
+         aerial (constant angular rate — the trick). Ends aligned for a clean landing. -->
+    <use href="#skateboard" transform="rotate(-32.2 0 0)">
+      <animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="3.5s"
+        repeatCount="indefinite" calcMode="linear" additive="replace"
+        values="-32.2 0 0; 26.5 0 0; 60 0 0; 90 0 0; 120 0 0; 153.5 0 0; 212.2 0 0; 292.2 0 0; 212.2 0 0; 153.5 0 0; 120 0 0; 90 0 0; 60 0 0; 26.5 0 0; -32.2 0 0"
+        keyTimes="0; 0.0417; 0.0833; 0.1667; 0.25; 0.3333; 0.375; 0.4167; 0.4583; 0.5417; 0.625; 0.7083; 0.7917; 0.9583; 1"/>
+    </use>
+  </g>
+</svg>

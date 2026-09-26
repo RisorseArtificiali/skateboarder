@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <title>Vert skater grinding physics: pendulum ramp ride + 360 aerial above coping</title>
+
+  <!-- ============ BACKGROUND: sky, sun, ground ============ -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8ec9f0"/>
+      <stop offset="1" stop-color="#e8f4fb"/>
+    </linearGradient>
+    <linearGradient id="rampGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5b7fa6"/>
+      <stop offset="1" stop-color="#3d566e"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <circle cx="700" cy="60" r="28" fill="#ffd75e"/>
+  <ellipse cx="150" cy="70" rx="60" ry="16" fill="#ffffff" opacity="0.85"/>
+  <ellipse cx="420" cy="45" rx="45" ry="12" fill="#ffffff" opacity="0.7"/>
+  <rect x="0" y="468" width="800" height="32" fill="#88a060"/>
+
+  <!-- ============ HALF-PIPE: two quarter pipes facing each other ============
+       Deck (copings) at y=200, flat bottom at y=400. Left wall rises ~1:3.5,
+       walls become vertical AT the copings (true vert ramp geometry).       -->
+  <g id="halfpipe">
+    <!-- structural volume -->
+    <path d="M120,200 L200,200 C200,380 270,400 350,400 L450,400
+             C530,400 600,380 600,200 L680,200 L680,470 L120,470 Z"
+          fill="url(#rampGrad)" stroke="#2c3e50" stroke-width="2"/>
+    <!-- riding surface highlight (identical curve to the motion path) -->
+    <path d="M200,200 C200,380 270,400 350,400 L450,400
+             C530,400 600,380 600,200"
+          fill="none" stroke="#cfd8e3" stroke-width="5" stroke-linecap="round"/>
+    <!-- flat deck platforms -->
+    <rect x="120" y="197" width="80" height="6" fill="#cfd8e3"/>
+    <rect x="600" y="197" width="80" height="6" fill="#cfd8e3"/>
+    <!-- steel copings (trick launch points) -->
+    <circle cx="200" cy="200" r="4.5" fill="#e0e0e0" stroke="#555" stroke-width="1.5"/>
+    <circle cx="600" cy="200" r="4.5" fill="#e0e0e0" stroke="#555" stroke-width="1.5"/>
+  </g>
+
+  <!-- ============ SKATER ============
+       Outer <g>: translated along the ramp+aerial path via animateMotion.
+       keyPoints encode REAL PHYSICS:
+        • 0–2.2 s : pendulum descent/ascent on ramp (slow near coping,
+          fastest at the bottom — sinusoidal arc-length timing, v²=v0²−2gh)
+        • 2.2–3.5 s : free-flight parabola above right coping
+          (135 px apex ≈ 2.5 m → hangtime 1.3 s, fastest at launch,
+          slowest at apex)
+        • 3.5–5.7 s : pendulum back-swing to left coping
+        • 5.7–6.0 s : stall-out on coping → seamless loop (v=0 at boundary)
+       Inner <g>: rotation (board+skater tilt follows ramp tangent, capped
+       at 68° like a crouched rider; a full 360° spin during the aerial).   -->
+  <g id="skaterSystem">
+    <animateMotion
+      dur="6s" repeatCount="indefinite" calcMode="linear"
+      path="M200,200
+            C200,380 270,400 350,400 L450,400 C530,400 600,380 600,200
+            C650,40 550,40 600,200
+            C600,380 530,400 450,400 L350,400 C270,400 200,380 200,200"
+      keyTimes="0;.0367;.0733;.11;.1467;.1833;.22;.2567;.2933;.33;.3667;
+                .3883;.41;.4317;.4533;.475;.4967;.5183;.54;.5617;.5833;
+                .62;.6567;.6933;.73;.7667;.8033;.84;.8767;.9133;.95;1"
+      keyPoints="0;.0105;.0409;.0883;.148;.2143;.2805;.3401;.3876;.418;.4285;
+                 .4542;.4742;.4887;.4972;.5;.5028;.5145;.5257;.5458;.5715;
+                 .582;.6124;.6594;.7187;.7858;.8521;.9121;.9595;.9895;1;1"/>
+    <path d="M200,200
+             C200,380 270,400 350,400 L450,400 C530,400 600,380 600,200
+             C650,40 550,40 600,200
+             C600,380 530,400 450,400 L350,400 C270,400 200,380 200,200"
+          fill="none" stroke="none"/>
+
+    <!-- Rotation group: tilt matches ramp tangent while in contact;
+         during the aerial a constant-rate 360° spin (no torque in the air)
+         completes to −428° = −68° + one full revolution, perfectly re-aligned
+         for landing, then holds until the loop restarts (−292° ≡ +68°). -->
+    <g id="riderBoard">
+      <animateTransform attributeName="transform" type="rotate"
+        dur="6s" repeatCount="indefinite" calcMode="linear"
+        values="68;68;68;61;12;0;-12;-61;-68;-68;-68;
+                -104;-140;-176;-212;-248;-284;-320;-356;-392;-428;
+                -428;-428;-421;-373;-360;-347;-298;-292;-292;-292;
+                -292"
+        keyTimes="0;.0367;.0733;.11;.1467;.1833;.22;.2567;.2933;.33;.3667;
+                  .3883;.41;.4317;.4533;.475;.4967;.5183;.54;.5617;.5833;
+                  .62;.6567;.6933;.73;.7667;.8033;.84;.8767;.9133;.95;1"/>
+
+      <!-- ==== SKATEBOARD: deck + 4 trucks/wheels (far pair dimmed) ==== -->
+      <g id="skateboard">
+        <rect x="-26" y="-11" width="10" height="3.5" rx="1.5" fill="#4a4a55"/><!-- far trucks -->
+        <rect x="16"  y="-11" width="10" height="3.5" rx="1.5" fill="#4a4a55"/>
+        <circle cx="-21" cy="-6.5" r="4" fill="#6f6f7a"/><!-- far wheels -->
+        <circle cx="21"  cy="-6.5" r="4" fill="#6f6f7a"/>
+        <path d="M-36,-17 q-4,-4 0,-6 l72,0 q4,2 0,6 z" fill="#b03a2e"/><!-- deck w/ kicktails -->
+        <rect x="-26" y="-10" width="10" height="4" rx="1.5" fill="#2e2e38"/><!-- near trucks -->
+        <rect x="16"  y="-10" width="10" height="4" rx="1.5" fill="#2e2e38"/>
+        <circle cx="-21" cy="-5" r="5" fill="#26262e"/><!-- near wheels -->
+        <circle cx="-21" cy="-5" r="1.8" fill="#9aa"/>
+        <circle cx="21"  cy="-5" r="5" fill="#26262e"/>
+        <circle cx="21"  cy="-5" r="1.8" fill="#9aa"/>
+      </g>
+
+      <!-- ==== RIDER: crouched vert stance, facing right ==== -->
+      <g id="rider" stroke-linecap="round">
+        <!-- back arm (pump for balance) -->
+        <path d="M2,-44 L-14,-52 L-22,-47" stroke="#20406a" stroke-width="4.5" fill="none"/>
+        <!-- legs: bent, front foot over nose bolts, back foot over tail -->
+        <path d="M-14,-14 L-10,-26 L-1,-32" stroke="#2e3d52" stroke-width="5.5" fill="none"/>
+        <path d="M16,-14 L9,-25 L-1,-32" stroke="#33455e" stroke-width="5.5" fill="none"/>
+        <!-- torso -->
+        <line x1="-1" y1="-32" x2="3" y2="-46" stroke="#d35400" stroke-width="9"/>
+        <!-- head + helmet -->
+        <circle cx="5" cy="-53" r="5.5" fill="#f1c27d"/>
+        <path d="M-1.5,-54 A6.5,6.5 0 0 1 11.5,-54 L11,-52.5 L-1,-52.5 Z" fill="#2c3e50"/>
+        <!-- front arm -->
+        <path d="M4,-44 L16,-38 L23,-44" stroke="#e67e22" stroke-width="4.5" fill="none"/>
+      </g>
+    </g>
+  </g>
+</svg>
