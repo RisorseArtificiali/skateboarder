@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           # PRs from forks arrive as refs/pull/N/merge; checkout the head instead
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref_name }}
           repository: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name || github.repository }}
           fetch-depth: 0
 
