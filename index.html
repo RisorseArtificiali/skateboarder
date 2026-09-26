@@ -81,6 +81,11 @@
     <button data-f="ok">ok</button>
     <button data-f="err">errors</button>
   </div>
+  <div class="filters" id="ep-filters">
+    <button data-ep="all" class="active">any endpoint</button>
+    <button data-ep="openrouter">openrouter</button>
+    <button data-ep="local">local/self-hosted</button>
+  </div>
   <div class="cmpbar">
     <button id="cmp-toggle">compare</button>
     <button id="cmp-side" style="display:none" class="active">⬌ side by side</button>
@@ -97,7 +102,7 @@
   </details></div>
 </main>
 <script>
-const state = { q:"", f:"all", entries:[], comparing:false, picked:[], sideBySide:true };
+const state = { q:"", f:"all", ep:"all", entries:[], comparing:false, picked:[], sideBySide:true };
 const PROMPTS = {};  // variant -> verbatim text, fetched at boot
 
 async function boot(){
@@ -126,12 +131,29 @@ function renderPromptBlock(){
     : `<p class="meta">select a model to see the prompt used</p>`;
 }
 
+// Endpoint category of a run: "openrouter" (the public gateway), "local"
+// (any self-hosted endpoint: localhost, private LAN IPs, .local hostnames),
+// or "other" (any other cloud gateway). Missing endpoint = legacy run.
+function epKind(e){
+  const ep = e.endpoint || "";
+  if (!ep) return "other";
+  if (ep.includes("openrouter.ai")) return "openrouter";
+  try {
+    const h = new URL(ep).hostname;
+    if (h === "localhost" || h === "127.0.0.1" || h === "::1" || h.endsWith(".local")
+        || /^10\./.test(h) || /^192\.168\./.test(h) || /^172\.(1[6-9]|2\d|3[01])\./.test(h))
+      return "local";
+  } catch (_) {}
+  return "other";
+}
+
 function visible(){
   return state.entries.filter(e=>{
     if (state.f==="minimal"&&e.prompt!=="minimal") return false;
     if (state.f==="constrained"&&e.prompt!=="constrained") return false;
     if (state.f==="ok"&&e.error) return false;
     if (state.f==="err"&&!e.error) return false;
+    if (state.ep!=="all"&&epKind(e)!==state.ep) return false;
     if (state.q && !e.id.toLowerCase().includes(state.q)) return false;
     return true;
   });
@@ -296,6 +318,10 @@ document.getElementById("search").addEventListener("input", ev=>{ state.q=ev.tar
 document.querySelectorAll(".filters button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));
   b.classList.add("active"); state.f=b.dataset.f; renderList();
+});
+document.querySelectorAll("#ep-filters button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("#ep-filters button").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active"); state.ep=b.dataset.ep; renderList();
 });
 boot();
 </script>
