@@ -3,11 +3,11 @@ name: build index
 on:
   # PR: rebuild index as validation (bot commit stays on the PR branch)
   pull_request:
-    paths: ["results/**"]
+    paths: ["results/**", "bench.py", "build_index.py", "index.html", "tests/**"]
   # merge to main: rebuild and commit so the site is always in sync
   push:
     branches: [main]
-    paths: ["results/**"]
+    paths: ["results/**", "bench.py", "build_index.py", "index.html", "tests/**"]
   workflow_dispatch:
 
 permissions:
@@ -26,6 +26,9 @@ jobs:
 
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
+
+      - name: test
+        run: python3 -m unittest discover -s tests
 
       - name: rebuild index
         run: python3 build_index.py
