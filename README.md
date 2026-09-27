@@ -40,12 +40,28 @@ Useful flags:
 | flag | meaning |
 |---|---|
 | `--max-tokens N` | output cap (default 128000; reasoning models may need it) |
-| `--no-reasoning` | disable thinking (OpenRouter + llama.cpp/ollama style flags) |
-| `--reasoning-effort low` | cap reasoning on OpenAI/OpenRouter |
+| `--no-reasoning` | disable thinking (OpenRouter and supported local engines) |
+| `--reasoning-effort low` | request `minimal`, `low`, `medium`, `high`, `xhigh`, or `max` reasoning |
 | `--timeout S` | request timeout (default 1800s) |
 
-The script extracts the `<svg>`, writes `results/<model>-<variant>.svg` plus a JSON sidecar
-with timestamp, endpoint, params, token usage, reasoning tokens, finish reason and animation detection.
+The reasoning flags are mutually exclusive. On OpenRouter the runner uses the unified `reasoning.effort`
+request field; on llama.cpp it uses the request-level `reasoning_effort` supported by the chat template.
+With neither flag, the request leaves reasoning at the model/provider default. For OpenRouter runs the
+sidecar snapshots the model catalog's advertised default without forcing that value in the request.
+
+The script extracts the `<svg>` and writes it with a JSON sidecar containing timestamp, endpoint, params,
+requested reasoning, provider defaults when available, token usage, reasoning tokens, finish reason and
+animation detection. Explicit reasoning modes get automatic filename suffixes:
+
+```text
+results/<model>-<variant>-no_reasoning.svg
+results/<model>-<variant>-reasoning_low.svg
+results/<model>-<variant>-reasoning_xhigh.svg
+```
+
+Default reasoning keeps the original `results/<model>-<variant>.svg` form. Repeating the same request
+overwrites that reasoning variant; a different configuration receives an automatic short hash rather than
+overwriting unrelated data.
 TCP keepalive is patched in so long reasoning phases survive gateway idle resets.
 
 ### Run metadata
@@ -70,13 +86,16 @@ explicitly: `--contributor NAME`, `--hardware "gpu=RTX 4090, ram_gb=24"`,
 2. Run the benchmark (one or both variants), check the sidecar JSON in `results/` has model, timestamp, usage filled in — the metadata prompts (contributor, hardware, engine, quantization, notes) fill the rest.
 3. Open a PR — that's it. A GitHub Action rebuilds `results/index.json` for you on every PR (validation) and again at merge. Failed runs are welcome too: errors with metadata are data.
 
-Naming: `results/<model-slug>-<variant>.svg` (handled automatically).
-Multiple runs of the same model are fine: append a suffix (`-v2`, `-lowtemp`, `-m2`, …).
+Naming is handled automatically, including reasoning modes and configuration collisions. Do not rename the
+generated SVG and JSON sidecar manually.
 
 ## Browse the gallery
 
 GitHub Pages serves `index.html`: sidebar with search + filters (minimal / constrained / ok / errors),
-live SVG preview, raw metadata per run.
+live SVG preview and raw metadata. Runs that differ only by reasoning are grouped into one row. A selector
+switches the visible reasoning result, and every model in comparison mode has an independent selector.
+`max_tokens` is deliberately ignored when forming these groups so larger reasoning budgets remain comparable;
+the exact value is still available in each run's technical details.
 
 ## License
 

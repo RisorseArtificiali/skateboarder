@@ -1,9 +1,14 @@
 {
-  "version": 1,
+  "version": 2,
   "count": 47,
   "entries": [
     {
       "id": "claude-fable-5-1-constrained-constrained",
+      "group_id": "anthropic-claude-fable-5-1-constrained-78d616a2f332",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "anthropic/claude-fable-5.1",
@@ -34,6 +39,11 @@
     },
     {
       "id": "claude-fable-5-1-minimal-minimal",
+      "group_id": "anthropic-claude-fable-5-1-minimal-74777ca618dc",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "anthropic/claude-fable-5.1",
@@ -64,6 +74,11 @@
     },
     {
       "id": "claude-opus-5-5-constrained-constrained",
+      "group_id": "anthropic-claude-opus-5-5-constrained-64dcaaee9eb0",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "anthropic/claude-opus-5.5",
@@ -94,6 +109,11 @@
     },
     {
       "id": "claude-opus-5-5-minimal-minimal",
+      "group_id": "anthropic-claude-opus-5-5-minimal-aeee60a9f7bc",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "anthropic/claude-opus-5.5",
@@ -124,6 +144,11 @@
     },
     {
       "id": "claude-opus-5-constrained-constrained",
+      "group_id": "anthropic-claude-opus-5-constrained-173aa720977c",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "anthropic/claude-opus-5",
@@ -154,6 +179,11 @@
     },
     {
       "id": "claude-opus-5-constrained__wave5",
+      "group_id": "claude-opus-5-constrained-unknown-a2eb751bd007",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": null,
       "model": "claude-opus-5-constrained",
@@ -182,6 +212,11 @@
     },
     {
       "id": "claude-opus-5-minimal__wave5",
+      "group_id": "claude-opus-5-minimal-unknown-f8bf8912eb5e",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": null,
       "model": "claude-opus-5-minimal",
@@ -210,6 +245,11 @@
     },
     {
       "id": "claude-opus-5-minimal__wave6-opus64k",
+      "group_id": "claude-opus-5-minimal-unknown-f8bf8912eb5e",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": null,
       "model": "claude-opus-5-minimal",
@@ -238,6 +278,11 @@
     },
     {
       "id": "claude-sonnet-5-constrained__wave3",
+      "group_id": "claude-sonnet-5-constrained-unknown-9157d03f94c4",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": null,
       "model": "claude-sonnet-5-constrained",
@@ -266,6 +311,11 @@
     },
     {
       "id": "claude-sonnet-5-minimal__wave3",
+      "group_id": "claude-sonnet-5-minimal-unknown-35d730000545",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": null,
       "model": "claude-sonnet-5-minimal",
@@ -294,6 +344,11 @@
     },
     {
       "id": "deepseek-v4-1-flash-constrained-constrained",
+      "group_id": "deepseek-deepseek-v4-1-flash-constrained-0da973dc112a",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "deepseek/deepseek-v4.1-flash",
@@ -324,6 +379,11 @@
     },
     {
       "id": "deepseek-v4-1-flash-constrained__wave7-v41flash",
+      "group_id": "deepseek-v4-1-flash-constrained-unknown-ee8a0722ae69",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": null,
       "model": "deepseek-v4-1-flash-constrained",
@@ -352,6 +412,11 @@
     },
     {
       "id": "deepseek-v4-1-flash-minimal-minimal",
+      "group_id": "deepseek-deepseek-v4-1-flash-minimal-940305e5e749",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "deepseek/deepseek-v4.1-flash",
@@ -382,6 +447,11 @@
     },
     {
       "id": "deepseek-v4-1-flash-minimal__wave7-v41flash",
+      "group_id": "deepseek-v4-1-flash-minimal-unknown-27b817cf9a6f",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": null,
       "model": "deepseek-v4-1-flash-minimal",
@@ -410,6 +480,11 @@
     },
     {
       "id": "deepseek-v4-flash-constrained-constrained",
+      "group_id": "deepseek-deepseek-v4-flash-constrained-f031ce5f766d",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "deepseek/deepseek-v4-flash",
@@ -440,6 +515,11 @@
     },
     {
       "id": "deepseek-v4-flash-minimal-minimal",
+      "group_id": "deepseek-deepseek-v4-flash-minimal-def2a131c92a",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "deepseek/deepseek-v4-flash",
@@ -470,6 +550,11 @@
     },
     {
       "id": "gemini-3-8-flash-constrained-constrained",
+      "group_id": "google-gemini-3-8-flash-constrained-2ba293d901ae",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "google/gemini-3.8-flash",
@@ -500,6 +585,11 @@
     },
     {
       "id": "gemini-3-8-flash-minimal-minimal",
+      "group_id": "google-gemini-3-8-flash-minimal-44803512b61f",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "google/gemini-3.8-flash",
@@ -530,6 +620,11 @@
     },
     {
       "id": "glm-5-3-flash-constrained__wave2",
+      "group_id": "glm-5-3-flash-constrained-unknown-b5b7d5487241",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": null,
       "model": "glm-5-3-flash-constrained",
@@ -558,6 +653,11 @@
     },
     {
       "id": "glm-5-3-flash-minimal__wave2",
+      "group_id": "glm-5-3-flash-minimal-unknown-c66b7594a88f",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": null,
       "model": "glm-5-3-flash-minimal",
@@ -586,6 +686,11 @@
     },
     {
       "id": "gpt-5-6-luna-constrained-constrained",
+      "group_id": "openai-gpt-5-6-luna-constrained-bdeb4622d5ac",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "openai/gpt-5.6-luna",
@@ -616,6 +721,11 @@
     },
     {
       "id": "gpt-5-6-luna-minimal-minimal",
+      "group_id": "openai-gpt-5-6-luna-minimal-6afcdc8420f4",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "openai/gpt-5.6-luna",
@@ -646,6 +756,11 @@
     },
     {
       "id": "gpt-5-6-sol-constrained-constrained",
+      "group_id": "openai-gpt-5-6-sol-constrained-87581da53c00",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "openai/gpt-5.6-sol",
@@ -676,6 +791,11 @@
     },
     {
       "id": "gpt-5-6-sol-minimal-minimal",
+      "group_id": "openai-gpt-5-6-sol-minimal-d8e5ce0fae63",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "openai/gpt-5.6-sol",
@@ -706,6 +826,11 @@
     },
     {
       "id": "gpt-5-6-terra-constrained-constrained",
+      "group_id": "openai-gpt-5-6-terra-constrained-0dfe87eb454d",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "openai/gpt-5.6-terra",
@@ -736,6 +861,11 @@
     },
     {
       "id": "gpt-5-6-terra-minimal-minimal",
+      "group_id": "openai-gpt-5-6-terra-minimal-1a795272a5f2",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "openai/gpt-5.6-terra",
@@ -766,6 +896,11 @@
     },
     {
       "id": "gpt-6-astra-constrained-constrained",
+      "group_id": "openai-gpt-6-astra-constrained-dd38253dc72d",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "openai/gpt-6-astra",
@@ -796,6 +931,11 @@
     },
     {
       "id": "gpt-6-luna-constrained-constrained",
+      "group_id": "openai-gpt-6-luna-constrained-055ef0a7507f",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "openai/gpt-6-luna",
@@ -826,6 +966,11 @@
     },
     {
       "id": "gpt-6-luna-minimal-minimal",
+      "group_id": "openai-gpt-6-luna-minimal-a647955ac916",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "openai/gpt-6-luna",
@@ -856,6 +1001,11 @@
     },
     {
       "id": "gpt-6-sol-constrained-constrained",
+      "group_id": "openai-gpt-6-sol-constrained-ee18204ca716",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "openai/gpt-6-sol",
@@ -886,6 +1036,11 @@
     },
     {
       "id": "gpt-6-sol-minimal-minimal",
+      "group_id": "openai-gpt-6-sol-minimal-2c7c9357fcd9",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "openai/gpt-6-sol",
@@ -916,6 +1071,11 @@
     },
     {
       "id": "kimi-k3-constrained__wave3",
+      "group_id": "kimi-k3-constrained-unknown-2b810975e12c",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": null,
       "model": "kimi-k3-constrained",
@@ -944,6 +1104,11 @@
     },
     {
       "id": "kimi-k3-minimal__wave3",
+      "group_id": "kimi-k3-minimal-unknown-d4cd71278c77",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": null,
       "model": "kimi-k3-minimal",
@@ -972,6 +1137,11 @@
     },
     {
       "id": "mimo-v2-6-flash-constrained__wave8-new-models",
+      "group_id": "mimo-v2-6-flash-constrained-unknown-09d55a67d363",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": null,
       "model": "mimo-v2-6-flash-constrained",
@@ -1000,6 +1170,11 @@
     },
     {
       "id": "mimo-v2-6-flash-minimal-minimal",
+      "group_id": "xiaomi-mimo-v2-6-flash-minimal-4d76d15d5c6d",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "xiaomi/mimo-v2.6-flash",
@@ -1030,6 +1205,11 @@
     },
     {
       "id": "mimo-v2-6-pro-constrained__wave8-new-models",
+      "group_id": "mimo-v2-6-pro-constrained-unknown-0978fd9c9b9a",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": null,
       "model": "mimo-v2-6-pro-constrained",
@@ -1058,6 +1238,11 @@
     },
     {
       "id": "mimo-v2-6-pro-minimal__wave8-new-models",
+      "group_id": "mimo-v2-6-pro-minimal-unknown-0239ef36779c",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": null,
       "model": "mimo-v2-6-pro-minimal",
@@ -1086,6 +1271,11 @@
     },
     {
       "id": "qwen38-flash-next-constrained-no_reasoning",
+      "group_id": "qwen38-flash-next-constrained-70474999b4db",
+      "reasoning": {
+        "requested": "disabled",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "qwen38-flash-next",
@@ -1128,6 +1318,11 @@
     },
     {
       "id": "qwen38-flash-next-constrained-reasoning_high",
+      "group_id": "qwen38-flash-next-constrained-70474999b4db",
+      "reasoning": {
+        "requested": "effort",
+        "effort": "high"
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "qwen38-flash-next",
@@ -1170,6 +1365,11 @@
     },
     {
       "id": "qwen38-flash-next-constrained-reasoning_low",
+      "group_id": "qwen38-flash-next-constrained-70474999b4db",
+      "reasoning": {
+        "requested": "effort",
+        "effort": "low"
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "qwen38-flash-next",
@@ -1212,6 +1412,11 @@
     },
     {
       "id": "qwen38-flash-next-constrained-reasoning_medium",
+      "group_id": "qwen38-flash-next-constrained-70474999b4db",
+      "reasoning": {
+        "requested": "effort",
+        "effort": "medium"
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "qwen38-flash-next",
@@ -1254,6 +1459,11 @@
     },
     {
       "id": "qwen38-flash-next-constrained-reasoning_xhigh",
+      "group_id": "qwen38-flash-next-constrained-70474999b4db",
+      "reasoning": {
+        "requested": "effort",
+        "effort": "xhigh"
+      },
       "benchmark": "skateboard",
       "prompt": "constrained",
       "model": "qwen38-flash-next",
@@ -1296,6 +1506,11 @@
     },
     {
       "id": "qwen38-flash-next-minimal-no_reasoning",
+      "group_id": "qwen38-flash-next-minimal-5bb3d72631ba",
+      "reasoning": {
+        "requested": "disabled",
+        "effort": null
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "qwen38-flash-next",
@@ -1338,6 +1553,11 @@
     },
     {
       "id": "qwen38-flash-next-minimal-reasoning_high",
+      "group_id": "qwen38-flash-next-minimal-5bb3d72631ba",
+      "reasoning": {
+        "requested": "effort",
+        "effort": "high"
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "qwen38-flash-next",
@@ -1380,6 +1600,11 @@
     },
     {
       "id": "qwen38-flash-next-minimal-reasoning_low",
+      "group_id": "qwen38-flash-next-minimal-5bb3d72631ba",
+      "reasoning": {
+        "requested": "effort",
+        "effort": "low"
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "qwen38-flash-next",
@@ -1422,6 +1647,11 @@
     },
     {
       "id": "qwen38-flash-next-minimal-reasoning_medium",
+      "group_id": "qwen38-flash-next-minimal-5bb3d72631ba",
+      "reasoning": {
+        "requested": "effort",
+        "effort": "medium"
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "qwen38-flash-next",
@@ -1464,6 +1694,11 @@
     },
     {
       "id": "qwen38-flash-next-minimal-reasoning_xhigh",
+      "group_id": "qwen38-flash-next-minimal-5bb3d72631ba",
+      "reasoning": {
+        "requested": "effort",
+        "effort": "xhigh"
+      },
       "benchmark": "skateboard",
       "prompt": "minimal",
       "model": "qwen38-flash-next",

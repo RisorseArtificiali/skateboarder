@@ -27,6 +27,7 @@
   #list .item.sel { background:var(--accent); color:#111; }
   #list .item .err { color:#ff5555; font-size:.75rem; }
   #list .item .ok { color:#5f5; font-size:.75rem; }
+  #list .item .modecount { color:var(--mut); font-size:.7rem; white-space:nowrap; }
   main { flex:1; padding:2rem; max-width:1000px; }
   body.comparing main { max-width:none; padding-right:1.5rem; }
   .cmpstack.side { position:relative; }
@@ -39,6 +40,10 @@
   .svgwrap { background:#000; border-radius:8px; overflow:hidden; }
   .svgwrap iframe { width:100%; height:480px; border:0; background:#000; }
   .actions { margin-top:1rem; display:flex; gap:.6rem; }
+  .reasonbar { display:flex; align-items:center; gap:.5rem; margin:.35rem 0 1rem; color:var(--mut); font-size:.8rem; }
+  .reasonbar select { background:#0d0d0d; color:var(--txt); border:1px solid var(--border);
+                      border-radius:6px; padding:.25rem .5rem; font:inherit; }
+  .reasonpill { color:var(--accent); font-weight:600; }
   .openbtn { display:inline-block; background:var(--accent); color:#111; padding:.35rem .9rem;
              border-radius:6px; text-decoration:none; font-size:.85rem; font-weight:600; }
   .openbtn:hover { background:#ffe44d; }
@@ -62,7 +67,10 @@
   .cmpstack .card h2 { font-size:1.05rem; }
   .cmpstack.side .cards2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
   .cmpstack.side .cards2 .card { margin-bottom:0; }
-  @media (max-width:1100px){ .cmpstack.side .cards2 { grid-template-columns:1fr; } }
+  @media (max-width:1100px){
+    .cmpstack.side .cards2 { grid-template-columns:1fr; max-height:none; overflow:visible; padding-right:0; }
+    #cmp-side { display:none !important; }
+  }
   .cmptag { display:inline-block; background:var(--accent); color:#111; border-radius:4px;
             font-size:.7rem; font-weight:700; padding:.05rem .4rem; margin-left:.4rem; vertical-align:middle; }
   .cmptag.a { background:#5f5; } .cmptag.b { background:#f7f; }
@@ -74,7 +82,7 @@
   <h1>🛹 skateboarder</h1>
   <div class="sub">LLM animated-SVG benchmark · <a style="color:var(--accent)" href="https://github.com/RisorseArtificiali/skateboarder">repo</a></div>
   <input id="search" type="search" placeholder="search model…" autocomplete="off">
-  <div class="filters">
+  <div class="filters" id="run-filters">
     <button data-f="all" class="active">all</button>
     <button data-f="minimal">minimal</button>
     <button data-f="constrained">constrained</button>
@@ -102,228 +110,373 @@
   </details></div>
 </main>
 <script>
-const state = { q:"", f:"all", ep:"all", entries:[], comparing:false, picked:[], sideBySide:true };
-const PROMPTS = {};  // variant -> verbatim text, fetched at boot
+const state = {
+  q:"", f:"all", ep:"all", entries:[], groups:[], selectedGroupId:null,
+  activeRunByGroup:{}, comparing:false, pickedGroupIds:[], sideBySide:true
+};
+const PROMPTS = {};
+const REASON_RANK = {default:100, max:90, xhigh:80, high:70, medium:60, low:50, minimal:40, disabled:20, unknown:10};
 
-async function boot(){
-  const idx = await fetch("results/index.json").then(r=>r.json());
-  state.entries = idx.entries;
-  for (const v of ["minimal","constrained"]){
-    PROMPTS[v] = await fetch(`prompts/${v}.txt`).then(r=>r.text());
-  }
-  renderPromptBlock();
-  renderList();
+function esc(value){
+  return String(value ?? "").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
-// Show only the prompt(s) actually used: one in single view; in compare,
-// both, but each only once even when the two runs share a variant.
-function renderPromptBlock(){
-  const el = document.getElementById("prompt-block");
-  let variants;
-  if (state.comparing && state.picked.length){
-    variants = [...new Set(state.picked.map(e=>e.prompt).filter(Boolean))];
-  } else {
-    const cur = state.entries.find(e=>e.id===document.querySelector("#list .item.sel")?.dataset.id);
-    variants = cur && cur.prompt ? [cur.prompt] : [];
+function safeSvg(entry){
+  const value = entry && entry.svg;
+  return typeof value === "string" && !value.includes("..") && /^results\/[A-Za-z0-9._/-]+\.svg$/.test(value) ? value : null;
+}
+
+function reasonKey(entry){
+  const reasoning = entry.reasoning || {};
+  if (reasoning.requested === "effort") return reasoning.effort || "unknown";
+  return reasoning.requested || "unknown";
+}
+
+function reasonLabel(entry){
+  const reasoning = entry.reasoning || {};
+  if (reasoning.requested === "disabled") return "no reasoning";
+  if (reasoning.requested === "effort") return reasoning.effort || "unknown";
+  if (reasoning.requested === "default") return "default";
+  return "unknown";
+}
+
+function entryRank(entry){ return REASON_RANK[reasonKey(entry)] || 0; }
+
+function makeGroups(entries){
+  const byId = new Map();
+  for (const entry of entries){
+    const id = entry.group_id || entry.id;
+    if (!byId.has(id)) byId.set(id, {id, entries:[]});
+    byId.get(id).entries.push(entry);
   }
-  el.innerHTML = variants.length
-    ? variants.map(v=>`<p><b>Prompt — ${v}</b> (verbatim, typos included)</p><pre>${PROMPTS[v]||""}</pre>`).join("")
+  const groups = [...byId.values()];
+  for (const group of groups){
+    group.entries.sort((a,b)=> entryRank(b)-entryRank(a) || String(b.timestamp||"").localeCompare(String(a.timestamp||"")) || a.id.localeCompare(b.id));
+    const current = state.activeRunByGroup[group.id];
+    if (!group.entries.some(entry=>entry.id===current)) state.activeRunByGroup[group.id] = group.entries[0].id;
+  }
+  return groups.sort((a,b)=>a.entries[0].id.localeCompare(b.entries[0].id));
+}
+
+function groupById(id){ return state.groups.find(group=>group.id===id); }
+
+function activeEntry(group){
+  return group && (group.entries.find(entry=>entry.id===state.activeRunByGroup[group.id]) || group.entries[0]);
+}
+
+function selectedGroups(){ return state.pickedGroupIds.map(groupById).filter(Boolean); }
+
+async function fetchOk(url, kind){
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`${kind} request failed: HTTP ${response.status}`);
+  return response;
+}
+
+async function boot(){
+  const idx = await fetchOk("results/index.json", "index").then(response=>response.json());
+  state.entries = Array.isArray(idx.entries) ? idx.entries : [];
+  state.groups = makeGroups(state.entries);
+  state.selectedGroupId = state.groups[0]?.id || null;
+  renderList();
+  renderSingle(state.groups[0]);
+  await Promise.all(["minimal","constrained"].map(async variant=>{
+    try {
+      PROMPTS[variant] = await fetchOk(`prompts/${variant}.txt`, `${variant} prompt`).then(response=>response.text());
+    } catch (error) {
+      PROMPTS[variant] = "";
+      console.warn(error);
+    }
+  }));
+  renderPromptBlock();
+}
+
+function detailsShell(){
+  return `<details class="prompts"><summary>Show details</summary><div id="run-details"></div><div id="prompt-block"></div></details>`;
+}
+
+function renderPromptBlock(){
+  const element = document.getElementById("prompt-block");
+  if (!element) return;
+  const entries = state.comparing
+    ? selectedGroups().map(activeEntry).filter(Boolean)
+    : [activeEntry(groupById(state.selectedGroupId))].filter(Boolean);
+  const variants = [...new Set(entries.map(entry=>entry.prompt).filter(Boolean))];
+  element.innerHTML = variants.length
+    ? variants.map(variant=>`<p><b>Prompt - ${esc(variant)}</b> (verbatim, typos included)</p><pre>${esc(PROMPTS[variant]||"")}</pre>`).join("")
     : `<p class="meta">select a model to see the prompt used</p>`;
 }
 
-// Endpoint category of a run: "openrouter" (the public gateway), "local"
-// (any self-hosted endpoint: localhost, private LAN IPs, .local hostnames),
-// or "other" (any other cloud gateway). Missing endpoint = legacy run.
-function epKind(e){
-  const ep = e.endpoint || "";
-  if (!ep) return "other";
-  if (ep.includes("openrouter.ai")) return "openrouter";
+function epKind(entry){
+  const endpoint = entry.endpoint || "";
+  if (!endpoint) return "other";
+  if (endpoint.includes("openrouter.ai")) return "openrouter";
   try {
-    const h = new URL(ep).hostname;
-    if (h === "localhost" || h === "127.0.0.1" || h === "::1" || h.endsWith(".local")
-        || /^10\./.test(h) || /^192\.168\./.test(h) || /^172\.(1[6-9]|2\d|3[01])\./.test(h))
-      return "local";
+    const host = new URL(endpoint).hostname;
+    if (host === "localhost" || host === "127.0.0.1" || host === "::1" || host.endsWith(".local")
+        || /^10\./.test(host) || /^192\.168\./.test(host) || /^172\.(1[6-9]|2\d|3[01])\./.test(host)) return "local";
   } catch (_) {}
   return "other";
 }
 
 function visible(){
-  return state.entries.filter(e=>{
-    if (state.f==="minimal"&&e.prompt!=="minimal") return false;
-    if (state.f==="constrained"&&e.prompt!=="constrained") return false;
-    if (state.f==="ok"&&e.error) return false;
-    if (state.f==="err"&&!e.error) return false;
-    if (state.ep!=="all"&&epKind(e)!==state.ep) return false;
-    if (state.q && !e.id.toLowerCase().includes(state.q)) return false;
+  return state.groups.filter(group=>{
+    const entry = activeEntry(group);
+    if (state.f==="minimal" && entry.prompt!=="minimal") return false;
+    if (state.f==="constrained" && entry.prompt!=="constrained") return false;
+    if (state.f==="ok" && entryFailed(entry)) return false;
+    if (state.f==="err" && !entryFailed(entry)) return false;
+    if (state.ep!=="all" && epKind(entry)!==state.ep) return false;
+    if (state.q) {
+      const haystack = [group.id, ...group.entries.flatMap(item=>[item.id,item.model])].filter(Boolean).join(" ").toLowerCase();
+      if (!haystack.includes(state.q)) return false;
+    }
     return true;
   });
 }
 
+function entryFailed(entry){ return Boolean(entry.error || !safeSvg(entry)); }
+
 function renderList(){
   const list = document.getElementById("list");
-  const items = visible();
-  list.innerHTML = items.length ? "" : "<div class='item'><span class='err'>no matches</span></div>";
-  for (const e of items){
-    const d = document.createElement("div");
-    d.className = "item"; d.dataset.id = e.id;
-    d.innerHTML = `<input type="checkbox" class="cmpbox" data-id="${e.id}" ${state.picked.some(p=>p.id===e.id)?"checked":""} title="pick for compare">` +
-      `<span>${e.id}</span>` + (e.error ? `<span class='err'>err</span>` : `<span class='ok'>${(e.svg_len/1024).toFixed(1)}kB</span>`);
-    d.querySelector(".cmpbox").onclick = ev=>{
-      ev.stopPropagation();
-      togglePick(e, ev.target.checked);
+  const groups = visible();
+  list.innerHTML = groups.length ? "" : "<div class='item'><span class='err'>no matches</span></div>";
+  for (const group of groups){
+    const entry = activeEntry(group);
+    const item = document.createElement("div");
+    item.className = "item" + (state.selectedGroupId===group.id && !state.comparing ? " sel" : "");
+    item.dataset.groupId = group.id;
+    const status = entryFailed(entry)
+      ? `<span class="err">err</span>`
+      : `<span class="ok">${Number.isFinite(+entry.svg_len) ? (+entry.svg_len/1024).toFixed(1)+"kB" : "ok"}</span>`;
+    const modes = group.entries.length > 1 ? `<span class="modecount">${group.entries.length} modes</span>` : "";
+    item.innerHTML = `<input type="checkbox" class="cmpbox" data-group-id="${esc(group.id)}" ${state.pickedGroupIds.includes(group.id)?"checked":""} title="pick for compare">` +
+      `<span>${esc(entry.model || group.id)}${entry.prompt ? ` · ${esc(entry.prompt)}` : ""}</span>${modes}${status}`;
+    item.querySelector(".cmpbox").onclick = event=>{
+      event.stopPropagation();
+      togglePick(group, event.target.checked);
     };
-    d.onclick = ()=> state.comparing ? togglePick(e, true) : show(e);
-    list.appendChild(d);
+    item.onclick = ()=>state.comparing ? togglePick(group, !state.pickedGroupIds.includes(group.id)) : renderSingle(group);
+    list.appendChild(item);
   }
+  syncCmpBoxes();
 }
 
-function togglePick(e, on){
-  const i = state.picked.findIndex(p=>p.id===e.id);
-  if (on && i<0){
-    state.picked.push(e);  // allow more than 2: layout goes stacked
-  } else if (!on && i>=0) state.picked.splice(i,1);
-  syncCmpBoxes();
+function togglePick(group, on){
+  const index = state.pickedGroupIds.indexOf(group.id);
+  if (on && index<0) state.pickedGroupIds.push(group.id);
+  if (!on && index>=0) state.pickedGroupIds.splice(index,1);
+  renderList();
   renderCompare();
 }
 
 function syncCmpBoxes(){
-  document.querySelectorAll("#list .cmpbox").forEach(cb=>{
-    cb.checked = state.picked.some(p=>p.id===cb.dataset.id);
-  });
-  const h = document.getElementById("cmp-hint");
-  h.textContent = !state.comparing ? "" :
-    state.picked.length===0 ? "pick 2 runs to compare side by side" :
-    state.picked.length===1 ? "pick 1 more" :
-    state.picked.length===2 ? "2 picked — side by side" :
-    `${state.picked.length} picked — stacked view`;
+  document.querySelectorAll("#list .cmpbox").forEach(box=>box.checked=state.pickedGroupIds.includes(box.dataset.groupId));
+  const count = state.pickedGroupIds.length;
+  document.getElementById("cmp-hint").textContent = !state.comparing ? "" :
+    count===0 ? "pick models to compare" : count===1 ? "pick 1 more" :
+    count===2 ? "2 picked" : `${count} picked - stacked view`;
+}
+
+function reasonControl(group){
+  const selectedId = activeEntry(group).id;
+  if (group.entries.length < 2) return `<span class="reasonpill">${esc(reasonLabel(activeEntry(group)))}</span>`;
+  const counts = {};
+  for (const entry of group.entries) counts[reasonLabel(entry)] = (counts[reasonLabel(entry)]||0)+1;
+  const seen = {};
+  const options = group.entries.map(entry=>{
+    const base = reasonLabel(entry);
+    seen[base] = (seen[base]||0)+1;
+    const label = counts[base] > 1 ? `${base} (${seen[base]})` : base;
+    return `<option value="${esc(entry.id)}" ${entry.id===selectedId?"selected":""}>${esc(label)}</option>`;
+  }).join("");
+  return `<select class="reason-select" data-group-id="${esc(group.id)}" aria-label="reasoning variant">${options}</select>`;
+}
+
+function contribLink(name){
+  const value = String(name);
+  const url = value === "maeste" ? "https://maeste.it" : `https://github.com/${encodeURIComponent(value)}`;
+  return `<a href="${esc(url)}" target="_blank" rel="noopener" style="color:inherit">${esc(value)}</a>`;
+}
+
+function fmt(entry){
+  const usage = entry.usage || {};
+  const cost = entry.cost_usd!=null ? ` · $${(+entry.cost_usd).toFixed(entry.cost_usd<0.01?4:2)}` : "";
+  const tokens = usage.total_tokens!=null ? ` · ${esc(usage.total_tokens)} tok` : "";
+  const reasoningTokens = entry.reasoning_tokens!=null ? ` (${esc(entry.reasoning_tokens)} reasoning)` : "";
+  const seconds = entry.seconds!=null ? ` · ${esc(entry.seconds)}s` : "";
+  const contributor = entry.contributor ? ` · by ${contribLink(entry.contributor)}` : "";
+  return `${esc(entry.model||entry.id)} · <b>${esc(entry.prompt||"?")}</b> · reasoning: ${esc(reasonLabel(entry))}${tokens}${reasoningTokens}${seconds}${cost}${contributor}`;
+}
+
+function keyValues(value){
+  if (!value || typeof value!=="object") return value;
+  return Object.entries(value).map(([key,item])=>`${key}=${typeof item==="object" ? JSON.stringify(item) : item}`).join(", ");
+}
+
+function advertisedDefault(entry){
+  const provider = (entry.reasoning||{}).provider_default;
+  if (!provider) return null;
+  if (provider.supported===false) return "not supported";
+  return [provider.enabled==null ? null : (provider.enabled ? "enabled" : "disabled"), provider.effort, provider.mandatory ? "mandatory" : null].filter(Boolean).join(", ") || "supported";
+}
+
+function detailsTable(entry){
+  const usage = entry.usage || {};
+  const completion = usage.completion_tokens_details || {};
+  const row = (key,value,raw=false)=> value==null || value==="" ? "" : `<tr><td>${esc(key)}</td><td>${raw?value:esc(value)}</td></tr>`;
+  return `<table class="dtable">
+    ${row("model", entry.model)}
+    ${row("variant", entry.prompt)}
+    ${row("requested reasoning", reasonLabel(entry))}
+    ${row("advertised provider default", advertisedDefault(entry))}
+    ${row("contributor", entry.contributor ? contribLink(entry.contributor) : null, true)}
+    ${row("endpoint", entry.endpoint)}
+    ${row("timestamp", entry.timestamp)}
+    ${row("svg size", entry.svg_len!=null ? entry.svg_len+" B" : null)}
+    ${row("animation", entry.has_animation==null ? null : (entry.has_animation ? "yes" : "no"))}
+    ${row("javascript", entry.uses_js==null ? null : (entry.uses_js ? "yes (violates rules)" : "no"))}
+    ${row("prompt tokens", usage.prompt_tokens)}
+    ${row("completion tokens", usage.completion_tokens)}
+    ${row("reasoning tokens", entry.reasoning_tokens ?? completion.reasoning_tokens)}
+    ${row("total tokens", usage.total_tokens)}
+    ${row("cost", entry.cost_usd!=null ? "$"+(+entry.cost_usd).toFixed(entry.cost_usd<0.01?4:2) : null)}
+    ${row("duration", entry.seconds!=null ? entry.seconds+" s" : null)}
+    ${row("finish reason", entry.finish_reason)}
+    ${row("params", keyValues(entry.params))}
+    ${row("hardware", keyValues(entry.hardware))}
+    ${row("engine", entry.engine ? [entry.engine.name,entry.engine.version].filter(Boolean).join(" ") : null)}
+    ${row("quantization", entry.quantization)}
+    ${row("notes", entry.note)}
+    ${row("error", entry.error)}
+  </table>`;
+}
+
+function runBody(entry){
+  const svg = safeSvg(entry);
+  if (entry.error || !svg) return `<div class="errorbox">ERROR: ${esc(entry.error||"no SVG")}${entry.finish_reason?` (finish: ${esc(entry.finish_reason)})`:""}</div>`;
+  return `<div class="svgwrap"><iframe sandbox src="${esc(svg)}" loading="lazy"></iframe></div>
+    <div class="actions"><a class="openbtn" href="${esc(svg)}" target="_blank" rel="noopener">Open raw SVG</a></div>`;
+}
+
+function runCard(group, tag=""){
+  const entry = activeEntry(group);
+  return `<div class="card" data-group-id="${esc(group.id)}"><h2>${esc(entry.id)}${tag}</h2><p class="meta">${fmt(entry)}</p>
+    <div class="reasonbar"><span>reasoning</span>${reasonControl(group)}</div>${runBody(entry)}</div>`;
+}
+
+function renderSingle(group){
+  document.body.classList.remove("comparing");
+  document.getElementById("cmp-toggle").classList.remove("active");
+  document.getElementById("cmp-side").style.display = "none";
+  if (!group){
+    state.selectedGroupId = null;
+    document.getElementById("detail").innerHTML = `<div class="card"><h2>no results available</h2></div>`;
+    renderList();
+    return;
+  }
+  state.selectedGroupId = group.id;
+  document.getElementById("detail").innerHTML = runCard(group) + detailsShell();
+  document.getElementById("run-details").innerHTML = detailsTable(activeEntry(group));
+  renderPromptBlock();
+  renderList();
+}
+
+function renderCompareDetails(groups){
+  const tags = [..."abcdefghijklmnopqrstuvwxyz"];
+  document.getElementById("run-details").innerHTML = groups.map((group,index)=>{
+    const letter = tags[index] || String(index+1);
+    const entry = activeEntry(group);
+    return `<p><b>Run ${esc(letter.toUpperCase())} - ${esc(entry.id)}</b></p>${detailsTable(entry)}`;
+  }).join("");
+}
+
+function updateCompareGroup(group){
+  const groups = selectedGroups();
+  const index = groups.findIndex(item=>item.id===group.id);
+  if (index<0) return;
+  const tags = [..."abcdefghijklmnopqrstuvwxyz"];
+  const letter = tags[index] || String(index+1);
+  const card = [...document.querySelectorAll("#detail .card[data-group-id]")].find(item=>item.dataset.groupId===group.id);
+  if (card){
+    const holder = document.createElement("div");
+    holder.innerHTML = runCard(group, `<span class="cmptag ${esc(letter)}">${esc(letter.toUpperCase())}</span>`);
+    card.replaceWith(holder.firstElementChild);
+  }
+  renderCompareDetails(groups);
+  renderPromptBlock();
 }
 
 function renderCompare(){
-  const detail = document.getElementById("detail");
-  const prompts = detail.querySelector(".prompts");
   document.getElementById("cmp-toggle").classList.toggle("active", state.comparing);
-  const twoPicked = state.comparing && state.picked.length===2;
+  document.body.classList.toggle("comparing", state.comparing);
+  const groups = selectedGroups();
+  const twoPicked = state.comparing && groups.length===2;
   document.getElementById("cmp-side").style.display = twoPicked ? "" : "none";
   document.getElementById("cmp-side").classList.toggle("active", state.sideBySide);
-  document.body.classList.toggle("comparing", state.comparing);
-  detail.querySelectorAll(".cmpstack").forEach(n=>n.remove());
-  if (!state.comparing){ syncCmpBoxes(); return; }
-  if (!state.picked.length){
-    const s = document.createElement("div");
-    s.className = "cmpstack";
-    s.innerHTML = `<div class="card"><h2>compare mode</h2><p class="meta">tick two runs in the sidebar to see their SVGs stacked here</p></div>`;
-    detail.insertBefore(s, prompts);
-    return;
-  }
-  const tags = [..."abcdefghijklmnopqrstuvwxyz"];  // a, b, c, … for however many runs are picked
-  const canSide = state.sideBySide && state.picked.length===2;
-  const s = document.createElement("div");
-  s.className = "cmpstack" + (canSide ? " side" : "");
-  const cards = state.picked.map((e,i)=>{
-    const tag = `<span class="cmptag ${tags[i]}">${tags[i].toUpperCase()}</span>`;
-    const body = (e.error || !e.svg)
-      ? `<div class="errorbox">ERROR: ${e.error||"no SVG"}${e.finish_reason?` (finish: ${e.finish_reason})`:''}</div>`
-      : `<div class="svgwrap"><iframe src="${e.svg}" loading="lazy"></iframe></div>
-         <div class="actions"><a class="openbtn" href="${e.svg}" target="_blank" rel="noopener">Open raw SVG ↗</a></div>`;
-    return `<div class="card"><h2>${e.id}${tag}</h2><p class="meta">${fmt(e)}</p>${body}</div>`;
-  }).join("");
-  s.innerHTML = canSide ? `<div class="cards2">${cards}</div>` : cards;
-  detail.insertBefore(s, prompts);
-  document.getElementById("run-details").innerHTML =
-    state.picked.map((e,i)=>`<p><b>Run ${tags[i].toUpperCase()} — ${e.id}</b></p>${detailsTable(e)}`).join("");
+  syncCmpBoxes();
+  if (!state.comparing) return;
+
+  const tags = [..."abcdefghijklmnopqrstuvwxyz"];
+  const canSide = state.sideBySide && groups.length===2;
+  const cards = groups.length ? groups.map((group,index)=>{
+    const letter = tags[index] || String(index+1);
+    return runCard(group, `<span class="cmptag ${esc(letter)}">${esc(letter.toUpperCase())}</span>`);
+  }).join("") : `<div class="card"><h2>compare mode</h2><p class="meta">pick models in the sidebar to compare their SVGs</p></div>`;
+  const stack = `<div class="cmpstack${canSide?" side":""}">${canSide?`<div class="cards2">${cards}</div>`:cards}</div>`;
+  document.getElementById("detail").innerHTML = stack + detailsShell();
+  renderCompareDetails(groups);
   renderPromptBlock();
 }
+
+document.addEventListener("change", event=>{
+  const select = event.target.closest(".reason-select");
+  if (!select) return;
+  const group = groupById(select.dataset.groupId);
+  if (!group || !group.entries.some(entry=>entry.id===select.value)) return;
+  state.activeRunByGroup[group.id] = select.value;
+  renderList();
+  if (state.comparing) updateCompareGroup(group); else renderSingle(group);
+});
 
 document.getElementById("cmp-toggle").onclick = ()=>{
   state.comparing = !state.comparing;
   if (!state.comparing){
-    state.picked = [];
-    show(state.entries.find(e=>e.id===document.querySelector("#list .item.sel")?.dataset.id) || state.entries[0]);
+    state.pickedGroupIds = [];
+    renderSingle(groupById(state.selectedGroupId) || state.groups[0]);
+  } else {
+    renderList();
+    renderCompare();
+    if (window.innerWidth>800) document.querySelector("main").scrollIntoView({behavior:"smooth"});
   }
-  syncCmpBoxes();
-  renderCompare();
-  if (state.comparing) detailTop();
-  else document.querySelectorAll("#list .item").forEach(i=>i.classList.toggle("sel", i.dataset.id===(state.picked[0]||{}).id));
 };
-function detailTop(){ document.querySelector("main").scrollIntoView({behavior:"smooth"}); }
+
 document.getElementById("cmp-side").onclick = ()=>{
   state.sideBySide = !state.sideBySide;
   renderCompare();
 };
 
-function contribLink(name){
-  const safe = String(name).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-  const url = safe === "maeste" ? "https://maeste.it" : `https://github.com/${safe}`;
-  return `<a href="${url}" target="_blank" rel="noopener" style="color:inherit">${safe}</a>`;
-}
-
-function fmt(e){
-  const u = e.usage||{};
-  const cost = e.cost_usd!=null ? ` · $${(+e.cost_usd).toFixed(e.cost_usd<0.01?4:2)}` : "";
-  const tok = u.total_tokens!=null ? ` · ${u.total_tokens} tok` : "";
-  const rs = e.reasoning_tokens ? ` (${e.reasoning_tokens} reasoning)` : "";
-  const sec = e.seconds ? ` · ${e.seconds}s` : "";
-  const who = e.contributor ? ` · by ${contribLink(e.contributor)}` : "";
-  return `${e.model||e.id} · <b>${e.prompt||"?"}</b>${tok}${rs}${sec}${cost}${who}`;
-}
-
-function detailsTable(e){
-  const u = e.usage||{};
-  const row = (k,v)=> v==null||v==="" ? "" : `<tr><td>${k}</td><td>${v}</td></tr>`;
-  const ct = u.completion_tokens_details||{};
-  return `<table class="dtable">
-    ${row("model", e.model)}
-    ${row("variant", e.prompt)}
-    ${row("contributor", e.contributor ? contribLink(e.contributor) : null)}
-    ${row("endpoint", e.endpoint)}
-    ${row("timestamp", e.timestamp)}
-    ${row("svg size", e.svg_len!=null ? e.svg_len+" B" : null)}
-    ${row("animation", e.has_animation==null ? null : (e.has_animation ? "yes" : "no"))}
-    ${row("javascript", e.uses_js ? "yes (violates rules)" : "no")}
-    ${row("prompt tokens", u.prompt_tokens)}
-    ${row("completion tokens", u.completion_tokens)}
-    ${row("reasoning tokens", e.reasoning_tokens || ct.reasoning_tokens)}
-    ${row("total tokens", u.total_tokens)}
-    ${row("cost", e.cost_usd!=null ? "$"+(+e.cost_usd).toFixed(e.cost_usd<0.01?4:2) : null)}
-    ${row("duration", e.seconds ? e.seconds+" s" : null)}
-    ${row("finish reason", e.finish_reason)}
-    ${row("params", e.params ? Object.entries(e.params).map(([k,v])=>`${k}=${v}`).join(", ") : null)}
-    ${row("hardware", e.hardware ? Object.entries(e.hardware).map(([k,v])=>`${k}=${v}`).join(", ") : null)}
-    ${row("engine", e.engine ? [e.engine.name, e.engine.version].filter(Boolean).join(" ") : null)}
-    ${row("quantization", e.quantization)}
-    ${row("notes", e.note)}
-    ${row("error", e.error)}
-  </table>`;
-}
-
-function show(e){
-  document.querySelectorAll("#list .item").forEach(i=>i.classList.toggle("sel", i.dataset.id===e.id));
-  const detail = document.getElementById("detail");
-  const meta = `<div class="card"><h2>${e.id}</h2><p class="meta">${fmt(e)}</p>`;
-  let body;
-  if (e.error || !e.svg){
-    body = `<div class="errorbox">ERROR: ${e.error||"no SVG"}${e.finish_reason?` (finish: ${e.finish_reason})`:''}</div>`;
-  } else {
-    body = `<div class="svgwrap"><iframe src="${e.svg}" loading="lazy"></iframe></div>
-      <div class="actions"><a class="openbtn" href="${e.svg}" target="_blank" rel="noopener">Open raw SVG ↗</a></div>`;
-  }
-  detail.insertAdjacentHTML("afterbegin", meta+body+"</div>");
-  detail.querySelector(".card:not(:first-of-type)")?.remove();
-  // readable per-run details above the prompts in "Show details"
-  document.getElementById("run-details").innerHTML = detailsTable(e);
-  renderPromptBlock();
-}
-
-document.getElementById("search").addEventListener("input", ev=>{ state.q=ev.target.value.toLowerCase(); renderList(); });
-document.querySelectorAll(".filters button").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));
-  b.classList.add("active"); state.f=b.dataset.f; renderList();
+document.getElementById("search").addEventListener("input", event=>{
+  state.q = event.target.value.toLowerCase();
+  renderList();
 });
-document.querySelectorAll("#ep-filters button").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll("#ep-filters button").forEach(x=>x.classList.remove("active"));
-  b.classList.add("active"); state.ep=b.dataset.ep; renderList();
+
+document.querySelectorAll("#run-filters button").forEach(button=>button.onclick=()=>{
+  document.querySelectorAll("#run-filters button").forEach(item=>item.classList.remove("active"));
+  button.classList.add("active");
+  state.f = button.dataset.f;
+  renderList();
 });
-boot();
+
+document.querySelectorAll("#ep-filters button").forEach(button=>button.onclick=()=>{
+  document.querySelectorAll("#ep-filters button").forEach(item=>item.classList.remove("active"));
+  button.classList.add("active");
+  state.ep = button.dataset.ep;
+  renderList();
+});
+
+boot().catch(error=>{
+  document.getElementById("detail").innerHTML = `<div class="card"><h2>could not load results</h2><div class="errorbox">${esc(error.message)}</div></div>`;
+});
 </script>
 </body>
 </html>

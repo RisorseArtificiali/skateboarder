@@ -14,11 +14,12 @@ Auth: OPENROUTER_API_KEY (or BENCH_API_KEY for any other endpoint).
 Before the request it asks a few optional run-metadata questions (contributor,
 hardware, engine, quantization, notes); local llama.cpp/ollama/vLLM servers are
 auto-probed. Pipe stdin or pass --non-interactive to skip the prompts.
-Results land in results/<slug>-<variant>.svg + .json
+Results land in results/<slug>-<variant>[-reasoning_<effort>].svg + .json
 """
 import argparse
 import datetime
 import glob
+import hashlib
 import json
 import os
 import platform
@@ -28,6 +29,7 @@ import subprocess
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 # --- keep long reasoning phases alive through gateways that reset idle flows ---
@@ -53,6 +55,7 @@ _keepalive()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PROMPTS_DIR = os.path.join(HERE, "prompts")
 RESULTS_DIR = os.path.join(HERE, "results")
+REASONING_EFFORTS = ("minimal", "low", "medium", "high", "xhigh", "max")
 
 VARIANTS = {}
 for fname in ("minimal.txt", "constrained.txt"):
@@ -62,6 +65,84 @@ for fname in ("minimal.txt", "constrained.txt"):
 
 def slug(name):
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+
+
+def is_openrouter(base):
+    try:
+        return urllib.parse.urlparse(base).hostname == "openrouter.ai"
+    except ValueError:
+        return False
+
+
+def requested_reasoning(args):
+    if args.no_reasoning:
+        return {"requested": "disabled", "effort": None}
+    if args.reasoning_effort:
+        return {"requested": "effort", "effort": args.reasoning_effort}
+    return {"requested": "default", "effort": None}
+
+
+def reasoning_from_meta(meta):
+    reasoning = meta.get("reasoning")
+    if isinstance(reasoning, dict) and reasoning.get("requested") in ("default", "disabled", "effort", "unknown"):
+        return {"requested": reasoning["requested"], "effort": reasoning.get("effort")}
+    params = meta.get("params") or {}
+    if params.get("no_reasoning"):
+        return {"requested": "disabled", "effort": None}
+    if params.get("reasoning_effort"):
+        return {"requested": "effort", "effort": params["reasoning_effort"]}
+    return {"requested": "unknown", "effort": None}
+
+
+def build_request_body(args):
+    body = {"model": args.model, "messages": [{"role": "user", "content": VARIANTS[args.variant]}]}
+    if args.max_tokens:
+        body["max_tokens"] = args.max_tokens
+    if args.temperature is not None:
+        body["temperature"] = args.temperature
+
+    reasoning = requested_reasoning(args)
+    if is_openrouter(args.base):
+        if reasoning["requested"] == "effort":
+            body["reasoning"] = {"effort": reasoning["effort"]}
+        elif reasoning["requested"] == "disabled":
+            body["reasoning"] = {"effort": "none"}
+    elif reasoning["requested"] == "effort":
+        body["reasoning_effort"] = reasoning["effort"]
+    elif reasoning["requested"] == "disabled":
+        body["reasoning_effort"] = "none"
+        body["chat_template_kwargs"] = {"enable_thinking": False, "thinking": False}
+    return body
+
+
+def fetch_openrouter_reasoning(base, model, headers, timeout=10):
+    """Snapshot OpenRouter's advertised reasoning defaults without affecting the request."""
+    try:
+        query = urllib.parse.urlencode({"q": model})
+        req = urllib.request.Request(f"{base.rstrip('/')}/models?{query}", headers=headers)
+        with urllib.request.urlopen(req, timeout=timeout) as response:
+            models = (json.load(response) or {}).get("data") or []
+        info = next((item for item in models if isinstance(item, dict) and item.get("id") == model), None)
+        if info is None:
+            raise LookupError(f"model {model!r} not found in OpenRouter catalog")
+        advertised = info.get("reasoning")
+        snapshot = {
+            "source": "openrouter-models",
+            "checked_at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
+            "supported": isinstance(advertised, dict),
+        }
+        if isinstance(advertised, dict):
+            snapshot.update({
+                "enabled": advertised.get("default_enabled"),
+                "effort": advertised.get("default_effort"),
+                "mandatory": advertised.get("mandatory"),
+                "supported_efforts": advertised.get("supported_efforts"),
+                "supports_max_tokens": bool(advertised.get("supports_max_tokens")),
+            })
+        return snapshot
+    except Exception as exc:
+        print(f"warning: could not read OpenRouter reasoning defaults: {exc}", file=sys.stderr)
+        return None
 
 
 def extract_svg(text):
@@ -211,7 +292,7 @@ def parse_engine(text, det_name=None):
 
 def collect_meta(args):
     """Optional run metadata: CLI flags > interactive answers > auto-detection."""
-    remote = "openrouter" in args.base
+    remote = is_openrouter(args.base)
     det_hw = None if remote else detect_hardware()
     det_eng, det_quant = (None, None) if remote else probe_engine(args.base, args.model)
     if isinstance(args.engine, str):  # CLI: parse now that detection may know the engine name
@@ -258,33 +339,29 @@ def run(args):
     if key:
         headers["Authorization"] = f"Bearer {key}"
 
-    body = {"model": args.model, "messages": [{"role": "user", "content": VARIANTS[args.variant]}]}
-    if args.max_tokens:
-        body["max_tokens"] = args.max_tokens
-    if args.temperature is not None:
-        body["temperature"] = args.temperature
-    if args.reasoning_effort:
-        body["reasoning_effort"] = args.reasoning_effort
-    if args.no_reasoning:
-        # provider-agnostic attempts: OpenRouter style + llama.cpp / ollama styles
-        body["reasoning"] = {"exclude": True}
-        body["chat_template_kwargs"] = {"enable_thinking": False, "thinking": False}
+    body = build_request_body(args)
 
     req = urllib.request.Request(f"{base}/chat/completions", data=json.dumps(body).encode(), headers=headers)
-    t0 = time.time()
     meta = {
         "benchmark": "skateboard",
         "prompt": args.variant,
         "model": args.model,
         "endpoint": base,
-        "timestamp": datetime.datetime.now().isoformat(timespec="seconds"),
+        "timestamp": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
         "params": {k: v for k, v in (
             ("max_tokens", args.max_tokens), ("temperature", args.temperature),
-            ("reasoning_effort", args.reasoning_effort), ("no_reasoning", args.no_reasoning)) if v},
+            ("reasoning_effort", args.reasoning_effort),
+            ("no_reasoning", True if args.no_reasoning else None)) if v is not None},
+        "reasoning": requested_reasoning(args),
     }
+    if is_openrouter(base):
+        provider_default = fetch_openrouter_reasoning(base, args.model, headers)
+        if provider_default is not None:
+            meta["reasoning"]["provider_default"] = provider_default
     for k in ("contributor", "hardware", "engine", "quantization", "note"):
         if getattr(args, k, None):
             meta[k] = getattr(args, k)
+    t0 = time.time()
     try:
         with urllib.request.urlopen(req, timeout=args.timeout) as r:
             resp = json.load(r)
@@ -321,21 +398,84 @@ def run(args):
     print(f"OK: {meta['file']}  ({meta['svg_len']}B, {usage.get('total_tokens')} tok, {meta['seconds']}s)")
 
 
+def request_identity(meta):
+    params = dict(meta.get("params") or {})
+    params.pop("reasoning_effort", None)
+    params.pop("no_reasoning", None)
+    return {
+        "benchmark": meta.get("benchmark"),
+        "prompt": meta.get("prompt"),
+        "model": meta.get("model"),
+        "endpoint": (meta.get("endpoint") or "").rstrip("/"),
+        "params": params,
+        "reasoning": reasoning_from_meta(meta),
+        "contributor": meta.get("contributor"),
+        "hardware": meta.get("hardware"),
+        "engine": meta.get("engine"),
+        "quantization": meta.get("quantization"),
+    }
+
+
+def preferred_output_name(args):
+    name = f"{slug(args.model)}-{args.variant}"
+    if args.no_reasoning:
+        return f"{name}-no_reasoning"
+    if args.reasoning_effort:
+        return f"{name}-reasoning_{slug(args.reasoning_effort)}"
+    return name
+
+
+def output_name(args, meta, results_dir=None):
+    results_dir = results_dir or RESULTS_DIR
+    preferred = preferred_output_name(args)
+    identity = request_identity(meta)
+
+    def availability(name):
+        json_path = os.path.join(results_dir, f"{name}.json")
+        svg_path = os.path.join(results_dir, f"{name}.svg")
+        if not os.path.exists(json_path):
+            return "occupied" if os.path.exists(svg_path) else "free"
+        try:
+            with open(json_path) as f:
+                existing = json.load(f)
+            return "same" if isinstance(existing, dict) and request_identity(existing) == identity else "occupied"
+        except (OSError, ValueError, TypeError, AttributeError):
+            return "occupied"
+
+    preferred_state = availability(preferred)
+    if preferred_state in ("free", "same"):
+        return preferred
+
+    encoded = json.dumps(identity, sort_keys=True, separators=(",", ":")).encode()
+    digest = hashlib.sha256(encoded).hexdigest()
+    for length in (10, 16, 32, 64):
+        candidate = f"{preferred}-{digest[:length]}"
+        if availability(candidate) in ("free", "same"):
+            return candidate
+    raise RuntimeError(f"could not allocate a safe output name for {preferred}")
+
+
 def write_meta(args, meta, svg):
     os.makedirs(RESULTS_DIR, exist_ok=True)
-    name = f"{slug(args.model)}-{args.variant}"
+    name = output_name(args, meta)
+    path = os.path.join(RESULTS_DIR, f"{name}.svg")
     if svg:
-        path = os.path.join(RESULTS_DIR, f"{name}.svg")
         with open(path, "w") as f:
             f.write(svg)
         meta["file"] = f"results/{name}.svg"
+    else:
+        meta.pop("file", None)
+        try:
+            os.remove(path)
+        except FileNotFoundError:
+            pass
     mpath = os.path.join(RESULTS_DIR, f"{name}.json")
     with open(mpath, "w") as f:
         json.dump(meta, f, indent=2)
     print(f"meta: results/{name}.json" + ("  ERROR: " + meta["error"] if meta.get("error") else ""))
 
 
-def main():
+def build_parser():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--model", required=True)
     p.add_argument("--variant", choices=VARIANTS, default="minimal")
@@ -343,8 +483,10 @@ def main():
     p.add_argument("--api-key", default=None)
     p.add_argument("--max-tokens", type=int, default=128000)
     p.add_argument("--temperature", type=float, default=None)
-    p.add_argument("--reasoning-effort", default=None, help="low|medium|high (OpenRouter/OpenAI)")
-    p.add_argument("--no-reasoning", action="store_true", help="disable thinking (multi-provider flags)")
+    reasoning = p.add_mutually_exclusive_group()
+    reasoning.add_argument("--reasoning-effort", choices=REASONING_EFFORTS, default=None,
+                           help="minimal|low|medium|high|xhigh|max")
+    reasoning.add_argument("--no-reasoning", action="store_true", help="disable thinking")
     p.add_argument("--timeout", type=int, default=1800)
     p.add_argument("--contributor", default=None, help="GitHub username stored with the result")
     p.add_argument("--hardware", default=None, help='run hardware, "key=value, ..." or free text')
@@ -352,7 +494,11 @@ def main():
     p.add_argument("--quantization", default=None, help="model quantization, e.g. Q4_K_M")
     p.add_argument("--note", default=None, help="free-form notes about this run")
     p.add_argument("--non-interactive", action="store_true", help="skip prompts; auto-fill engine/hardware/quant for local endpoints")
-    args = p.parse_args()
+    return p
+
+
+def main():
+    args = build_parser().parse_args()
     if isinstance(args.hardware, str):
         args.hardware = parse_hardware(args.hardware) if args.hardware.strip() else None
     collect_meta(args)
