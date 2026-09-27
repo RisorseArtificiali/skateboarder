@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "count": 37,
+  "count": 46,
   "entries": [
     {
       "id": "claude-fable-5-1-constrained-constrained",
@@ -27,6 +27,9 @@
       "contributor": "maeste",
       "cost_usd": 1.51529,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/claude-fable-5-1-constrained-constrained.svg"
     },
     {
@@ -54,6 +57,9 @@
       "contributor": "maeste",
       "cost_usd": 1.2214,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/claude-fable-5-1-minimal-minimal.svg"
     },
     {
@@ -81,6 +87,9 @@
       "contributor": "maeste",
       "cost_usd": 0.408956,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/claude-opus-5-5-constrained-constrained.svg"
     },
     {
@@ -108,6 +117,9 @@
       "contributor": "maeste",
       "cost_usd": 0.40486,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/claude-opus-5-5-minimal-minimal.svg"
     },
     {
@@ -135,6 +147,9 @@
       "contributor": "maeste",
       "cost_usd": 1.284935,
       "note": "retry with max_tokens=64000 (32k run: all tokens consumed by reasoning, finish=length)",
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/claude-opus-5-constrained-constrained.svg"
     },
     {
@@ -160,6 +175,9 @@
       "contributor": "maeste",
       "cost_usd": null,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": null
     },
     {
@@ -185,6 +203,9 @@
       "contributor": "maeste",
       "cost_usd": null,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": null
     },
     {
@@ -210,6 +231,9 @@
       "contributor": "maeste",
       "cost_usd": null,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": null
     },
     {
@@ -235,6 +259,9 @@
       "contributor": "maeste",
       "cost_usd": null,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": null
     },
     {
@@ -260,6 +287,9 @@
       "contributor": "maeste",
       "cost_usd": null,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": null
     },
     {
@@ -287,6 +317,9 @@
       "contributor": "maeste",
       "cost_usd": 0.088454568,
       "note": "reasoning enabled, max_tokens=128000",
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/deepseek-v4-1-flash-constrained-constrained.svg"
     },
     {
@@ -312,6 +345,9 @@
       "contributor": "maeste",
       "cost_usd": null,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": null
     },
     {
@@ -339,6 +375,9 @@
       "contributor": "maeste",
       "cost_usd": 0.0561477,
       "note": "reasoning enabled, max_tokens=128000",
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/deepseek-v4-1-flash-minimal-minimal.svg"
     },
     {
@@ -364,6 +403,9 @@
       "contributor": "maeste",
       "cost_usd": null,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": null
     },
     {
@@ -391,6 +433,9 @@
       "contributor": "maeste",
       "cost_usd": 0.0008758876,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/deepseek-v4-flash-constrained-constrained.svg"
     },
     {
@@ -418,6 +463,9 @@
       "contributor": "maeste",
       "cost_usd": 0.0005259611,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/deepseek-v4-flash-minimal-minimal.svg"
     },
     {
@@ -445,6 +493,9 @@
       "contributor": "maeste",
       "cost_usd": 0.09084975,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/gemini-3-8-flash-constrained-constrained.svg"
     },
     {
@@ -472,6 +523,9 @@
       "contributor": "maeste",
       "cost_usd": 0.06553425,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/gemini-3-8-flash-minimal-minimal.svg"
     },
     {
@@ -497,6 +551,9 @@
       "contributor": "maeste",
       "cost_usd": null,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": null
     },
     {
@@ -522,6 +579,9 @@
       "contributor": "maeste",
       "cost_usd": null,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": null
     },
     {
@@ -549,6 +609,9 @@
       "contributor": "maeste",
       "cost_usd": 0.0050278,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/gpt-5-6-luna-constrained-constrained.svg"
     },
     {
@@ -576,6 +639,9 @@
       "contributor": "maeste",
       "cost_usd": 0.0048384,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/gpt-5-6-luna-minimal-minimal.svg"
     },
     {
@@ -603,6 +669,9 @@
       "contributor": "maeste",
       "cost_usd": 0.0659,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/gpt-5-6-sol-constrained-constrained.svg"
     },
     {
@@ -630,6 +699,9 @@
       "contributor": "maeste",
       "cost_usd": 0.07435,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/gpt-5-6-sol-minimal-minimal.svg"
     },
     {
@@ -657,6 +729,9 @@
       "contributor": "maeste",
       "cost_usd": 0.06007,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/gpt-5-6-terra-constrained-constrained.svg"
     },
     {
@@ -684,6 +759,9 @@
       "contributor": "maeste",
       "cost_usd": 0.070812,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/gpt-5-6-terra-minimal-minimal.svg"
     },
     {
@@ -711,6 +789,9 @@
       "contributor": "maeste",
       "cost_usd": 0.5758,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/gpt-6-astra-constrained-constrained.svg"
     },
     {
@@ -738,6 +819,9 @@
       "contributor": "maeste",
       "cost_usd": 0.0034085,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/gpt-6-luna-constrained-constrained.svg"
     },
     {
@@ -765,6 +849,9 @@
       "contributor": "maeste",
       "cost_usd": 0.0023235,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/gpt-6-luna-minimal-minimal.svg"
     },
     {
@@ -792,6 +879,9 @@
       "contributor": "maeste",
       "cost_usd": 0.04805,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/gpt-6-sol-constrained-constrained.svg"
     },
     {
@@ -819,6 +909,9 @@
       "contributor": "maeste",
       "cost_usd": 0.05271,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/gpt-6-sol-minimal-minimal.svg"
     },
     {
@@ -844,6 +937,9 @@
       "contributor": "maeste",
       "cost_usd": null,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": null
     },
     {
@@ -869,6 +965,9 @@
       "contributor": "maeste",
       "cost_usd": null,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": null
     },
     {
@@ -894,6 +993,9 @@
       "contributor": "maeste",
       "cost_usd": null,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": null
     },
     {
@@ -921,6 +1023,9 @@
       "contributor": "maeste",
       "cost_usd": 0.0334845,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": "results/mimo-v2-6-flash-minimal-minimal.svg"
     },
     {
@@ -946,6 +1051,9 @@
       "contributor": "maeste",
       "cost_usd": null,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": null
     },
     {
@@ -971,7 +1079,388 @@
       "contributor": "maeste",
       "cost_usd": null,
       "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
       "svg": null
+    },
+    {
+      "id": "qwen38-flash-next-constrained-no_reasoning",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "qwen38-flash-next",
+      "endpoint": "http://localhost:8080/v1",
+      "timestamp": "2026-09-25T23:40:00",
+      "params": {
+        "max_tokens": 128000,
+        "no_reasoning": true
+      },
+      "usage": {
+        "completion_tokens": 5526,
+        "prompt_tokens": 259,
+        "total_tokens": 5785,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "stop",
+      "svg_len": 11896,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 148.6,
+      "contributor": "asoldano",
+      "cost_usd": null,
+      "note": null,
+      "hardware": {
+        "os": "Linux 6.18.13-200.fc43.x86_64 x86_64",
+        "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Strix Halo [Radeon Graphics / Radeon 8050S Graphics / Radeon 8060S Graphics] (rev c1)",
+        "ram_gb": 125
+      },
+      "engine": {
+        "name": "llama.cpp",
+        "version": "b10804-3466b4880"
+      },
+      "quantization": "ROCmFP4-FAST-imatrix",
+      "svg": "results/qwen38-flash-next-constrained-no_reasoning.svg"
+    },
+    {
+      "id": "qwen38-flash-next-constrained-reasoning_high",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "qwen38-flash-next",
+      "endpoint": "http://localhost:8080/v1",
+      "timestamp": "2026-09-26T09:08:35",
+      "params": {
+        "max_tokens": 128000,
+        "reasoning_effort": "high"
+      },
+      "usage": {
+        "completion_tokens": 59069,
+        "prompt_tokens": 299,
+        "total_tokens": 59368,
+        "prompt_tokens_details": {
+          "cached_tokens": 42
+        }
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "stop",
+      "svg_len": 5810,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 2253.0,
+      "contributor": "asoldano",
+      "cost_usd": null,
+      "note": "--reasoning-effort high --max-tokens 128000",
+      "hardware": {
+        "os": "Linux 6.18.13-200.fc43.x86_64 x86_64",
+        "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Strix Halo [Radeon Graphics / Radeon 8050S Graphics / Radeon 8060S Graphics] (rev c1)",
+        "ram_gb": 125
+      },
+      "engine": {
+        "name": "llama.cpp",
+        "version": "b10804-3466b4880"
+      },
+      "quantization": "ROCmFP4-FAST-imatrix",
+      "svg": "results/qwen38-flash-next-constrained-reasoning_high.svg"
+    },
+    {
+      "id": "qwen38-flash-next-constrained-reasoning_low",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "qwen38-flash-next",
+      "endpoint": "http://localhost:8080/v1",
+      "timestamp": "2026-09-26T00:54:47",
+      "params": {
+        "max_tokens": 128000,
+        "reasoning_effort": "low"
+      },
+      "usage": {
+        "completion_tokens": 29099,
+        "prompt_tokens": 287,
+        "total_tokens": 29386,
+        "prompt_tokens_details": {
+          "cached_tokens": 283
+        }
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "stop",
+      "svg_len": 9424,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 876.2,
+      "contributor": "asoldano",
+      "cost_usd": null,
+      "note": "--reasoning-effort low --max-tokens 128000",
+      "hardware": {
+        "os": "Linux 6.18.13-200.fc43.x86_64 x86_64",
+        "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Strix Halo [Radeon Graphics / Radeon 8050S Graphics / Radeon 8060S Graphics] (rev c1)",
+        "ram_gb": 125
+      },
+      "engine": {
+        "name": "llama.cpp",
+        "version": "b10804-3466b4880"
+      },
+      "quantization": "ROCmFP4-FAST-imatrix",
+      "svg": "results/qwen38-flash-next-constrained-reasoning_low.svg"
+    },
+    {
+      "id": "qwen38-flash-next-constrained-reasoning_medium",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "qwen38-flash-next",
+      "endpoint": "http://localhost:8080/v1",
+      "timestamp": "2026-09-26T01:14:01",
+      "params": {
+        "max_tokens": 128000,
+        "reasoning_effort": "medium"
+      },
+      "usage": {
+        "completion_tokens": 27284,
+        "prompt_tokens": 257,
+        "total_tokens": 27541,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "stop",
+      "svg_len": 6582,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 936.7,
+      "contributor": "asoldano",
+      "cost_usd": null,
+      "note": "--reasoning-effort medium --max-tokens 128000",
+      "hardware": {
+        "os": "Linux 6.18.13-200.fc43.x86_64 x86_64",
+        "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Strix Halo [Radeon Graphics / Radeon 8050S Graphics / Radeon 8060S Graphics] (rev c1)",
+        "ram_gb": 125
+      },
+      "engine": {
+        "name": "llama.cpp",
+        "version": "b10804-3466b4880"
+      },
+      "quantization": "ROCmFP4-FAST-imatrix",
+      "svg": "results/qwen38-flash-next-constrained-reasoning_medium.svg"
+    },
+    {
+      "id": "qwen38-flash-next-constrained-reasoning_xhigh",
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "qwen38-flash-next",
+      "endpoint": "http://localhost:8080/v1",
+      "timestamp": "2026-09-27T00:31:19",
+      "params": {
+        "max_tokens": 160000,
+        "reasoning_effort": "xhigh"
+      },
+      "usage": {
+        "completion_tokens": 68852,
+        "prompt_tokens": 299,
+        "total_tokens": 69151,
+        "prompt_tokens_details": {
+          "cached_tokens": 295
+        }
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "stop",
+      "svg_len": 5789,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 2864.5,
+      "contributor": "asoldano",
+      "cost_usd": null,
+      "note": "--reasoning-effort xhigh --max-tokens 160000",
+      "hardware": {
+        "os": "Linux 6.18.13-200.fc43.x86_64 x86_64",
+        "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Strix Halo [Radeon Graphics / Radeon 8050S Graphics / Radeon 8060S Graphics] (rev c1)",
+        "ram_gb": 125
+      },
+      "engine": {
+        "name": "llama.cpp",
+        "version": "b10804-3466b4880"
+      },
+      "quantization": "ROCmFP4-FAST-imatrix",
+      "svg": "results/qwen38-flash-next-constrained-reasoning_xhigh.svg"
+    },
+    {
+      "id": "qwen38-flash-next-minimal-no_reasoning",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "qwen38-flash-next",
+      "endpoint": "http://localhost:8080/v1",
+      "timestamp": "2026-09-25T23:56:17",
+      "params": {
+        "max_tokens": 128000,
+        "no_reasoning": true
+      },
+      "usage": {
+        "completion_tokens": 6782,
+        "prompt_tokens": 36,
+        "total_tokens": 6818,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "stop",
+      "svg_len": 12843,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 188.0,
+      "contributor": "asoldano",
+      "cost_usd": null,
+      "note": "--no-reasoning",
+      "hardware": {
+        "os": "Linux 6.18.13-200.fc43.x86_64 x86_64",
+        "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Strix Halo [Radeon Graphics / Radeon 8050S Graphics / Radeon 8060S Graphics] (rev c1)",
+        "ram_gb": 125
+      },
+      "engine": {
+        "name": "llama.cpp",
+        "version": "b10804-3466b4880"
+      },
+      "quantization": "ROCmFP4-FAST-imatrix",
+      "svg": "results/qwen38-flash-next-minimal-no_reasoning.svg"
+    },
+    {
+      "id": "qwen38-flash-next-minimal-reasoning_high",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "qwen38-flash-next",
+      "endpoint": "http://localhost:8080/v1",
+      "timestamp": "2026-09-26T17:59:21",
+      "params": {
+        "max_tokens": 160000,
+        "reasoning_effort": "high"
+      },
+      "usage": {
+        "completion_tokens": 116435,
+        "prompt_tokens": 76,
+        "total_tokens": 116511,
+        "prompt_tokens_details": {
+          "cached_tokens": 42
+        }
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "stop",
+      "svg_len": 25623,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 4396.3,
+      "contributor": "asoldano",
+      "cost_usd": null,
+      "note": "--reasoning-effort high --max-tokens 160000",
+      "hardware": {
+        "os": "Linux 6.18.13-200.fc43.x86_64 x86_64",
+        "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Strix Halo [Radeon Graphics / Radeon 8050S Graphics / Radeon 8060S Graphics] (rev c1)",
+        "ram_gb": 125
+      },
+      "engine": {
+        "name": "llama.cpp",
+        "version": "b10804-3466b4880"
+      },
+      "quantization": "ROCmFP4-FAST-imatrix",
+      "svg": "results/qwen38-flash-next-minimal-reasoning_high.svg"
+    },
+    {
+      "id": "qwen38-flash-next-minimal-reasoning_low",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "qwen38-flash-next",
+      "endpoint": "http://localhost:8080/v1",
+      "timestamp": "2026-09-25T23:50:43",
+      "params": {
+        "max_tokens": 128000,
+        "reasoning_effort": "low"
+      },
+      "usage": {
+        "completion_tokens": 7124,
+        "prompt_tokens": 64,
+        "total_tokens": 7188,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "stop",
+      "svg_len": 10669,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 191.2,
+      "contributor": "asoldano",
+      "cost_usd": null,
+      "note": "--reasoning-effort low --max-tokens 128000",
+      "hardware": {
+        "os": "Linux 6.18.13-200.fc43.x86_64 x86_64",
+        "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Strix Halo [Radeon Graphics / Radeon 8050S Graphics / Radeon 8060S Graphics] (rev c1)",
+        "ram_gb": 125
+      },
+      "engine": {
+        "name": "llama.cpp",
+        "version": "b10804-3466b4880"
+      },
+      "quantization": "ROCmFP4-FAST-imatrix",
+      "svg": "results/qwen38-flash-next-minimal-reasoning_low.svg"
+    },
+    {
+      "id": "qwen38-flash-next-minimal-reasoning_medium",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "qwen38-flash-next",
+      "endpoint": "http://localhost:8080/v1",
+      "timestamp": "2026-09-26T01:35:44",
+      "params": {
+        "max_tokens": 128000,
+        "reasoning_effort": "medium"
+      },
+      "usage": {
+        "completion_tokens": 20504,
+        "prompt_tokens": 34,
+        "total_tokens": 20538,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "stop",
+      "svg_len": 6369,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 763.1,
+      "contributor": "asoldano",
+      "cost_usd": null,
+      "note": "--reasoning-effort medium --max-tokens 128000",
+      "hardware": {
+        "os": "Linux 6.18.13-200.fc43.x86_64 x86_64",
+        "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Strix Halo [Radeon Graphics / Radeon 8050S Graphics / Radeon 8060S Graphics] (rev c1)",
+        "ram_gb": 125
+      },
+      "engine": {
+        "name": "llama.cpp",
+        "version": "b10804-3466b4880"
+      },
+      "quantization": "ROCmFP4-FAST-imatrix",
+      "svg": "results/qwen38-flash-next-minimal-reasoning_medium.svg"
     }
   ]
 }
