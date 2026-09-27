@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "count": 46,
+  "count": 47,
   "entries": [
     {
       "id": "claude-fable-5-1-constrained-constrained",
@@ -1461,6 +1461,48 @@
       },
       "quantization": "ROCmFP4-FAST-imatrix",
       "svg": "results/qwen38-flash-next-minimal-reasoning_medium.svg"
+    },
+    {
+      "id": "qwen38-flash-next-minimal-reasoning_xhigh",
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "qwen38-flash-next",
+      "endpoint": "http://localhost:8080/v1",
+      "timestamp": "2026-09-27T01:39:35",
+      "params": {
+        "max_tokens": 160000,
+        "reasoning_effort": "xhigh"
+      },
+      "usage": {
+        "completion_tokens": 143233,
+        "prompt_tokens": 76,
+        "total_tokens": 143309,
+        "prompt_tokens_details": {
+          "cached_tokens": 42
+        }
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "stop",
+      "svg_len": 21930,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 5413.9,
+      "contributor": "asoldano",
+      "cost_usd": null,
+      "note": "--reasoning-effort xhigh --max-tokens 160000",
+      "hardware": {
+        "os": "Linux 6.18.13-200.fc43.x86_64 x86_64",
+        "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+        "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Strix Halo [Radeon Graphics / Radeon 8050S Graphics / Radeon 8060S Graphics] (rev c1)",
+        "ram_gb": 125
+      },
+      "engine": {
+        "name": "llama.cpp",
+        "version": "b10804-3466b4880"
+      },
+      "quantization": "ROCmFP4-FAST-imatrix",
+      "svg": "results/qwen38-flash-next-minimal-reasoning_xhigh.svg"
     }
   ]
 }
