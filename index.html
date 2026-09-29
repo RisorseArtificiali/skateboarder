@@ -13,6 +13,8 @@
   aside { width:300px; min-width:260px; background:#161616; border-right:1px solid var(--border);
           padding:1.25rem; position:sticky; top:0; height:100vh; overflow-y:auto; }
   aside h1 { font-size:1.15rem; color:var(--accent); margin:0 0 .25rem; }
+  aside h1 a { color:inherit; text-decoration:none; }
+  aside h1 a:hover { text-decoration:underline; }
   aside .sub { color:var(--mut); font-size:.8rem; margin-bottom:1rem; }
   #search { width:100%; background:#0d0d0d; border:1px solid var(--border); color:var(--txt);
             border-radius:8px; padding:.5rem .75rem; font-size:.9rem; margin-bottom:.5rem; }
@@ -91,7 +93,7 @@
 </head>
 <body>
 <aside>
-  <h1>🛹 skateboarder</h1>
+  <h1><a id="home" href="#" title="back to the intro page">🛹 skateboarder</a></h1>
   <div class="sub">LLM animated-SVG benchmark · <a style="color:var(--accent)" href="https://github.com/RisorseArtificiali/skateboarder">repo</a></div>
   <input id="search" type="search" placeholder="search model…" autocomplete="off">
   <div class="filters" id="run-filters">
@@ -233,6 +235,8 @@ function welcomeHtml(){
 }
 
 function renderWelcome(){
+  state.comparing = false;
+  state.pickedGroupIds = [];
   state.selectedGroupId = null;
   document.body.classList.remove("comparing");
   document.getElementById("cmp-toggle").classList.remove("active");
@@ -517,6 +521,11 @@ document.getElementById("cmp-toggle").onclick = ()=>{
 document.getElementById("cmp-side").onclick = ()=>{
   state.sideBySide = !state.sideBySide;
   renderCompare();
+};
+
+document.getElementById("home").onclick = event=>{
+  event.preventDefault();
+  renderWelcome();
 };
 
 document.getElementById("search").addEventListener("input", event=>{
