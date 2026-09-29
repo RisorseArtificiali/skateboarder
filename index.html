@@ -51,6 +51,18 @@
   .prompts summary { color:var(--accent); cursor:pointer; margin-top:1.5rem; }
   .prompts pre { white-space:pre-wrap; color:#bbb; font-size:.8rem; background:var(--card);
                  border:1px solid var(--border); border-radius:8px; padding:.75rem; }
+  .welcome { max-width:47rem; }
+  .welcome h2 { font-size:1.6rem; margin:.1rem 0; }
+  .welcome .tagline { color:var(--accent); font-size:1.02rem; font-weight:600; margin:.1rem 0 1rem; }
+  .welcome .lead { font-size:1.02rem; }
+  .welcome p { color:#c8c8c8; }
+  .welcome .plist { margin:.5rem 0 1rem; padding-left:1.2rem; }
+  .welcome .plist li { margin:.4rem 0; }
+  .welcome .plist li::marker { color:var(--accent); }
+  .welcome .plist b { color:var(--accent); }
+  .welcome .ctas { display:flex; gap:.9rem; align-items:center; margin-top:1.1rem; flex-wrap:wrap; }
+  .welcome .ctas a + a { color:var(--accent); font-size:.9rem; }
+  .welcome .meta { margin:.9rem 0 0; }
   .dtable { border-collapse:collapse; margin:.75rem 0 1rem; font-size:.85rem; width:100%; }
   .dtable td { padding:.3rem .6rem; border-bottom:1px solid #262626; vertical-align:top; }
   .dtable td:first-child { color:var(--mut); white-space:nowrap; width:11rem; }
@@ -102,16 +114,15 @@
   <div id="list"></div>
 </aside>
 <main>
-  <div id="detail"><div class="card"><h2>select a model from the sidebar</h2>
-    <p class="meta">results are loaded from <code>results/index.json</code></p></div>
-  <details class="prompts"><summary>Show details</summary>
-    <div id="run-details"><p class="meta">select a model to see its run details</p></div>
-    <div id="prompt-block"></div>
-  </details></div>
+  <div id="detail"><div class="card welcome"><h2>🛹 skateboarder</h2>
+    <p class="tagline">When AI has to respect physics</p>
+    <p class="lead">An animated-SVG benchmark for LLMs: one prompt, one skater, one half-pipe — can a model encode
+    gravity and momentum in plain SVG? <a style="color:var(--accent)" href="https://github.com/RisorseArtificiali/skateboarder">GitHub repo</a></p>
+  </div></div>
 </main>
 <script>
 const state = {
-  q:"", f:"all", ep:"all", entries:[], groups:[], selectedGroupId:null,
+  q:"", f:"all", ep:"all", entries:[], groups:[], selectedGroupId:null, loaded:false,
   activeRunByGroup:{}, comparing:false, pickedGroupIds:[], sideBySide:true
 };
 const PROMPTS = {};
@@ -176,9 +187,9 @@ async function boot(){
   const idx = await fetchOk("results/index.json", "index").then(response=>response.json());
   state.entries = Array.isArray(idx.entries) ? idx.entries : [];
   state.groups = makeGroups(state.entries);
-  state.selectedGroupId = state.groups[0]?.id || null;
+  state.loaded = true;
   renderList();
-  renderSingle(state.groups[0]);
+  updateWelcomeStats();
   await Promise.all(["minimal","constrained"].map(async variant=>{
     try {
       PROMPTS[variant] = await fetchOk(`prompts/${variant}.txt`, `${variant} prompt`).then(response=>response.text());
@@ -194,13 +205,65 @@ function detailsShell(){
   return `<details class="prompts"><summary>Show details</summary><div id="run-details"></div><div id="prompt-block"></div></details>`;
 }
 
+function welcomeHtml(){
+  return `<div class="card welcome">
+    <h2>🛹 skateboarder</h2>
+    <p class="tagline">When AI has to respect physics</p>
+    <p class="lead">One prompt, one animated SVG: a skater dropping into a half-pipe, pumping the transitions and
+    flying out of the coping — written from scratch by a language model, in plain SVG with SMIL or CSS animation,
+    no JavaScript. The question this benchmark asks: can an LLM encode gravity, momentum and pendulum motion in
+    code it invents on the spot?</p>
+    <p>Two prompt variants, always sent verbatim — typos included:</p>
+    <ul class="plist">
+      <li><b>minimal</b> — the original one-liner: <i>"generate an animated svg of a man doing skatevoard tricks on a pipe. Be mindful of the real phisics"</i></li>
+      <li><b>constrained</b> — the full spec: half-pipe scene, skater and board anatomy, pendulum motion along the curve, parabolic aerials, board spin, seamless loop.</li>
+    </ul>
+    <p>Results are judged by physics, not by size: does the skater accelerate downhill and slow down uphill, are
+    the aerials parabolic, the loop seamless, the anatomy human? Any OpenAI-compatible endpoint can join —
+    OpenRouter or a local llama.cpp / ollama / vLLM server — so hosted frontier models and self-hosted open
+    weights ride the same pipe. Run the benchmark on your model and open a PR: your SVG and its metadata become
+    part of the gallery.</p>
+    <div class="ctas">
+      <a class="openbtn" href="https://github.com/RisorseArtificiali/skateboarder" target="_blank" rel="noopener">GitHub repo ↗</a>
+      <a href="https://artificialcode.substack.com/p/from-the-pelican-to-the-skateboarder" target="_blank" rel="noopener">from the pelican to the skateboarder — the story ↗</a>
+    </div>
+    <p class="meta" id="welcome-stats">loading the gallery…</p>
+  </div>
+  <details class="prompts"><summary>Show the prompts</summary><div id="prompt-block"></div></details>`;
+}
+
+function renderWelcome(){
+  state.selectedGroupId = null;
+  document.body.classList.remove("comparing");
+  document.getElementById("cmp-toggle").classList.remove("active");
+  document.getElementById("cmp-side").style.display = "none";
+  document.getElementById("detail").innerHTML = welcomeHtml();
+  renderList();
+  renderPromptBlock();
+  updateWelcomeStats();
+}
+
+function updateWelcomeStats(){
+  const element = document.getElementById("welcome-stats");
+  if (!element) return;
+  if (!state.loaded){ return; }
+  if (!state.groups.length){
+    element.textContent = "the gallery is empty — be the first to submit a run";
+    return;
+  }
+  const models = `${state.groups.length} ${state.groups.length===1 ? "model" : "models"}`;
+  const runs = `${state.entries.length} ${state.entries.length===1 ? "run" : "runs"}`;
+  element.textContent = `pick a model in the sidebar to browse the gallery · ${models} · ${runs}`;
+}
+
 function renderPromptBlock(){
   const element = document.getElementById("prompt-block");
   if (!element) return;
   const entries = state.comparing
     ? selectedGroups().map(activeEntry).filter(Boolean)
     : [activeEntry(groupById(state.selectedGroupId))].filter(Boolean);
-  const variants = [...new Set(entries.map(entry=>entry.prompt).filter(Boolean))];
+  let variants = [...new Set(entries.map(entry=>entry.prompt).filter(Boolean))];
+  if (!variants.length) variants = ["minimal","constrained"].filter(variant=>PROMPTS[variant]);
   element.innerHTML = variants.length
     ? variants.map(variant=>`<p><b>Prompt - ${esc(variant)}</b> (verbatim, typos included)</p><pre>${esc(PROMPTS[variant]||"")}</pre>`).join("")
     : `<p class="meta">select a model to see the prompt used</p>`;
@@ -442,7 +505,8 @@ document.getElementById("cmp-toggle").onclick = ()=>{
   state.comparing = !state.comparing;
   if (!state.comparing){
     state.pickedGroupIds = [];
-    renderSingle(groupById(state.selectedGroupId) || state.groups[0]);
+    const group = groupById(state.selectedGroupId);
+    if (group) renderSingle(group); else renderWelcome();
   } else {
     renderList();
     renderCompare();
@@ -474,6 +538,7 @@ document.querySelectorAll("#ep-filters button").forEach(button=>button.onclick=(
   renderList();
 });
 
+renderWelcome();
 boot().catch(error=>{
   document.getElementById("detail").innerHTML = `<div class="card"><h2>could not load results</h2><div class="errorbox">${esc(error.message)}</div></div>`;
 });
