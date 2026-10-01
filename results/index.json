@@ -1,7 +1,145 @@
 {
   "version": 2,
-  "count": 47,
+  "count": 51,
   "entries": [
+    {
+      "id": "anthropic-claude-sonnet-5-5-constrained",
+      "group_id": "anthropic-claude-sonnet-5-5-constrained-51339ceaef49",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-01T16:28:58+00:00",
+          "supported": true,
+          "enabled": null,
+          "effort": "high",
+          "mandatory": true,
+          "supported_efforts": [
+            "max",
+            "xhigh",
+            "high",
+            "medium",
+            "low"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "anthropic/claude-sonnet-5.5",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-01T18:28:58+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 389,
+        "completion_tokens": 67161,
+        "total_tokens": 67550,
+        "cost": 0.672388,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.672388,
+          "upstream_inference_prompt_cost": 0.000778,
+          "upstream_inference_completions_cost": 0.67161
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 59827,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 59827,
+      "finish_reason": "stop",
+      "svg_len": 14830,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 527.0,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/anthropic-claude-sonnet-5-5-constrained.svg"
+    },
+    {
+      "id": "anthropic-claude-sonnet-5-5-minimal",
+      "group_id": "anthropic-claude-sonnet-5-5-minimal-3f8dd7cdafc3",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-01T14:53:26+00:00",
+          "supported": true,
+          "enabled": null,
+          "effort": "high",
+          "mandatory": true,
+          "supported_efforts": [
+            "max",
+            "xhigh",
+            "high",
+            "medium",
+            "low"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "anthropic/claude-sonnet-5.5",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-01T16:53:26+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 45,
+        "completion_tokens": 78742,
+        "total_tokens": 78787,
+        "cost": 0.78751,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.78751,
+          "upstream_inference_prompt_cost": 9e-05,
+          "upstream_inference_completions_cost": 0.78742
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 68042,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 68042,
+      "finish_reason": "stop",
+      "svg_len": 16771,
+      "has_animation": true,
+      "uses_js": true,
+      "error": null,
+      "seconds": 629.4,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/anthropic-claude-sonnet-5-5-minimal.svg"
+    },
     {
       "id": "claude-fable-5-1-constrained-constrained",
       "group_id": "anthropic-claude-fable-5-1-constrained-78d616a2f332",
@@ -1268,6 +1406,144 @@
       "engine": null,
       "quantization": null,
       "svg": null
+    },
+    {
+      "id": "openai-gpt-6-1-sol-constrained",
+      "group_id": "openai-gpt-6-1-sol-constrained-d32565fdc585",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-01T14:47:59+00:00",
+          "supported": true,
+          "enabled": true,
+          "effort": "medium",
+          "mandatory": true,
+          "supported_efforts": [
+            "max",
+            "xhigh",
+            "high",
+            "medium",
+            "low"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "openai/gpt-6.1-sol",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-01T16:47:59+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 246,
+        "completion_tokens": 5592,
+        "total_tokens": 5838,
+        "cost": 0.056412,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.056412,
+          "upstream_inference_prompt_cost": 0.000492,
+          "upstream_inference_completions_cost": 0.05592
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 2588,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 2588,
+      "finish_reason": "stop",
+      "svg_len": 8688,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 142.1,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/openai-gpt-6-1-sol-constrained.svg"
+    },
+    {
+      "id": "openai-gpt-6-1-sol-minimal",
+      "group_id": "openai-gpt-6-1-sol-minimal-cdbbef8a7c21",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-01T14:51:29+00:00",
+          "supported": true,
+          "enabled": true,
+          "effort": "medium",
+          "mandatory": true,
+          "supported_efforts": [
+            "max",
+            "xhigh",
+            "high",
+            "medium",
+            "low"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "openai/gpt-6.1-sol",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-01T16:51:29+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 30,
+        "completion_tokens": 4096,
+        "total_tokens": 4126,
+        "cost": 0.04102,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.04102,
+          "upstream_inference_prompt_cost": 6e-05,
+          "upstream_inference_completions_cost": 0.04096
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1034,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 1034,
+      "finish_reason": "stop",
+      "svg_len": 9353,
+      "has_animation": false,
+      "uses_js": true,
+      "error": null,
+      "seconds": 96.5,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/openai-gpt-6-1-sol-minimal.svg"
     },
     {
       "id": "qwen38-flash-next-constrained-no_reasoning",
