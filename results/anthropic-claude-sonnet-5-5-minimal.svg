@@ -1,0 +1,323 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" font-family="Verdana, Arial, sans-serif">
+  <title>Skater on a half-pipe (physics-based)</title>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16223f"/>
+      <stop offset=".55" stop-color="#7a4a7a"/>
+      <stop offset="1" stop-color="#f29a62"/>
+    </linearGradient>
+    <radialGradient id="sunG">
+      <stop offset="0" stop-color="#fff2c4"/>
+      <stop offset=".55" stop-color="#ffd27a"/>
+      <stop offset="1" stop-color="#ffd27a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a5266"/>
+      <stop offset="1" stop-color="#232733"/>
+    </linearGradient>
+    <radialGradient id="steel" cx=".35" cy=".3" r=".8">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".5" stop-color="#b9c2cf"/>
+      <stop offset="1" stop-color="#5d6674"/>
+    </radialGradient>
+    <clipPath id="bodyClip">
+      <path d="M0 212 H170 V230 A150 150 0 0 0 320 380 H480 A150 150 0 0 0 630 230 V212 H800 V450 H0 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- background -->
+  <rect width="800" height="450" fill="url(#sky)"/>
+  <circle cx="660" cy="120" r="70" fill="url(#sunG)"/>
+  <circle cx="660" cy="120" r="26" fill="#fff0bd"/>
+  <g id="city" fill="#241d3d" opacity=".9"></g>
+  <g fill="#fff" opacity=".18">
+    <ellipse cx="150" cy="70" rx="55" ry="10"><animateTransform attributeName="transform" type="translate" values="0 0;60 0;0 0" dur="40s" repeatCount="indefinite"/></ellipse>
+    <ellipse cx="480" cy="45" rx="70" ry="9"><animateTransform attributeName="transform" type="translate" values="0 0;-70 0;0 0" dur="55s" repeatCount="indefinite"/></ellipse>
+  </g>
+
+  <!-- half-pipe -->
+  <path d="M0 212 H170 V230 A150 150 0 0 0 320 380 H480 A150 150 0 0 0 630 230 V212 H800 V450 H0 Z" fill="url(#body)"/>
+  <g id="ribs" stroke="#566075" stroke-width="3" clip-path="url(#bodyClip)"></g>
+  <path d="M0 212 H170 V230 A150 150 0 0 0 320 380 H480 A150 150 0 0 0 630 230 V212 H800"
+        fill="none" stroke="#c99a5e" stroke-width="22" clip-path="url(#bodyClip)"/>
+  <path d="M0 212 H170 V230 A150 150 0 0 0 320 380 H480 A150 150 0 0 0 630 230 V212 H800"
+        fill="none" stroke="#f0d39e" stroke-width="1.6"/>
+  <!-- coping (the pipes on the lips) -->
+  <circle cx="168.5" cy="214" r="5" fill="url(#steel)" stroke="#39414d" stroke-width=".8"/>
+  <circle cx="631.5" cy="214" r="5" fill="url(#steel)" stroke="#39414d" stroke-width=".8"/>
+
+  <!-- centre-of-mass trail -->
+  <polyline id="trail" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.6" stroke-dasharray="2 4" stroke-linecap="round"/>
+
+  <!-- skater (local origin = wheel contact point) -->
+  <g id="sk" transform="translate(184.1 291.2) rotate(65.9)">
+    <path id="armF"  fill="none" stroke="#b83f22" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="foreF" fill="none" stroke="#d39770" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle id="handF" r="2.2" fill="#d39770"/>
+    <path id="legB"  fill="none" stroke="#22364f" stroke-width="6.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="shoeB" fill="none" stroke="#e8e8e8" stroke-width="4.6" stroke-linecap="round"/>
+    <g id="bdS"><g id="bdR">
+      <g id="whl">
+        <path d="M-11 1 V5 M11 1 V5" stroke="#8d96a3" stroke-width="3"/>
+        <circle cx="-11" cy="6.5" r="3.5" fill="#f3e6c8" stroke="#2a2a2a" stroke-width=".9"/>
+        <circle cx="11" cy="6.5" r="3.5" fill="#f3e6c8" stroke="#2a2a2a" stroke-width=".9"/>
+        <circle cx="-11" cy="6.5" r="1" fill="#555"/><circle cx="11" cy="6.5" r="1" fill="#555"/>
+      </g>
+      <path id="deck" d="M-19 -3.4 Q-17.5 .6 -13.5 .8 H13.5 Q17.5 .6 19 -3.4" fill="none" stroke="#d9a45b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </g></g>
+    <path id="legA"  fill="none" stroke="#2f4a6b" stroke-width="6.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="shoeA" fill="none" stroke="#f6f6f6" stroke-width="4.8" stroke-linecap="round"/>
+    <path id="torso" fill="none" stroke="#e4572e" stroke-width="9" stroke-linecap="round"/>
+    <path id="waist" fill="none" stroke="#2f4a6b" stroke-width="9" stroke-linecap="round"/>
+    <path id="neck"  fill="none" stroke="#f0b48c" stroke-width="3.4" stroke-linecap="round"/>
+    <circle id="head" r="5.6" fill="#f0b48c"/>
+    <path id="cap" fill="#d62839"/>
+    <path id="brim" fill="none" stroke="#8e1a26" stroke-width="2.2" stroke-linecap="round"/>
+    <circle id="eye" r=".9" fill="#222"/>
+    <path id="armN"  fill="none" stroke="#e4572e" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="foreN" fill="none" stroke="#f0b48c" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle id="handN" r="2.3" fill="#f0b48c"/>
+  </g>
+  <circle id="com" r="3" fill="#ffd400" stroke="#000" stroke-width=".8"/>
+
+  <!-- HUD -->
+  <rect x="10" y="10" width="190" height="66" rx="8" fill="#000" opacity=".38"/>
+  <g fill="#fff" font-size="12">
+    <text id="tV" x="20" y="29">speed</text>
+    <text id="tH" x="20" y="45">height</text>
+    <text id="tA" x="20" y="61">air time</text>
+  </g>
+  <text id="banner" x="400" y="58" text-anchor="middle" font-size="26" font-weight="800" letter-spacing="2"
+        fill="#fff" stroke="#000" stroke-width=".8" opacity="0"></text>
+  <text x="790" y="440" text-anchor="end" font-size="10" fill="#fff" opacity=".6">40 px = 1 m · g = 9.8 m/s² · click: slow-mo · yellow dot = centre of mass</text>
+
+<script type="text/javascript"><![CDATA[
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+
+/* ---------- scenery ---------- */
+(function(){
+  let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};
+  const city=$('city');let x=0,h='';
+  while(x<800){const w=24+rnd()*40,hh=30+rnd()*90;
+    h+='<rect x="'+x.toFixed(0)+'" y="'+(212-hh).toFixed(0)+'" width="'+w.toFixed(0)+'" height="'+hh.toFixed(0)+'"/>';
+    for(let i=0;i<6;i++){if(rnd()<.35)h+='<rect x="'+(x+4+rnd()*(w-10)).toFixed(0)+'" y="'+(212-hh+6+rnd()*(hh-14)).toFixed(0)+'" width="3" height="4" fill="#ffd27a" opacity=".8"/>';}
+    x+=w+2;}
+  city.innerHTML=h;
+})();
+
+/* ---------- constants (40 px = 1 m) ---------- */
+const g=392;                 // 9.8 m/s^2 in px/s^2
+const R=150, F=80, EXT=18;   // transition radius, half flat-bottom, vertical extension
+const XC=400, YB=380, YC=230;
+const LC=30;                 // centre-of-mass height above the wheels
+const ARC=R*Math.PI/2, LT=F+ARC+EXT, LIPY=YC-EXT, HLIP=YB-LIPY;
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const ss=x=>{x=clamp(x,0,1);return x*x*(3-2*x);};
+const ease=(a,b,x)=>ss((x-a)/(b-a));
+const lerp=(a,b,t)=>a+(b-a)*t;
+
+/* ribs under the ramp */
+(function(){
+  const surf=x=>{if(x<=170||x>=630)return LIPY;if(x<320)return YC+Math.sqrt(R*R-(x-320)*(x-320));if(x<=480)return YB;return YC+Math.sqrt(R*R-(x-480)*(x-480));};
+  let h='';for(let x=30;x<800;x+=30){if(Math.abs(x-170)<6||Math.abs(x-630)<6)continue;
+    h+='<line x1="'+x+'" x2="'+x+'" y1="'+(surf(x)+12)+'" y2="450"/>';}
+  $('ribs').innerHTML=h;
+})();
+
+/* ---------- track geometry: s = arc length from centre of the flat ---------- */
+function track(s){
+  const a=Math.abs(s), sg=s<0?-1:1; let x,y,phi=0;
+  if(a<=F){x=XC+s;y=YB;}
+  else if(a<=F+ARC){phi=(a-F)/R;x=XC+sg*(F+R*Math.sin(phi));y=YC+R*Math.cos(phi);}
+  else{phi=Math.PI/2;x=XC+sg*(F+R);y=YC-(a-F-ARC);}
+  return {x:x,y:y,sg:sg,sin:Math.sin(phi),th:-sg*phi};
+}
+
+/* ---------- session plan: target rise above the lip for each pass ---------- */
+const sched=[
+  {rise:-8, act:'kt',    name:'KICKTURN'},
+  {rise:30, act:'indy',  name:'INDY GRAB 180'},
+  {rise:32, act:'kick',  name:'KICKFLIP TO FAKIE'},
+  {rise:46, act:'melon', name:'MELON GRAB (FAKIE IN)'},
+  {rise:-6, act:'kt',    name:'KICKTURN'},
+  {rise:-8, act:'kt',    name:'KICKTURN'}
+];
+
+const st={mode:'hold',hold:0.9,time:0,landT:9,s:-(F+R*1.15),v:0,p:0,yaw:0,turn:null};
+let air=null;
+const hud={name:'',t:9};
+let slow=false;
+
+/* ---------- physics ---------- */
+function step(h){
+  st.time+=h;st.landT+=h;
+  if(st.mode==='air')hud.t=0;else hud.t+=h;
+  if(st.turn){st.turn.t+=h;if(st.turn.t>=st.turn.d){st.yaw=st.turn.y0+Math.PI;st.turn=null;}}
+  if(st.mode==='hold'){st.hold-=h;if(st.hold<=0)st.mode='track';return;}
+  if(st.mode==='air'){air.t+=h;if(air.t>=air.T)land();return;}
+
+  const sc=sched[st.p%sched.length];
+  const tr=track(st.s), sg=tr.sg, v=st.v, sp=Math.abs(v);
+  // gravity component along the surface + small drag/rolling resistance
+  let a=-g*sg*tr.sin-0.05*v-6*Math.sign(v)*Math.min(1,sp/5);
+  // "pumping": the skater adds/removes energy in the transitions to hit the planned height
+  if(Math.abs(st.s)>F){
+    const Et=g*(HLIP+(sc.rise>0?sc.rise+3:sc.rise));
+    const Ea=0.5*v*v+g*(YB-tr.y);
+    const dE=Et-Ea;
+    const ap=dE>0?Math.min(260,2.2*dE/(sp+30)):Math.max(-300,3*dE/(sp+30));
+    a+=Math.sign(v)*Math.min(1,sp/20)*ap;
+  }
+  const pv=v;
+  st.v+=a*h; st.s+=st.v*h;
+  if(Math.abs(st.s)>=LT&&st.v*sg>0){launch(sc,sg);return;}
+  if(Math.abs(st.s)>=LT)st.s=sg*LT;
+  if(pv*st.v<0&&Math.abs(st.s)>F+5)reversal();
+}
+function reversal(){
+  const done=sched[st.p%sched.length];st.p++;
+  if(done.act==='kt'){st.turn={t:0,d:0.55,y0:st.yaw};hud.name=done.name;hud.t=0;}
+}
+function launch(sc,sg){
+  // leaves the vertical wall: ballistic flight (centre of mass follows a parabola)
+  const v0=Math.abs(st.v),T=2*v0/g;
+  let act=T>0.35?sc.act:'plain'; if(act==='kt')act='plain';
+  air={t:0,T:T,v0:v0,sg:sg,act:act,yaw0:st.yaw,cx:XC+sg*(F+R)-sg*LC,cy:LIPY};
+  hud.name=act==='plain'?'AIR 180':sc.name;hud.t=0;
+  st.mode='air';
+}
+function land(){
+  const sg=air.sg;
+  st.yaw=air.yaw0+((air.act==='indy'||air.act==='plain')?Math.PI:0);
+  st.s=sg*LT;st.v=-sg*air.v0;   // same speed back down (energy conserved)
+  st.mode='track';st.landT=0;st.p++;air=null;
+}
+
+/* ---------- rig ---------- */
+const E={};['armF','foreF','handF','legB','shoeB','bdS','bdR','whl','deck','legA','shoeA','torso','waist','neck','head','cap','brim','eye','armN','foreN','handN','sk'].forEach(k=>E[k]=$(k));
+
+function ik(A,T,l1,l2,hint){
+  const dx=T.x-A.x,dy=T.y-A.y,d=Math.hypot(dx,dy)||1e-6;
+  const dd=clamp(d,Math.abs(l1-l2)+0.5,l1+l2-0.05),ux=dx/d,uy=dy/d;
+  const ca=clamp((l1*l1+dd*dd-l2*l2)/(2*l1*dd),-1,1),al=Math.acos(ca),sa=Math.sin(al);
+  const c1={x:A.x+l1*(ux*ca-uy*sa),y:A.y+l1*(uy*ca+ux*sa)};
+  const c2={x:A.x+l1*(ux*ca+uy*sa),y:A.y+l1*(uy*ca-ux*sa)};
+  const m=Math.hypot(c1.x-hint.x,c1.y-hint.y)<Math.hypot(c2.x-hint.x,c2.y-hint.y)?c1:c2;
+  return {m:m,e:{x:A.x+ux*dd,y:A.y+uy*dd}};
+}
+function drawSkater(o){
+  const cs=Math.cos(o.yaw),sn=Math.sin(o.yaw);
+  const P=(el,pts)=>el.setAttribute('d','M'+pts.map(q=>(q[0].x*cs+q[1]*sn).toFixed(1)+' '+q[0].y.toFixed(1)).join('L'));
+  const C=(el,p,z)=>{el.setAttribute('cx',(p.x*cs+z*sn).toFixed(1));el.setAttribute('cy',p.y.toFixed(1));};
+  E.sk.setAttribute('transform','translate('+o.x.toFixed(2)+' '+o.y.toFixed(2)+') rotate('+(o.th*57.29578).toFixed(2)+')');
+  const c=o.c,bcy=-10-o.br,cb=Math.cos(o.bp),sb=Math.sin(o.bp);
+  const Bf=(x,y)=>({x:x*cb-y*sb,y:bcy+x*sb+y*cb});
+  // board (yaw squeezes it, flip angle rotates it about its long axis)
+  const sx=Math.abs(cs)<0.04?(cs<0?-0.04:0.04):cs;
+  E.bdS.setAttribute('transform','scale('+sx.toFixed(3)+' 1)');
+  E.bdR.setAttribute('transform','translate(0 '+(bcy+o.dy).toFixed(2)+') rotate('+(o.bp*57.29578).toFixed(2)+')');
+  const ca=Math.cos(o.al),sa=Math.sin(o.al),cl=Math.abs(ca)<0.03?(ca<0?-0.03:0.03):ca;
+  E.whl.setAttribute('transform','scale(1 '+cl.toFixed(3)+')');
+  E.deck.setAttribute('stroke-width',(2.6+9*Math.abs(sa)).toFixed(2));
+  E.deck.setAttribute('stroke',sa>0.3?'#19b5a5':(sa<-0.3?'#25262b':'#d9a45b'));
+  // legs
+  const A1=Bf(8,-4.7),A2=Bf(-9.5,-4.7);A1.y-=o.fl;A2.y-=o.fl;
+  const mid={x:(A1.x+A2.x)/2,y:(A1.y+A2.y)/2};
+  const H={x:mid.x-1.5-5*c,y:mid.y-(26.8-11.8*c)};
+  const H1={x:H.x+1.5,y:H.y},H2={x:H.x-1.5,y:H.y};
+  const k1=ik(A1,H1,14,15,{x:(A1.x+H1.x)/2+14,y:(A1.y+H1.y)/2});
+  const k2=ik(A2,H2,14,15,{x:(A2.x+H2.x)/2+14,y:(A2.y+H2.y)/2});
+  P(E.legA,[[A1,2.5],[k1.m,2.5],[k1.e,2.5]]);
+  P(E.legB,[[A2,-2.5],[k2.m,-2.5],[k2.e,-2.5]]);
+  const sh=(x0,x1)=>{const a=Bf(x0,-2.9),b=Bf(x1,-2.9);a.y-=o.fl;b.y-=o.fl;return [a,b];};
+  let s1=sh(5,14),s2=sh(-12.5,-3.5);
+  P(E.shoeA,[[s1[0],2.5],[s1[1],2.5]]);P(E.shoeB,[[s2[0],-2.5],[s2[1],-2.5]]);
+  // torso & head
+  const t=o.tau+0.12+0.5*c;
+  const S={x:H.x+19*Math.sin(t),y:H.y-19*Math.cos(t)};
+  P(E.torso,[[H,0],[S,0]]);
+  P(E.waist,[[H,0],[{x:lerp(H.x,S.x,.3),y:lerp(H.y,S.y,.3)},0]]);
+  const ht=t*0.45+o.hl;
+  const Hd={x:S.x+9.8*Math.sin(ht),y:S.y-9.8*Math.cos(ht)};
+  P(E.neck,[[S,0],[Hd,0]]);
+  C(E.head,Hd,0);E.head.setAttribute('cy',Hd.y.toFixed(1));
+  const hx=Hd.x*cs;
+  E.cap.setAttribute('d','M'+(hx-5.9).toFixed(1)+' '+(Hd.y-0.8).toFixed(1)+' A5.9 5.9 0 0 1 '+(hx+5.9).toFixed(1)+' '+(Hd.y-0.8).toFixed(1)+' Z');
+  E.brim.setAttribute('d','M'+(hx+3.5*cs).toFixed(1)+' '+(Hd.y-1.2).toFixed(1)+' L'+(hx+10*cs).toFixed(1)+' '+(Hd.y-0.2).toFixed(1));
+  E.eye.setAttribute('cx',(hx+3.3*cs).toFixed(1));E.eye.setAttribute('cy',(Hd.y+0.9).toFixed(1));
+  E.eye.setAttribute('opacity',sn>0.3?0:1);
+  // arms
+  const sw=Math.sin(st.time*2.6),sw2=Math.sin(st.time*2.6+1.7),aA=o.air;
+  const arm=(a,G,tg)=>{
+    const e1={x:S.x+13*Math.sin(a[0]),y:S.y+13*Math.cos(a[0])};
+    let hnd={x:e1.x+13*Math.sin(a[1]),y:e1.y+13*Math.cos(a[1])};
+    if(G>0){hnd={x:lerp(hnd.x,tg.x,G),y:lerp(hnd.y,tg.y,G)};const r=ik(S,hnd,13,13,e1);return {e:r.m,h:r.e};}
+    return {e:e1,h:hnd};
+  };
+  const tg=Bf(o.gx,o.gy);
+  const nA=arm([lerp(.3+.4*c,2.1,aA)+.1*sw,lerp(.85+.5*c,2.45,aA)+.15*sw2],o.G,tg);
+  const fA=arm([lerp(-.45-.2*c,-2.0,aA)+.1*sw2,lerp(-.25,-2.35,aA)+.15*sw],0,null);
+  P(E.armN,[[S,4],[nA.e,4]]);P(E.foreN,[[nA.e,4],[nA.h,4]]);C(E.handN,nA.h,4);
+  P(E.armF,[[S,-4],[fA.e,-4]]);P(E.foreF,[[fA.e,-4],[fA.h,-4]]);C(E.handF,fA.h,-4);
+}
+
+/* ---------- render ---------- */
+const trail=[];const trailEl=$('trail'),comEl=$('com');
+function render(){
+  const o={c:.25,tau:0,hl:0,fl:0,br:0,dy:0,bp:0,al:0,G:0,gx:2,gy:-1.5,air:0};
+  let comX,comY,thB;
+  if(st.mode==='air'){
+    const u=air.t/air.T,w=Math.pow(Math.sin(Math.PI*u),2),act=air.act;
+    const thE=-air.sg*Math.PI/2,thA=-air.sg*(act==='kick'?0.25:0.4);
+    o.th=thE+(thA-thE)*w;
+    comX=air.cx;comY=air.cy-(air.v0*air.t-0.5*g*air.t*air.t);   // ballistic centre of mass
+    o.x=comX-LC*Math.sin(o.th);o.y=comY+LC*Math.cos(o.th);
+    o.yaw=air.yaw0+((act==='indy'||act==='plain')?Math.PI*ease(.1,.88,u):0);
+    o.air=ease(0,.15,u)*(1-ease(.85,1,u));
+    o.c=.28;
+    if(act==='indy'){const G=ease(.12,.32,u)*(1-ease(.74,.9,u));o.G=G;o.c=.3+.65*G;o.br=12*G;o.tau=.7*G;o.bp=-.12*G;}
+    else if(act==='kick'){const b=Math.sin(Math.PI*clamp((u-.05)/.85,0,1));o.al=2*Math.PI*ease(.1,.8,u);o.dy=8*b;o.fl=4*b;o.c=.3+.5*b;}
+    else if(act==='melon'){const G=ease(.12,.32,u)*(1-ease(.74,.9,u));o.G=G;o.c=.3+.6*G;o.br=10*G;o.tau=.55*G;o.bp=.2*G;o.gx=-4;o.hl=-.3*G;}
+    o.c+=.3*ease(.88,1,u);
+    thB=o.th;
+  }else{
+    const tr=track(st.s);
+    o.x=tr.x;o.y=tr.y;o.th=tr.th;
+    o.yaw=st.turn?st.turn.y0+Math.PI*ss(st.turn.t/st.turn.d):st.yaw;
+    if(st.mode==='hold'){o.c=.5;o.tau=.1;}
+    else{const w=clamp((Math.abs(st.s)-F)/ARC,0,1);o.c=.2+.38*ss(w);}   // compress at the top, tall at the bottom
+    if(st.landT<1.5)o.c+=.3*Math.exp(-st.landT/.15);
+    if(st.turn){const k=Math.sin(Math.PI*st.turn.t/st.turn.d);o.c=Math.max(o.c,.45);o.bp=-.2*k;o.br=2.2*k;}
+    thB=o.th;comX=o.x+LC*Math.sin(thB);comY=o.y-LC*Math.cos(thB);
+  }
+  drawSkater(o);
+  comEl.setAttribute('cx',comX.toFixed(1));comEl.setAttribute('cy',comY.toFixed(1));
+  trail.push(comX.toFixed(1)+','+comY.toFixed(1));if(trail.length>130)trail.shift();
+  trailEl.setAttribute('points',trail.join(' '));
+  // HUD
+  const sp=st.mode==='air'?Math.abs(air.v0-g*air.t):Math.abs(st.v);
+  $('tV').textContent='speed   '+(sp/40).toFixed(1)+' m/s';
+  $('tH').textContent='height  '+((YB-o.y)/40).toFixed(1)+' m';
+  $('tA').textContent=st.mode==='air'?'air time '+air.t.toFixed(2)+' / '+air.T.toFixed(2)+' s':'air time  –';
+  const b=$('banner');b.textContent=hud.name;
+  b.setAttribute('opacity',hud.name?(hud.t<1.5?1:Math.max(0,1-(hud.t-1.5)/.5)):0);
+}
+
+/* ---------- main loop ---------- */
+let last=null;
+function frame(ts){
+  if(last===null)last=ts;
+  let dt=Math.min((ts-last)/1000,1/20);last=ts;
+  if(slow)dt*=0.3;
+  const n=Math.max(1,Math.ceil(dt*240)),h=dt/n;
+  for(let i=0;i<n;i++)step(h);
+  render();
+  requestAnimationFrame(frame);
+}
+document.documentElement.addEventListener('click',()=>{slow=!slow;});
+requestAnimationFrame(frame);
+})();
+]]></script>
+</svg>
