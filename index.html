@@ -42,6 +42,7 @@
   .svgwrap { background:#000; border-radius:8px; overflow:hidden; }
   .svgwrap iframe { width:100%; height:480px; border:0; background:#000; }
   .actions { margin-top:1rem; display:flex; gap:.6rem; }
+  .jsnote { margin-top:.5rem; color:var(--mut); font-size:.78rem; }
   .reasonbar { display:flex; align-items:center; gap:.5rem; margin:.35rem 0 1rem; color:var(--mut); font-size:.8rem; }
   .reasonbar select { background:#0d0d0d; color:var(--txt); border:1px solid var(--border);
                       border-radius:6px; padding:.25rem .5rem; font:inherit; }
@@ -401,7 +402,7 @@ function detailsTable(entry){
     ${row("timestamp", entry.timestamp)}
     ${row("svg size", entry.svg_len!=null ? entry.svg_len+" B" : null)}
     ${row("animation", entry.has_animation==null ? null : (entry.has_animation ? "yes" : "no"))}
-    ${row("javascript", entry.uses_js==null ? null : (entry.uses_js ? "yes (violates rules)" : "no"))}
+    ${row("javascript", entry.uses_js==null ? null : (entry.uses_js ? (entry.prompt==="constrained" ? "yes (violates rules)" : "yes") : "no"))}
     ${row("prompt tokens", usage.prompt_tokens)}
     ${row("completion tokens", usage.completion_tokens)}
     ${row("reasoning tokens", entry.reasoning_tokens ?? completion.reasoning_tokens)}
@@ -421,7 +422,8 @@ function detailsTable(entry){
 function runBody(entry){
   const svg = safeSvg(entry);
   if (entry.error || !svg) return `<div class="errorbox">ERROR: ${esc(entry.error||"no SVG")}${entry.finish_reason?` (finish: ${esc(entry.finish_reason)})`:""}</div>`;
-  return `<div class="svgwrap"><iframe sandbox src="${esc(svg)}" loading="lazy"></iframe></div>
+  const jsNote = entry.uses_js ? `<div class="jsnote">JavaScript-driven animation — runs in a sandboxed frame</div>` : "";
+  return `<div class="svgwrap"><iframe sandbox="allow-scripts" src="${esc(svg)}" loading="lazy"></iframe></div>${jsNote}
     <div class="actions"><a class="openbtn" href="${esc(svg)}" target="_blank" rel="noopener">Open raw SVG</a></div>`;
 }
 
