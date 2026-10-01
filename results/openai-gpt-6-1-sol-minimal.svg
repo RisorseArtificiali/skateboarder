@@ -1,0 +1,278 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="900" height="650" viewBox="0 0 900 650"
+     role="img" aria-labelledby="title description">
+  <title id="title">Skateboarder doing aerial tricks on a halfpipe</title>
+  <desc id="description">
+    A skateboarder rolls through a curved halfpipe, launches vertically
+    from each lip, flips his board, and returns under gravity.
+  </desc>
+
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1">
+      <stop stop-color="#102039"/>
+      <stop offset="1" stop-color="#304d68"/>
+    </linearGradient>
+    <linearGradient id="ramp" x2="0" y2="1">
+      <stop stop-color="#d5a36d"/>
+      <stop offset="1" stop-color="#986442"/>
+    </linearGradient>
+    <linearGradient id="shirt" x2="1" y2="1">
+      <stop stop-color="#ffbc58"/>
+      <stop offset="1" stop-color="#ed7942"/>
+    </linearGradient>
+    <pattern id="grain" width="38" height="38"
+             patternUnits="userSpaceOnUse">
+      <path d="M0 12H38 M0 29H38"
+            stroke="#593b2d" stroke-opacity=".12"/>
+    </pattern>
+  </defs>
+
+  <rect width="900" height="650" fill="url(#sky)"/>
+
+  <!-- Background -->
+  <circle cx="742" cy="91" r="36" fill="#fff1bf" opacity=".9"/>
+  <g fill="#dde9ee" opacity=".65">
+    <circle cx="111" cy="77" r="2"/>
+    <circle cx="273" cy="114" r="1.5"/>
+    <circle cx="529" cy="61" r="2"/>
+    <circle cx="635" cy="111" r="1.5"/>
+    <circle cx="822" cy="179" r="2"/>
+  </g>
+  <g fill="#152a3e">
+    <path d="M0 360V301H54V272H111V325H161V292H205V360Z"/>
+    <path d="M707 360V303H751V263H803V316H851V285H900V360Z"/>
+  </g>
+
+  <rect y="545" width="900" height="105" fill="#172b3b"/>
+  <ellipse cx="450" cy="568" rx="346" ry="21"
+           fill="#071724" opacity=".4"/>
+
+  <!-- A semicircular riding surface, radius 260. -->
+  <path d="M72 225H190
+           A260 260 0 0 0 710 225
+           H828V548H72Z"
+        fill="url(#ramp)"/>
+  <path d="M72 225H190
+           A260 260 0 0 0 710 225
+           H828V548H72Z"
+        fill="url(#grain)"/>
+
+  <!-- Ramp panel seams -->
+  <g fill="none" stroke="#684731" stroke-opacity=".36"
+     stroke-width="2">
+    <path d="M190 225V548"/>
+    <path d="M225 355V548"/>
+    <path d="M290 430V548"/>
+    <path d="M370 472V548"/>
+    <path d="M450 485V548"/>
+    <path d="M530 472V548"/>
+    <path d="M610 430V548"/>
+    <path d="M675 355V548"/>
+    <path d="M710 225V548"/>
+  </g>
+
+  <path d="M72 225H190 A260 260 0 0 0 710 225H828"
+        fill="none" stroke="#f0c993" stroke-width="8"/>
+  <path d="M72 221H190 M710 221H828"
+        stroke="#b9c8d1" stroke-width="7"
+        stroke-linecap="round"/>
+  <path d="M72 552H828" stroke="#714d35" stroke-width="10"/>
+
+  <text x="450" y="578" text-anchor="middle"
+        fill="#ebc798" font-family="system-ui, sans-serif"
+        font-size="13" letter-spacing="5">
+    NIGHT SESSION
+  </text>
+
+  <!-- The local x-axis follows the deck; local -y faces the rider. -->
+  <g id="skater">
+    <!-- Arms -->
+    <g fill="none" stroke="#e7ad83" stroke-width="9"
+       stroke-linecap="round" stroke-linejoin="round">
+      <path id="backArm" d="M-8 -69L-28 -53L-39 -62"/>
+      <path id="frontArm" d="M7 -70L27 -58L38 -72"/>
+    </g>
+
+    <!-- Shirt -->
+    <path d="M-14 -78Q0 -86 14 -77
+             L17 -49Q0 -42 -18 -49Z"
+          fill="url(#shirt)" stroke="#b85c36" stroke-width="2"/>
+    <path d="M-10 -76L-7 -52" stroke="#ffd383"
+          stroke-width="3" opacity=".65"/>
+
+    <!-- Articulated legs -->
+    <g fill="none" stroke="#24344d" stroke-width="12"
+       stroke-linecap="round" stroke-linejoin="round">
+      <path id="leftLeg" d="M-8 -48L-22 -27L-19 -11"/>
+      <path id="rightLeg" d="M8 -48L24 -30L20 -11"/>
+    </g>
+
+    <!-- Shoes -->
+    <g id="shoes" fill="#f0eee6" stroke="#23344a" stroke-width="2">
+      <path d="M-26 -14H-12L-8 -8H-29Z"/>
+      <path d="M13 -14H26L31 -8H12Z"/>
+    </g>
+
+    <!-- Neck and head -->
+    <path d="M0 -77V-88" stroke="#e7ad83" stroke-width="10"/>
+    <circle cx="0" cy="-96" r="13" fill="#e7ad83"/>
+    <path d="M-13 -97Q-14 -112 1 -112
+             Q16 -110 14 -97Z"
+          fill="#53c8c6" stroke="#153b4b" stroke-width="2"/>
+    <path d="M-15 -97H17" stroke="#153b4b" stroke-width="3"/>
+    <circle cx="7" cy="-95" r="1.5" fill="#3f302f"/>
+    <path d="M-9 -96L-5 -84L6 -84L11 -96"
+          fill="none" stroke="#244453" stroke-width="1.5"/>
+
+    <!-- Board flips around its longitudinal axis while airborne. -->
+    <g id="board">
+      <g fill="#172632" stroke="#b8c1c6" stroke-width="1.5">
+        <circle cx="-23" cy="-3" r="4"/>
+        <circle cx="23" cy="-3" r="4"/>
+      </g>
+      <path d="M-23 -6V-3M23 -6V-3"
+            stroke="#d1d9dc" stroke-width="3"/>
+      <path id="deck"
+            d="M-39 -11Q-34 -7 -25 -7
+               H25Q34 -7 39 -11"
+            fill="none" stroke="#f47b71" stroke-width="5"
+            stroke-linecap="round"/>
+      <path d="M-26 -10H26"
+            stroke="#273644" stroke-width="2"/>
+    </g>
+  </g>
+
+  <text x="450" y="616" text-anchor="middle"
+        fill="#a8c4d2" font-family="system-ui, sans-serif"
+        font-size="12" letter-spacing="2">
+    FLOW · AIR · KICKFLIP · REPEAT
+  </text>
+
+  <script><![CDATA[
+    (() => {
+      const rider = document.getElementById("skater");
+      const board = document.getElementById("board");
+      const deck = document.getElementById("deck");
+      const leftLeg = document.getElementById("leftLeg");
+      const rightLeg = document.getElementById("rightLeg");
+      const shoes = document.getElementById("shoes");
+      const backArm = document.getElementById("backArm");
+      const frontArm = document.getElementById("frontArm");
+
+      const cx = 450, cy = 225, R = 260;
+
+      // Idealized rider/board center of mass follows a smaller concentric arc.
+      // No drag or pumping: mechanical energy is conserved on the transition.
+      const rho = R - 48;
+      const g = 720;       // SVG units per second squared
+      const lipSpeed = 290;
+      const flightTime = 2 * lipSpeed / g;
+
+      // Integrate dt/dtheta = rho / speed(theta).
+      // v² = v_lip² + 2 g rho cos(theta).
+      const N = 1200;
+      const angles = new Float64Array(N + 1);
+      const times = new Float64Array(N + 1);
+      const step = Math.PI / N;
+
+      for (let i = 0; i <= N; i++) {
+        angles[i] = -Math.PI / 2 + i * step;
+        if (i) {
+          const midpoint = angles[i] - step / 2;
+          const speed = Math.sqrt(
+            lipSpeed * lipSpeed + 2 * g * rho * Math.cos(midpoint)
+          );
+          times[i] = times[i - 1] + rho * step / speed;
+        }
+      }
+
+      const rollTime = times[N];
+      const period = 2 * (rollTime + flightTime);
+
+      function angleAt(t) {
+        let lo = 0, hi = N;
+        while (hi - lo > 1) {
+          const mid = (lo + hi) >> 1;
+          if (times[mid] <= t) lo = mid;
+          else hi = mid;
+        }
+        const f = (t - times[lo]) / (times[hi] - times[lo]);
+        return angles[lo] + (angles[hi] - angles[lo]) * f;
+      }
+
+      const start = performance.now();
+
+      function draw(now) {
+        let t = ((now - start) / 1000 + rollTime / 2) % period;
+        let theta, air = false, airTime = 0;
+
+        if (t < rollTime) {
+          theta = angleAt(t);
+        } else if (t < rollTime + flightTime) {
+          theta = Math.PI / 2;
+          air = true;
+          airTime = t - rollTime;
+        } else if (t < 2 * rollTime + flightTime) {
+          theta = angleAt(
+            rollTime - (t - rollTime - flightTime)
+          );
+        } else {
+          theta = -Math.PI / 2;
+          air = true;
+          airTime = t - 2 * rollTime - flightTime;
+        }
+
+        let x = cx + R * Math.sin(theta);
+        let y = cy + R * Math.cos(theta);
+
+        // Vertical lips give vertical launches:
+        // horizontal position stays fixed, and gravity reverses vertical speed.
+        if (air) y += -lipSpeed * airTime + 0.5 * g * airTime * airTime;
+
+        rider.setAttribute(
+          "transform",
+          `translate(${x} ${y}) rotate(${-theta * 180 / Math.PI})`
+        );
+
+        const u = air ? airTime / flightTime : 0;
+        const tuck = air ? Math.sin(Math.PI * u) ** 2 : 0;
+
+        // Feet lift clear of the board; it makes one kickflip and is caught.
+        // scaleY is the orthographic projection of rotation about deck length.
+        const turn = air ? 2 * Math.PI * u : 0;
+        const separation = 8 * tuck;
+        board.setAttribute(
+          "transform",
+          `translate(0 ${-8 + separation})
+           scale(1 ${Math.cos(turn)})
+           translate(0 8)`
+        );
+        deck.setAttribute(
+          "stroke",
+          Math.cos(turn) < 0 ? "#53c8c6" : "#f47b71"
+        );
+
+        const lift = 14 * tuck;
+        leftLeg.setAttribute(
+          "d", `M-8 -48L${-22 - 7*tuck} ${-27 - 5*tuck}
+                L-19 ${-11 - lift}`
+        );
+        rightLeg.setAttribute(
+          "d", `M8 -48L${24 + 7*tuck} ${-30 - 5*tuck}
+                L20 ${-11 - lift}`
+        );
+        shoes.setAttribute("transform", `translate(0 ${-lift})`);
+        backArm.setAttribute(
+          "d", `M-8 -69L-28 ${-53 - 13*tuck}L-39 ${-62 - 17*tuck}`
+        );
+        frontArm.setAttribute(
+          "d", `M7 -70L27 ${-58 - 10*tuck}L38 ${-72 - 10*tuck}`
+        );
+
+        requestAnimationFrame(draw);
+      }
+
+      requestAnimationFrame(draw);
+    })();
+  ]]></script>
+</svg>

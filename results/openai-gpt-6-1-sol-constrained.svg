@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="650" viewBox="0 0 1000 650" role="img" aria-labelledby="title desc">
+  <title id="title">Vert ramp skateboard aerial</title>
+  <desc id="desc">A man rides two facing quarter pipes, launches an inward aerial above the right coping, flips his skateboard, lands on the transition, and swings back through the ramp.</desc>
+
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1">
+      <stop stop-color="#10243d"/>
+      <stop offset="1" stop-color="#385771"/>
+    </linearGradient>
+    <linearGradient id="wood" x2="0" y2="1">
+      <stop stop-color="#dfa96c"/>
+      <stop offset="1" stop-color="#a66539"/>
+    </linearGradient>
+    <linearGradient id="rampSide" x2="0" y2="1">
+      <stop stop-color="#294356"/>
+      <stop offset="1" stop-color="#142839"/>
+    </linearGradient>
+    <style>
+      .outline { stroke:#102031; stroke-width:3; stroke-linejoin:round; stroke-linecap:round }
+      .limb { fill:none; stroke-linecap:round; stroke-linejoin:round }
+      .rider-body {
+        animation: absorb 7.55s linear infinite;
+        transform-box:view-box;
+        transform-origin:0px -18px;
+      }
+      @keyframes absorb {
+        0%, 13.9% { transform:scaleY(.9) }
+        19.2% { transform:scaleY(1) }
+        25.6%, 35.2% { transform:scaleY(.83) }
+        41.65% { transform:scaleY(.98) }
+        44.87% { transform:scaleY(.7) }
+        50.99% { transform:scaleY(.88) }
+        66.22% { transform:scaleY(.92) }
+        78.15% { transform:scaleY(1) }
+        94.7%, 100% { transform:scaleY(.9) }
+      }
+    </style>
+  </defs>
+
+  <!-- Background: evening sky, distant buildings, and skatepark ground. -->
+  <g id="background">
+    <path fill="url(#sky)" d="M0 0H1000V650H0Z"/>
+    <circle cx="112" cy="92" r="34" fill="#ffe9bd" opacity=".85"/>
+    <g fill="#182f45" opacity=".65">
+      <path d="M0 325V285H55V245H95V325ZM95 325V271H149V300H205V325Z"/>
+      <path d="M870 325V260H922V292H959V238H1000V325Z"/>
+    </g>
+    <path d="M0 565H1000V650H0Z" fill="#152b39"/>
+    <ellipse cx="500" cy="596" rx="445" ry="22" fill="#091924" opacity=".45"/>
+    <g fill="#b7d0df" opacity=".65">
+      <circle cx="290" cy="72" r="1.5"/>
+      <circle cx="520" cy="45" r="1.5"/>
+      <circle cx="709" cy="89" r="1.5"/>
+      <circle cx="920" cy="130" r="1.5"/>
+    </g>
+  </g>
+
+  <!-- Half-pipe: two elliptical quarter-pipe transitions joined by a flat bottom. -->
+  <g id="half-pipe">
+    <path d="M75 220H180
+             A180 300 0 0 0 360 520
+             H640
+             A180 300 0 0 0 820 220
+             H925V585H75Z"
+          fill="url(#rampSide)" stroke="#0e2332" stroke-width="5"/>
+    <path d="M75 220H180
+             A180 300 0 0 0 360 520
+             H640
+             A180 300 0 0 0 820 220
+             H925"
+          fill="none" stroke="url(#wood)" stroke-width="19" stroke-linejoin="round"/>
+    <path d="M180 220
+             A180 300 0 0 0 360 520
+             H640
+             A180 300 0 0 0 820 220"
+          fill="none" stroke="#f3ca91" stroke-width="3"/>
+
+    <!-- Coping, platforms, and platform guardrails. -->
+    <g stroke="#b8c8d2" stroke-linecap="round">
+      <path d="M78 208H173M827 208H922" stroke-width="5"/>
+      <path d="M88 208V162H166V208M834 208V162H912V208" fill="none" stroke-width="4"/>
+      <path d="M126 163V206M872 163V206" stroke-width="3"/>
+      <path d="M174 220H186M814 220H826" stroke-width="8"/>
+    </g>
+
+    <!-- Construction ribs and understated ramp graphics. -->
+    <g fill="none" stroke="#557081" stroke-width="2" opacity=".45">
+      <path d="M120 254V568M213 394V568M287 490V568M360 541V568
+               M500 541V568M640 541V568M713 490V568M787 394V568M880 254V568"/>
+      <path d="M95 568H905"/>
+    </g>
+    <text x="500" y="565" text-anchor="middle" font-family="sans-serif"
+          font-size="17" font-weight="bold" letter-spacing="7" fill="#91a9b8">VERT / 360</text>
+  </g>
+
+  <!--
+    Moving skater contact frame.
+    Ramp samples follow the quarter-pipe surfaces: high speed at the bottom,
+    decreasing speed uphill, and a near-stationary reversal on the left.
+    At the right coping the rider pops slightly inward.
+    Air samples obey x=820-40*t, y=220-260*t+200*t*t:
+    constant horizontal velocity and constant downward gravitational acceleration.
+    The landing dissipates energy through a crouch before the next swing.
+    Matching endpoint position, orientation, and bottom speed makes the loop seamless.
+  -->
+  <g id="skater-position">
+    <animateTransform attributeName="transform" type="translate"
+      dur="7.55s" repeatCount="indefinite" calcMode="linear"
+      keyTimes="0;.04636;.09272;.13907;.19205;.22412;.25620;.28828;.32035;.35243;.38451;.41658;.44874;.50993;.56291;.61589;.66225;.72185;.78146;.84106;.90066;.94702;1"
+      values="500 520;
+              640 520;
+              767.3 432.1;
+              810 319;
+              820 220;
+              810.3 168.76;
+              800.6 140.99;
+              790.9 136.66;
+              781.3 155.78;
+              771.6 198.35;
+              761.9 264.37;
+              752.2 353.84;
+              742.52 466.6;
+              640 520;
+              500 520;
+              360 520;
+              232.7 432.1;
+              190 319;
+              182.52 270;
+              190 319;
+              232.7 432.1;
+              360 520;
+              500 520"/>
+
+    <!-- Surface-relative lean keeps the wheels tangent to each transition. -->
+    <g id="surface-lean">
+      <animateTransform attributeName="transform" type="rotate"
+        dur="7.55s" repeatCount="indefinite" calcMode="linear"
+        keyTimes="0;.04636;.09272;.13907;.19205;.22412;.25620;.28828;.32035;.35243;.38451;.41658;.44874;.50993;.56291;.61589;.66225;.72185;.78146;.84106;.90066;.94702;1"
+        values="0;0;-59;-78;-90;-80;-65;-48;-35;-35;-40;-45;-49;0;0;0;59;78;84;78;59;0;0"/>
+
+      <!-- Man: helmet, face, shirt, articulated arms, trousers, and shoes. -->
+      <g class="rider-body">
+        <path class="limb" stroke="#182737" stroke-width="13"
+              d="M-7-67L-24-43L-21-20M5-67L23-45L20-20"/>
+        <path class="limb" stroke="#436486" stroke-width="7"
+              d="M-7-68L-24-43M5-68L23-45"/>
+        <path class="outline" fill="#f5eee0"
+              d="M-31-23L-17-24L-12-17H-33ZM13-24L25-24L32-17H11Z"/>
+        <path class="outline" fill="#ec7051"
+              d="M-13-106Q0-113 14-104L12-76Q2-67-13-76Z"/>
+        <path class="limb" stroke="#edbc92" stroke-width="8"
+              d="M-12-101L-34-87L-48-100M13-100L33-88L46-104"/>
+        <path class="limb" stroke="#ec7051" stroke-width="11"
+              d="M-12-102L-24-95M13-102L24-95"/>
+        <path stroke="#edbc92" stroke-width="9" d="M0-112V-106"/>
+        <ellipse class="outline" cx="0" cy="-123" rx="12" ry="15" fill="#edbc92"/>
+        <path fill="#67422d" d="M-11-120Q-12-108 1-108L9-115Q0-111-4-119Z"/>
+        <path class="outline" fill="#f5c94d"
+              d="M-14-122Q-15-141 0-141Q15-141 15-124L7-123L-4-126Z"/>
+        <path d="M-10-135L1-138M8-136L11-131" stroke="#b58b2d" stroke-width="2"/>
+        <circle cx="8" cy="-122" r="1.7" fill="#132638"/>
+        <path d="M11-119L15-117L10-115" fill="#edbc92" stroke="#102031" stroke-width="1.5"/>
+      </g>
+
+      <!--
+        Skateboard: curved deck, two metal trucks, and four visible wheels.
+        Its independent full rotation finishes well before wheel contact.
+      -->
+      <g id="skateboard">
+        <animateTransform attributeName="transform" type="rotate"
+          dur="7.55s" repeatCount="indefinite" calcMode="linear"
+          keyTimes="0;.19205;.22412;.25620;.28828;.32035;.35243;.38451;1"
+          values="0 0 -14;0 0 -14;0 0 -14;90 0 -14;180 0 -14;270 0 -14;360 0 -14;360 0 -14;360 0 -14"/>
+        <g fill="#b5c9d0" stroke="#142535" stroke-width="1.5">
+          <path d="M-26-15V-8H-16V-12H-22V-15Z"/>
+          <path d="M16-15V-8H26V-15H22V-12H16Z"/>
+        </g>
+        <g fill="#a3b1bb" stroke="#142535" stroke-width="1.5">
+          <circle cx="-26" cy="-8" r="4.5"/>
+          <circle cx="26" cy="-8" r="4.5"/>
+        </g>
+        <path d="M-39-21Q-34-15-27-16H27Q34-15 39-21"
+              fill="none" stroke="#102031" stroke-width="7" stroke-linecap="round"/>
+        <path d="M-39-20Q-34-15-27-16H27Q34-15 39-20"
+              fill="none" stroke="#63d5ce" stroke-width="3" stroke-linecap="round"/>
+        <g fill="#fff0cf" stroke="#142535" stroke-width="2">
+          <circle cx="-21" cy="-5" r="5"/>
+          <circle cx="21" cy="-5" r="5"/>
+        </g>
+        <g fill="#596d7c">
+          <circle cx="-21" cy="-5" r="1.5"/>
+          <circle cx="21" cy="-5" r="1.5"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
