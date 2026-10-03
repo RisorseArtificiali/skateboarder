@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500" role="img">
+  <title>Skater doing a kickflip air on a half-pipe (SMIL, physics-paced)</title>
+
+  <!-- ================================================================
+       PHYSICS ENCODED IN THE ANIMATION
+       * Scale ~60 px = 1 m  ->  g = 9.81 m/s^2 ~ 590 px/s^2
+       * Ramp: flat bottom + two facing quarter pipes (R = 150 px)
+         with vert walls; copings sit 270 px above the flat bottom.
+       * Pendulum/energy conservation in the transitions:
+         v(h) = sqrt(2*g*(350 - h))  ->  slow near the copings,
+         fastest (~643 px/s) on the flat. The keyPoints/keyTimes of
+         the <animateMotion> are integrated from this law.
+       * Both airs are ballistic: leaving a vert wall the velocity is
+         vertical, so the flight is the parabola
+         y(t) = y0 - v0*t + g*t^2/2 (80 px above the coping) and the
+         skater re-enters tangent to the wall, impact-free.
+       * Board does one full 360 flip during the trick air and is
+         aligned again just before touchdown.
+       * Loop: state(t = T) = state(t = 0), T = 5.65 s -> seamless.
+       ================================================================ -->
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9fd0f5"/>
+      <stop offset="1" stop-color="#eef7ff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="900" height="500" fill="url(#sky)"/>
+
+  <!-- Sun -->
+  <g>
+    <circle cx="80" cy="62" r="44" fill="#ffd76b" opacity="0.25"/>
+    <circle cx="80" cy="62" r="30" fill="#ffd76b"/>
+  </g>
+
+  <!-- Clouds: slow seamless there-and-back drift -->
+  <g fill="#ffffff" opacity="0.92">
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0;36 0;0 0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1" dur="26s" repeatCount="indefinite"/>
+      <ellipse cx="305" cy="66" rx="34" ry="13"/>
+      <ellipse cx="333" cy="55" rx="28" ry="15"/>
+      <ellipse cx="359" cy="67" rx="28" ry="11"/>
+    </g>
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0;-30 0;0 0" keyTimes="0;0.5;1" calcMode="spline" keySplines="0.45 0 0.55 1;0.45 0 0.55 1" dur="34s" repeatCount="indefinite"/>
+      <ellipse cx="612" cy="104" rx="30" ry="11"/>
+      <ellipse cx="638" cy="95" rx="25" ry="13"/>
+      <ellipse cx="662" cy="105" rx="24" ry="10"/>
+    </g>
+  </g>
+
+  <!-- Ground -->
+  <rect y="470" width="900" height="30" fill="#8fbf72"/>
+  <rect y="470" width="900" height="4" fill="#6da158"/>
+
+  <!-- Half-pipe: two quarter pipes facing each other (R=150), vert
+       walls up to the copings at (180,160)/(720,160), flat bottom
+       y=430 between x=330..570, platforms behind both copings -->
+  <g>
+    <path d="M100,160 L180,160 L180,280 A150,150 0 0 0 330,430 L570,430 A150,150 0 0 0 720,280 L720,160 L810,160 L810,470 L100,470 Z" fill="#b98548"/>
+    <path d="M106,440 H804 M106,456 H804 M140,168 V464 M765,168 V464" fill="none" stroke="#5d3a16" stroke-width="2" opacity="0.18"/>
+    <path d="M100,160 L180,160 L180,280 A150,150 0 0 0 330,430 L570,430 A150,150 0 0 0 720,280 L720,160 L810,160" fill="none" stroke="#4a2e10" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="180" cy="160" r="6" fill="#d8dee5" stroke="#6b7280" stroke-width="2"/>
+    <circle cx="720" cy="160" r="6" fill="#d8dee5" stroke="#6b7280" stroke-width="2"/>
+  </g>
+
+  <!-- SKATER: position follows ramp surface + two vertical airs -->
+  <g>
+    <animateMotion dur="5.65s" repeatCount="indefinite" calcMode="linear"
+      path="M180,160 L180,80 L180,160 L180,280 A150,150 0 0 0 330,430 L570,430 A150,150 0 0 0 720,280 L720,160 L720,80 L720,160 L720,280 A150,150 0 0 1 570,430 L330,430 A150,150 0 0 1 180,280 L180,160"
+      keyPoints="0;0.01575;0.027;0.03375;0.036;0.03825;0.045;0.05625;0.072;0.0832;0.09594;0.11021;0.126;0.13905;0.15296;0.16764;0.183;0.19903;0.21542;0.232;0.33999;0.3566;0.373;0.38897;0.40434;0.41908;0.43301;0.44601;0.46178;0.47605;0.48879;0.5;0.51575;0.527;0.53375;0.536;0.53825;0.545;0.55625;0.572;0.5832;0.59594;0.61021;0.62599;0.63906;0.65296;0.66765;0.68301;0.69903;0.71542;0.73201;0.84;0.8566;0.873;0.88897;0.90435;0.91908;0.93301;0.94601;0.96178;0.97605;0.98879;1"
+      keyTimes="0;0.02303;0.04606;0.06909;0.09213;0.11516;0.13819;0.16122;0.18425;0.19763;0.21102;0.2244;0.23779;0.24798;0.25816;0.26834;0.27851;0.28881;0.29891;0.3091;0.37515;0.3853;0.39554;0.40574;0.4159;0.42609;0.43613;0.44644;0.45985;0.47326;0.48661;0.5;0.52303;0.54606;0.56909;0.59211;0.61513;0.63819;0.66121;0.68421;0.69769;0.71101;0.72436;0.73778;0.74796;0.75815;0.76831;0.77851;0.78872;0.79893;0.80913;0.87515;0.8853;0.8955;0.90565;0.91582;0.92609;0.93625;0.94646;0.95984;0.9732;0.98659;1"/>
+
+    <!-- Orientation: stays tangent to the ramp (+90 left wall, -90
+         right wall, 0 on flat; held through each ballistic air) -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" dur="5.65s" repeatCount="indefinite"
+        values="90;90;90;78.91;67.1;54.64;41.59;28.01;14.08;0;0;-14.1;-28.02;-41.58;-54.63;-67.12;-78.95;-90;-90;-78.91;-67.1;-54.64;-41.59;-28.01;-14.08;0;0;14.1;28.02;41.58;54.63;67.12;78.95;90;90;90"
+        keyTimes="0;0.18425;0.23779;0.24798;0.25816;0.26834;0.27851;0.28881;0.29891;0.3091;0.37515;0.3853;0.39554;0.40574;0.4159;0.42609;0.43613;0.44644;0.68421;0.73778;0.74796;0.75815;0.76831;0.77851;0.78872;0.79893;0.80913;0.87515;0.8853;0.8955;0.90565;0.91582;0.92609;0.93625;0.94646;1"/>
+
+      <!-- Skateboard: deck + 2 trucks + 4 wheels; pops up with the
+           rider during the trick air, flips a full 360 (kickflip),
+           realigned before the wheels touch the coping again -->
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -16;0 -16;0 0;0 0" keyTimes="0;0.045;0.125;0.178;1" calcMode="spline" keySplines="0.25 0.5 0.35 1;0 0 1 1;0.45 0 0.55 1;0 0 1 1" dur="5.65s" repeatCount="indefinite"/>
+        <g transform="translate(0,-9)">
+          <g>
+            <animateTransform attributeName="transform" type="rotate" values="0;360;360" keyTimes="0;0.17;1" calcMode="spline" keySplines="0.25 0.1 0.3 1;0 0 1 1" dur="5.65s" repeatCount="indefinite"/>
+            <path d="M-38,-8 C-36,-4.5 -33,-4 -28,-4 L28,-4 C33,-4 36,-4.5 38,-8" fill="none" stroke="#8a4b22" stroke-width="4.5" stroke-linecap="round"/>
+            <path d="M-28,-5.7 H28" stroke="#33200e" stroke-width="1.3"/>
+            <rect x="-23" y="-2" width="6" height="5" fill="#99a1ad"/>
+            <rect x="17" y="-2" width="6" height="5" fill="#99a1ad"/>
+            <circle cx="-20" cy="4" r="5" fill="#f4f4f2" stroke="#5c6570" stroke-width="1.5"/>
+            <circle cx="20" cy="4" r="5" fill="#f4f4f2" stroke="#5c6570" stroke-width="1.5"/>
+            <circle cx="-20" cy="4" r="1.6" fill="#8b94a1"/>
+            <circle cx="20" cy="4" r="1.6" fill="#8b94a1"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- Rider: lifts off the board during the flip and lands back
+           on it; pose morphs ride(A) / air-tuck(C) / pump-crouch(B):
+           crouch is deepest at the bottom of each transition where
+           speed (and g-load) is highest -->
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -16;0 -16;0 0;0 0" keyTimes="0;0.045;0.125;0.178;1" calcMode="spline" keySplines="0.25 0.5 0.35 1;0 0 1 1;0.45 0 0.55 1;0 0 1 1" dur="5.65s" repeatCount="indefinite"/>
+        <!-- back arm -->
+        <polyline points="5,-70 -3,-61 -9,-52" fill="none" stroke="#c8471f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+          <animate attributeName="points" dur="5.65s" repeatCount="indefinite"
+            values="5,-70 -3,-61 -9,-52;5,-70 -4,-63 -10,-57;5,-70 -4,-63 -10,-57;5,-70 -3,-61 -9,-52;6,-59 -2,-51 -8,-44;6,-59 -2,-51 -8,-44;5,-70 -3,-61 -9,-52;5,-70 -3,-61 -9,-52;5,-70 -3,-61 -9,-52;6,-59 -2,-51 -8,-44;6,-59 -2,-51 -8,-44;5,-70 -3,-61 -9,-52;5,-70 -3,-61 -9,-52"
+            keyTimes="0;0.03;0.125;0.178;0.3;0.375;0.44644;0.6;0.73778;0.8;0.87515;0.94646;1"/>
+        </polyline>
+        <!-- back leg (hip, knee, heel, toe) -->
+        <polyline points="-3,-47 -12,-32 -16,-17 -10,-17" fill="none" stroke="#2e3440" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+          <animate attributeName="points" dur="5.65s" repeatCount="indefinite"
+            values="-3,-47 -12,-32 -16,-17 -10,-17;-3,-47 -7,-33 -16,-19 -10,-19;-3,-47 -7,-33 -16,-19 -10,-19;-3,-47 -12,-32 -16,-17 -10,-17;-3,-39 -14,-28 -16,-17 -10,-17;-3,-39 -14,-28 -16,-17 -10,-17;-3,-47 -12,-32 -16,-17 -10,-17;-3,-47 -12,-32 -16,-17 -10,-17;-3,-47 -12,-32 -16,-17 -10,-17;-3,-39 -14,-28 -16,-17 -10,-17;-3,-39 -14,-28 -16,-17 -10,-17;-3,-47 -12,-32 -16,-17 -10,-17;-3,-47 -12,-32 -16,-17 -10,-17"
+            keyTimes="0;0.03;0.125;0.178;0.3;0.375;0.44644;0.6;0.73778;0.8;0.87515;0.94646;1"/>
+        </polyline>
+        <!-- front leg -->
+        <polyline points="3,-47 10,-31 8,-17 15,-17" fill="none" stroke="#2e3440" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+          <animate attributeName="points" dur="5.65s" repeatCount="indefinite"
+            values="3,-47 10,-31 8,-17 15,-17;3,-47 11,-32 8,-18 15,-18;3,-47 11,-32 8,-18 15,-18;3,-47 10,-31 8,-17 15,-17;3,-39 12,-27 8,-17 15,-17;3,-39 12,-27 8,-17 15,-17;3,-47 10,-31 8,-17 15,-17;3,-47 10,-31 8,-17 15,-17;3,-47 10,-31 8,-17 15,-17;3,-39 12,-27 8,-17 15,-17;3,-39 12,-27 8,-17 15,-17;3,-47 10,-31 8,-17 15,-17;3,-47 10,-31 8,-17 15,-17"
+            keyTimes="0;0.03;0.125;0.178;0.3;0.375;0.44644;0.6;0.73778;0.8;0.87515;0.94646;1"/>
+        </polyline>
+        <!-- torso -->
+        <polyline points="0,-47 5,-70" fill="none" stroke="#e0532f" stroke-width="7" stroke-linecap="round">
+          <animate attributeName="points" dur="5.65s" repeatCount="indefinite"
+            values="0,-47 5,-70;0,-47 5,-70;0,-47 5,-70;0,-47 5,-70;0,-39 6,-59;0,-39 6,-59;0,-47 5,-70;0,-47 5,-70;0,-47 5,-70;0,-39 6,-59;0,-39 6,-59;0,-47 5,-70;0,-47 5,-70"
+            keyTimes="0;0.03;0.125;0.178;0.3;0.375;0.44644;0.6;0.73778;0.8;0.87515;0.94646;1"/>
+        </polyline>
+        <!-- front arm -->
+        <polyline points="5,-70 13,-62 17,-53" fill="none" stroke="#c8471f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+          <animate attributeName="points" dur="5.65s" repeatCount="indefinite"
+            values="5,-70 13,-62 17,-53;5,-70 14,-64 20,-58;5,-70 14,-64 20,-58;5,-70 13,-62 17,-53;6,-59 14,-52 18,-43;6,-59 14,-52 18,-43;5,-70 13,-62 17,-53;5,-70 13,-62 17,-53;5,-70 13,-62 17,-53;6,-59 14,-52 18,-43;6,-59 14,-52 18,-43;5,-70 13,-62 17,-53;5,-70 13,-62 17,-53"
+            keyTimes="0;0.03;0.125;0.178;0.3;0.375;0.44644;0.6;0.73778;0.8;0.87515;0.94646;1"/>
+        </polyline>
+        <!-- head + cap (follows the pose) -->
+        <g>
+          <animateTransform attributeName="transform" type="translate" dur="5.65s" repeatCount="indefinite"
+            values="8 -77.5;8 -77.5;8 -77.5;8 -77.5;9.5 -65.5;9.5 -65.5;8 -77.5;8 -77.5;8 -77.5;9.5 -65.5;9.5 -65.5;8 -77.5;8 -77.5"
+            keyTimes="0;0.03;0.125;0.178;0.3;0.375;0.44644;0.6;0.73778;0.8;0.87515;0.94646;1"/>
+          <circle r="6.5" fill="#f4c39a"/>
+          <path d="M-6.3,-2 A6.3,6.3 0 0 1 6.3,-2 Z" fill="#2e3440"/>
+          <path d="M5,-3.4 H11.5" stroke="#2e3440" stroke-width="2" stroke-linecap="round"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

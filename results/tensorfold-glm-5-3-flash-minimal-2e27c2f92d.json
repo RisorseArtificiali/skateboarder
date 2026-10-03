@@ -1,0 +1,46 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "minimal",
+  "model": "tensorfold/glm-5.3-flash",
+  "endpoint": "http://192.168.11.36:8000/v1",
+  "timestamp": "2026-10-03T18:52:10+02:00",
+  "params": {
+    "max_tokens": 256000
+  },
+  "reasoning": {
+    "requested": "default",
+    "effort": null
+  },
+  "contributor": "beelzetron",
+  "hardware": {
+    "os": "Linux 7.0.0-1019-nvidia",
+    "cpu": "Cortex-X925",
+    "ram_gb": 256
+  },
+  "engine": {
+    "name": "TensorFold",
+    "version": "v0.6.0"
+  },
+  "quantization": "EXL3-TR3-4bpw",
+  "note": "nvidia GB10 pair",
+  "seconds": 1284.3,
+  "usage": {
+    "prompt_tokens": 36,
+    "completion_tokens": 72612,
+    "total_tokens": 72648,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 66541
+    }
+  },
+  "reasoning_tokens": 66541,
+  "finish_reason": "stop",
+  "content_len": 12832,
+  "svg_len": 11314,
+  "has_animation": true,
+  "uses_js": false,
+  "error": null,
+  "file": "results/tensorfold-glm-5-3-flash-minimal-2e27c2f92d.svg"
+}

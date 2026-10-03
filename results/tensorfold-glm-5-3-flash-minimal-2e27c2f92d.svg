@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 800 500" width="800" height="500" role="img"
+     aria-label="Skater doing grab tricks on a halfpipe">
+  <title>Halfpipe skateboarding — energy-conserving timing</title>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9fd2ec"/>
+      <stop offset="1" stop-color="#eaf7fd"/>
+    </linearGradient>
+    <!-- Contact-point trajectory: lip -> transition -> flat -> lip -> vertical air (loop).
+         Verticals off the lip = projectile air; arcs = 170px-radius transitions. -->
+    <path id="track" d="M 100 60 L 100 140 L 100 260 A 170 170 0 0 0 270 430 L 530 430
+                        A 170 170 0 0 0 700 260 L 700 140 L 700 60 L 700 140 L 700 260
+                        A 170 170 0 0 1 530 430 L 270 430 A 170 170 0 0 1 100 260 L 100 140 L 100 60 Z"/>
+  </defs>
+
+  <!-- scenery -->
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <circle cx="400" cy="56" r="34" fill="#ffd76e" opacity="0.45"/>
+  <circle cx="400" cy="56" r="22" fill="#ffc94d"/>
+  <g fill="#ffffff" opacity="0.85">
+    <ellipse cx="185" cy="74" rx="34" ry="10"/><ellipse cx="214" cy="65" rx="22" ry="8"/>
+    <ellipse cx="606" cy="106" rx="30" ry="9"/><ellipse cx="634" cy="98" rx="19" ry="7"/>
+  </g>
+  <path d="M 100 140 L 100 260 A 170 170 0 0 0 270 430 L 530 430 A 170 170 0 0 0 700 260 L 700 140 L 700 472 L 100 472 Z" fill="#a97c50"/>
+  <rect y="458" width="800" height="42" fill="#86a35c"/>
+  <rect y="458" width="800" height="4" fill="#6e8a4a"/>
+  <g stroke="#6a4a2e" stroke-width="7">
+    <line x1="25" y1="156" x2="25" y2="458"/><line x1="75" y1="156" x2="75" y2="458"/>
+    <line x1="725" y1="156" x2="725" y2="458"/><line x1="775" y1="156" x2="775" y2="458"/>
+  </g>
+  <rect x="0" y="140" width="100" height="16" fill="#8f6a44"/>
+  <rect x="700" y="140" width="100" height="16" fill="#8f6a44"/>
+  <path d="M 100 140 L 100 260 A 170 170 0 0 0 270 430 L 530 430 A 170 170 0 0 0 700 260 L 700 140"
+        transform="translate(0,6)" fill="none" stroke="#8f6a44" stroke-width="14"/>
+  <path d="M 100 140 L 100 260 A 170 170 0 0 0 270 430 L 530 430 A 170 170 0 0 0 700 260 L 700 140"
+        fill="none" stroke="#dcb98a" stroke-width="3"/>
+  <circle cx="100" cy="140" r="6" fill="#cfd6dd" stroke="#6a7480" stroke-width="1.5"/>
+  <circle cx="700" cy="140" r="6" fill="#cfd6dd" stroke="#6a7480" stroke-width="1.5"/>
+
+  <!-- speed streaks on the flat (pulse only while blasting through) -->
+  <g stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none">
+    <g opacity="0">
+      <animate attributeName="opacity" dur="7s" repeatCount="indefinite" calcMode="linear"
+               keyTimes="0;0.2165;0.235;0.265;0.2835;1" values="0;0;0.85;0.85;0;0"/>
+      <path d="M 296 396 h 34"/><path d="M 288 410 h 44"/><path d="M 298 424 h 30"/>
+    </g>
+    <g opacity="0">
+      <animate attributeName="opacity" dur="7s" repeatCount="indefinite" calcMode="linear"
+               keyTimes="0;0.7165;0.735;0.765;0.7835;1" values="0;0;0.85;0.85;0;0"/>
+      <path d="M 470 396 h 34"/><path d="M 462 410 h 44"/><path d="M 468 424 h 30"/>
+    </g>
+  </g>
+
+  <!-- trick labels -->
+  <text x="105" y="20" text-anchor="middle" font-family="Verdana, Arial, sans-serif"
+        font-size="15" font-weight="700" fill="#2e4057" opacity="0">METHOD AIR
+    <animate attributeName="opacity" dur="7s" repeatCount="indefinite" calcMode="linear"
+             keyTimes="0;0.05;0.09;0.90;0.95;1" values="1;1;0;0;1;1"/>
+  </text>
+  <text x="695" y="20" text-anchor="middle" font-family="Verdana, Arial, sans-serif"
+        font-size="15" font-weight="700" fill="#2e4057" opacity="0">INDY GRAB
+    <animate attributeName="opacity" dur="7s" repeatCount="indefinite" calcMode="linear"
+             keyTimes="0;0.40;0.44;0.56;0.60;1" values="0;0;1;1;0;0"/>
+  </text>
+
+  <!-- ============ SKATER (origin = wheel contact point) ============ -->
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <!-- Physics timing: keyTimes from integrating dt = ds / sqrt(2g(hmax-h)).
+         Fast through the flat, decelerating up the walls, hang time at each apex. -->
+    <animateMotion dur="7s" repeatCount="indefinite" calcMode="linear"
+      keyPoints="0;0.0168;0.0335;0.0586;0.0837;0.1397;0.1956;0.3044;0.3603;0.4163;0.4414;0.4665;0.4833;0.5;0.5168;0.5335;0.5586;0.5837;0.6397;0.6956;0.8044;0.8603;0.9163;0.9414;0.9665;0.9833;1"
+      keyTimes="0;0.0627;0.0887;0.1173;0.1402;0.1813;0.2165;0.2835;0.3187;0.3598;0.3827;0.4113;0.4373;0.5;0.5627;0.5887;0.6173;0.6402;0.6813;0.7165;0.7835;0.8187;0.8598;0.8827;0.9113;0.9373;1">
+      <mpath xlink:href="#track"/>
+    </animateMotion>
+
+    <!-- Body rotation follows the surface tangent: 0 deg on flat, +/-90 on vert walls,
+         tilted pose held through each air, back to wall angle at re-entry. -->
+    <animateTransform attributeName="transform" type="rotate" dur="7s" repeatCount="indefinite" calcMode="linear"
+      keyTimes="0;0.04;0.0887;0.1173;0.1402;0.1813;0.2165;0.2835;0.3187;0.3598;0.3827;0.4113;0.44;0.47;0.55;0.565;0.5887;0.6173;0.6402;0.6813;0.7165;0.7835;0.8187;0.8598;0.8827;0.9113;0.96;1"
+      values="118;104;90;90;90;45;0;0;-45;-90;-90;-90;-92;-120;-120;-95;-90;-90;-90;-45;0;0;45;90;90;90;112;118"/>
+
+    <!-- board: extra tilt only during tricks -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" dur="7s" repeatCount="indefinite" calcMode="linear"
+        keyTimes="0;0.02;0.0887;0.4113;0.44;0.55;0.5887;0.9113;0.96;1"
+        values="-42;-42;0;0;-28;-28;0;0;-42;-42"/>
+      <path d="M -24 -13 Q -19 -12 -17 -10 L 17 -10 Q 19 -13 24 -13 L 24 -11 Q 19 -10 17 -6 L -17 -6 Q -19 -10 -24 -11 Z"
+            fill="#5b3a22" stroke="#3a2413" stroke-width="1"/>
+      <path d="M -10.5 -6 L -10.5 -3.2 M 10.5 -6 L 10.5 -3.2" stroke="#8a8f94" stroke-width="2.5" fill="none"/>
+      <circle cx="-10.5" cy="-3.2" r="3.2" fill="#e8e8e8" stroke="#666" stroke-width="1"/>
+      <circle cx="10.5" cy="-3.2" r="3.2" fill="#e8e8e8" stroke="#666" stroke-width="1"/>
+    </g>
+
+    <path fill="none" stroke="#22303f" stroke-width="5">
+      <animate attributeName="d" dur="7s" repeatCount="indefinite" calcMode="linear"
+        keyTimes="0;0.02;0.0887;0.1402;0.1813;0.2165;0.2835;0.3187;0.3598;0.3827;0.4113;0.44;0.55;0.5887;0.6402;0.6813;0.7165;0.7835;0.8187;0.8598;0.8827;0.9113;0.96;1"
+        values="M 0 -28 L -11 -16 L -13.4 -1.4;M 0 -28 L -11 -16 L -13.4 -1.4;M 0 -33 L -5 -20 L -9 -10;M 0 -33 L -5 -20 L -9 -10;M 0 -26 L -9 -17 L -9 -10;M 0 -33 L -5 -20 L -9 -10;M 0 -33 L -5 -20 L -9 -10;M 0 -26 L -9 -17 L -9 -10;M 0 -33 L -5 -20 L -9 -10;M 0 -33 L -5 -20 L -9 -10;M 0 -33 L -5 -20 L -9 -10;M 0 -23 L -10 -15 L -12.7 -4.6;M 0 -23 L -10 -15 L -12.7 -4.6;M 0 -33 L -5 -20 L -9 -10;M 0 -33 L -5 -20 L -9 -10;M 0 -26 L -9 -17 L -9 -10;M 0 -33 L -5 -20 L -9 -10;M 0 -33 L -5 -20 L -9 -10;M 0 -26 L -9 -17 L -9 -10;M 0 -33 L -5 -20 L -9 -10;M 0 -33 L -5 -20 L -9 -10;M 0 -33 L -5 -20 L -9 -10;M 0 -28 L -11 -16 L -13.4 -1.4;M 0 -28 L -11 -16 L -13.4 -1.4"/>
+    </path>
+    <path fill="none" stroke="#22303f" stroke-width="5">
+      <animate attributeName="d" dur="7s" repeatCount="indefinite" calcMode="linear"
+        keyTimes="0;0.02;0.0887;0.1402;0.1813;0.2165;0.2835;0.3187;0.3598;0.3827;0.4113;0.44;0.55;0.5887;0.6402;0.6813;0.7165;0.7835;0.8187;0.8598;0.8827;0.9113;0.96;1"
+        values="M 0 -28 L 7 -21 L 0 -13.5;M 0 -28 L 7 -21 L 0 -13.5;M 0 -33 L 6 -21 L 9 -10;M 0 -33 L 6 -21 L 9 -10;M 0 -26 L 9 -18 L 9 -10;M 0 -33 L 6 -21 L 9 -10;M 0 -33 L 6 -21 L 9 -10;M 0 -26 L 9 -18 L 9 -10;M 0 -33 L 6 -21 L 9 -10;M 0 -33 L 6 -21 L 9 -10;M 0 -33 L 6 -21 L 9 -10;M 0 -23 L 7 -19 L 3.3 -13.1;M 0 -23 L 7 -19 L 3.3 -13.1;M 0 -33 L 6 -21 L 9 -10;M 0 -33 L 6 -21 L 9 -10;M 0 -26 L 9 -18 L 9 -10;M 0 -33 L 6 -21 L 9 -10;M 0 -33 L 6 -21 L 9 -10;M 0 -26 L 9 -18 L 9 -10;M 0 -33 L 6 -21 L 9 -10;M 0 -33 L 6 -21 L 9 -10;M 0 -33 L 6 -21 L 9 -10;M 0 -28 L 7 -21 L 0 -13.5;M 0 -28 L 7 -21 L 0 -13.5"/>
+    </path>
+    <path fill="none" stroke="#26374d" stroke-width="4.5">
+      <animate attributeName="d" dur="7s" repeatCount="indefinite" calcMode="linear"
+        keyTimes="0;0.02;0.0887;0.1402;0.1813;0.2165;0.2835;0.3187;0.3598;0.3827;0.4113;0.44;0.55;0.5887;0.6402;0.6813;0.7165;0.7835;0.8187;0.8598;0.8827;0.9113;0.96;1"
+        values="M -5 -46 L -14 -52 L -21 -59;M -5 -46 L -14 -52 L -21 -59;M 5 -49 L -5 -41 L -10 -31;M 5 -49 L -5 -41 L -10 -31;M 5 -43 L -5 -36 L -9 -27;M 5 -49 L -5 -41 L -10 -31;M 5 -49 L -5 -41 L -10 -31;M 5 -43 L -5 -36 L -9 -27;M 5 -49 L -5 -41 L -10 -31;M 5 -49 L -5 -41 L -10 -31;M 5 -49 L -5 -41 L -10 -31;M 4 -41 L -2 -23 L -7 -5;M 4 -41 L -2 -23 L -7 -5;M 5 -49 L -5 -41 L -10 -31;M 5 -49 L -5 -41 L -10 -31;M 5 -43 L -5 -36 L -9 -27;M 5 -49 L -5 -41 L -10 -31;M 5 -49 L -5 -41 L -10 -31;M 5 -43 L -5 -36 L -9 -27;M 5 -49 L -5 -41 L -10 -31;M 5 -49 L -5 -41 L -10 -31;M 5 -49 L -5 -41 L -10 -31;M -5 -46 L -14 -52 L -21 -59;M -5 -46 L -14 -52 L -21 -59"/>
+    </path>
+    <path fill="none" stroke="#2e4057" stroke-width="6.5">
+      <animate attributeName="d" dur="7s" repeatCount="indefinite" calcMode="linear"
+        keyTimes="0;0.02;0.0887;0.1402;0.1813;0.2165;0.2835;0.3187;0.3598;0.3827;0.4113;0.44;0.55;0.5887;0.6402;0.6813;0.7165;0.7835;0.8187;0.8598;0.8827;0.9113;0.96;1"
+        values="M 0 -28 L -5 -46;M 0 -28 L -5 -46;M 0 -33 L 5 -51;M 0 -33 L 5 -51;M 0 -26 L 5 -45;M 0 -33 L 5 -51;M 0 -33 L 5 -51;M 0 -26 L 5 -45;M 0 -33 L 5 -51;M 0 -33 L 5 -51;M 0 -33 L 5 -51;M 0 -23 L 4 -41;M 0 -23 L 4 -41;M 0 -33 L 5 -51;M 0 -33 L 5 -51;M 0 -26 L 5 -45;M 0 -33 L 5 -51;M 0 -33 L 5 -51;M 0 -26 L 5 -45;M 0 -33 L 5 -51;M 0 -33 L 5 -51;M 0 -33 L 5 -51;M 0 -28 L -5 -46;M 0 -28 L -5 -46"/>
+    </path>
+    <path fill="none" stroke="#2e4057" stroke-width="4.5">
+      <animate attributeName="d" dur="7s" repeatCount="indefinite" calcMode="linear"
+        keyTimes="0;0.02;0.0887;0.1402;0.1813;0.2165;0.2835;0.3187;0.3598;0.3827;0.4113;0.44;0.55;0.5887;0.6402;0.6813;0.7165;0.7835;0.8187;0.8598;0.8827;0.9113;0.96;1"
+        values="M -5 -46 L -4 -26 L -6 -5;M -5 -46 L -4 -26 L -6 -5;M 5 -49 L 15 -43 L 22 -33;M 5 -49 L 15 -43 L 22 -33;M 5 -43 L 14 -38 L 20 -30;M 5 -49 L 15 -43 L 22 -33;M 5 -49 L 15 -43 L 22 -33;M 5 -43 L 14 -38 L 20 -30;M 5 -49 L 15 -43 L 22 -33;M 5 -49 L 15 -43 L 22 -33;M 5 -49 L 15 -43 L 22 -33;M 4 -41 L 12 -45 L 17 -53;M 4 -41 L 12 -45 L 17 -53;M 5 -49 L 15 -43 L 22 -33;M 5 -49 L 15 -43 L 22 -33;M 5 -43 L 14 -38 L 20 -30;M 5 -49 L 15 -43 L 22 -33;M 5 -49 L 15 -43 L 22 -33;M 5 -43 L 14 -38 L 20 -30;M 5 -49 L 15 -43 L 22 -33;M 5 -49 L 15 -43 L 22 -33;M 5 -49 L 15 -43 L 22 -33;M -5 -46 L -4 -26 L -6 -5;M -5 -46 L -4 -26 L -6 -5"/>
+    </path>
+    <g>
+      <animateTransform attributeName="transform" type="translate" dur="7s" repeatCount="indefinite" calcMode="linear"
+        keyTimes="0;0.02;0.0887;0.1402;0.1813;0.2165;0.2835;0.3187;0.3598;0.3827;0.4113;0.44;0.55;0.5887;0.6402;0.6813;0.7165;0.7835;0.8187;0.8598;0.8827;0.9113;0.96;1"
+        values="-10 5;-10 5;0 0;0 0;0 6;0 0;0 0;0 6;0 0;0 0;0 0;-1 10;-1 10;0 0;0 0;0 6;0 0;0 0;0 6;0 0;0 0;0 0;-10 5;-10 5"/>
+      <circle cx="7" cy="-60" r="6" fill="#edb98a"/>
+      <path d="M 0.6 -60.2 A 6.4 6.4 0 0 1 13.4 -60.2 Z" fill="#e74c3c"/>
+      <circle cx="9.6" cy="-59" r="1" fill="#26313d"/>
+    </g>
+  </g>
+</svg>
