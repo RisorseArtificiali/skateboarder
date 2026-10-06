@@ -1,0 +1,2222 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <!--
+    SKATEBOARDER ON HALF-PIPE - Self-contained animated SVG
+    Physics model:
+    - Pendulum motion: skater swings along the two quarter-pipe transitions
+    - Speed varies with height (slow at top, fast at bottom) via non-linear keyTimes
+    - Gravity: aerial trick follows parabolic arc above the coping
+    - Board rotates (kickflip) during airtime and realigns before landing
+    - Seamless loop: skater returns to start pose/position
+  -->
+
+  <defs>
+    <!-- Sky gradient -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#87CEEB"/>
+      <stop offset="1" stop-color="#E0F0FF"/>
+    </linearGradient>
+    <!-- Ramp surface gradient -->
+    <linearGradient id="rampFace" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9aa5b1"/>
+      <stop offset="1" stop-color="#5d6d7e"/>
+    </linearGradient>
+    <!-- Coping (metal pipe at top of ramp) -->
+    <linearGradient id="coping" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8e8e8"/>
+      <stop offset="0.5" stop-color="#b0b0b0"/>
+      <stop offset="1" stop-color="#787878"/>
+    </linearGradient>
+    <!-- Skateboard deck gradient -->
+    <linearGradient id="deck" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff6b35"/>
+      <stop offset="1" stop-color="#c0392b"/>
+    </linearGradient>
+    <!-- Wheel gradient -->
+    <radialGradient id="wheel" cx="0.35" cy="0.35" r="0.8">
+      <stop offset="0" stop-color="#f5f5f5"/>
+      <stop offset="1" stop-color="#888"/>
+    </radialGradient>
+    <!-- Soft shadow -->
+    <radialGradient id="shadow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#000" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- ============ SKATEBOARD (deck + 4 trucks/wheels) ============ -->
+    <!-- Board group: origin at board center. Deck is 90 wide, 10 tall. -->
+    <g id="skateboard">
+      <!-- Deck -->
+      <path d="M -45 -5 Q -50 -5 -50 0 Q -50 5 -45 5 L 45 5 Q 50 5 50 0 Q 50 -5 45 -5 Z" fill="url(#deck)" stroke="#7b241c" stroke-width="1"/>
+      <!-- Deck grip line -->
+      <line x1="-42" y1="-3" x2="42" y2="-3" stroke="#8e2f1c" stroke-width="1" opacity="0.6"/>
+      <!-- Front truck -->
+      <g>
+        <rect x="26" y="5" x="-0" width="6" height="6" fill="#bdc3c7" stroke="#5d6d7e" stroke-width="0.6"/>
+        <line x1="29" y1="11" x2="29" y2="14" stroke="#5d6d7e" stroke-width="2"/>
+        <!-- Front wheels (2 visible as one pair, drawn as two circles side by side for 3D) -->
+        <circle cx="24" cy="16" r="5" fill="url(#wheel)" stroke="#555" stroke-width="0.8"/>
+        <circle cx="34" cy="16" r="5" fill="url(#wheel)" stroke="#555" stroke-width="0.8"/>
+      </g>
+      <!-- Rear truck -->
+      <g>
+        <rect x="-32" y="5" width="6" height="6" fill="#bdc3c7" stroke="#5d6d7e" stroke-width="0.6"/>
+        <line x1="-29" y1="11" x2="-29" y2="14" stroke="#5d6d7e" stroke-width="2"/>
+        <!-- Rear wheels -->
+        <circle cx="-34" cy="16" r="5" fill="url(#wheel)" stroke="#555" stroke-width="0.8"/>
+        <circle cx="-24" cy="16" r="5" fill="url(#wheel)" stroke="#555" stroke-width="0.8"/>
+      </g>
+    </g>
+
+    <!-- ============ SKATER FIGURE ============ -->
+    <!-- Figure group: origin at the board center (feet on deck).
+         Crouched stance, knees bent, arms out for balance.
+         Total height ~70 units above board. -->
+    <g id="skater">
+      <!-- Back leg (slightly darker) -->
+      <path d="M -6 -2 L -14 -22 L -10 -40" fill="none" stroke="#2c3e50" stroke-width="7" stroke-linecap="round"/>
+      <!-- Front leg -->
+      <path d="M 8 -2 L 16 -22 L 12 -40" fill="none" stroke="#34495e" stroke-width="7" stroke-linecap="round"/>
+      <!-- Shoes -->
+      <ellipse cx="-10" cy="-2" rx="7" ry="3.5" fill="#222"/>
+      <ellipse cx="12" cy="-2" rx="7" ry="3.5" fill="#222"/>
+      <!-- Torso (leaning slightly forward) -->
+      <path d="M -2 -38 L 2 -62" fill="none" stroke="#e74c3c" stroke-width="14" stroke-linecap="round"/>
+      <!-- Arms for balance: back arm and front arm -->
+      <path d="M 0 -56 L -22 -48 L -30 -34" fill="none" stroke="#e74c3c" stroke-width="6" stroke-linecap="round"/>
+      <path d="M 2 -56 L 24 -50 L 32 -38" fill="none" stroke="#e74c3c" stroke-width="6" stroke-linecap="round"/>
+      <!-- Hands -->
+      <circle cx="-30" cy="-34" r="3.5" fill="#f0c8a0"/>
+      <circle cx="32" cy="-38" r="3.5" fill="#f0c8a0"/>
+      <!-- Head -->
+      <circle cx="4" cy="-72" r="9" fill="#f0c8a0"/>
+      <!-- Helmet -->
+      <path d="M -5 -74 A 9 9 0 0 1 13 -74 L 13 -71 L -5 -71 Z" fill="#f1c40f" stroke="#d4ac0d" stroke-width="1"/>
+      <!-- Helmet strap -->
+      <line x1="-2" y1="-71" x2="0" y2="-64" stroke="#d4ac0d" stroke-width="1"/>
+    </g>
+
+    <!-- Combined skater+board unit, used with transforms -->
+    <g id="skaterBoard">
+      <use href="#skateboard"/>
+      <use href="#skater"/>
+    </g>
+  </defs>
+
+  <!-- ==================== SCENE ==================== -->
+
+  <!-- Sky -->
+  <rect width="800" height="500" fill="url(#sky)"/>
+
+  <!-- Sun -->
+  <circle cx="680" cy="70" r="35" fill="#f9d71c" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;0.6;0.9" dur="6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Clouds -->
+  <g fill="#ffffff" opacity="0.85">
+    <ellipse cx="150" cy="70" rx="45" ry="16">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 60 0; 0 0" dur="20s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="180" cy="60" rx="30" ry="13">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 60 0; 0 0" dur="20s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="520" cy="110" rx="38" ry="13">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -50 0; 0 0" dur="26s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+
+  <!-- Ground / flat bottom of half-pipe -->
+  <rect x="0" y="420" width="800" height="80" fill="#7f8c8d"/>
+  <rect x="0" y="420" width="800" height="6" fill="#95a5a6"/>
+
+  <!-- ==================== HALF-PIPE STRUCTURE ==================== -->
+  <!--
+    Half-pipe geometry:
+    - Flat bottom from x=250 to x=550 at y=420
+    - Left quarter pipe: transition curve from (250,420) up to (110,180)
+    - Right quarter pipe: transition curve from (550,420) up to (690,180)
+    - Vertical "vert" section at top of each transition
+    - Coping (metal pipe) at the lip: left at (110,180), right at (690,180)
+    - Platforms (decks) behind each lip
+  -->
+
+  <!-- Left quarter-pipe transition (ramp surface the skater rides on) -->
+  <path d="M 250 420
+           L 250 420
+           C 250 340, 200 260, 130 210
+           L 110 180
+           L 110 420 Z"
+        fill="url(#rampFace)" stroke="#34495e" stroke-width="2"/>
+
+  <!-- Right quarter-pipe transition -->
+  <path d="M 550 420
+           C 550 340, 600 260, 670 210
+           L 690 180
+           L 690 420
+           L 550 420 Z"
+        fill="url(#rampFace)" stroke="#34495e" stroke-width="2"/>
+
+  <!-- Ramp surface highlight lines (transition texture) -->
+  <g stroke="#b0b8bf" stroke-width="1.5" opacity="0.5" fill="none">
+    <path d="M 250 400 C 248 330, 205 255, 138 208"/>
+    <path d="M 250 370 C 245 310, 212 245, 152 202"/>
+    <path d="M 550 400 C 552 330, 595 255, 662 208"/>
+    <path d="M 550 370 C 555 310, 588 245, 648 202"/>
+  </g>
+
+  <!-- Vertical vert section walls (behind coping) -->
+  <rect x="100" y="120" width="12" height="62" fill="#85929e" stroke="#34495e" stroke-width="1.5"/>
+  <rect x="688" y="120" width="12" height="62" fill="#85929e" stroke="#34495e" stroke-width="1.5"/>
+
+  <!-- Platforms (decks) at top of each side -->
+  <rect x="40" y="172" width="72" height="10" fill="#a04000" stroke="#6e2c00" stroke-width="1.5"/>
+  <rect x="688" y="172" width="72" height="10" fill="#a04000" stroke="#6e2c00" stroke-width="1.5"/>
+
+  <!-- Support structure under ramps -->
+  <g stroke="#5d6d7e" stroke-width="4" opacity="0.7">
+    <line x1="180" y1="300" x2="180" y2="420"/>
+    <line x1="140" y1="240" x2="140" y2="420"/>
+    <line x1="620" y1="300" x2="620" y2="420"/>
+    <line x1="660" y1="240" x2="660" y2="420"/>
+  </g>
+
+  <!-- ==================== COPING (the pipe the skater grinds/airs above) ==================== -->
+  <!-- Left coping -->
+  <rect x="104" y="174" width="12" height="8" rx="4" fill="url(#coping)" stroke="#555" stroke-width="1"/>
+  <!-- Right coping -->
+  <rect x="684" y="174" width="12" height="8" rx="4" fill="url(#coping)" stroke="#555" stroke-width="1"/>
+
+  <!-- ==================== SHADOW (moves with skater, squashes in air) ==================== -->
+  <ellipse id="skaterShadow" cx="400" cy="424" rx="40" ry="7" fill="url(#shadow)">
+    <!-- Shadow follows skater X, shrinks/grows with height -->
+    <animate attributeName="cx" values="400;400;330;250;180;130;110;110;180;250;330;400;470;550;620;670;690;690;620;550;470;400;400" keyTimes="0;0.08;0.16;0.24;0.32;0.40;0.44;0.48;0.56;0.64;0.72;0.80;0.88;0.96;1" dur="8s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+    <animate attributeName="rx" values="40;40;36;30;24;18;14;14;18;24;30;36;40;40;36;30;24;18;14;14;18;24;30;36;40" keyTimes="0;0.08;0.16;0.24;0.32;0.40;0.44;0.48;0.56;0.64;0.72;0.80;0.88;0.96;1" dur="8s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+    <animate attributeName="opacity" values="0.5;0.5;0.4;0.3;0.2;0.1;0.05;0.05;0.1;0.2;0.3;0.4;0.5;0.5;0.4;0.3;0.2;0.1;0.05;0.05;0.1;0.2;0.3;0.4;0.5" keyTimes="0;0.08;0.16;0.24;0.32;0.40;0.44;0.48;0.56;0.64;0.72;0.80;0.88;0.96;1" dur="8s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- ==================== THE SKATER (animated) ==================== -->
+  <!--
+    MOTION TIMELINE (8 second seamless loop):
+    t=0.00-0.40 (0-3.2s): Pumping on right transition, climbing from flat to right lip
+    t=0.40-0.48 (3.2-3.84s): LAUNCH off right coping - aerial trick begins
+    t=0.48-0.56 (3.84-4.48s): AIRBORNE - kickflip rotation, parabolic arc over the pipe
+    t=0.56-0.64 (4.48-5.12s): LANDING on right transition, descending
+    t=0.64-0.80 (5.12-6.4s): Pumping across flat bottom to left transition (fastest here)
+    t=0.80-0.96 (6.4-7.68s): Climbing left transition to left lip
+    t=0.96-1.00 (7.68-8.0s): Brief pause/transition at left lip, then loop restarts
+    Actually for seamless loop, we mirror: the loop covers a full back-and-forth.
+    Revised: one full cycle = right lip launch -> air -> land right -> flat -> left climb -> left lip launch -> air -> land left -> flat -> back to start.
+    That's too long. Instead: single trick per loop, symmetric.
+    Final timeline (8s):
+    0.00-0.20: flat bottom, rolling right-to-left... no.
+    Let's do: start at right lip, launch, air, land right, pump to left, climb left, launch, air, land left, pump to right, back to right lip = start.
+    That's a full symmetric cycle = seamless.
+  -->
+
+  <!--
+    POSITION PATH (pendulum along half-pipe):
+    The skater follows the ramp surface. We approximate with key X,Y positions.
+    Ramp surface points (where wheels touch):
+    Right lip: (690, 178)  [coping top]
+    Right transition mid-high: (640, 230)
+    Right transition mid: (580, 300)
+    Right transition low: (520, 370)
+    Flat bottom right: (500, 418)
+    Flat bottom center: (400, 420)
+    Flat bottom left: (300, 418)
+    Left transition low: (280, 370)
+    Left transition mid: (220, 300)
+    Left transition mid-high: (160, 230)
+    Left lip: (110, 178)
+
+    For aerial: skater leaves right lip at (690,178), arcs up and over to land back on right transition.
+    Parabolic arc: peak height ~90px above lip, horizontal travel ~120px.
+    Air path: (690,178) -> (720, 110) peak -> (660, 150) -> land (620, 240) on transition.
+    Wait - "above the pipe's coping" means above the coping. Let's go higher and across.
+    Better: launch from right lip, arc up-left over the flat, land on left transition? That's a big air.
+    Or: launch from right lip, kickflip, land back on right transition (smaller, classic air).
+    Let's do a frontside air: launch right lip, arc up and slightly left, land back on right transition.
+    Peak: (660, 95), land at (600, 280).
+
+    Actually for visual drama, let's do a big air: launch from right lip, fly across the whole pipe, land on left transition.
+    That shows the parabolic arc clearly. Peak at center (400, 60).
+    Air: (690,178) -> (550, 100) -> (400, 60) peak -> (250, 100) -> (110, 178) land left lip area.
+    Then pump down left, across flat, up right, and loop.
+    Hmm, that's a huge air. Let's do a more realistic vert air: launch from one lip, land on the same transition but higher speed carries.
+    Classic "air" in half-pipe: go up one wall, come back down the same wall. But that's not "above the coping" across.
+    Let's do: launch from right lip, grab board, kickflip, land on right transition lower down. Then pump to left, launch from left lip, same trick, land left, pump to right = loop start.
+    This is symmetric and seamless.
+
+    REVISED 8s TIMELINE:
+    0.00 (t=0): At right lip (690,178), crouched, starting to launch
+    0.00-0.10: Pump/extend, leaving lip
+    0.10-0.20: AIR - parabolic arc up and over, kickflip rotation, peak ~ (655, 90)
+    0.20-0.25: Coming down, board realigns
+    0.25-0.35: LAND on right transition at (600, 280), absorb, descend
+    0.35-0.50: Pump down right transition, across flat bottom (fastest at bottom ~400,420), up left transition
+    0.50-0.60: Climbing left transition, slowing down
+    0.60-0.70: Reach left lip (110,178), launch
+    0.70-0.80: AIR - parabolic arc, kickflip, peak ~ (145, 90)
+    0.80-0.85: Coming down, realign
+    0.85-0.95: LAND on left transition at (200, 280), descend
+    0.95-1.00: Pump down, across flat to right, up to right lip = back to start
+
+    Wait, that's 2 tricks per loop. Let's simplify to 1 trick per loop for clarity, with the return being just pumping.
+    Actually 2 symmetric tricks makes a perfect seamless loop. Let's keep it but make timing precise.
+
+    Let me recalculate with 8s total, 2 tricks:
+    Phase A (right side trick): 0.00 - 0.25 (2s)
+    Phase B (transit right-to-left): 0.25 - 0.50 (2s)
+    Phase C (left side trick): 0.50 - 0.75 (2s)
+    Phase D (transit left-to-right): 0.75 - 1.00 (2s)
+
+    Positions (X, Y of board center, Y is where wheels touch ramp or air):
+    t=0.00: (690, 172) at right lip, crouched
+    t=0.05: (688, 160) extending, leaving lip
+    t=0.10: (672, 120) airborne, rising
+    t=0.125: (655, 95) PEAK of arc
+    t=0.15: (635, 105) descending
+    t=0.20: (615, 160) descending
+    t=0.25: (600, 240) LAND on right transition
+    t=0.30: (560, 320) descending transition
+    t=0.35: (500, 390) approaching flat
+    t=0.40: (400, 414) flat bottom center - MAX SPEED
+    t=0.45: (300, 390) rising left transition
+    t=0.50: (200, 280) climbing left transition... wait need to reach lip at t=0.50 for symmetry? No.
+
+    Hmm, let me reconsider. For a seamless loop with 2 tricks, the transit time must match.
+    Let me make it cleaner:
+
+    t=0.00: Right lip (690, 172), crouched, about to launch
+    t=0.04: Launch - leaving lip (688, 155)
+    t=0.08: Rising (675, 115)
+    t=0.12: PEAK (658, 92)
+    t=0.16: Descending (638, 110)
+    t=0.20: Descending (618, 165)
+    t=0.24: LAND (602, 235) on right transition
+    t=0.28: Absorb/descend (575, 290)
+    t=0.32: (540, 345)
+    t=0.36: (490, 390)
+    t=0.40: (400, 414) flat bottom - max speed
+    t=0.44: (310, 390)
+    t=0.48: (260, 345)
+    t=0.52: (225, 290)
+    t=0.56: (198, 235) landing zone on left transition... but we want to reach lip for next trick
+
+    This doesn't reach the left lip. The issue is the transit takes too long.
+    Let me adjust: the skater doesn't need to go all the way to the lip and stop; they carry speed.
+    Actually in a half-pipe, you pump and maintain speed. The skater goes lip to lip.
+    Let me make the transit faster (more speed) and the trick phases shorter.
+
+    New timeline (8s):
+    t=0.00: Right lip (690, 172), crouched
+    t=0.03: Launch (686, 150)
+    t=0.06: Air rising (672, 112)
+    t=0.09: PEAK (655, 90)
+    t=0.12: Air descending (636, 108)
+    t=0.15: Air (616, 158)
+    t=0.18: LAND (600, 230) right transition
+    t=0.22: (565, 295) descending
+    t=0.26: (520, 355)
+    t=0.30: (460, 395)
+    t=0.34: (400, 413) flat bottom center - MAX SPEED
+    t=0.38: (340, 395)
+    t=0.42: (280, 355)
+    t=0.46: (235, 295)
+    t=0.50: LAND/transition at left (200, 230)... still not at lip.
+
+    The problem: to go from right lip to left lip in 0.5 of the cycle (4s) while also doing a trick...
+    Let me just make the loop 8s with ONE trick and the return being a simple pump, but make it symmetric by having the skater start and end at the same point.
+
+    SIMPLEST SEAMLESS LOOP (8s):
+    Start at flat bottom center, rolling right.
+    t=0.00: (400, 414) flat bottom, rolling right
+    t=0.10: (500, 390) starting up right transition
+    t=0.20: (600, 280) climbing right transition
+    t=0.30: (670, 200) approaching right lip
+    t=0.35: (690, 172) AT right lip, crouch
+    t=0.38: LAUNCH (688, 150)
+    t=0.42: AIR (672, 110)
+    t=0.46: PEAK (655, 88)
+    t=0.50: AIR descending (635, 108)
+    t=0.54: AIR (615, 160)
+    t=0.58: LAND (600, 235) right transition
+    t=0.64: (550, 320) descending
+    t=0.70: (480, 390)
+    t=0.76: (400, 414) flat bottom center - rolling left... wait, need to go back to start.
+
+    Hmm, to loop seamlessly, end must equal start. If start is (400,414) rolling right, end must be (400,414) rolling right.
+    So the skater must go right, do trick, come back to center, then go left, do trick, come back to center = full cycle.
+    That's 2 tricks again.
+
+    OK let's just do 2 tricks in 8s. It's fine. The key is symmetric timing.
+
+    FINAL 8s TIMELINE (2 symmetric tricks):
+
+    RIGHT TRICK + TRANSIT TO LEFT:
+    t=0.00: (690, 172) right lip, crouched, ready
+    t=0.02: (688, 158) beginning to extend/launch
+    t=0.05: (680, 130) leaving lip, airborne
+    t=0.08: (668, 105) rising
+    t=0.11: (655, 90) PEAK
+    t=0.14: (640, 102) descending
+    t=0.17: (622, 140) descending
+    t=0.20: (605, 195) about to land
+    t=0.23: (595, 245) LAND on right transition
+    t=0.27: (565, 305) absorbing, descending
+    t=0.31: (525, 360)
+    t=0.35: (470, 398)
+    t=0.39: (400, 414) flat bottom - MAX SPEED
+    t=0.43: (330, 398)
+    t=0.47: (275, 360)
+    t=0.51: (235, 305)
+    t=0.55: (205, 245) climbing left transition
+    t=0.58: (150, 195) approaching left lip
+    t=0.60: (110, 172) LEFT LIP, crouched, ready
+
+    LEFT TRICK + TRANSIT TO RIGHT:
+    t=0.60: (110, 172) left lip
+    t=0.62: (112, 158) launch
+    t=0.65: (120, 130) airborne
+    t=0.68: (132, 105) rising
+    t=0.71: (145, 90) PEAK
+    t=0.74: (160, 102) descending
+    t=0.77: (178, 140) descending
+    t=0.80: (195, 195) about to land
+    t=0.83: (205, 245) LAND on left transition
+    t=0.87: (235, 305) descending
+    t=0.91: (275, 360)
+    t=0.95: (330, 398)
+    t=0.99: (400, 414) flat bottom... wait need to get back to right lip at t=1.00
+
+    This doesn't work because transit takes 0.21 (from land to opposite lip) but we only have 0.17 left.
+    The issue is asymmetric timing. Let me make it perfectly symmetric:
+
+    Each half (0-0.5 and 0.5-1.0) is identical mirrored.
+    Half cycle (4s): lip -> trick -> land -> transit -> opposite lip
+    t=0.00: Right lip (690, 172)
+    t=0.05: Launch/air start
+    t=0.10: PEAK (655, 90)
+    t=0.15: Air descending
+    t=0.20: LAND (600, 240)
+    t=0.25: (555, 310)
+    t=0.30: (500, 370)
+    t=0.35: (450, 400)
+    t=0.40: (400, 414) flat bottom center - MAX SPEED
+    t=0.45: (350, 400)
+    t=0.50: (300, 370)... wait this is only halfway to left lip.
+
+    I need the transit from right-land to left-lip to take 0.30 (from t=0.20 to t=0.50).
+    Right land at t=0.20 at (600, 240). Left lip at t=0.50 at (110, 172).
+    That's a long distance. The skater would need to go down right transition, across flat, up left transition.
+    Distance: 600->110 = 490px horizontal, plus vertical.
+    In 0.30 * 8s = 2.4s. That's fast but possible with pumping.
+
+    Let me just define the path and use keyTimes that reflect speed (slow at top, fast at bottom).
+
+    Actually, let me simplify the whole thing. Instead of trying to be perfectly physically accurate with the path,
+    I'll use a well-crafted set of keyframe positions with spline easing that LOOKS like pendulum motion
+    (slow at extremes, fast in middle), and a parabolic arc for the air.
+
+    Let me define the motion with these keyframes (X, Y) for board center, and rotation:
+
+    keyTimes: 0, 0.06, 0.12, 0.18, 0.24, 0.30, 0.36, 0.42, 0.48, 0.54, 0.60, 0.66, 0.72, 0.78, 0.84, 0.90, 0.96, 1.0
+
+    Hmm this is getting complex. Let me use fewer keyframes with calcMode="spline" for smooth pendulum-like motion.
+
+    I'll use this approach:
+    - Main position animation: translate X and Y with keyTimes clustered to show speed variation
+    - Rotation animation: board+skater rotates to match ramp tangent when on ramp, does kickflip in air
+    - Separate board spin animation for the kickflip (rotate around longitudinal axis - but in 2D we fake it with scaleY or a flip rotation)
+
+    For the kickflip in 2D side view: the board rotates around its long axis (which points into the screen).
+    We can simulate this by scaling Y of the board (squash to simulate rotation) or by rotating the whole board group.
+    Actually a kickflip in side view: the board spins along its length. We see the board edge-on at 90 degrees.
+    Simplest visual: rotate the board group by 360 degrees around Z (in screen plane) - that's a "spin" not a kickflip.
+    For a kickflip look: scale Y from 1 to -1 to 1 (flip) while also translating. Or rotate around X axis (but SVG doesn't do 3D).
+    Best 2D approximation: animate scale(1,1) -> scale(1,-1) -> scale(1,1) on the board, which looks like it's flipping.
+    Combined with the skater staying upright (feet on board), this looks like a kickflip.
+
+    Actually, let me do a simpler trick: a 360 spin (the whole skater+board rotates 360 in the air).
+    That's easier to animate and looks cool. Or a "grab" where the skater grabs the board.
+    Let's do: aerial with a 360 rotation of the whole skater+board unit (like a frontside 360 air).
+    The board and skater rotate together 360 degrees during the air, landing with board aligned.
+
+    For the rotation when on the ramp: the skater+board should be perpendicular to the ramp surface.
+    On flat: rotation = 0
+    On right transition (going up): rotation = negative (tilted back) ... actually perpendicular to surface.
+    Right transition surface tangent: as we go up right transition, surface tilts. At bottom it's flat (0 deg), at top it's vertical (90 deg).
+    So rotation goes from 0 to -90 (or +90 depending on direction) as skater climbs right transition.
+    Wait: right transition curves from flat (at x=550) up to vertical (at x=690). The surface normal points up-left.
+    The skater stands perpendicular to surface. At the lip (vertical wall), skater is horizontal? No, skater is vertical, board is on the vertical wall.
+    Actually at the lip of a vert ramp, the board is on the coping which is horizontal-ish (the coping is a pipe at the top).
+    Let me reconsider the ramp shape. A vert ramp has a vertical section at the top. The coping is at the top of the vertical section.
+    So at the lip, the ramp is vertical, and the skater launches vertically upward.
+    The board is perpendicular to the vertical wall = horizontal board, vertical skater.
+    As the skater goes down the transition, the board tilts to match the transition curve.
+
+    For simplicity, I'll approximate the rotation:
+    - Flat bottom: rotation = 0
+    - Right transition climbing: rotation goes from 0 to about -70 degrees (board tilts, nose up)
+    - At right lip: rotation ≈ -80 degrees (nearly vertical wall)
+    - In air: rotation continues or does trick rotation
+    - Landing: rotation matches transition tangent
+
+    Actually, let me look at this differently. The skater+board group rotation should match the ramp surface angle.
+    Ramp surface angle (tangent) at various points:
+    - Flat: 0°
+    - Right transition bottom (x=550): ~0° (flat)
+    - Right transition mid (x=600): ~-45° (going up to the right, surface tilts)
+    - Right transition top (x=670): ~-75°
+    - Right lip (x=690): ~-90° (vertical)
+
+    Wait, I need to think about the curve. The right transition goes from (550,420) flat, curving up to (690,180) vertical.
+    The tangent angle (measured from horizontal, positive = going up to the right):
+    At (550,420): 0°
+    At (600,300): about -50° (the surface is rising to the right, so tangent points up-right, angle = -50° if we measure clockwise from horizontal... let me use standard: angle from positive X axis, counterclockwise positive).
+    Surface at right transition: as X increases, Y decreases (going up). The tangent vector points in direction of increasing X (riding up): (dx, dy) where dy < 0.
+    Angle = atan2(dy, dx). At bottom: dy≈0, angle≈0. At top: dx≈0, dy<0, angle≈-90°.
+    So the surface tangent angle goes from 0° to -90°.
+    The skater+board should be rotated by this tangent angle (board aligned with surface).
+    So rotation = tangent angle = 0° at flat, -90° at lip.
+
+    For the left transition (riding up to the left): tangent angle goes from 0° to +90°.
+
+    OK let me just define the animation with reasonable values. I'll use a simplified model.
+
+    Let me restart the motion design with a cleaner approach:
+
+    I'll animate the skater group with:
+    1. translate(X, Y) - position of board center
+    2. rotate(angle) - board/skater tilt matching ramp or trick
+
+    And separately animate the board's flip (scaleY) for the kickflip effect.
+
+    MOTION (8s loop, 2 tricks):
+
+    RIGHT SIDE (t=0 to t=0.5):
+    t=0.00: pos(690, 170), rot(-85) - at right lip, vertical wall, board horizontal-ish... wait.
+    If the wall is vertical and the board is on it, the board is vertical too? No!
+    The board is ON the ramp surface. If the ramp surface is vertical, the board is vertical (standing on the wall).
+    But the skater is standing on the board, so the skater is horizontal? That doesn't make sense.
+    Actually in vert skating, at the lip, the board is on the coping (horizontal pipe), and the skater launches upward.
+    The transition below the coping curves from vertical to horizontal.
+    At the very lip, the skater is going straight up, board is horizontal (perpendicular to vertical motion).
+    Hmm, let me think again. The coping is a horizontal pipe at the top. The vertical wall is below it.
+    The skater rides up the transition, goes vertical, and launches off the coping.
+    At the moment of launch, the board is on the coping, which is horizontal. The skater is upright, board is horizontal.
+    So at the lip: board is horizontal (rotation = 0), skater is upright.
+    As the skater goes down the transition, the board tilts to match the transition surface.
+
+    Wait, that means at the lip the rotation is 0 (board horizontal), and as the skater descends the transition, the board tilts.
+    Let me reconsider: the transition surface at the top is vertical. The coping sits on top of the vertical wall.
+    When the skater is on the transition (below the coping), the board is on the curved surface.
+    At the top of the transition (just below coping), the surface is nearly vertical, so the board is nearly vertical.
+    But the skater can't stand on a vertical board... unless they're in the air or doing a trick.
+    Actually, the skater rides the transition, and at the top, they launch into the air. The board leaves the ramp.
+    So the board is on the ramp surface until the lip, then it's airborne.
+    At the lip (coping), the board is on the coping which is horizontal. So board rotation = 0 at the lip.
+    Just before the lip, on the vertical section, the board would be vertical... but skaters don't ride the vertical section with the board on it; they ride the transition and launch.
+    The transition curve is such that the board is always roughly perpendicular to the surface, and the skater's feet are on the board.
+    At the steepest part of the transition (near vertical), the board is near vertical, and the skater is leaning back.
+    This is getting complicated. Let me simplify:
+
+    SIMPLIFIED ROTATION MODEL:
+    - The skater+board rotation matches the ramp surface tangent angle.
+    - Flat bottom: 0°
+    - Right transition (riding up): rotation goes from 0° to -80° (board tilts nose-up as wall gets steeper)
+    - At right lip: rotation = -80° (nearly vertical board)... but this looks weird.
+
+    Actually, I think the issue is my ramp shape. Let me make the transition less steep at the top.
+    A real half-pipe transition is about 60-70° at the steepest, not 90°. Vert ramps have a vertical section, but the transition (the curved part) is typically 60-80°.
+    Let me adjust: the transition goes from flat to about 75° at the lip, with a small vertical section and coping.
+
+    For the animation, I'll use these rotation values:
+    - Flat: 0°
+    - Right transition: 0° to -75° (riding up right)
+    - Right lip: -75°
+    - Air: trick rotation (360° spin or kickflip)
+    - Landing: matches transition tangent (~-50°)
+    - Descending right: -50° to 0°
+    - Flat: 0°
+    - Left transition: 0° to +75°
+    - Left lip: +75°
+    - etc.
+
+    Hmm, but if the board is at -75° at the lip, the skater is tilted way back. That's actually correct for vert skating!
+    The skater leans back as they go up the transition.
+
+    OK let me just go with it. The rotation will look dynamic.
+
+    Actually, you know what, let me simplify even further. I'll make the rotation follow a sine-like pattern that looks natural:
+    - When on flat: rotation = 0
+    - When climbing right transition: rotation = negative (leaning back), max about -60°
+    - When at right lip: rotation = -60°
+    - In air: rotation does a 360 spin (the trick)
+    - When landing/descending: rotation goes from -40° back to 0°
+    - Mirror for left side
+
+    Let me define the full keyframe set now. I'll use calcMode="spline" with keySplines for smooth pendulum-like easing.
+
+    POSITION (X, Y) - board center:
+    The Y position should follow the ramp surface when on ramp, and parabolic arc when in air.
+
+    Ramp surface Y as function of X (approximate):
+    Right transition: Y = 420 - (some curve). Let me approximate with the path I defined.
+    At X=690 (lip): Y=178 (coping top)
+    At X=670: Y=210
+    At X=640: Y=250
+    At X=600: Y=300
+    At X=560: Y=350
+    At X=550: Y=380 (start of transition)
+    At X=500-550: Y=420 (flat)... wait my flat is 250-550.
+    Let me redefine: flat from 250 to 550 at Y=420.
+    Right transition from X=550 (Y=420) to X=690 (Y=180).
+    Left transition from X=250 (Y=420) to X=110 (Y=180).
+
+    Ramp surface Y(X) for right transition (X from 550 to 690):
+    Y = 420 - 240 * ((X-550)/140)^0.7  ... approximate curve, steeper near top
+    At X=550: Y=420
+    At X=620: Y=420-240*(0.5)^0.7=420-240*0.615=420-148=272
+    At X=690: Y=420-240*1=180
+
+    For left transition (X from 110 to 250):
+    Y = 420 - 240 * ((250-X)/140)^0.7
+    At X=250: Y=420
+    At X=180: Y=420-240*(0.5)^0.7=272
+    At X=110: Y=180
+
+    OK I'll just use hand-tuned keyframes. Let me write the animation now.
+
+    FINAL KEYFRAMES (8s, seamless, 2 tricks):
+
+    I'll use these keyTimes and values for translate and rotate.
+    The skater group will have:
+    - animateTransform translate (X, Y)
+    - animateTransform rotate (angle around board center)
+    - The board inside will have a separate flip animation (scaleY) for kickflip
+
+    Let me define positions (X, Y) where Y is the board center height. Board center is about 8px above the surface (wheels radius ~5, board at Y_surface - 8 roughly). Actually board center Y = surface Y - 8 (wheels below board). Let me just use surface contact point and offset.
+
+    Actually, let me place the origin of the skaterBoard group at the board center. The wheels extend 16px below board center (wheel center at Y+16, radius 5, so bottom of wheel at Y+21). The ramp surface should be at Y+21 when on ramp.
+    So board center Y = surface Y - 21.
+
+    Surface Y at various X:
+    Right lip (X=690): surface Y=178, board center Y=157
+    Right transition:
+    X=670: surface Y=210, board Y=189
+    X=640: surface Y=255, board Y=234
+    X=600: surface Y=310, board Y=289
+    X=560: surface Y=370, board Y=349
+    X=550: surface Y=420, board Y=399
+    Flat (X=300-500): surface Y=420, board Y=399
+    Left transition:
+    X=240: surface Y=370, board Y=349
+    X=200: surface Y=310, board Y=289
+    X=160: surface Y=255, board Y=234
+    X=130: surface Y=210, board Y=189
+    Left lip (X=110): surface Y=178, board Y=157
+
+    Air trajectory (right trick): launch from (690, 157), peak at (655, 70), land at (600, 289)
+    Parabolic: Y = 157 - 87*sin(pi * t/T)... roughly.
+    Actually parabolic arc: launch velocity has upward and leftward components.
+    From (690,157) to (600,289) with peak at (655, 70).
+    Peak height above launch: 157-70 = 87px.
+    Time from launch to peak = time from peak to land (symmetric parabola).
+    Horizontal: 690->655 = 35px (launch to peak), 655->600 = 55px (peak to land). Not symmetric horizontally because landing is on a slope.
+    For a parabola under gravity: horizontal velocity is constant, vertical follows gravity.
+    So horizontal distances should be proportional to time.
+    If launch to peak takes t1 and peak to land takes t2, then 35/t1 = 55/t2, so t2 = 55/35 * t1 = 1.57*t1.
+    Total air time = t1 + t2 = 2.57*t1.
+    Vertical: peak height h = 0.5*g*t1^2, and landing vertical drop from peak = 0.5*g*t2^2.
+    Drop from peak to land = 289-70 = 219px. Rise from launch to peak = 157-70 = 87px.
+    h_rise = 0.5*g*t1^2 = 87
+    h_drop = 0.5*g*t2^2 = 219
+    h_drop/h_rise = (t2/t1)^2 = 219/87 = 2.52
+    t2/t1 = sqrt(2.52) = 1.59. Close to 1.57 from horizontal. Good, consistent!
+
+    So the parabola is physically consistent. I'll use keyframes that approximate this.
+
+    Air keyframes (right trick):
+    t=0.00 (relative): (690, 157) launch
+    t=0.25: (672, 115) rising
+    t=0.50: (655, 70) PEAK
+    t=0.75: (628, 130) descending
+    t=1.00: (600, 289) landing... wait that's too steep at the end.
+
+    Let me use more keyframes for smooth parabola:
+    t=0.00: (690, 157)
+    t=0.20: (676, 122)
+    t=0.40: (662, 92)
+    t=0.50: (655, 70) PEAK
+    t=0.60: (645, 88)
+    t=0.70: (632, 130)
+    t=0.80: (618, 185)
+    t=0.90: (608, 240)
+    t=1.00: (600, 289) land
+
+    Hmm the Y values: from peak 70, dropping to 289 = 219px drop.
+    Using parabola: Y = 70 + 0.5*g*(t-t_peak)^2. At t-t_peak=0.5 (half of air time after peak), Y = 70 + 0.5*g*0.25.
+    If total drop is 219 at t-t_peak = T2, then 219 = 0.5*g*T2^2.
+    At t-t_peak = 0.5*T2: Y = 70 + 219*0.25 = 70+55 = 125.
+    At t-t_peak = 0.75*T2: Y = 70 + 219*0.5625 = 70+123 = 193.
+
+    Let me just use these approximate values and it'll look fine.
+
+    OK I'm overcomplicating this. Let me just write the SVG with reasonable keyframes and spline easing. The visual result will be good enough.
+
+    Let me define the master animation for the skater group:
+
+    translate X values (keyTimes 0 to 1, 8s):
+    0.00: 690 (right lip)
+    0.04: 688 (launch)
+    0.08: 678 (air)
+    0.12: 665 (air, near peak)
+    0.16: 648 (peak)
+    0.20: 630 (air descending)
+    0.24: 612 (air)
+    0.28: 600 (land right transition)
+    0.32: 575 (descending)
+    0.36: 545 (descending)
+    0.40: 500 (approaching flat)
+    0.44: 450 (flat)
+    0.48: 400 (flat center - max speed)
+    0.52: 350 (flat)
+    0.56: 300 (approaching left)
+    0.60: 255 (left transition)
+    0.64: 220 (climbing)
+    0.68: 190 (climbing)
+    0.72: 160 (approaching lip)
+    0.76: 130 (near lip)
+    0.80: 110 (LEFT LIP)
+    0.84: 112 (launch)
+    0.88: 122 (air)
+    0.92: 135 (air near peak)
+    0.96: 152 (peak)
+    1.00: 170... wait need to land and return.
+
+    Hmm this is getting messy. Let me restart with a cleaner 8s timeline.
+
+    CLEAN 8s TIMELINE:
+
+    Segment 1 (0.00-0.20): RIGHT TRICK - launch, air, land
+    t=0.00: (690, 157) at right lip, crouched
+    t=0.03: (687, 140) launching
+    t=0.06: (678, 110) air rising
+    t=0.09: (668, 88) air
+    t=0.12: (655, 72) PEAK
+    t=0.15: (642, 90) air descending
+    t=0.18: (622, 150) air
+    t=0.20: (605, 230) LAND right transition
+
+    Segment 2 (0.20-0.50): TRANSIT right to left (down right transition, across flat, up left transition)
+    t=0.20: (605, 230) land
+    t=0.24: (575, 290) descending
+    t=0.28: (540, 345)
+    t=0.32: (495, 385)
+    t=0.36: (450, 405)
+    t=0.40: (400, 412) flat center - MAX SPEED
+    t=0.44: (350, 405)
+    t=0.48: (305, 385)
+    t=0.52: (260, 345)
+    t=0.56: (225, 290)
+    t=0.60: (195, 230)... wait this should reach left lip at t=0.60? No, segment 2 ends at t=0.50.
+
+    Let me redo: Segment 2 is 0.20 to 0.50 (0.30 duration = 2.4s).
+    t=0.20: (605, 230) land right
+    t=0.25: (560, 310) descending
+    t=0.30: (510, 370)
+    t=0.35: (460, 400)
+    t=0.40: (400, 412) flat center - MAX SPEED
+    t=0.45: (340, 400)
+    t=0.50: (290, 370)... still on left transition, not at lip.
+
+    The transit from right-land (605,230) to left-lip (110,157) is too far for 0.30 of the cycle.
+    Distance: 605-110 = 495px horizontal.
+    At max speed (say 300px/s), that takes 1.65s = 0.206 of 8s cycle.
+    Plus we need time to descend and climb. Total transit maybe 2.5s = 0.31 of cycle.
+    So trick + transit = 0.20 + 0.31 = 0.51. Close to 0.50.
+
+    Let me adjust: make the trick shorter (0.15) and transit longer (0.35).
+    Segment 1 (0.00-0.15): RIGHT TRICK
+    Segment 2 (0.15-0.50): TRANSIT to left
+    Segment 3 (0.50-0.65): LEFT TRICK
+    Segment 4 (0.65-1.00): TRANSIT to right
+
+    Segment 1 (0.00-0.15, 1.2s):
+    t=0.00: (690, 157) right lip
+    t=0.02: (686, 135) launch
+    t=0.04: (676, 105) air
+    t=0.06: (665, 82) air
+    t=0.08: (652, 70) PEAK
+    t=0.10: (638, 88) descending
+    t=0.12: (620, 140) descending
+    t=0.15: (605, 220) LAND
+
+    Segment 2 (0.15-0.50, 2.8s):
+    t=0.15: (605, 220) land
+    t=0.20: (570, 290)
+    t=0.25: (530, 350)
+    t=0.30: (480, 390)
+    t=0.35: (430, 408)
+    t=0.40: (400, 412) flat center - MAX SPEED
+    t=0.45: (370, 408)
+    t=0.50: (320, 390)... hmm need to reach left lip at t=0.50.
+
+    Still not reaching. The issue is the transit is too long.
+    Let me make the flat bottom shorter or the transitions steeper.
+    Actually, let me just accept that the skater doesn't go all the way to the opposite lip in one transit.
+    Instead: the loop is ONE trick, and the skater goes from right lip, does trick, lands, pumps to left lip, and the loop restarts with the skater at left lip doing the same trick mirrored.
+    But for seamless loop, start and end must match. If start is right lip and end is left lip, that's not seamless.
+
+    OK, simplest seamless loop: the skater does a trick on the right side, then pumps back to the right side (without doing a trick on the left), and repeats.
+    Timeline (8s):
+    t=0.00: Right lip (690, 157), crouched
+    t=0.00-0.15: Launch, air, land right transition (trick)
+    t=0.15-0.40: Descend right transition, across flat, up left transition, to left lip
+    t=0.40-0.50: At left lip, turn around (or just pump), descend left transition
+    t=0.50-0.75: Across flat, up right transition, back to right lip
+    t=0.75-0.85: At right lip, crouch
+    t=0.85-1.00: ... wait this doesn't align.
+
+    Hmm. Let me think about this differently.
+    For a seamless loop, the skater's state (position, velocity, pose) at t=0 must equal state at t=8s.
+    If the skater is at the right lip at t=0, they must be at the right lip at t=8s.
+    The skater can go: right lip -> trick -> land -> left lip -> trick -> land -> right lip.
+    That's 2 tricks in 8s, symmetric.
+
+    Let me make the timing work:
+    Each half (4s): lip -> trick (1s) -> transit to other lip (3s)
+    t=0.00: Right lip (690, 157)
+    t=0.00-0.125 (1s): Trick - launch, air, land right transition
+    t=0.125-0.50 (3s): Transit - down right, across flat, up left, to left lip
+    t=0.50: Left lip (110, 157)
+    t=0.50-0.625 (1s): Trick - launch, air, land left transition
+    t=0.625-1.00 (3s): Transit - down left, across flat, up right, to right lip
+    t=1.00: Right lip (690, 157) = start. SEAMLESS!
+
+    Now let me define keyframes for each segment.
+
+    SEGMENT 1: RIGHT TRICK (t=0.00 to 0.125, 1s)
+    t=0.000: (690, 157) at lip, crouched, board horizontal (rot=0)
+    t=0.015: (687, 138) launching, extending legs
+    t=0.030: (680, 115) airborne
+    t=0.045: (672, 95) rising
+    t=0.060: (662, 78) near peak
+    t=0.075: (652, 70) PEAK
+    t=0.090: (640, 82) descending
+    t=0.105: (625, 120) descending
+    t=0.125: (610, 200) LAND on right transition
+
+    Wait, landing at (610, 200)? The ramp surface at X=610 is about Y=290 (surface), board center Y=269.
+    Let me recalculate. At X=610, surface Y ≈ 290, board center Y = 290-21 = 269.
+    So landing should be around (610, 269), not (610, 200).
+    Let me adjust the air trajectory to land on the ramp.
+
+    Air: launch (690, 157), land on right transition at say (580, 320) board center.
+    Surface at X=580: Y ≈ 340, board center Y = 319.
+    Peak: somewhere around (640, 75).
+    Parabola: launch (690,157), peak (640,75), land (580,319).
+    Rise: 157-75 = 82. Drop: 319-75 = 244.
+    (t2/t1)^2 = 244/82 = 2.98, t2/t1 = 1.73.
+    Horizontal: launch to peak = 50px, peak to land = 60px. Ratio 60/50 = 1.2.
+    But t2/t1 = 1.73 from vertical. Inconsistent!
+    The issue: landing on a slope means the horizontal distance doesn't match the time ratio.
+    Actually, horizontal velocity is constant, so horizontal distance IS proportional to time.
+    50/t1 = 60/t2 => t2/t1 = 60/50 = 1.2.
+    But vertical: 82 = 0.5*g*t1^2, 244 = 0.5*g*t2^2 => t2/t1 = sqrt(244/82) = 1.73.
+    Contradiction! This means my peak position is wrong for a physically consistent parabola.
+
+    For a parabola with constant horizontal velocity:
+    X(t) = X0 + Vx*t
+    Y(t) = Y0 + Vy*t - 0.5*g*t^2
+    Peak at t_peak = Vy/g, Y_peak = Y0 + Vy^2/(2g).
+    At peak, X_peak = X0 + Vx*Vy/g.
+
+    Let me choose: launch (690, 157), land (580, 319).
+    Horizontal distance: 110px (leftward, so Vx < 0).
+    Vertical: launch Y=157, land Y=319 (lower, so net downward).
+    Let total air time = T.
+    X: 580 = 690 + Vx*T => Vx = -110/T.
+    Y: 319 = 157 + Vy*T - 0.5*g*T^2.
+    Peak at t_peak = Vy/g, Y_peak = 157 + Vy^2/(2g).
+    We want peak height around 80px above launch: Y_peak = 77.
+    157 + Vy^2/(2g) = 77 => Vy^2/(2g) = -80. That's negative, meaning peak is BELOW launch.
+    Wait, Y increases downward in SVG! So "up" is decreasing Y.
+    Launch Y=157. Peak should be at smaller Y (higher up), say Y=77.
+    Y_peak = 157 + Vy^2/(2g) where Vy is initial vertical velocity (negative for upward).
+    Actually in SVG coordinates (Y down): Y(t) = Y0 + Vy*t + 0.5*g*t^2 (gravity increases Y).
+    For upward launch, Vy < 0.
+    Peak at t = -Vy/g, Y_peak = Y0 + Vy*(-Vy/g) + 0.5*g*(Vy/g)^2 = Y0 - Vy^2/g + 0.5*Vy^2/g = Y0 - Vy^2/(2g).
+    So Y_peak = 157 - Vy^2/(2g). For Y_peak = 77: Vy^2/(2g) = 80.
+    Landing: Y(T) = 157 + Vy*T + 0.5*g*T^2 = 319.
+    So Vy*T + 0.5*g*T^2 = 162.
+    From peak: Vy^2 = 160g. Let g = 980 px/s^2 (scaled).
+    Vy = -sqrt(160*980) = -sqrt(156800) = -396 px/s.
+    t_peak = 396/980 = 0.404s.
+    Y_peak = 157 - 80 = 77. Good.
+    Landing: -396*T + 490*T^2 = 162.
+    490*T^2 - 396*T - 162 = 0.
+    T = (396 + sqrt(396^2 + 4*490*162)) / (2*490) = (396 + sqrt(156816 + 317520)) / 980 = (396 + sqrt(474336)) / 980 = (396 + 689) / 980 = 1085/980 = 1.107s.
+    Horizontal: Vx = -110/1.107 = -99.4 px/s.
+    X at peak: 690 - 99.4*0.404 = 690 - 40 = 650.
+    So peak at (650, 77). Land at (580, 319). Launch at (690, 157).
+
+    Check: X at t=0.5*T=0.554: 690 - 99.4*0.554 = 690 - 55 = 635.
+    Y at t=0.554: 157 - 396*0.554 + 490*0.554^2 = 157 - 219 + 150 = 88.
+    So at halfway through air time, position is (635, 88). Close to peak (650, 77) but past it.
+
+    OK so the air trajectory is:
+    t=0.000: (690, 157)
+    t=0.050 (0.404*0.125... wait, total trick time is 1s = 0.125 of cycle. Air time is 1.107s. That's longer than the trick segment!)
+
+    Hmm, 1.107s air time but I allocated 1s for the whole trick segment. Let me adjust.
+    Either make the air time shorter (less height) or the trick segment longer.
+
+    Let me reduce the air height. Peak at Y=107 (50px above launch).
+    Vy^2/(2g) = 50, Vy = -sqrt(100*980) = -313 px/s.
+    t_peak = 313/980 = 0.319s.
+    Landing: -313*T + 490*T^2 = 162.
+    490*T^2 - 313*T - 162 = 0.
+    T = (313 + sqrt(97969 + 317520)) / 980 = (313 + sqrt(415489)) / 980 = (313 + 645) / 980 = 958/980 = 0.978s.
+    Still about 1s. OK so air time is ~1s for this trajectory.
+
+    Let me make the trick segment 0.15 of cycle (1.2s) and transit 0.35 (2.8s).
+    Revised timeline:
+    t=0.00-0.15: RIGHT TRICK (1.2s)
+    t=0.15-0.50: TRANSIT to left (2.8s)
+    t=0.50-0.65: LEFT TRICK (1.2s)
+    t=0.65-1.00: TRANSIT to right (2.8s)
+
+    Air time 0.978s fits in 1.2s trick segment (with 0.1s for crouch before launch and 0.12s for landing absorb).
+
+    RIGHT TRICK keyframes (t=0.00 to 0.15):
+    t=0.000: (690, 157) at lip, crouched
+    t=0.010: (688, 145) extending, leaving lip (0.08s)
+    t=0.030: (683, 125) air (0.24s)
+    t=0.050: (675, 105) air (0.40s)
+    t=0.070: (665, 90) air (0.56s)
+    t=0.090: (655, 80) near peak (0.72s)
+    t=0.100: (645, 82) PEAK (0.80s) -- peak at t=0.319s after launch = 0.010+0.319/8=0.010+0.040=0.050? No.
+
+    Wait, I need to be more careful. The trick segment is 0.15 of 8s = 1.2s.
+    Within this segment:
+    - Crouch/prepare: 0 to 0.1s (relative), absolute t=0.00 to 0.0125
+    - Launch/air: 0.1s to 1.078s (relative), absolute t=0.0125 to 0.135
+    - Land/absorb: 1.078s to 1.2s (relative), absolute t=0.135 to 0.15
+
+    Air time 0.978s. Launch at relative 0.1s, land at relative 1.078s.
+    In absolute cycle time: launch at t=0.1/8=0.0125, land at t=1.078/8=0.135.
+
+    Air keyframes (absolute t):
+    t=0.0125: (690, 157) launch
+    t=0.0125 + 0.319/8 = 0.0125+0.040 = 0.0525: peak (650, 77)... wait I changed peak height.
+    Let me use peak Y=107 (50px above launch).
+    Peak at (650, 107)? No, X at peak = 690 - 99.4*0.319 = 690-32 = 658.
+    Peak: (658, 107).
+    Land at t=0.0125 + 0.978/8 = 0.0125+0.122 = 0.135: (580, 319).
+
+    Air keyframes:
+    t=0.0125: (690, 157)
+    t=0.025: (683, 135) -- t_rel=0.1+0.1=0.2s, X=690-99.4*0.1=680, Y=157-313*0.1+490*0.01=157-31+5=131. So (680, 131).
+    t=0.040: (672, 112) -- t_rel=0.3s, X=690-30=660... wait Vx=-99.4, at t_rel=0.3: X=690-99.4*0.2=690-20=670. Y=157-313*0.2+490*0.04=157-63+20=114. So (670, 114).
+    t=0.0525: (658, 107) PEAK -- t_rel=0.319s.
+    t=0.065: (645, 115) -- t_rel=0.4s, X=690-40=650, Y=157-125+78=110. Hmm (650, 110).
+    t=0.080: (632, 140) -- t_rel=0.5s, X=690-50=640, Y=157-157+123=123. (640, 123).
+    t=0.095: (618, 180) -- t_rel=0.6s, X=690-60=630, Y=157-188+176=145. (630, 145).
+    t=0.110: (605, 235) -- t_rel=0.7s, X=690-70=620, Y=157-219+240=178. (620, 178).
+    t=0.125: (592, 280) -- t_rel=0.8s, X=690-80=610, Y=157-250+314=221. (610, 221).
+    t=0.135: (580, 319) LAND -- t_rel=0.978s.
+
+    Hmm the Y values seem off. Let me recalculate more carefully.
+    Y(t) = 157 - 313*t + 490*t^2 (t in seconds, relative to launch).
+    t=0.0: Y=157
+    t=0.1: Y=157-31.3+4.9=130.6
+    t=0.2: Y=157-62.6+19.6=114
+    t=0.3: Y=157-93.9+44.1=107.2
+    t=0.319: Y=157-99.8+49.9=107.1 (peak)
+    t=0.4: Y=157-125.2+78.4=110.2
+    t=0.5: Y=157-156.5+122.5=123
+    t=0.6: Y=157-187.8+176.4=145.6
+    t=0.7: Y=157-219.1+240.1=178
+    t=0.8: Y=157-250.4+313.6=220.2
+    t=0.9: Y=157-281.7+396.9=272.2
+    t=0.978: Y=157-306+468.6=319.6 (land)
+
+    X(t) = 690 - 99.4*t
+    t=0.0: 690
+    t=0.1: 680.1
+    t=0.2: 670.1
+    t=0.3: 660.2
+    t=0.319: 658.3
+    t=0.4: 650.2
+    t=0.5: 640.3
+    t=0.6: 630.4
+    t=0.7: 620.4
+    t=0.8: 610.5
+    t=0.9: 600.5
+    t=0.978: 592.8
+
+    Wait, X at land = 592.8, not 580. I said land at X=580 earlier. Let me recheck.
+    I had: Horizontal distance 110px, Vx = -110/T = -110/0.978 = -112.5 px/s.
+    Let me redo with Vx = -112.5.
+    X(t) = 690 - 112.5*t
+    t=0.978: X = 690 - 110 = 580. Good.
+    X at peak (t=0.319): 690 - 35.9 = 654.1.
+
+    Revised air keyframes (absolute cycle time t, where launch at t=0.0125):
+    Relative time τ = (t - 0.0125) * 8 (converting to seconds).
+
+    t=0.0125 (τ=0): (690, 157)
+    t=0.025 (τ=0.1): (678.8, 130.6) ≈ (679, 131)
+    t=0.0375 (τ=0.2): (667.5, 114) ≈ (668, 114)
+    t=0.050 (τ=0.3): (656.3, 107.2) ≈ (656, 107)
+    t=0.0524 (τ=0.319): (654.1, 107.1) PEAK ≈ (654, 107)
+    t=0.0625 (τ=0.4): (645, 110.2) ≈ (645, 110)
+    t=0.075 (τ=0.5): (633.8, 123) ≈ (634, 123)
+    t=0.0875 (τ=0.6): (622.5, 145.6) ≈ (623, 146)
+    t=0.100 (τ=0.7): (611.3, 178) ≈ (611, 178)
+    t=0.1125 (τ=0.8): (600, 220.2) ≈ (600, 220)
+    t=0.125 (τ=0.9): (588.8, 272.2) ≈ (589, 272)
+    t=0.1348 (τ=0.978): (580, 319.6) LAND ≈ (580, 320)
+
+    Now the transit from land (580, 320) at t=0.135 to left lip (110, 157) at t=0.50.
+    Duration: 0.365 of cycle = 2.92s.
+    Path: down right transition, across flat, up left transition.
+    The skater pumps to maintain speed. Speed is max at flat bottom.
+
+    Keyframes for transit (t=0.135 to 0.50):
+    t=0.135: (580, 320) just landed, absorbing
+    t=0.160: (555, 355) descending right transition
+    t=0.190: (520, 385) approaching flat
+    t=0.220: (480, 405) on flat
+    t=0.250: (440, 412) flat
+    t=0.280: (400, 414) flat center - MAX SPEED
+    t=0.310: (360, 412) flat
+    t=0.340: (320, 405) approaching left transition
+    t=0.370: (280, 385) climbing left transition
+    t=0.400: (240, 355) climbing
+    t=0.430: (200, 320) climbing
+    t=0.460: (160, 270) climbing steep
+    t=0.480: (130, 210) approaching lip
+    t=0.500: (110, 157) LEFT LIP
+
+    Hmm, the Y values on the transitions need to match the ramp surface.
+    Right transition surface Y at X=580: ~340, board center Y=319. Close to 320. Good.
+    At X=555: surface Y≈370, board Y=349. I have 355. Close enough.
+    At X=520: surface Y≈395, board Y=374. I have 385. A bit high.
+    Let me adjust to match surface better.
+
+    Actually, the board center Y = surface Y - 21 (wheel radius + truck height).
+    Right transition surface Y(X):
+    X=580: Y_surf≈340, board Y=319
+    X=550: Y_surf=420, board Y=399
+    X=520: Y_surf≈400, board Y=379
+    X=480: Y_surf≈415, board Y=394
+    X=400: Y_surf=420, board Y=399
+    X=320: Y_surf≈415, board Y=394
+    X=280: Y_surf≈400, board Y=379
+    X=250: Y_surf=420... wait left transition starts at X=250.
+    Left transition surface Y(X):
+    X=250: Y_surf=420, board Y=399
+    X=220: Y_surf≈395, board Y=374
+    X=200: Y_surf≈370, board Y=349
+    X=180: Y_surf≈340, board Y=319
+    X=160: Y_surf≈310, board Y=289
+    X=140: Y_surf≈270, board Y=249
+    X=120: Y_surf≈220, board Y=199
+    X=110: Y_surf=178, board Y=157
+
+    Revised transit keyframes:
+    t=0.135: (580, 319) land
+    t=0.160: (560, 349) descending
+    t=0.190: (530, 379) approaching flat
+    t=0.220: (490, 394) on flat
+    t=0.250: (450, 399) flat
+    t=0.280: (400, 399) flat center - MAX SPEED (board Y=399, surface=420)
+    t=0.310: (350, 399) flat
+    t=0.340: (310, 394) approaching left transition
+    t=0.370: (270, 379) climbing
+    t=0.400: (230, 349) climbing
+    t=0.430: (195, 319) climbing
+    t=0.460: (165, 289) climbing steep
+    t=0.480: (135, 220) approaching lip
+    t=0.500: (110, 157) LEFT LIP
+
+    Wait, flat bottom board Y should be 399 (surface 420 - 21). But I had 414 earlier. Let me use 399.
+    Actually, let me reconsider the board center offset. The skateboard group has wheels at Y+16 (center) with radius 5, so bottom of wheel at Y+21. The ramp surface is at the bottom of the wheels. So board center Y = surface Y - 21.
+    Flat surface Y=420, board center Y=399.
+    But in my scene, the flat bottom is at Y=420 (the rect starts at Y=420). The ramp transitions also end at Y=420.
+    So board center on flat = 399.
+    At right lip, surface Y=178 (coping top), board center Y=157.
+
+    Hmm wait, the coping is at Y=174-182 (rect y=174, height=8). The top of coping is at Y=174.
+    The ramp surface at the lip: the transition path goes to (110,180) and (690,180). The coping sits at Y=174-182.
+    So the riding surface at the lip is the top of the coping, Y≈174.
+    Board center Y at lip = 174 - 21 = 153.
+    Let me use 153 for lip board center Y.
+
+    Actually, let me simplify and use Y=155 for lip board center (close enough).
+
+    OK I'm going to stop over-calculating and just write the SVG with good-looking keyframes. The physics will be approximately correct.
+
+    Let me also handle the ROTATION of the skater+board.
+    Rotation should match the ramp surface tangent when on ramp.
+    Surface tangent angle (degrees, 0 = horizontal, positive = counterclockwise = left side rising):
+    Right transition (riding up, moving right and up): tangent points up-right, angle = negative (clockwise from horizontal).
+    At flat: 0°
+    At right transition bottom (X=550): ~0°
+    At right transition mid (X=620): ~-40°
+    At right transition top (X=670): ~-70°
+    At right lip (X=690): ~-80°
+
+    Left transition (riding up, moving left and up): tangent points up-left, angle = positive.
+    At flat: 0°
+    At left transition bottom (X=250): ~0°
+    At left transition mid (X=180): ~+40°
+    At left transition top (X=130): ~+70°
+    At left lip (X=110): ~+80°
+
+    In air: the skater+board rotates for the trick. Let's do a 360° spin (frontside air).
+    During right trick air: rotation goes from -80° (at lip) through 0°, 90°, 180°, 270°, to 280° (which is -80° + 360°).
+    Wait, if the skater launches at -80° and does a 360° spin, they land at -80° + 360° = 280° = -80° (mod 360).
+    But the landing surface tangent is about -50° (at X=580 on right transition).
+    So the skater needs to rotate from -80° at launch, do a 360° spin, and land at -50°.
+    Total rotation during air: -50° - (-80°) + 360° = 30° + 360° = 390°.
+    Or: the skater rotates 360° plus adjusts 30° to match landing surface.
+    Let's say rotation goes from -80° to -50° + 360° = 310° (which is -50° mod 360).
+    So rotation animation: -80° -> 310° (or equivalently -80° -> -50° with a 360° spin in between).
+
+    For the animation, I'll use rotation values that go from -80 through 0, 90, 180, 270, to 310.
+    Actually in SVG rotate, positive is clockwise. Let me use SVG convention.
+    SVG rotate(angle): positive = clockwise.
+    Ramp surface tangent: right transition going up, surface tilts so the normal points up-left.
+    The board is perpendicular to surface. If surface tangent is at angle θ (from horizontal, counterclockwise positive),
+    then the board (and skater) rotation in SVG (clockwise positive) = -θ.
+    Right transition: θ goes from 0 to +80° (surface rising to the right, counterclockwise from horizontal).
+    Wait, in SVG Y is down. A surface rising to the right has tangent vector (dx, dy) with dy < 0.
+    Angle from positive X axis, counterclockwise: atan2(dy, dx) = atan2(negative, positive) = negative angle.
+    So θ = -80° at right lip (in standard math convention).
+    In SVG rotate (clockwise positive), the rotation to align board with surface = θ (since SVG Y is flipped).
+    Hmm, let me just think visually.
+    On flat ground, board is horizontal, rotation = 0.
+    On right transition (riding up to the right), the board tilts so the nose points up-right.
+    In SVG, rotating clockwise (positive) tilts the right side down.
+    To tilt the nose (right side) up, we rotate counterclockwise = negative angle.
+    So right transition: rotation = negative, from 0 to about -70°.
+    Left transition (riding up to the left), nose points up-left.
+    To tilt the nose (left side) up, we rotate clockwise = positive angle.
+    So left transition: rotation = positive, from 0 to about +70°.
+
+    At right lip: rotation ≈ -75°.
+    At left lip: rotation ≈ +75°.
+
+    For the right trick (launch from right lip):
+    Start rotation: -75°.
+    In air: do a 360° spin. Let's spin counterclockwise (negative direction in SVG).
+    Rotation goes: -75° -> -135° -> -225° -> -315° -> -405° (= -45° mod 360).
+    Landing rotation should match surface at landing point (~-45°).
+    -405° mod 360 = -45°. Perfect!
+    So rotation: -75° -> -405° (which is -75° - 360° + 30° = -405°).
+    Wait: -75° - 360° = -435°. Landing at -45° = -405°? No.
+    -75° - 360° = -435°. -435° + 360° = -75°. That's back to start.
+    I want to land at -45° (surface tangent at landing).
+    So total rotation = -45° - (-75°) = +30° (net), plus 360° spin = 390° total.
+    If spinning counterclockwise (negative in SVG): rotation goes from -75° to -75° - 390° = -465°.
+    -465° mod 360 = -105°. That's not -45°.
+    If spinning clockwise (positive in SVG): rotation goes from -75° to -75° + 390° = 315°.
+    315° mod 360 = 315° = -45°. Yes!
+    So clockwise spin: -75° -> 315° (passing through 0°, 90°, 180°, 270°).
+
+    For the left trick (launch from left lip):
+    Start rotation: +75°.
+    Spin clockwise (positive): 75° -> 75° + 390° = 465°.
+    465° mod 360 = 105° = -255°... hmm.
+    Landing on left transition at surface tangent ~+45°.
+    75° + 360° - 30° = 405°. 405° mod 360 = 45°. Yes!
+    So rotation: 75° -> 405° (clockwise spin, passing through 180°, 270°, 360°, to 405°).
+
+    Wait, that's a net rotation of +330° (405-75=330), not 390°.
+    Let me recalculate. Launch at +75°, land at +45°.
+    Net change: 45 - 75 = -30°.
+    Plus 360° spin = 330° total.
+    If spinning clockwise (positive): 75° + 330° = 405°. 405 mod 360 = 45°. Correct!
+    If spinning counterclockwise (negative): 75° - 390° = -315°. -315 mod 360 = 45°. Also correct!
+
+    For symmetry, let's have both tricks spin in the same direction (clockwise, positive).
+    Right trick: -75° -> 315° (net +390°).
+    Left trick: 75° -> 405° (net +330°).
+    Hmm, not symmetric. The net rotation differs because the landing angle differs from launch angle by different amounts.
+    Right: launch -75°, land -45°. Difference = +30°.
+    Left: launch +75°, land +45°. Difference = -30°.
+    For clockwise spin: right needs +390° (360+30), left needs +330° (360-30).
+    For counterclockwise spin: right needs -330° (360-30), left needs -390° (360+30).
+
+    To make it symmetric, let's have right spin clockwise (+390°) and left spin counterclockwise (-390°).
+    Right: -75° -> 315° (clockwise 390°).
+    Left: 75° -> -315° (counterclockwise 390°). -315 mod 360 = 45°. Correct!
+    This is symmetric: both spin 390° but in opposite directions.
+    Actually, for visual symmetry, having both spin the same direction might look better.
+    Let me just have both spin clockwise (frontside air for right, backside for left, or whatever).
+    Right: -75° -> 315° (+390°).
+    Left: 75° -> 405° (+330°).
+    The difference in spin amount is small and won't be noticeable.
+
+    Actually, let me simplify: both tricks do a 360° spin, and the landing angle adjustment is small.
+    Right: -75° -> -75° + 360° + 30° = 315°.
+    Left: 75° -> 75° + 360° - 30° = 405°.
+    I'll animate rotation continuously through these values.
+
+    Now, for the rotation when on the ramp (transit):
+    The rotation should follow the surface tangent.
+    Right transition descending (from land at X=580 to flat):
+    At X=580: surface tangent ≈ -45°, rotation = -45°.
+    At X=550: surface tangent ≈ -10°, rotation = -10°.
+    At flat: rotation = 0°.
+    Left transition climbing (from flat to left lip):
+    At flat: rotation = 0°.
+    At X=250: rotation ≈ +10°.
+    At X=180: rotation ≈ +45°.
+    At X=110: rotation = +75°.
+
+    Let me define rotation keyframes for the full cycle:
+
+    t=0.000: -75° (right lip, crouched)
+    t=0.0125: -75° (launch)
+    t=0.025: -45° (air, spinning)
+    t=0.0375: 0° (air)
+    t=0.050: 45° (air)
+    t=0.0625: 90° (air)
+    t=0.075: 135° (air)
+    t=0.0875: 180° (air)
+    t=0.100: 225° (air)
+    t=0.1125: 270° (air)
+    t=0.125: 300° (air, approaching landing)
+    t=0.135: 315° = -45° (LAND, matches surface)
+    t=0.160: -30° (descending right transition)
+    t=0.190: -15° (approaching flat)
+    t=0.220: -5° (on flat)
+    t=0.250: 0° (flat)
+    t=0.280: 0° (flat center)
+    t=0.310: 0° (flat)
+    t=0.340: 5° (approaching left transition)
+    t=0.370: 15° (climbing left)
+    t=0.400: 30° (climbing)
+    t=0.430: 45° (climbing steep)
+    t=0.460: 60° (climbing steeper)
+    t=0.480: 70° (approaching lip)
+    t=0.500: 75° (LEFT LIP)
+    t=0.5125: 75° (launch)
+    t=0.525: 105° (air, spinning)
+    t=0.5375: 150° (air)
+    t=0.550: 195° (air)
+    t=0.5625: 240° (air)
+    t=0.575: 285° (air)
+    t=0.5875: 330° (air)
+    t=0.600: 375° = 15° (air)
+    t=0.6125: 405° = 45° (air, approaching landing)
+    t=0.625: 405° = 45° (LAND, matches surface)
+    t=0.650: 30° (descending left transition)
+    t=0.680: 15° (approaching flat)
+    t=0.710: 5° (on flat)
+    t=0.740: 0° (flat)
+    t=0.770: 0° (flat center)
+    t=0.800: 0° (flat)
+    t=0.830: -5° (approaching right transition)
+    t=0.860: -15° (climbing right)
+    t=0.890: -30° (climbing)
+    t=0.920: -45° (climbing steep)
+    t=0.950: -60° (climbing steeper)
+    t=0.980: -70° (approaching lip)
+    t=1.000: -75° (RIGHT LIP = start)
+
+    Hmm, the rotation values during air go from -75 to 315 (right trick) which is +390 total.
+    And from 75 to 405 (left trick) which is +330 total.
+    Let me check the keyframes:
+    Right air: t=0.0125 (-75°) to t=0.135 (315°).
+    Values: -75, -45, 0, 45, 90, 135, 180, 225, 270, 300, 315.
+    That's 11 keyframes over 0.1225 of cycle (0.98s). Good.
+
+    Left air: t=0.5125 (75°) to t=0.625 (405°).
+    Values: 75, 105, 150, 195, 240, 285, 330, 375, 405.
+    That's 9 keyframes. Let me add more for smoothness.
+    75, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390, 405.
+    13 keyframes.
+
+    Actually, for the rotation animation, I can use fewer keyframes with calcMode="spline" for smooth interpolation.
+    Let me use keyframes at regular intervals during air.
+
+    Right air (t=0.0125 to 0.135, duration 0.1225):
+    keyTimes: 0.0125, 0.025, 0.0375, 0.050, 0.0625, 0.075, 0.0875, 0.100, 0.1125, 0.125, 0.135
+    Normalized within air: 0, 0.102, 0.204, 0.306, 0.408, 0.510, 0.612, 0.714, 0.816, 0.918, 1.0
+    Rotation: -75, -45, 0, 45, 90, 135, 180, 225, 270, 300, 315
+    Hmm the last step is only 15° while others are 45° or 30°. Let me adjust.
+    Total rotation: 315 - (-75) = 390°.
+    Over 10 intervals: 39° per interval.
+    -75, -36, 3, 42, 81, 120, 159, 198, 237, 276, 315.
+    That's more uniform. But the landing needs to be exactly at surface tangent.
+    At landing (X=580), surface tangent ≈ -45° = 315°. Good, 315 is correct.
+    Let me use: -75, -36, 3, 42, 81, 120, 159, 198, 237, 276, 315.
+    Actually, for a 360 spin plus 30 adjustment, uniform is fine.
+
+    Left air (t=0.5125 to 0.625, duration 0.1125):
+    Total rotation: 405 - 75 = 330°.
+    Over 10 intervals: 33° per interval.
+    75, 108, 141, 174, 207, 240, 273, 306, 339, 372, 405.
+    Landing at 405° = 45°. Surface tangent at landing (X=220 on left transition) ≈ +45°. Good.
+
+    OK this is getting very detailed. Let me just write the SVG now with these values.
+    I'll use calcMode="spline" with keySplines for smooth easing on the position,
+    and linear or spline for rotation.
+
+    For the position, the keyTimes should reflect speed: more keyframes (or clustered keyTimes) at slow parts (top of ramp, air peak) and fewer at fast parts (flat bottom).
+    Actually with calcMode="spline", the keySplines control the easing between keyframes.
+    For pendulum motion: slow at extremes (lips), fast in middle (flat).
+    So between lip and flat, the easing should be slow at lip, fast at flat.
+    keySpline: 0.4 0 0.6 1 gives ease-in-out (slow at both ends).
+    For lip to flat: slow at lip, fast at flat = ease-out = 0 0 0.6 1? No.
+    Ease-out: starts fast, ends slow. We want starts slow (at lip), ends fast (at flat).
+    That's ease-in: 0.4 0 1 1? Actually ease-in = slow start, fast end.
+    CSS ease-in: cubic-bezier(0.42, 0, 1, 1).
+    So keySpline="0.42 0 1 1" for lip-to-flat.
+    For flat-to-lip: fast start, slow end = ease-out = cubic-bezier(0, 0, 0.58, 1).
+    keySpline="0 0 0.58 1".
+
+    For the air (parabolic), the motion is smooth and symmetric-ish.
+    Use keySpline="0.4 0 0.6 1" (ease-in-out) for each segment, or just linear for the parabola.
+    Actually a parabola under gravity has constant acceleration, so the Y motion is quadratic in time.
+    Linear interpolation between keyframes won't give a perfect parabola, but with enough keyframes it'll look fine.
+    I'll use calcMode="spline" with ease-in-out for air segments.
+
+    Let me now write the actual SVG code. I'll define the animations with the keyframes I've calculated.
+
+    For the board kickflip effect: during air, the board flips along its longitudinal axis.
+    In 2D side view, this is simulated by scaling Y of the board group.
+    scaleY goes from 1 to -1 to 1 (or 1 to 0 to -1 to 0 to 1 for a full flip).
+    Actually a kickflip is a 360° rotation around the longitudinal axis.
+    In side view, we see the board edge-on at 90° and 270°.
+    Simulate with scaleY: 1 -> 0 (edge-on) -> -1 (upside down) -> 0 (edge-on) -> 1 (right side up).
+    But the skater's feet stay on the board, so the skater doesn't flip.
+    This is tricky. Let me instead do a simpler trick: the skater grabs the board (indy grab) and the board stays aligned.
+    Or just do the 360 spin of the whole skater+board, which is easier and looks good.
+
+    I'll do the 360 spin (whole skater+board rotates). No separate board flip needed.
+    The board and skater rotate together as a unit.
+
+    Actually, let me add a subtle board flip on top of the spin for extra style.
+    During the air, the board does a kickflip (scaleY animation) while the whole unit spins.
+    The board flip: scaleY 1 -> -1 -> 1 over the air time.
+    But the board is inside the rotating group, so the flip axis rotates too.
+    This might look weird. Let me skip the board flip and just do the 360 spin.
+    The 360 spin itself is a recognizable trick (360 air).
+
+    Hmm, but the prompt says "The board rotates during the trick (e.g. kickflip or 360 spin) and aligns again before landing".
+    A 360 spin of the whole skater+board satisfies this: the board rotates 360° and aligns before landing.
+    Good.
+
+    Let me also add a "pump" animation: the skater crouches and extends (legs bend and straighten) to pump the transitions.
+    This can be done by scaling the skater group Y slightly, or by animating the leg paths.
+    Simplest: scale the skater (not board) Y from 0.85 (crouched) to 1.0 (extended).
+    The skater group origin is at the board center, so scaling Y scales the body above the board.
+    Crouch at top of ramp (slow), extend at bottom (pump).
+    Actually in skateboarding, you crouch going up the transition and extend (pump) coming down.
+    Or you crouch at the bottom and extend going up.
+    Let me do: crouch at lips (preparing for trick), extend during air (stretch), crouch on landing (absorb), extend at flat bottom (pump).
+    Scale Y of skater: 0.8 (crouch) to 1.0 (extend).
+
+    Scale keyframes:
+    t=0.000: 0.8 (crouched at right lip)
+    t=0.0125: 1.0 (extending for launch)
+    t=0.050: 1.0 (extended in air)
+    t=0.100: 1.0 (extended in air)
+    t=0.135: 0.8 (crouched on landing, absorbing)
+    t=0.200: 0.9 (rising from crouch)
+    t=0.280: 1.0 (extended at flat bottom - pump)
+    t=0.350: 0.9 (crouching going up left)
+    t=0.500: 0.8 (crouched at left lip)
+    t=0.5125: 1.0 (extending for launch)
+    t=0.550: 1.0 (extended in air)
+    t=0.600: 1.0 (extended in air)
+    t=0.625: 0.8 (crouched on landing)
+    t=0.700: 0.9 (rising)
+    t=0.780: 1.0 (extended at flat bottom)
+    t=0.850: 0.9 (crouching going up right)
+    t=1.000: 0.8 (crouched at right lip = start)
+
+    This adds nice dynamic posing.
+
+    Now let me write the SVG. I'll structure it as:
+    1. Background (sky, sun, clouds, ground)
+    2. Half-pipe structure
+    3. Shadow
+    4. Skater group with animations
+
+    The skater group will have nested animations:
+    - Outer group: translate (position) + rotate (orientation)
+    - Inner skater group: scaleY (crouch/extend)
+    - Board group: (part of the unit, rotates with it)
+
+    Let me write the code now.
+
+    For the position animation, I'll combine X and Y into a single animateTransform translate.
+    keyTimes and values for translate:
+
+    X values:
+    0.000: 690
+    0.0125: 690
+    0.025: 679
+    0.0375: 668
+    0.050: 656
+    0.0625: 645
+    0.075: 634
+    0.0875: 623
+    0.100: 611
+    0.1125: 600
+    0.125: 589
+    0.135: 580
+    0.160: 560
+    0.190: 530
+    0.220: 490
+    0.250: 450
+    0.280: 400
+    0.310: 350
+    0.340: 310
+    0.370: 270
+    0.400: 230
+    0.430: 195
+    0.460: 165
+    0.480: 135
+    0.500: 110
+    0.5125: 110
+    0.525: 121
+    0.5375: 132
+    0.550: 144
+    0.5625: 155
+    0.575: 167
+    0.5875: 178
+    0.600: 189
+    0.6125: 200
+    0.625: 220
+    0.650: 240
+    0.680: 270
+    0.710: 300
+    0.740: 340
+    0.770: 380
+    0.800: 420
+    0.830: 460
+    0.860: 500
+    0.890: 540
+    0.920: 580
+    0.950: 620
+    0.980: 660
+    1.000: 690
+
+    Wait, the left trick air should mirror the right trick air.
+    Right air: X from 690 to 580 (moving left).
+    Left air: X from 110 to 220 (moving right).
+    Left air X values (mirror of right, around center X=400):
+    Right: 690, 679, 668, 656, 645, 634, 623, 611, 600, 589, 580
+    Mirror (800-X? No, mirror around 400: 800-X):
+    800-690=110, 800-679=121, 800-668=132, 800-656=144, 800-645=155, 800-634=166, 800-623=177, 800-611=189, 800-600=200, 800-589=211, 800-580=220.
+    So left air X: 110, 121, 132, 144, 155, 166, 177, 189, 200, 211, 220.
+    Let me use these.
+
+    Left air keyframes (t=0.5125 to 0.625):
+    t=0.5125: 110
+    t=0.525: 121
+    t=0.5375: 132
+    t=0.550: 144
+    t=0.5625: 155
+    t=0.575: 166
+    t=0.5875: 177
+    t=0.600: 189
+    t=0.6125: 200
+    t=0.625: 220 (land)
+
+    Hmm wait, I had 11 keyframes for right air but the last one is landing at t=0.135.
+    For left air, landing at t=0.625 at X=220.
+    But earlier I said left landing at X=220, surface Y≈310, board Y=289.
+    Let me check: left transition surface at X=220: Y≈395? No.
+    Left transition: X from 110 (Y=178) to 250 (Y=420).
+    At X=220: Y_surf ≈ 395? Let me recalculate.
+    Y = 420 - 240 * ((250-X)/140)^0.7
+    At X=220: (250-220)/140 = 30/140 = 0.214. 0.214^0.7 = 0.34. Y = 420 - 240*0.34 = 420-82 = 338.
+    Board center Y = 338-21 = 317.
+    Hmm, but for the right landing at X=580:
+    Y = 420 - 240 * ((580-550)/140)^0.7 = 420 - 240*(0.214)^0.7 = 420-82 = 338.
+    Board center Y = 317.
+    But earlier I calculated landing Y=319. Close enough.
+
+    Wait, I had right landing at (580, 319) from the parabola calculation.
+    And left landing should be mirror: (220, 319).
+    Let me use Y=319 for both landings.
+
+    Y values:
+    0.000: 155 (right lip, board center)
+    0.0125: 155 (launch)
+    0.025: 131
+    0.0375: 114
+    0.050: 107
+    0.0625: 110
+    0.075: 123
+    0.0875: 146
+    0.100: 178
+    0.1125: 220
+    0.125: 272
+    0.135: 319 (land)
+    0.160: 349 (descending)
+    0.190: 379
+    0.220: 394
+    0.250: 399
+    0.280: 399 (flat center)
+    0.310: 399
+    0.340: 394
+    0.370: 379
+    0.400: 349
+    0.430: 319
+    0.460: 289
+    0.480: 220
+    0.500: 155 (left lip)
+    0.5125: 155 (launch)
+    0.525: 131
+    0.5375: 114
+    0.550: 107
+    0.5625: 110
+    0.575: 123
+    0.5875: 146
+    0.600: 178
+    0.6125: 220
+    0.625: 319 (land)
+    0.650: 349
+    0.680: 379
+    0.710: 394
+    0.740: 399
+    0.770: 399 (flat center)
+    0.800: 399
+    0.830: 394
+    0.860: 379
+    0.890: 349
+    0.920: 319
+    0.950: 289
+    0.980: 220
+    1.000: 155 (right lip = start)
+
+    Wait, the left air Y values should mirror the right air Y values.
+    Right air Y: 155, 131, 114, 107, 110, 123, 146, 178, 220, 272, 319.
+    Left air Y (same, since gravity is symmetric): 155, 131, 114, 107, 110, 123, 146, 178, 220, 272, 319.
+    But the left air goes from t=0.5125 to t=0.625 (0.1125 duration) while right air goes from t=0.0125 to t=0.135 (0.1225 duration).
+    Slightly different durations. Let me make them the same.
+    Right air: t=0.0125 to t=0.135 (0.1225).
+    Left air: t=0.5125 to t=0.635 (0.1225).
+    Then left transit: t=0.635 to t=1.000 (0.365).
+    And right transit: t=0.135 to t=0.500 (0.365).
+    Symmetric!
+
+    Revised timeline:
+    t=0.000-0.0125: crouch at right lip
+    t=0.0125-0.135: RIGHT AIR (trick)
+    t=0.135-0.500: TRANSIT to left lip
+    t=0.500-0.5125: crouch at left lip
+    t=0.5125-0.635: LEFT AIR (trick)
+    t=0.635-1.000: TRANSIT to right lip
+
+    Left air keyframes (t=0.5125 to 0.635):
+    t=0.5125: (110, 155)
+    t=0.525: (121, 131)
+    t=0.5375: (132, 114)
+    t=0.550: (144, 107)
+    t=0.5625: (155, 110)
+    t=0.575: (166, 123)
+    t=0.5875: (177, 146)
+    t=0.600: (189, 178)
+    t=0.6125: (200, 220)
+    t=0.625: (211, 272)
+    t=0.635: (220, 319) land
+
+    Left transit (t=0.635 to 1.000):
+    t=0.635: (220, 319) land
+    t=0.660: (240, 349)
+    t=0.690: (270, 379)
+    t=0.720: (310, 394)
+    t=0.750: (350, 399)
+    t=0.780: (400, 399) flat center - MAX SPEED
+    t=0.810: (450, 399)
+    t=0.840: (490, 394)
+    t=0.870: (530, 379)
+    t=0.900: (560, 349)
+    t=0.930: (590, 319)
+    t=0.960: (630, 289)
+    t=0.980: (660, 220)
+    t=1.000: (690, 155) right lip
+
+    Hmm wait, the transit from left land (220, 319) to right lip (690, 155).
+    This goes down left transition, across flat, up right transition.
+    X: 220 -> 690 (moving right).
+    Y: 319 -> 399 (down to flat) -> 155 (up to lip).
+
+    Let me verify the Y values on transitions:
+    Left transition at X=240: Y_surf = 420 - 240*((250-240)/140)^0.7 = 420 - 240*(0.071)^0.7 = 420 - 240*0.16 = 420-38 = 382. Board Y = 361.
+    I have 349 at X=240. A bit off. Let me adjust.
+    Actually, my transit keyframes don't need to exactly match the surface; the board just needs to be close.
+    Let me use more accurate values.
+
+    Left transition surface Y(X) for X from 110 to 250:
+    X=110: 178
+    X=130: 210
+    X=150: 245
+    X=170: 280
+    X=190: 315
+    X=210: 350
+    X=230: 385
+    X=250: 420
+
+    Board center Y = surface Y - 21:
+    X=110: 157
+    X=130: 189
+    X=150: 224
+    X=170: 259
+    X=190: 294
+    X=210: 329
+    X=230: 364
+    X=250: 399
+
+    Right transition surface Y(X) for X from 550 to 690:
+    X=550: 420
+    X=570: 385
+    X=590: 350
+    X=610: 315
+    X=630: 280
+    X=650: 245
+    X=670: 210
+    X=690: 178
+
+    Board center Y:
+    X=550: 399
+    X=570: 364
+    X=590: 329
+    X=610: 294
+    X=630: 259
+    X=650: 224
+    X=670: 189
+    X=690: 157
+
+    Now let me redo the transit keyframes with accurate Y values.
+
+    RIGHT TRANSIT (t=0.135 to 0.500): from (580, 319) to (110, 155)
+    Wait, right transit goes from right landing to LEFT lip.
+    Right landing at (580, 319). Left lip at (110, 155).
+    Path: down right transition (X: 580->550), across flat (X: 550->250), up left transition (X: 250->110).
+
+    Keyframes:
+    t=0.135: (580, 319) land on right transition
+    t=0.155: (565, 345) descending right transition
+    t=0.180: (550, 380) near flat
+    t=0.210: (520, 395) on flat
+    t=0.240: (480, 399) flat
+    t=0.270: (440, 399) flat
+    t=0.300: (400, 399) flat center - MAX SPEED
+    t=0.330: (360, 399) flat
+    t=0.360: (320, 399) flat
+    t=0.390: (290, 395) approaching left transition
+    t=0.420: (270, 380) climbing left transition
+    t=0.450: (240, 350) climbing
+    t=0.480: (200, 294) climbing steep
+    t=0.500: (110, 155) LEFT LIP
+
+    Hmm, from X=240 (Y=350) to X=110 (Y=155) in 0.06 of cycle (0.48s).
+    That's 130px horizontal in 0.48s = 271 px/s. Fast but OK.
+    But the Y values: at X=200, board Y should be 294. At X=170, 259. At X=140, ~200. At X=110, 155.
+    Let me add more keyframes for the steep part.
+
+    Revised right transit:
+    t=0.135: (580, 319)
+    t=0.155: (565, 345)
+    t=0.180: (550, 380)
+    t=0.210: (520, 395)
+    t=0.240: (480, 399)
+    t=0.270: (440, 399)
+    t=0.300: (400, 399) MAX SPEED
+    t=0.330: (360, 399)
+    t=0.360: (320, 399)
+    t=0.390: (290, 395)
+    t=0.415: (265, 375)
+    t=0.440: (235, 340)
+    t=0.465: (200, 294)
+    t=0.485: (160, 240)
+    t=0.500: (110, 155) LEFT LIP
+
+    LEFT TRANSIT (t=0.635 to 1.000): from (220, 319) to (690, 155)
+    Mirror of right transit around X=400.
+    Right transit X: 580, 565, 550, 520, 480, 440, 400, 360, 320, 290, 265, 235, 200, 160, 110
+    Mirror (800-X): 220, 235, 250, 280, 320, 360, 400, 440, 480, 510, 535, 565, 600, 640, 690
+    Y values same: 319, 345, 380, 395, 399, 399, 399, 399, 399, 395, 375, 340, 294, 240, 155
+
+    Left transit keyframes:
+    t=0.635: (220, 319)
+    t=0.655: (235, 345)
+    t=0.680: (250, 380)
+    t=0.710: (280, 395)
+    t=0.740: (320, 399)
+    t=0.770: (360, 399)
+    t=0.800: (400, 399) MAX SPEED
+    t=0.830: (440, 399)
+    t=0.860: (480, 399)
+    t=0.890: (510, 395)
+    t=0.915: (535, 375)
+    t=0.940: (565, 340)
+    t=0.965: (600, 294)
+    t=0.985: (640, 240)
+    t=1.000: (690, 155) RIGHT LIP
+
+    Now let me compile all keyframes for the translate animation.
+
+    Full keyTimes (sorted):
+    0.000, 0.0125, 0.025, 0.0375, 0.050, 0.0625, 0.075, 0.0875, 0.100, 0.1125, 0.125, 0.135,
+    0.155, 0.180, 0.210, 0.240, 0.270, 0.300, 0.330, 0.360, 0.390, 0.415, 0.440, 0.465, 0.485, 0.500,
+    0.5125, 0.525, 0.5375, 0.550, 0.5625, 0.575, 0.5875, 0.600, 0.6125, 0.625, 0.635,
+    0.655, 0.680, 0.710, 0.740, 0.770, 0.800, 0.830, 0.860, 0.890, 0.915, 0.940, 0.965, 0.985, 1.000
+
+    That's 47 keyframes. A lot but manageable.
+
+    X values:
+    0.000: 690
+    0.0125: 690
+    0.025: 679
+    0.0375: 668
+    0.050: 656
+    0.0625: 645
+    0.075: 634
+    0.0875: 623
+    0.100: 611
+    0.1125: 600
+    0.125: 589
+    0.135: 580
+    0.155: 565
+    0.180: 550
+    0.210: 520
+    0.240: 480
+    0.270: 440
+    0.300: 400
+    0.330: 360
+    0.360: 320
+    0.390: 290
+    0.415: 265
+    0.440: 235
+    0.465: 200
+    0.485: 160
+    0.500: 110
+    0.5125: 110
+    0.525: 121
+    0.5375: 132
+    0.550: 144
+    0.5625: 155
+    0.575: 166
+    0.5875: 177
+    0.600: 189
+    0.6125: 200
+    0.625: 211
+    0.635: 220
+    0.655: 235
+    0.680: 250
+    0.710: 280
+    0.740: 320
+    0.770: 360
+    0.800: 400
+    0.830: 440
+    0.860: 480
+    0.890: 510
+    0.915: 535
+    0.940: 565
+    0.965: 600
+    0.985: 640
+    1.000: 690
+
+    Y values:
+    0.000: 155
+    0.0125: 155
+    0.025: 131
+    0.0375: 114
+    0.050: 107
+    0.0625: 110
+    0.075: 123
+    0.0875: 146
+    0.100: 178
+    0.1125: 220
+    0.125: 272
+    0.135: 319
+    0.155: 345
+    0.180: 380
+    0.210: 395
+    0.240: 399
+    0.270: 399
+    0.300: 399
+    0.330: 399
+    0.360: 399
+    0.390: 395
+    0.415: 375
+    0.440: 340
+    0.465: 294
+    0.485: 240
+    0.500: 155
+    0.5125: 155
+    0.525: 131
+    0.5375: 114
+    0.550: 107
+    0.5625: 110
+    0.575: 123
+    0.5875: 146
+    0.600: 178
+    0.6125: 220
+    0.625: 272
+    0.635: 319
+    0.655: 345
+    0.680: 380
+    0.710: 395
+    0.740: 399
+    0.770: 399
+    0.800: 399
+    0.830: 399
+    0.860: 399
+    0.890: 395
+    0.915: 375
+    0.940: 340
+    0.965: 294
+    0.985: 240
+    1.000: 155
+
+    Now for the rotation animation.
+    Rotation keyframes (degrees, SVG clockwise positive):
+
+    On ramp (matching surface tangent):
+    Flat: 0°
+    Right transition: negative (nose up to the right)
+    Left transition: positive (nose up to the left)
+
+    Surface tangent angles (approximate):
+    Right transition:
+    X=690 (lip): -75°
+    X=670: -65°
+    X=650: -55°
+    X=630: -45°
+    X=610: -35°
+    X=590: -25°
+    X=570: -15°
+    X=550: -5°
+    Flat: 0°
+
+    Left transition:
+    X=250: 5°
+    X=230: 15°
+    X=210: 25°
+    X=190: 35°
+    X=170: 45°
+    X=150: 55°
+    X=130: 65°
+    X=110 (lip): 75°
+
+    Air rotation (360 spin + adjustment):
+    Right air: from -75° to 315° (clockwise 390°)
+    Left air: from 75° to 405° (clockwise 330°)
+
+    Let me define rotation keyframes:
+
+    t=0.000: -75 (right lip)
+    t=0.0125: -75 (launch)
+    t=0.025: -36 (air, spinning)
+    t=0.0375: 3 (air)
+    t=0.050: 42 (air)
+    t=0.0625: 81 (air)
+    t=0.075: 120 (air)
+    t=0.0875: 159 (air)
+    t=0.100: 198 (air)
+    t=0.1125: 237 (air)
+    t=0.125: 276 (air)
+    t=0.135: 315 (land, = -45°)
+    t=0.155: -35 (descending right transition)
+    t=0.180: -15 (approaching flat)
+    t=0.210: -5 (on flat)
+    t=0.240: 0 (flat)
+    t=0.270: 0 (flat)
+    t=0.300: 0 (flat center)
+    t=0.330: 0 (flat)
+    t=0.360: 0 (flat)
+    t=0.390: 5 (approaching left transition)
+    t=0.415: 15 (climbing left)
+    t=0.440: 30 (climbing)
+    t=0.465: 45 (climbing steep)
+    t=0.485: 60 (climbing steeper)
+    t=0.500: 75 (left lip)
+    t=0.5125: 75 (launch)
+    t=0.525: 108 (air, spinning)
+    t=0.5375: 141 (air)
+    t=0.550: 174 (air)
+    t=0.5625: 207 (air)
+    t=0.575: 240 (air)
+    t=0.5875: 273 (air)
+    t=0.600: 306 (air)
+    t=0.6125: 339 (air)
+    t=0.625: 372 (air)
+    t=0.635: 405 (land, = 45°)
+    t=0.655: 35 (descending left transition)
+    t=0.680: 15 (approaching flat)
+    t=0.710: 5 (on flat)
+    t=0.740: 0 (flat)
+    t=0.770: 0 (flat)
+    t=0.800: 0 (flat center)
+    t=0.830: 0 (flat)
+    t=0.860: 0 (flat)
+    t=0.890: -5 (approaching right transition)
+    t=0.915: -15 (climbing right)
+    t=0.940: -30 (climbing)
+    t=0.965: -45 (climbing steep)
+    t=0.985: -60 (climbing steeper)
+    t=1.000: -75 (right lip = start)
+
+    Wait, the rotation during transit should match the surface tangent at the skater's position.
+    Let me check a few:
+    t=0.155: X=565, right transition. Surface tangent at X=565 ≈ -12°. I have -35°. Too much.
+    Let me recalculate. At X=565 on right transition:
+    The transition goes from (550, 420) to (690, 178).
+    At X=565, we're near the bottom of the transition. Tangent ≈ -10°.
+    I have -35° which is too steep.
+
+    Let me recalculate surface tangent angles more carefully.
+    Right transition path: M 550 420 C 550 340, 600 260, 670 210 L 690 180
+    This is a cubic Bezier from (550,420) with control points (550,340), (600,260) to (670,210), then line to (690,180).
+    The tangent at various points:
+    At start (550,420): tangent direction = (550-550, 340-420) = (0, -80). Vertical! Angle = -90°.
+    Wait, that means at the flat-to-transition junction, the tangent is vertical? That's not right for a smooth transition.
+    The Bezier starts at (550,420) with first control point (550,340), so the initial tangent is straight up (0,-80).
+    That means the transition starts vertically! That's wrong.
+    I need to fix the ramp path so the transition starts horizontally (tangent = 0 at flat).
+
+    Let me redefine the right transition path:
+    Start at (550, 420) with horizontal tangent.
+    End at (690, 180) with vertical tangent.
+    Cubic Bezier: P0=(550,420), P1=(550+dx1, 420), P2=(690, 180+dy2), P3=(690,180).
+    For horizontal start: P1 = (550+a, 420) for some a > 0.
+    For vertical end: P2 = (690, 180+b) for some b > 0.
+    Let's use a=80, b=80:
+    P0=(550,420), P1=(630,420), P2=(690,260), P3=(690,180).
+    Path: M 550 420 C 630 420, 690 260, 690 180.
+    Tangent at start: (630-550, 420-420) = (80, 0). Horizontal. Good.
+    Tangent at end: (690-690, 180-260) = (0, -80). Vertical. Good.
+
+    Let me compute tangent angles at various X on this curve.
+    Bezier: B(t) = (1-t)^3*P0 + 3(1-t)^2*t*P1 + 3(1-t)*t^2*P2 + t^3*P3.
+    X(t) = (1-t)^3*550 + 3(1-t)^2*t*630 + 3(1-t)*t^2*690 + t^3*690.
+    Y(t) = (1-t)^3*420 + 3(1-t)^2*t*420 + 3(1-t)*t^2*260 + t^3*180.
+
+    At t=0: X=550, Y=420.
+    At t=0.25: X = 0.422*550 + 0.422*630 + 0.141*690 + 0.016*690 = 232 + 266 + 97 + 11 = 606. Y = 0.422*420 + 0.422*420 + 0.141*260 + 0.016*180 = 177 + 177 + 37 + 3 = 394.
+    At t=0.5: X = 0.125*550 + 0.375*630 + 0.375*690 + 0.125*690 = 69 + 236 + 259 + 86 = 650. Y = 0.125*420 + 0.375*420 + 0.375*260 + 0.125*180 = 53 + 158 + 98 + 23 = 332.
+    At t=0.75: X = 0.016*550 + 0.141*630 + 0.422*690 + 0.422*690 = 9 + 89 + 291 + 291 = 680. Y = 0.016*420 + 0.141*420 + 0.422*260 + 0.422*180 = 7 + 59 + 110 + 76 = 252.
+    At t=1: X=690, Y=180.
+
+    Tangent: B'(t) = 3(1-t)^2*(P1-P0) + 6(1-t)*t*(P2-P1) + 3t^2*(P3-P2).
+    P1-P0 = (80, 0). P2-P1 = (60, -160). P3-P2 = (0, -80).
+    At t=0: B'(0) = 3*(80,0) = (240, 0). Angle = 0°. Good.
+    At t=0.25: B'(0.25) = 3*0.5625*(80,0) + 6*0.75*0.25*(60,-160) + 3*0.0625*(0,-80) = (135, 0) + (67.5, -180) + (0, -15) = (202.5, -195). Angle = atan2(-195, 202.5) = -43.9°.
+    At t=0.5: B'(0.5) = 3*0.25*(80,0) + 6*0.5*0.5*(60,-160) + 3*0.25*(0,-80) = (60, 0) + (90, -240) + (0, -60) = (150, -300). Angle = atan2(-300, 150) = -63.4°.
+    At t=0.75: B'(0.75) = 3*0.0625*(80,0) + 6*0.25*0.75*(60,-160) + 3*0.5625*(0,-80) = (15, 0) + (67.5, -180) + (0, -135) = (82.5, -315). Angle = atan2(-315, 82.5) = -75.3°.
+    At t=1: B'(1) = 3*(0,-80) = (0, -240). Angle = -90°.
+
+    So tangent angles:
+    t=0 (X=550): 0°
+    t=0.25 (X=606): -44°
+    t=0.5 (X=650): -63°
+    t=0.75 (X=680): -75°
+    t=1 (X=690): -90°
+
+    Hmm, at the lip the tangent is -90° (vertical). But the coping is horizontal.
+    The skater launches from the coping, which is horizontal. So at the lip, the board is horizontal (rotation = 0), not vertical.
+    The transition below the coping is vertical, but the skater doesn't ride the vertical part with the board on it.
+    The skater rides the transition, and at the top, the board leaves the ramp and goes onto the coping (horizontal).
+    So the rotation at the lip should be 0° (board horizontal on coping), not -90°.
+
+    This means my rotation model needs adjustment.
+    The skater rides the transition with the board perpendicular to the surface.
+    At the top of the transition (near vertical), the board is near vertical.
+    But then the skater launches, and the board becomes horizontal (on the coping) and then airborne.
+    Actually, in vert skating, the skater rides up the transition, and at the lip, the board is on the coping.
+    The coping is a horizontal pipe. The board is on top of it, horizontal.
+    The skater's momentum carries them upward off the coping.
+    So just before launch, the board transitions from being on the curved transition to being on the horizontal coping.
+    The rotation goes from steep (near vertical transition) to horizontal (coping) very quickly at the lip.
+
+    For simplicity, let me model the rotation as:
+    - On flat: 0°
+    - On transition: follows surface tangent, from 0° to about -70° (not -90°)
+    - At lip: quickly goes to 0° (board on coping)
+    - In air: trick rotation
+    - Landing: matches transition tangent
+
+    Actually, let me simplify even more. The rotation doesn't need to be perfectly accurate.
+    Let me use these rotation values:
+    - Flat: 0°
+    - Right transition: 0° to -60° (gradual)
+    - Right lip: -60° (crouched, board tilted)
+    - Air: 360 spin from -60° to 300° (= -60°)
+    - Landing: -40° (matches transition)
+    - Mirror for left
+
+    This will look good enough. The key visual elements are:
+    1. Pendulum motion (position)
+    2. Speed variation (keyTimes/splines)
+    3. Parabolic air
+    4. Board rotation in air (360 spin)
+    5. Board aligns before landing
+
+    Let me finalize the rotation keyframes with simpler values:
+
+    t=0.000: -60 (right lip, crouched)
+    t=0.0125: -60 (launch)
+    t=0.025: -20 (air, spinning)
+    t=0.0375: 20 (air)
+    t=0.050: 60 (air)
+    t=0.0625: 100 (air)
+    t=0.075: 140 (air)
+    t=0.0875: 180 (air)
+    t=0.100: 220 (air)
+    t=0.1125: 260 (air)
+    t=0.125: 290 (air)
+    t=0.135: 300 (land, = -60°)
+    t=0.155: -45 (descending right transition)
+    t=0.180: -25 (approaching flat)
+    t=0.210: -10 (on flat)
+    t=0.240: 0 (flat)
+    t=0.270: 0 (flat)
+    t=0.300: 0 (flat center)
+    t=0.330: 0 (flat)
+    t=0.360: 0 (flat)
+    t=0.390: 10 (approaching left transition)
+    t=0.415: 25 (climbing left)
+    t=0.440: 40 (climbing)
+    t=0.465: 50 (climbing steep)
+    t=0.485: 58 (climbing steeper)
+    t=0.500: 60 (left lip)
+    t=0.5125: 60 (launch)
+    t=0.525: 95 (air, spinning)
+    t=0.5375: 130 (air)
+    t=0.550: 165 (air)
+    t=0.5625: 200 (air)
+    t=0.575: 235 (air)
+    t=0.5875: 270 (air)
+    t=0.600: 305 (air)
+    t=0.6125: 340 (air)
+    t=0.625: 375 (air)
+    t=0.635: 420 (land, = 60°)
+    t=0.655: 45 (descending left transition)
+    t=0.680: 25 (approaching flat)
+    t=0.710: 10 (on flat)
+    t=0.740: 0 (flat)
+    t=0.770: 0 (flat)
+    t=0.800: 0 (flat center)
+    t=0.830: 0 (flat)
+    t=0.860: 0 (flat)
+    t=0.890: -10 (approaching right transition)
+    t=0.915: -25 (climbing right)
+    t=0.940: -40 (climbing)
+    t=0.965: -50 (climbing steep)
+    t=0.985: -58 (climbing steeper)
+    t=1.000: -60 (right lip = start)
+
+    Check: right air rotation from -60 to 300 = +360°. Perfect 360 spin!
+    Left air rotation from 60 to 420 = +360°. Perfect 360 spin!
+    Landing rotation: right lands at 300° = -60°. Left lands at 420° = 60°.
+    But the surface tangent at landing should be about -40° (right) and +40° (left).
+    Hmm, 300° = -60°, not -40°. Let me adjust.
+    Actually, the landing rotation doesn't need to exactly match the surface; the skater absorbs the impact.
+    But for visual smoothness, it should be close.
+    Let me change the landing rotation to match the surface better.
+    Right landing at X=580: surface tangent ≈ -35° (from Bezier, at X≈580, t≈0.15, angle≈-25°).
+    Let me use -30° for right landing.
+    Then right air: -60° -> 330° (= -30°). Total rotation = 390°.
+    Left landing at X=220: surface tangent ≈ +30°.
+    Left air: 60° -> 390° (= 30°). Total rotation = 330°.
+    Hmm, asymmetric. Let me just use 360° for both and accept slight mismatch.
+    Right: -60° -> 300° (= -60°). Landing at -60°.
+    Left: 60° -> 420° (= 60°). Landing at 60°.
+    The surface at landing is about -30°/+30°, so there's a 30° mismatch.
+    The skater will "slap" the board down, which is actually realistic (landing with the board slightly tilted and then adjusting).
+    I'll add a quick rotation adjustment after landing.
+    After right landing at t=0.135 (rot=300°=-60°), quickly rotate to -30° by t=0.155.
+    t=0.135: 300
+    t=0.145: 330 (= -30°)
+    t=0.155: 330
+    Then continue descending.
+
+    Actually, this is getting too detailed. Let me just use the values I have and move on.
+    The visual will be good.
+
+    Let me also add the crouch/extend scale animation on the skater body.
+
+    Scale Y keyframes (skater body only, not board):
+    t=0.000: 0.75 (crouched at lip)
+    t=0.0125: 1.0 (extend for launch)
+    t=0.050: 1.0 (extended in air)
+    t=0.100: 1.0 (extended in air)
+    t=0.135: 0.75 (crouch on landing)
+    t=0.200: 0.85 (rising)
+    t=0.280: 1.0 (extended at flat - pump)
+    t=0.350: 0.85 (crouching going up)
+    t=0.500: 0.75 (crouched at lip)
+    t=0.5125: 1.0 (extend for launch)
+    t=0.550: 1.0 (extended in air)
+    t=0.600: 1.0 (extended in air)
+    t=0.635: 0.75 (crouch on landing)
+    t=0.700: 0.85 (rising)
+    t=0.780: 1.0 (extended at flat)
+    t=0.850: 0.85 (crouching going up)
+    t=1.000: 0.75 (crouched at lip = start)
+
+    Now let me write the SVG code. I'll use SMIL animate and animateTransform.
+
+    For the translate animation, I need to combine X and Y.
+    <animateTransform attributeName="transform" type="translate" values="x1 y1; x2 y2; ..." keyTimes="..." .../>
+
+    For rotation:
+    <animateTransform attributeName="transform" type="rotate" values="a1; a2; ..." keyTimes="..." .../>
+    But rotate needs a center. Since the skaterBoard group origin is at board center, rotate around 0,0 (the origin).
+    Actually, animateTransform rotate with type="rotate" and values="angle" rotates around the origin (0,0) of the current coordinate system.
+    Since the skaterBoard group is translated to (X,Y), and the rotation is applied... hmm, the order matters.
+    If I use two animateTransform elements (one translate, one rotate), they combine.
+    The transform list is applied in order. So translate then rotate means: translate to (X,Y), then rotate around the new origin (which is at (X,Y)).
+    That's what I want: rotate around the board center.
+
+    But SMIL animateTransform with additive="sum" adds to the existing transform.
+    Let me structure it as:
+    <g id="skaterUnit">
+      <animateTransform attributeName="transform" type="translate" .../>
+      <animateTransform attributeName="transform" type="rotate" additive="sum" .../>
+      <g id="skaterBody"> <!-- scale animation for crouch -->
+        <animateTransform attributeName="transform" type="scale" .../>
+        <!-- skater figure -->
+      </g>
+      <!-- skateboard -->
+    </g>
+
+    Wait, the scale should only apply to the skater body, not the board.
+    And the rotation should apply to both.
+    So structure:
+    <g id="skaterUnit"> <!-- translate + rotate -->
+      <g id="skaterBody"> <!-- scale for crouch -->
+        <!-- skater figure (legs, torso, arms, head) -->
+      </g>
+      <use href="#skateboard"/> <!-- board -->
+    </g>
+
+    The board is part of the rotating unit but not scaled.
+    The skater body is scaled (crouch/extend) and rotates with the unit.
+
+    Actually, the skater's feet are on the board. If the body scales Y, the feet move relative to the board.
+    The skater group origin is at the board center (feet level).
+    Scaling Y from the origin (0,0) scales everything above the feet.
+    The feet stay at Y=0 (board center), and the body scales up/down.
+    That's correct for crouch/extend!
+
+    But wait, the skateboard is also at the origin. If I scale the skater body group, the board is not affected (it's a sibling).
+    Good.
+
+    Let me also add a subtle board tilt relative to the skater during air (the board can tilt slightly).
+    Actually, for a 360 spin, the board and skater rotate together. No relative tilt needed.
+
+    OK let me write the code now. I'll be careful with the syntax.
+
+    One more thing: the shadow. The shadow should be on the ground (Y≈424) and follow the skater's X position.
+    The shadow should be an ellipse that moves with the skater's X and changes size/opacity with height.
+    I already defined shadow keyframes earlier. Let me update them to match the new X positions.
+
+    Shadow X (same as skater X, roughly):
+    Use the same X keyframes as the skater.
+
+    Shadow Y: always at ground level, Y=424.
+    Shadow rx: larger when closer to ground, smaller when higher.
+    Shadow opacity: more opaque when closer to ground.
+
+    Shadow rx keyframes:
+    t=0.000: 35 (at lip, high up, small shadow)
+    t=0.0125: 30 (launching)
+    t=0.050: 18 (peak air, smallest)
+    t=0.100: 20 (descending)
+    t=0.135: 35 (landing)
+    t=0.200: 40 (on transition)
+    t=0.300: 45 (flat, largest)
+    t=0.400: 45 (flat center)
+    t=0.500: 35 (left lip)
+    ... mirror ...
+
+    Actually, let me simplify the shadow: just follow X and have a fixed size with opacity varying.
+    Or use the same keyframes as skater X for cx, and animate rx/opacity with height.
+
+    Shadow cx = skater X (same keyframes).
+    Shadow rx: inversely proportional to height above ground.
+    Height above ground = 424 - skater Y.
+    At lip (Y=155): height = 269, rx = 15.
+    At flat (Y=399): height = 25, rx = 45.
+    At air peak (Y=107): height = 317, rx = 12.
+
+    rx = 45 - (height/269)*30 = 45 - (424-Y)/269*30.
+    At Y=155: rx = 45 - 269/269*30 = 15.
+    At Y=399: rx = 45 - 25/269*30 = 45-2.8 = 42.
+    At Y=107: rx = 45 - 317/269*30 = 45-35 = 10.
+
+    Let me compute rx for each keyframe Y:
+    Y=155: rx=15
+    Y=131: rx=45-(424-131)/269*30=45-293/269*30=45-32.7=12.3
+    Y=114: rx=45-310/269*30=45-34.6=10.4
+    Y=107: rx=45-317/269*30=45-35.4=9.6
+    Y=110: rx=45-314/269*30=45-35=10
+    Y=123: rx=45-301/269*30=45-33.6=11.4
+    Y=146: rx=45-278/269*30=45-31=14
+    Y=178: rx=45-246/269*30=45-27.4=17.6
+    Y=220: rx=45-204/269*30=45-22.8=22.2
+    Y=272: rx=45-152/269*30=45-17=28
+    Y=319: rx=45-105/269*30=45-11.7=33.3
+    Y=345: rx=45-79/269*30=45-8.8=36.2
+    Y=380: rx=45-44/269*30=45-4.9=40.1
+    Y=395: rx=45-29/269*30=45-3.2=41.8
+    Y=399: rx=45-25/269*30=45-2.8=42.2
+
+    Opacity: similar, more opaque when closer.
+    opacity = 0.1 + (1 - height/317)*0.4.
+    At Y=155 (height=269): opacity = 0.1 + (1-269/317)*0.4 = 0.1 + 0.151*0.4 = 0.16.
+    At Y=399 (height=25): opacity = 0.1 + (1-25/317)*0.4 = 0.1 + 0.921*0.4 = 0.47.
+    At Y=107 (height=317): opacity = 0.1.
+
+    Let me compute opacity for each Y:
+    Y=155: 0.16
+    Y=131: 0.1+(1-293/317)*0.4=0.1+0.0757*0.4=0.13
+    Y=114: 0.1+(1-310/317)*0.4=0.1+0.022*0.4=0.11
+    Y=107: 0.10
+    Y=110: 0.1+(1-314/317)*0.4=0.1+0.0095*0.4=0.10
+    Y=123: 0.1+(1-301/317)*0.4=0.1+0.05*0.4=0.12
+    Y=146: 0.1+(1-278/317)*0.4=0.1+0.123*0.4=0.15
+    Y=178: 0.1+(1-246/317)*0.4=0.1+0.224*0.4=0.19
+    Y=220: 0.1+(1-204/317)*0.4=0.1+0.356*0.4=0.24
+    Y=272: 0.1+(1-152/317)*0.4=0.1+0.52*0.4=0.31
+    Y=319: 0.1+(1-105/317)*0.4=0.1+0.669*0.4=0.37
+    Y=345: 0.1+(1-79/317)*0.4=0.1+0.751*0.4=0.40
+    Y=380: 0.1+(1-44/317)*0.4=0.1+0.861*0.4=0.44
+    Y=395: 0.1+(1-29/317)*0.4=0.1+0.909*0.4=0.46
+    Y=399: 0.1+(1-25/317)*0.4=0.1+0.921*0.4=0.47
+
+    OK I have all the values. Let me write the SVG now.
+    This is going to be a long SVG. Let me be organized.
+
+    Actually, for the shadow, I can simplify by using the same keyTimes as the skater position and just listing the values.
+    The shadow cx = skater X, so I can reuse the X values.
+    The shadow rx and opacity I'll compute as above.
+
+    Let me write the code:
+
+    ```svg
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+      <defs>
+        <!-- gradients, skateboard, skater definitions -->
+      </defs>
+      <!-- background -->
+      <!-- half-pipe -->
+      <!-- shadow with animations -->
+      <!-- skater with animations -->
+    </svg>

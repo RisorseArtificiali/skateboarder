@@ -14,7 +14,8 @@ Auth: OPENROUTER_API_KEY (or BENCH_API_KEY for any other endpoint).
 Before the request it asks a few optional run-metadata questions (contributor,
 hardware, engine, quantization, notes); local llama.cpp/ollama/vLLM servers are
 auto-probed. Pipe stdin or pass --non-interactive to skip the prompts.
-Results land in results/<slug>-<variant>[-reasoning_<effort>].svg + .json
+Results land in results/<slug>-<variant>[-reasoning_<effort>].svg + .json;
+runs that yield no SVG keep the raw response in results/<name>.txt for inspection.
 """
 import argparse
 import datetime
@@ -390,9 +391,18 @@ def run(args):
     meta["svg_len"] = len(svg) if svg else 0
     meta["has_animation"] = bool(re.search(r"<animate|animateTransform|animateMotion|@keyframes", svg)) if svg else False
     meta["uses_js"] = "<script" in svg.lower() if svg else False
-    meta["error"] = None if svg else "no SVG in response"
+    if svg:
+        meta["error"] = None
+    else:
+        meta["error"] = f"no SVG in response (finish_reason={meta.get('finish_reason')!r}, content_len={len(content)})"
+        provider_error = resp.get("error")
+        if provider_error:
+            meta["provider_error"] = provider_error
+            message = provider_error.get("message") if isinstance(provider_error, dict) else provider_error
+            if message:
+                meta["error"] += f": {message}"
 
-    write_meta(args, meta, svg)
+    write_meta(args, meta, svg, raw=content)
     if not svg:
         sys.exit(1)
     print(f"OK: {meta['file']}  ({meta['svg_len']}B, {usage.get('total_tokens')} tok, {meta['seconds']}s)")
@@ -455,10 +465,11 @@ def output_name(args, meta, results_dir=None):
     raise RuntimeError(f"could not allocate a safe output name for {preferred}")
 
 
-def write_meta(args, meta, svg):
+def write_meta(args, meta, svg, raw=None):
     os.makedirs(RESULTS_DIR, exist_ok=True)
     name = output_name(args, meta)
     path = os.path.join(RESULTS_DIR, f"{name}.svg")
+    raw_path = os.path.join(RESULTS_DIR, f"{name}.txt")
     if svg:
         with open(path, "w") as f:
             f.write(svg)
@@ -469,10 +480,23 @@ def write_meta(args, meta, svg):
             os.remove(path)
         except FileNotFoundError:
             pass
+    if not svg and raw:
+        with open(raw_path, "w") as f:
+            f.write(raw)
+        meta["raw_output"] = f"results/{name}.txt"
+    else:  # success (or no content at all): drop the stale raw dump of a previous failed run
+        meta.pop("raw_output", None)
+        try:
+            os.remove(raw_path)
+        except FileNotFoundError:
+            pass
     mpath = os.path.join(RESULTS_DIR, f"{name}.json")
     with open(mpath, "w") as f:
         json.dump(meta, f, indent=2)
-    print(f"meta: results/{name}.json" + ("  ERROR: " + meta["error"] if meta.get("error") else ""))
+    detail = f"  ERROR: {meta['error']}" if meta.get("error") else ""
+    if meta.get("raw_output"):
+        detail += f" (raw response kept: {meta['raw_output']})"
+    print(f"meta: results/{name}.json{detail}")
 
 
 def build_parser():
