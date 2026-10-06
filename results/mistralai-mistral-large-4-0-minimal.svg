@@ -1,0 +1,365 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#87CEEB"/>
+      <stop offset="100%" stop-color="#E0F6FF"/>
+    </linearGradient>
+    <linearGradient id="groundGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4a5568"/>
+      <stop offset="100%" stop-color="#2d3748"/>
+    </linearGradient>
+    <linearGradient id="pipeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#a0aec0"/>
+      <stop offset="50%" stop-color="#718096"/>
+      <stop offset="100%" stop-color="#4a5568"/>
+    </linearGradient>
+    <linearGradient id="boardGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e53e3e"/>
+      <stop offset="100%" stop-color="#c53030"/>
+    </linearGradient>
+    <radialGradient id="wheelGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f7fafc"/>
+      <stop offset="100%" stop-color="#a0aec0"/>
+    </radialGradient>
+
+    <!-- Shadow filter -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="2" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Motion blur for speed -->
+    <filter id="motionBlur">
+      <feGaussianBlur stdDeviation="2 0"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#skyGrad)"/>
+
+  <!-- Sun -->
+  <circle cx="650" cy="100" r="50" fill="#FBD38D" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Clouds -->
+  <g opacity="0.7">
+    <ellipse cx="150" cy="80" rx="60" ry="25" fill="white"/>
+    <ellipse cx="200" cy="70" rx="50" ry="20" fill="white"/>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 100 0; 0 0" dur="20s" repeatCount="indefinite"/>
+  </g>
+  <g opacity="0.5">
+    <ellipse cx="500" cy="150" rx="40" ry="18" fill="white"/>
+    <ellipse cx="540" cy="140" rx="35" ry="15" fill="white"/>
+    <animateTransform attributeName="transform" type="translate" values="0 0; -80 0; 0 0" dur="25s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Ground -->
+  <rect x="0" y="450" width="800" height="150" fill="url(#groundGrad)"/>
+
+  <!-- Ground texture lines -->
+  <g stroke="#4a5568" stroke-width="2" opacity="0.3">
+    <line x1="0" y1="480" x2="800" y2="480"/>
+    <line x1="0" y1="520" x2="800" y2="520"/>
+    <line x1="0" y1="560" x2="800" y2="560"/>
+  </g>
+
+  <!-- Rail/Pipe structure -->
+  <g id="railStructure">
+    <!-- Support posts -->
+    <rect x="180" y="350" width="20" height="100" fill="#2d3748" rx="3"/>
+    <rect x="600" y="350" width="20" height="100" fill="#2d3748" rx="3"/>
+
+    <!-- Post shadows -->
+    <ellipse cx="190" cy="452" rx="25" ry="6" fill="black" opacity="0.3"/>
+    <ellipse cx="610" cy="452" rx="25" ry="6" fill="black" opacity="0.3"/>
+
+    <!-- Main pipe (round rail) -->
+    <rect x="150" y="340" width="500" height="20" rx="10" fill="url(#pipeGrad)"/>
+    <!-- Pipe highlight -->
+    <rect x="150" y="342" width="500" height="6" rx="3" fill="white" opacity="0.3"/>
+
+    <!-- Pipe end caps -->
+    <circle cx="150" cy="350" r="12" fill="#4a5568"/>
+    <circle cx="650" cy="350" r="12" fill="#4a5568"/>
+    <circle cx="150" cy="350" r="8" fill="#2d3748"/>
+    <circle cx="650" cy="350" r="8" fill="#2d3748"/>
+  </g>
+
+  <!-- Skateboarder group - will be animated -->
+  <g id="skater" filter="url(#shadow)">
+    <!-- Shadow on ground (separate, moves with skater) -->
+    <ellipse id="skaterShadow" cx="400" cy="455" rx="40" ry="8" fill="black" opacity="0.25"/>
+
+    <!-- Back leg -->
+    <g id="backLeg">
+      <path d="M 385 280 Q 375 310 370 335" stroke="#2d3748" stroke-width="14" fill="none" stroke-linecap="round"/>
+      <!-- Back shoe -->
+      <g transform="translate(370, 335) rotate(-15)">
+        <rect x="-18" y="-8" width="36" height="16" rx="6" fill="#1a202c"/>
+        <rect x="-18" y="-8" width="36" height="6" rx="3" fill="#4a5568"/>
+      </g>
+    </g>
+
+    <!-- Front leg -->
+    <g id="frontLeg">
+      <path d="M 415 280 Q 425 310 430 335" stroke="#2d3748" stroke-width="14" fill="none" stroke-linecap="round"/>
+      <!-- Front shoe -->
+      <g transform="translate(430, 335) rotate(15)">
+        <rect x="-18" y="-8" width="36" height="16" rx="6" fill="#1a202c"/>
+        <rect x="-18" y="-8" width="36" height="6" rx="3" fill="#4a5568"/>
+      </g>
+    </g>
+
+    <!-- Torso -->
+    <g id="torso">
+      <path d="M 385 280 Q 400 260 415 280 L 410 230 Q 400 220 390 230 Z" fill="#3182ce"/>
+      <!-- Shirt detail -->
+      <path d="M 390 240 L 410 240 L 408 260 L 392 260 Z" fill="#2b6cb0"/>
+    </g>
+
+    <!-- Arms -->
+    <g id="arms">
+      <!-- Back arm -->
+      <path d="M 388 240 Q 370 250 360 270" stroke="#3182ce" stroke-width="12" fill="none" stroke-linecap="round"/>
+      <circle cx="360" cy="270" r="7" fill="#f6ad55"/>
+
+      <!-- Front arm -->
+      <path d="M 412 240 Q 430 250 440 270" stroke="#3182ce" stroke-width="12" fill="none" stroke-linecap="round"/>
+      <circle cx="440" cy="270" r="7" fill="#f6ad55"/>
+    </g>
+
+    <!-- Head -->
+    <g id="head">
+      <circle cx="400" cy="210" r="18" fill="#f6ad55"/>
+      <!-- Hair -->
+      <path d="M 382 205 Q 385 190 400 188 Q 415 190 418 205 Q 410 198 400 198 Q 390 198 382 205 Z" fill="#2d3748"/>
+      <!-- Face detail -->
+      <circle cx="394" cy="208" r="2" fill="#1a202c"/>
+      <circle cx="406" cy="208" r="2" fill="#1a202c"/>
+      <path d="M 395 218 Q 400 221 405 218" stroke="#1a202c" stroke-width="1.5" fill="none"/>
+    </g>
+
+    <!-- Skateboard -->
+    <g id="skateboard">
+      <!-- Board deck -->
+      <rect x="350" y="345" width="100" height="10" rx="5" fill="url(#boardGrad)"/>
+      <!-- Grip tape -->
+      <rect x="350" y="345" width="100" height="4" rx="2" fill="#1a202c" opacity="0.3"/>
+      <!-- Trucks -->
+      <rect x="365" y="355" width="8" height="8" fill="#718096"/>
+      <rect x="427" y="355" width="8" height="8" fill="#718096"/>
+      <!-- Wheels -->
+      <circle cx="369" cy="365" r="8" fill="url(#wheelGrad)" stroke="#718096" stroke-width="1"/>
+      <circle cx="431" cy="365" r="8" fill="url(#wheelGrad)" stroke="#718096" stroke-width="1"/>
+      <!-- Wheel rotation animation -->
+      <animateTransform attributeName="transform" type="rotate" from="0 369 365" to="360 369 365" dur="0.3s" repeatCount="indefinite" additive="sum"/>
+    </g>
+  </g>
+
+  <!-- Speed lines (appear during grind) -->
+  <g id="speedLines" opacity="0">
+    <line x1="300" y1="350" x2="340" y2="350" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <line x1="280" y1="360" x2="330" y2="360" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    <line x1="310" y1="340" x2="345" y2="340" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Spark particles for grind -->
+  <g id="sparks" opacity="0">
+    <circle cx="380" cy="355" r="3" fill="#f6e05e"/>
+    <circle cx="390" cy="358" r="2" fill="#f6e05e"/>
+    <circle cx="370" cy="352" r="2" fill="#f6e05e"/>
+    <circle cx="400" cy="356" r="1.5" fill="#f6e05e"/>
+  </g>
+
+  <!-- ============ ANIMATIONS ============ -->
+
+  <!-- Approach: Skater rolls in from left with slight bounce -->
+  <animateTransform
+    attributeName="transform"
+    type="translate"
+    values="0 0; -50 -5; -100 0; -150 -3; -200 0; -250 -2; -300 0; -350 0"
+    keyTimes="0; 0.125; 0.25; 0.375; 0.5; 0.625; 0.75; 1"
+    dur="2s"
+    repeatCount="indefinite"
+    calcMode="spline"
+    keySplines="0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1"
+    additive="sum"/>
+
+  <!-- Ollie up: Crouch then explode upward -->
+  <animateTransform
+    attributeName="transform"
+    type="translate"
+    values="0 0; 0 15; 0 10; 0 -30; 0 -50; 0 -45; 0 -40; 0 -35; 0 -30; 0 -25; 0 -20; 0 -15; 0 -10; 0 -5; 0 0"
+    keyTimes="0; 0.08; 0.12; 0.18; 0.22; 0.26; 0.30; 0.34; 0.38; 0.42; 0.46; 0.50; 0.54; 0.58; 0.62"
+    dur="2s"
+    repeatCount="indefinite"
+    calcMode="spline"
+    keySplines="0.4 0 0.6 1; 0.2 0 0.4 1; 0.1 0 0.3 1; 0.3 0 0.7 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1"
+    additive="sum"/>
+
+  <!-- Grind slide along rail: horizontal movement with slight balance wobble -->
+  <animateTransform
+    attributeName="transform"
+    type="translate"
+    values="0 0; 30 -2; 60 2; 90 -1; 120 1; 150 -2; 180 0; 210 2; 240 -1; 270 1; 300 0"
+    keyTimes="0.62; 0.66; 0.70; 0.74; 0.78; 0.82; 0.86; 0.90; 0.94; 0.97; 1"
+    dur="2s"
+    repeatCount="indefinite"
+    calcMode="spline"
+    keySplines="0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1; 0.4 0 0.6 1"
+    additive="sum"/>
+
+  <!-- Body lean during grind (counter-balance) -->
+  <animateTransform
+    attributeName="transform"
+    type="rotate"
+    values="0 400 280; -5 400 280; 3 400 280; -2 400 280; 2 400 280; -3 400 280; 0 400 280"
+    keyTimes="0.62; 0.70; 0.78; 0.86; 0.94; 1; 1"
+    dur="2s"
+    repeatCount="indefinite"
+    additive="sum"/>
+
+  <!-- Knee bend animation (absorbs impact, extends for pop) -->
+  <animate
+    attributeName="d"
+    values="M 385 280 Q 375 310 370 335; M 385 280 Q 370 305 365 330; M 385 280 Q 380 300 375 325; M 385 280 Q 375 310 370 335"
+    keyTimes="0; 0.08; 0.18; 0.62"
+    dur="2s"
+    repeatCount="indefinite"/>
+
+  <animate
+    attributeName="d"
+    values="M 415 280 Q 425 310 430 335; M 415 280 Q 430 305 435 330; M 415 280 Q 420 300 425 325; M 415 280 Q 425 310 430 335"
+    keyTimes="0; 0.08; 0.18; 0.62"
+    dur="2s"
+    repeatCount="indefinite"/>
+
+  <!-- Arms balance during grind -->
+  <animate
+    attributeName="d"
+    values="M 388 240 Q 370 250 360 270; M 388 240 Q 365 245 355 265; M 388 240 Q 370 250 360 270"
+    keyTimes="0; 0.62; 1"
+    dur="2s"
+    repeatCount="indefinite"/>
+
+  <animate
+    attributeName="d"
+    values="M 412 240 Q 430 250 440 270; M 412 240 Q 435 245 445 265; M 412 240 Q 430 250 440 270"
+    keyTimes="0; 0.62; 1"
+    dur="2s"
+    repeatCount="indefinite"/>
+
+  <!-- Board tilt during ollie and landing -->
+  <animateTransform
+    attributeName="transform"
+    type="rotate"
+    values="0 400 350; 0 400 350; -15 400 350; -10 400 350; 0 400 350; 5 400 350; 10 400 350; 5 400 350; 0 400 350; -5 400 350; 0 400 350"
+    keyTimes="0; 0.12; 0.18; 0.22; 0.30; 0.50; 0.62; 0.70; 0.80; 0.90; 1"
+    dur="2s"
+    repeatCount="indefinite"
+    additive="sum"/>
+
+  <!-- Shadow follows skater, changes size with height -->
+  <animate
+    attributeName="cx"
+    values="400; 350; 300; 250; 200; 150; 100; 50; 0; -50; -100; -150; -200; -250; -300"
+    keyTimes="0; 0.125; 0.25; 0.375; 0.5; 0.625; 0.75; 0.875; 1; 1; 1; 1; 1; 1; 1"
+    dur="2s"
+    repeatCount="indefinite"/>
+
+  <animate
+    attributeName="rx"
+    values="40; 38; 36; 34; 32; 30; 28; 26; 24; 22; 20; 18; 16; 14; 12"
+    keyTimes="0; 0.125; 0.25; 0.375; 0.5; 0.625; 0.75; 0.875; 1; 1; 1; 1; 1; 1; 1"
+    dur="2s"
+    repeatCount="indefinite"/>
+
+  <animate
+    attributeName="opacity"
+    values="0.25; 0.25; 0.25; 0.25; 0.25; 0.25; 0.25; 0.25; 0.25; 0.2; 0.15; 0.1; 0.08; 0.05; 0.03"
+    keyTimes="0; 0.125; 0.25; 0.375; 0.5; 0.625; 0.75; 0.875; 1; 1; 1; 1; 1; 1; 1"
+    dur="2s"
+    repeatCount="indefinite"/>
+
+  <!-- Speed lines appear during grind -->
+  <animate
+    attributeName="opacity"
+    values="0; 0; 0; 0; 0; 0; 0; 0; 0.8; 0.6; 0.4; 0.2; 0; 0; 0"
+    keyTimes="0; 0.1; 0.2; 0.3; 0.4; 0.5; 0.6; 0.7; 0.75; 0.8; 0.85; 0.9; 0.95; 1; 1"
+    dur="2s"
+    repeatCount="indefinite"/>
+
+  <!-- Sparks during grind -->
+  <animate
+    attributeName="opacity"
+    values="0; 0; 0; 0; 0; 0; 0; 0; 1; 0.8; 0.6; 0.4; 0.2; 0; 0"
+    keyTimes="0; 0.1; 0.2; 0.3; 0.4; 0.5; 0.6; 0.7; 0.75; 0.8; 0.85; 0.9; 0.95; 1; 1"
+    dur="2s"
+    repeatCount="indefinite"/>
+
+  <!-- Spark particle movement -->
+  <animateTransform
+    attributeName="transform"
+    type="translate"
+    values="0 0; -10 -5; -20 -10; -30 -15; -40 -20"
+    keyTimes="0.75; 0.8; 0.85; 0.9; 0.95"
+    dur="2s"
+    repeatCount="indefinite"/>
+
+  <!-- Landing compression and roll away -->
+  <animateTransform
+    attributeName="transform"
+    type="translate"
+    values="0 0; 0 0; 0 0; 0 0; 0 0; 0 0; 0 0; 0 0; 0 0; 0 0; 0 0; 0 0; 0 0; 0 10; 0 0; 50 0; 100 0; 150 0; 200 0; 250 0; 300 0; 350 0; 400 0; 450 0; 500 0"
+    keyTimes="0; 0.1; 0.2; 0.3; 0.4; 0.5; 0.6; 0.7; 0.75; 0.8; 0.85; 0.9; 0.95; 0.97; 0.98; 0.99; 1; 1; 1; 1; 1; 1; 1; 1; 1; 1"
+    dur="2s"
+    repeatCount="indefinite"/>
+
+  <!-- Final roll away with slight bounce -->
+  <animateTransform
+    attributeName="transform"
+    type="translate"
+    values="0 0; 0 -3; 0 0; 0 -2; 0 0"
+    keyTimes="0.98; 0.985; 0.99; 0.995; 1"
+    dur="2s"
+    repeatCount="indefinite"
+    additive="sum"/>
+
+  <!-- Continuous subtle breathing/idle motion -->
+  <animateTransform
+    attributeName="transform"
+    type="translate"
+    values="0 0; 0 -1; 0 0; 0 1; 0 0"
+    dur="0.5s"
+    repeatCount="indefinite"
+    additive="sum"/>
+
+  <!-- Wheel spin (continuous) -->
+  <animateTransform
+    attributeName="transform"
+    type="rotate"
+    from="0 369 365"
+    to="360 369 365"
+    dur="0.2s"
+    repeatCount="indefinite"
+    additive="sum"/>
+
+  <animateTransform
+    attributeName="transform"
+    type="rotate"
+    from="0 431 365"
+    to="360 431 365"
+    dur="0.2s"
+    repeatCount="indefinite"
+    additive="sum"/>
+
+</svg>

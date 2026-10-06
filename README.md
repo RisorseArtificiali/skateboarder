@@ -63,6 +63,9 @@ Default reasoning keeps the original `results/<model>-<variant>.svg` form. Repea
 overwrites that reasoning variant; a different configuration receives an automatic short hash rather than
 overwriting unrelated data.
 TCP keepalive is patched in so long reasoning phases survive gateway idle resets.
+When a response contains no SVG, the raw model output is kept next to the sidecar as
+`results/<model>-<variant>.txt` (referenced by its `raw_output` field) so the failure can be inspected;
+a later successful rerun of the same request removes it.
 
 ### Run metadata
 

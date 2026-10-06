@@ -190,6 +190,45 @@ class OutputNameTests(unittest.TestCase):
             finally:
                 bench.RESULTS_DIR = old_results
 
+    def test_failed_run_keeps_raw_response_for_inspection(self):
+        run_args = args(reasoning_effort="high")
+        current = meta(error="no SVG in response (finish_reason='error', content_len=18)")
+        with tempfile.TemporaryDirectory() as directory:
+            old_results = bench.RESULTS_DIR
+            bench.RESULTS_DIR = directory
+            try:
+                name = bench.preferred_output_name(run_args)
+                with mock.patch("builtins.print"):
+                    bench.write_meta(run_args, current, None, raw="<svg> never closed")
+                raw_path = os.path.join(directory, f"{name}.txt")
+                with open(raw_path) as file:
+                    self.assertEqual(file.read(), "<svg> never closed")
+                self.assertEqual(current["raw_output"], f"results/{name}.txt")
+                with open(os.path.join(directory, f"{name}.json")) as file:
+                    self.assertEqual(json.load(file)["raw_output"], f"results/{name}.txt")
+            finally:
+                bench.RESULTS_DIR = old_results
+
+    def test_successful_rerun_removes_stale_raw_response(self):
+        run_args = args(reasoning_effort="high")
+        current = meta()
+        with tempfile.TemporaryDirectory() as directory:
+            old_results = bench.RESULTS_DIR
+            bench.RESULTS_DIR = directory
+            try:
+                name = bench.preferred_output_name(run_args)
+                raw_path = os.path.join(directory, f"{name}.txt")
+                with open(raw_path, "w") as file:
+                    file.write("stale dump of a previous failed run")
+                with mock.patch("builtins.print"):
+                    bench.write_meta(run_args, current, "<svg>ok</svg>", raw="ignored on success")
+                self.assertFalse(os.path.exists(raw_path))
+                self.assertNotIn("raw_output", current)
+                with open(os.path.join(directory, f"{name}.svg")) as file:
+                    self.assertEqual(file.read(), "<svg>ok</svg>")
+            finally:
+                bench.RESULTS_DIR = old_results
+
 
 if __name__ == "__main__":
     unittest.main()
