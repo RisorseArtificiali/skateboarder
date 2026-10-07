@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <title>Skater: ollie onto pipe, 50-50 grind, kickflip off</title>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9fd8f5"/>
+      <stop offset="1" stop-color="#e8f6ff"/>
+    </linearGradient>
+    <linearGradient id="pipeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e6e9ee"/>
+      <stop offset="0.5" stop-color="#9aa3ad"/>
+      <stop offset="1" stop-color="#5c6670"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="400" fill="url(#sky)"/>
+  <rect x="0" y="340" width="800" height="60" fill="#6b6f74"/>
+  <line x1="0" y1="340" x2="800" y2="340" stroke="#4a4e52" stroke-width="2"/>
+
+  <!-- Pipe (side view of a horizontal cylinder: top at y=290) -->
+  <g id="pipe">
+    <rect x="350" y="290" width="250" height="50" fill="url(#pipeGrad)"/>
+    <ellipse cx="350" cy="315" rx="8" ry="25" fill="#4b545d"/>
+    <ellipse cx="600" cy="315" rx="8" ry="25" fill="#4b545d"/>
+  </g>
+
+  <!--
+    Rider. Origin = centre of the board (wheel axle line).
+    Wheel bottoms sit 3px below origin, so the path's y values are
+    ground: 337 (wheels touch y=340), pipe: 287 (wheels touch y=290).
+  -->
+  <g id="rider">
+    <!-- Path: flat approach -> ollie arc up onto pipe -> grind -> ollie arc off -> roll out -->
+    <animateMotion dur="7s" repeatCount="indefinite"
+      path="M80,337 L300,337 Q340,150 385,287 L600,287 Q650,150 700,337 L780,337"/>
+
+    <!-- Board: outer group handles the kickflip, inner group handles the nose pop -->
+    <g>
+      <animateTransform attributeName="transform" type="scale" additive="sum"
+        dur="7s" repeatCount="indefinite"
+        keyTimes="0;0.72;0.76;0.8;0.84;0.88;1"
+        values="1 1;1 1;1 0;1 -1;1 0;1 1;1 1"/>
+      <g>
+        <animateTransform attributeName="transform" type="rotate"
+          dur="7s" repeatCount="indefinite"
+          keyTimes="0;0.22;0.3;0.42;0.44;0.72;0.76;0.9;0.93;1"
+          values="0;0;-10;-10;0;0;-10;-10;0;0"/>
+
+        <!-- Deck -->
+        <rect x="-32" y="-9" width="64" height="5" rx="2.5" fill="#d9472b"/>
+        <!-- Trucks -->
+        <rect x="-18" y="-4" width="36" height="2" fill="#9aa0a6"/>
+        <!-- Wheels -->
+        <circle cx="-17" cy="0" r="3" fill="#222"/>
+        <circle cx="17" cy="0" r="3" fill="#222"/>
+      </g>
+    </g>
+
+    <!-- Friction sparks at the trucks while grinding metal -->
+    <g stroke="#ffb020" stroke-width="2" stroke-linecap="round" fill="none">
+      <path d="M-6,4 l-6,6 M0,4 l-2,7 M5,4 l4,6 M-12,4 l-4,4">
+        <animate attributeName="opacity" dur="7s" repeatCount="indefinite"
+          keyTimes="0;0.44;0.5;0.66;0.72;1" values="0;0;1;1;0;0"/>
+      </path>
+    </g>
+
+    <!-- Skater body -->
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Back leg (bent knee) -->
+      <path d="M-2,-40 L-8,-22 L-4,-10" stroke="#2b3a67" stroke-width="6"/>
+      <!-- Front leg (bent knee) -->
+      <path d="M2,-40 L9,-24 L3,-10" stroke="#2b3a67" stroke-width="6"/>
+      <!-- Torso -->
+      <path d="M0,-40 L1,-72" stroke="#2f7d4f" stroke-width="9"/>
+      <!-- Front arm, out for balance -->
+      <path d="M1,-68 L12,-56 L18,-66" stroke="#2f7d4f" stroke-width="4"/>
+      <!-- Back arm -->
+      <path d="M1,-68 L-10,-58 L-16,-48" stroke="#2f7d4f" stroke-width="4"/>
+    </g>
+    <!-- Head -->
+    <circle cx="3" cy="-82" r="8" fill="#f2c39b" stroke="#222" stroke-width="2"/>
+    <!-- Cap -->
+    <path d="M-5,-84 Q3,-96 11,-84 Z" fill="#222"/>
+  </g>
+</svg>
