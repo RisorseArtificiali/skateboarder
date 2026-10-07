@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="600" height="420" viewBox="0 0 600 420">
+  <title>Skater on a half-pipe: pendulum swing, parabolic 360 air, seamless 3.2s loop</title>
+
+  <!--
+    PHYSICS MODEL (all timing derived from one set of constants)
+    Pivot P = (300,240) = centre of the half-pipe arc.
+    Inner ramp radius Ri = 123 px. Rider centre of mass (CoM) sits 40 px above the board contact -> L = 83 px.
+    Effective g = 792 px/s^2 (pixel-scaled so the pendulum period matches the drawn period).
+    Ground motion = simple pendulum about P, amplitude 90 deg (turnaround at each coping).
+      Quarter period Q = 0.6 s, so full period 4Q = 2.4 s.
+      Angle-vs-time table uses the exact large-amplitude pendulum integral t(phi) = Q * int0^phi dphi/sqrt(cos phi) / 2.622,
+      so the rider is slowest at the coping (turnaround) and fastest at the bottom.
+    Air = ballistic parabola of the CoM, y(t) = y0 - v0 t + (g/2) t^2, v0 = g*Ta/2, Ta = 0.8 s, apex 63 px above lip.
+      x is constant (vertical toss from the lip, no horizontal drift).
+    Rotation = constant angular velocity about the CoM (no torque in flight): 360 deg in 0.8 s.
+      Board and body rotate as one rigid body, so the board is again horizontal at the lip (360 deg = aligned).
+    Simplification: the pop energy is treated as pumped in by the rider at the lip; the ground pendulum
+    resumes from rest at the lip after landing.
+    Loop: D = 4Q + Ta = 3.2 s. Ground rider at t=0 and t=3.2 is at the same pose, so the loop is seamless.
+  -->
+
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7cc4f0"/>
+      <stop offset="1" stop-color="#e6f6ff"/>
+    </linearGradient>
+
+    <!--
+      SKATER SYMBOL (reused by both the ground rider and the airborne rider)
+      Origin = board contact point with the ramp (wheel bottoms). Figure "up" = -y.
+      CoM is about 40 px above the origin.
+    -->
+    <g id="skater">
+      <!-- Board: deck (tail/nose along x), two trucks, four wheels -->
+      <g id="board">
+        <rect x="-26" y="-8.5" width="52" height="3.5" rx="1.75" fill="#e0a43a"/>  <!-- deck -->
+        <rect x="-21" y="-5" width="10" height="2" fill="#8a8f98"/>                 <!-- truck 1 -->
+        <rect x="11" y="-5" width="10" height="2" fill="#8a8f98"/>                  <!-- truck 2 -->
+        <circle cx="-19" cy="-3.5" r="3.5" fill="#222"/>                            <!-- wheel 1 -->
+        <circle cx="-13" cy="-3.5" r="3.5" fill="#222"/>                            <!-- wheel 2 -->
+        <circle cx="13" cy="-3.5" r="3.5" fill="#222"/>                             <!-- wheel 3 -->
+        <circle cx="19" cy="-3.5" r="3.5" fill="#222"/>                             <!-- wheel 4 -->
+      </g>
+
+      <!-- Legs (jeans, slightly bent knees) and shoes -->
+      <path d="M-4,-36 L-9,-22 L-6,-10" fill="none" stroke="#2c3e6b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M4,-36 L9,-22 L6,-10" fill="none" stroke="#2c3e6b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse cx="-6" cy="-8" rx="5" ry="2.5" fill="#f5f5f5"/>
+      <ellipse cx="6" cy="-8" rx="5" ry="2.5" fill="#f5f5f5"/>
+
+      <!-- Torso (hoodie) -->
+      <rect x="-6.5" y="-58" width="13" height="24" rx="5" fill="#d9463e"/>
+
+      <!-- Arms (out for balance) and hands -->
+      <path d="M-5,-53 L-14,-45 L-17,-37" fill="none" stroke="#d9463e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5,-53 L14,-45 L17,-37" fill="none" stroke="#d9463e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="-17" cy="-37" r="3" fill="#f1c27d"/>
+      <circle cx="17" cy="-37" r="3" fill="#f1c27d"/>
+
+      <!-- Head with beanie -->
+      <circle cx="0" cy="-66" r="6.5" fill="#f1c27d"/>
+      <path d="M-6.8,-66 A6.8,6.8 0 0 1 6.8,-66 Z" fill="#2b2b2b"/>
+    </g>
+  </defs>
+
+  <!-- BACKGROUND: sky gradient, sun, clouds -->
+  <g id="background">
+    <rect x="0" y="0" width="600" height="420" fill="url(#skyGrad)"/>
+    <circle cx="530" cy="60" r="28" fill="#ffe27a"/>
+    <ellipse cx="90" cy="70" rx="40" ry="12" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="120" cy="62" rx="26" ry="10" fill="#ffffff" opacity="0.9"/>
+    <ellipse cx="480" cy="120" rx="34" ry="10" fill="#ffffff" opacity="0.85"/>
+  </g>
+
+  <!-- GROUND: concrete plaza -->
+  <g id="ground">
+    <rect x="0" y="377" width="600" height="43" fill="#9c9fa6"/>
+    <line x1="0" y1="377" x2="600" y2="377" stroke="#5b6170" stroke-width="2"/>
+  </g>
+
+  <!-- RAMP: two quarter pipes facing each other, joined by a short flat bottom at x=300 -->
+  <g id="halfPipe">
+    <!-- Left quarter pipe (outer R=137, inner R=123, centre (300,240)) -->
+    <path id="quarterPipeLeft"
+          d="M163,240 A137,137 0 0 0 300,377 L300,363 A123,123 0 0 1 177,240 Z"
+          fill="#b7bcc6" stroke="#5b6170" stroke-width="2"/>
+    <!-- Right quarter pipe -->
+    <path id="quarterPipeRight"
+          d="M437,240 A137,137 0 0 1 300,377 L300,363 A123,123 0 0 0 423,240 Z"
+          fill="#b7bcc6" stroke="#5b6170" stroke-width="2"/>
+    <!-- Copings (lips) at the top of each quarter pipe -->
+    <rect x="161" y="236" width="18" height="8" rx="3" fill="#5b6170"/>
+    <rect x="421" y="236" width="18" height="8" rx="3" fill="#5b6170"/>
+  </g>
+
+  <!--
+    GROUND RIDER (pendulum phase + landing/ride-back phase)
+    Visible 0 -> 1.2 s (swing 1) and 2.0 -> 3.2 s (swing 2). Hidden during the air phase.
+    Pendulum: rotates about the bowl centre P=(300,240). The rider's up-vector always points to P,
+    as on a real pendulum, so the rider is never upside down on the wall.
+  -->
+  <g id="groundRider">
+    <animate attributeName="visibility" values="visible;hidden;visible" keyTimes="0;0.375;0.625"
+             calcMode="discrete" dur="3.2s" repeatCount="indefinite"/>
+
+    <!-- Pivot at the centre of the half-pipe -->
+    <g transform="translate(300 240)">
+      <!-- Pendulum angle (deg from bottom). Swing 1: -90 -> +90 (2Q = 1.2 s). Swing 2: +90 -> -90 (1.2 s).
+           Angles at the keyTimes come from the pendulum table; the rider is slow near 90 deg and fast near 0 deg. -->
+      <g id="pendulum">
+        <animateTransform attributeName="transform" type="rotate" additive="replace"
+          values="-90;-75;-60;-45;-30;-15;0;15;30;45;60;75;90;90;75;60;45;30;15;0;-15;-30;-45;-60;-75;-90"
+          keyTimes="0;0.07188;0.1035;0.12781;0.14897;0.16856;0.1875;0.20644;0.22603;0.24719;0.27150;0.30313;0.375;0.625;0.69688;0.7285;0.75281;0.77397;0.79356;0.8125;0.83144;0.85103;0.87219;0.8965;0.92813;1"
+          calcMode="linear" dur="3.2s" repeatCount="indefinite"/>
+        <!-- Board contact sits on the inner ramp surface: R = 123 px -->
+        <use xlink:href="#skater" transform="translate(0 123)"/>
+      </g>
+    </g>
+  </g>
+
+  <!--
+    AIRBORNE RIDER (pop out of the left lip, 360 spin, land back in)
+    Visible 1.2 -> 2.0 s. The outer group carries the CoM parabola; the inner group carries the
+    rigid rotation about the CoM. The rider starts at the left lip with the same pose as the pendulum (psi = 90 deg),
+    and ends at psi = 450 deg, which equals 90 deg, so the board is aligned again at landing.
+    CoM start (217,240) is 40 px inside the lip at (177,240).
+  -->
+  <g id="airRider" visibility="hidden">
+    <animate attributeName="visibility" values="hidden;visible;hidden" keyTimes="0;0.375;0.625"
+             calcMode="discrete" dur="3.2s" repeatCount="indefinite"/>
+
+    <!-- CoM vertical parabola (x constant). Samples at Ta/10 steps, g = 792 px/s^2, v0 = 316.8 px/s -->
+    <g>
+      <animateTransform attributeName="transform" type="translate"
+        values="217 240;217 240;217 212.28;217 192.48;217 180.6;217 176.64;217 180.6;217 192.48;217 212.28;217 240;217 240"
+        keyTimes="0;0.375;0.40625;0.4375;0.46875;0.5;0.53125;0.5625;0.59375;0.625;1"
+        calcMode="linear" dur="3.2s" repeatCount="indefinite"/>
+
+      <!-- Constant angular velocity spin in flight: 90 -> 450 deg (one full 360 turn) over Ta = 0.8 s -->
+      <g>
+        <animateTransform attributeName="transform" type="rotate"
+          values="90;90;450;450" keyTimes="0;0.375;0.625;1"
+          calcMode="linear" dur="3.2s" repeatCount="indefinite"/>
+        <!-- Board contact lies 40 px below the CoM in the rider's own frame -->
+        <use xlink:href="#skater" transform="translate(0 40)"/>
+      </g>
+    </g>
+  </g>
+</svg>
