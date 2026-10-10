@@ -36,16 +36,24 @@ import urllib.request
 # --- keep long reasoning phases alive through gateways that reset idle flows ---
 def _keepalive():
     orig_create = socket.socket.connect
+    idle_option = "TCP_KEEPIDLE" if hasattr(socket, "TCP_KEEPIDLE") else "TCP_KEEPALIVE"
+    options = (
+        (socket.SOL_SOCKET, "SO_KEEPALIVE", 1),
+        (socket.IPPROTO_TCP, idle_option, 30),
+        (socket.IPPROTO_TCP, "TCP_KEEPINTVL", 10),
+        (socket.IPPROTO_TCP, "TCP_KEEPCNT", 6),
+    )
 
     def connect_with_keepalive(self, address):
         result = orig_create(self, address)
-        try:
-            self.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
-            self.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 30)
-            self.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, 10)
-            self.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, 6)
-        except OSError:
-            pass
+        for level, name, value in options:
+            option = getattr(socket, name, None)
+            if option is None:
+                continue
+            try:
+                self.setsockopt(level, option, value)
+            except OSError as exc:
+                print(f"warning: could not set socket option {name}: {exc}", file=sys.stderr)
         return result
 
     socket.socket.connect = connect_with_keepalive
