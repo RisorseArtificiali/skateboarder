@@ -23,6 +23,20 @@ export OPENROUTER_API_KEY=sk-or-...
 python3 bench.py --model openai/gpt-6-luna --variant constrained
 ```
 
+**Other authenticated OpenAI-compatible endpoints:**
+
+Set `BENCH_API_KEY` to the endpoint's API key and pass its base URL with `--base`:
+
+```bash
+export BENCH_API_KEY=your-api-key
+python3 bench.py --model your-model --base https://api.example.com/v1 --variant constrained
+```
+
+API keys are selected in this order: `--api-key`, `BENCH_API_KEY`, then `OPENROUTER_API_KEY`.
+This applies to every endpoint, including OpenRouter: if both environment variables are set,
+`BENCH_API_KEY` takes precedence. Run `unset BENCH_API_KEY` to use `OPENROUTER_API_KEY` again.
+For local endpoints without authentication, leave both variables unset and omit `--api-key`.
+
 **Local (ollama):**
 
 ```bash
