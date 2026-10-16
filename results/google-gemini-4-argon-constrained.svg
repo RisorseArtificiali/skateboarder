@@ -1,0 +1,243 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <!-- Sky and Ramp Gradients -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2a6c"/>
+      <stop offset="50%" stop-color="#b21f1f"/>
+      <stop offset="100%" stop-color="#fdbb2d"/>
+    </linearGradient>
+    <linearGradient id="rampSurface" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#606c88"/>
+      <stop offset="100%" stop-color="#3f4c6b"/>
+    </linearGradient>
+    <linearGradient id="rampSide" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2c3e50"/>
+      <stop offset="100%" stop-color="#1a252f"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    /* 
+      Physics & Animation Timing (4s total seamless loop):
+      0% - 50%: Drop-in from left, fast flat bottom (25%), decelerate up right wall to a 540 McTwist air (50%).
+      50% - 100%: Re-enter right wall, fast flat bottom (75%), decelerate up left wall to a Kickflip Indy (100%).
+    */
+    .world-pos {
+      animation:amp-pos 4s infinite;
+    }
+    .skater-rot {
+      animation:amp-rot 4s infinite;
+    }
+    .body-pump {
+      animation:pump 4s infinite ease-in-out;
+    }
+    .board-trick {
+      animation:flip 4s infinite linear;
+    }
+    .arm-l {
+      animation:armL 4s infinite ease-in-out;
+      transform-origin: 0px -48px;
+    }
+    .arm-r {
+      animation:armR 4s infinite ease-in-out;
+      transform-origin: 0px -48px;
+    }
+
+    /* Position: Controls gravity (ease-out up, ease-in down) and flat-bottom high speed */
+    @keyframes amp-pos {
+      0% {
+        transform: translate(150px, 120px);
+        animation-timing-function: cubic-bezier(0.55, 0.05, 0.85, 0.5); /* Accelerate down */
+      }
+      18% {
+        transform: translate(310px, 380px);
+        animation-timing-function: linear; /* Max speed across flat bottom */
+      }
+      32% {
+        transform: translate(490px, 380px);
+        animation-timing-function: cubic-bezier(0.15, 0.5, 0.45, 0.95); /* Decelerate up & into air */
+      }
+      50% {
+        transform: translate(650px, 110px); /* Peak Right Air */
+        animation-timing-function: cubic-bezier(0.55, 0.05, 0.85, 0.5); /* Gravity pulls down */
+      }
+      68% {
+        transform: translate(490px, 380px);
+        animation-timing-function: linear; /* Max speed across flat bottom */
+      }
+      82% {
+        transform: translate(310px, 380px);
+        animation-timing-function: cubic-bezier(0.15, 0.5, 0.45, 0.95); /* Decelerate up & into air */
+      }
+      100% {
+        transform: translate(150px, 120px); /* Peak Left Air (matches 0%) */
+      }
+    }
+
+    /* Rotation: Aligns skater perpendicular to ramp transition, plus a 360 spin on the right peak */
+    @keyframes amp-rot {
+      0%   { transform: rotate(90deg); animation-timing-function: ease-in; }
+      9%   { transform: rotate(90deg); animation-timing-function: ease-in-out; }
+      18%  { transform: rotate(0deg); animation-timing-function: linear; }
+      32%  { transform: rotate(0deg); animation-timing-function: ease-in-out; }
+      41%  { transform: rotate(-90deg); animation-timing-function: ease-in-out; }
+      /* Aerial 540-degree rotation (from -90 to -450, which equals +270/90deg) */
+      59%  { transform: rotate(-450deg); animation-timing-function: ease-in-out; }
+      68%  { transform: rotate(-360deg); animation-timing-function: linear; }
+      82%  { transform: rotate(-360deg); animation-timing-function: ease-in-out; }
+      91%  { transform: rotate(-270deg); animation-timing-function: ease-out; }
+      100% { transform: rotate(-270deg); } /* -270deg is coterminal with +90deg for seamless loop */
+    }
+
+    /* Pumping in transitions and tucking knees in the air for grabs */
+    @keyframes pump {
+      0%   { transform: translateY(14px) scaleY(0.8); } /* Tucked in air */
+      9%   { transform: translateY(0px) scaleY(1); }    /* Extend entering ramp */
+      18%  { transform: translateY(10px) scaleY(0.85); }/* Compress at G-force bottom */
+      25%  { transform: translateY(2px) scaleY(0.98); } /* Stand on flat */
+      32%  { transform: translateY(10px) scaleY(0.85); }/* Compress to pump up */
+      41%  { transform: translateY(-2px) scaleY(1.03); }/* Pop off coping */
+      50%  { transform: translateY(14px) scaleY(0.8); } /* Tuck for McTwist grab */
+      59%  { transform: translateY(0px) scaleY(1); }    /* Extend for landing */
+      68%  { transform: translateY(10px) scaleY(0.85); }/* Compress at bottom */
+      75%  { transform: translateY(2px) scaleY(0.98); } /* Stand on flat */
+      82%  { transform: translateY(10px) scaleY(0.85); }/* Compress to pump up */
+      91%  { transform: translateY(-2px) scaleY(1.03); }/* Pop off coping */
+      100% { transform: translateY(14px) scaleY(0.8); } /* Tuck for Kickflip (matches 0%) */
+    }
+
+    /* Skateboard Kickflip rotation during the Left Air (91% to 100% and 0% to 8%) */
+    @keyframes flip {
+      0%   { transform: scaleY(1); }
+      4%   { transform: scaleY(-1); }
+      8%   { transform: scaleY(1); }
+      91%  { transform: scaleY(1); }
+      95%  { transform: scaleY(-1); }
+      100% { transform: scaleY(1); }
+    }
+
+    /* Left Arm: Balances in transition, reaches down for grab at peaks */
+    @keyframes armL {
+      0%, 100% { transform: rotate(-20deg); } /* Grabbing board */
+      15%, 35% { transform: rotate(-110deg); } /* Balancing out */
+      50%      { transform: rotate(-15deg); } /* Grabbing board */
+      65%, 85% { transform: rotate(-110deg); } /* Balancing out */
+    }
+
+    /* Right Arm: Counter-balances */
+    @keyframes armR {
+      0%, 100% { transform: rotate(130deg); } /* Thrown back in air */
+      25%      { transform: rotate(70deg); }
+      50%      { transform: rotate(15deg); }  /* Grabbing/Spinning */
+      75%      { transform: rotate(70deg); }
+    }
+  </style>
+
+  <!-- BACKGROUND: Sunset Sky, Sun, and distant city/clouds -->
+  <g id="background">
+    <rect width="800" height="500" fill="url(#sky)"/>
+    <circle cx="400" cy="280" r="130" fill="#ffeb3b" opacity="0.25"/>
+    <circle cx="400" cy="280" r="90" fill="#ffeb3b" opacity="0.4"/>
+    <!-- Distant hills/buildings -->
+    <path d="M0,380 L120,340 L250,370 L400,330 L580,360 L700,320 L800,350 L800,500 L0,500 Z" fill="#1a1a2e" opacity="0.7"/>
+  </g>
+
+  <!-- VERT RAMP: Two quarter-pipes facing each other with a flat bottom, decks, and railings -->
+  <g id="vert-ramp">
+    <!-- Left & Right Guard Rails -->
+    <path d="M 45,200 L 45,160 L 145,160 L 145,200 M 45,180 L 145,180" fill="none" stroke="#bdc3c7" stroke-width="3"/>
+    <path d="M 655,200 L 655,160 L 755,160 L 755,200 M 655,180 L 755,180" fill="none" stroke="#bdc3c7" stroke-width="3"/>
+
+    <!-- Ramp Support Structure ( Wood/Metal framing ) -->
+    <polygon points="40,200 150,200 150,440 40,440" fill="url(#rampSide)"/>
+    <polygon points="650,200 760,200 760,440 650,440" fill="url(#rampSide)"/>
+    <!-- Support Beams -->
+    <g stroke="#0f171e" stroke-width="4" opacity="0.6">
+      <line x1="75" y1="200" x2="75" y2="440"/>
+      <line x1="115" y1="200" x2="115" y2="440"/>
+      <line x1="40" y1="260" x2="150" y2="260"/>
+      <line x1="40" y1="320" x2="150" y2="320"/>
+      <line x1="40" y1="380" x2="150" y2="380"/>
+      <line x1="685" y1="200" x2="685" y2="440"/>
+      <line x1="725" y1="200" x2="725" y2="440"/>
+      <line x1="650" y1="260" x2="760" y2="260"/>
+      <line x1="650" y1="320" x2="760" y2="320"/>
+      <line x1="650" y1="380" x2="760" y2="380"/>
+    </g>
+
+    <!-- Main Ramp Cross-Section & Riding Surface -->
+    <path d="M 150,200 L 150,220 A 160,160 0 0,0 310,380 L 490,380 A 160,160 0 0,0 650,220 L 650,200 L 650,440 L 150,440 Z" fill="url(#rampSurface)"/>
+    
+    <!-- Transition Curve Highlight -->
+    <path d="M 150,200 L 150,220 A 160,160 0 0,0 310,380 L 490,380 A 160,160 0 0,0 650,220 L 650,200" fill="none" stroke="#859398" stroke-width="4"/>
+
+    <!-- Metal Coping (Left and Right) -->
+    <circle cx="150" cy="200" r="5" fill="#ecf0f1" stroke="#7f8c8d" stroke-width="2"/>
+    <circle cx="650" cy="200" r="5" fill="#ecf0f1" stroke="#7f8c8d" stroke-width="2"/>
+
+    <!-- Ground / Floor -->
+    <rect x="0" y="440" width="800" height="60" fill="#11171d"/>
+  </g>
+
+  <!-- SKATER AND SKATEBOARD: Grouped in nested transforms for Position -> Rotation -> Pump -->
+  <g class="world-pos">
+    <g class="skater-rot">
+      
+      <!-- SKATEBOARD: Deck, Grip, Trucks, and 4 Wheels -->
+      <g id="skateboard" class="board-trick">
+        <!-- Deck with upturned nose and tail -->
+        <path d="M -28,-11 L -20,-7 L 20,-7 L 28,-11" fill="none" stroke="#d35400" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="-20" y1="-8.5" x2="20" y2="-8.5" stroke="#222" stroke-width="1.5"/> <!-- Grip tape -->
+        
+        <!-- Silver Trucks -->
+        <polygon points="-16,-7 -12,-7 -13,-3 -15,-3" fill="#bdc3c7"/>
+        <polygon points="12,-7 16,-7 15,-3 13,-3" fill="#bdc3c7"/>
+        
+        <!-- 4 Wheels (2 pairs visible in profile/3D offset) -->
+        <circle cx="-16" cy="-3" r="3.5" fill="#eee"/>
+        <circle cx="16" cy="-3" r="3.5" fill="#eee"/>
+        <circle cx="-12" cy="-3" r="3.5" fill="#f39c12"/>
+        <circle cx="12" cy="-3" r="3.5" fill="#f39c12"/>
+        <circle cx="-12" cy="-3" r="1" fill="#333"/> <!-- Bearings -->
+        <circle cx="12" cy="-3" r="1" fill="#333"/>
+      </g>
+
+      <!-- SKATER FIGURE: Responds to G-force compression (pump) and performs grabs -->
+      <g id="skater" class="body-pump">
+        <!-- Back Leg -->
+        <path d="M -10,-9 L -14,-22 L -4,-33" fill="none" stroke="#2c3e50" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Front Leg -->
+        <path d="M 10,-9 L 15,-22 L 4,-33" fill="none" stroke="#34495e" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        
+        <!-- Shoes -->
+        <path d="M -14,-9 L -6,-9" stroke="#e74c3c" stroke-width="4" stroke-linecap="round"/>
+        <path d="M 7,-9 L 15,-9" stroke="#e74c3c" stroke-width="4" stroke-linecap="round"/>
+
+        <!-- Torso / T-Shirt -->
+        <path d="M -5,-31 L 5,-31 L 7,-52 L -7,-52 Z" fill="#ecf0f1"/>
+        <path d="M -3,-52 L 3,-42 L 6,-52 Z" fill="#e74c3c"/> <!-- Shirt graphic -->
+
+        <!-- Back Arm (Right) -->
+        <g class="arm-r">
+          <path d="M 0,-48 L 12,-40 L 20,-32" fill="none" stroke="#dcdde1" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="20" cy="-32" r="2.5" fill="#f5cdb6"/>
+        </g>
+
+        <!-- Head & Helmet -->
+        <g id="head">
+          <circle cx="0" cy="-60" r="6" fill="#f5cdb6"/> <!-- Face -->
+          <!-- Skate Helmet -->
+          <path d="M -7,-59 C -8,-68 8,-68 7,-59 C 5,-61 -5,-61 -7,-59 Z" fill="#2ecc71"/>
+          <path d="M -3,-59 L 0,-54 L 3,-59" fill="none" stroke="#222" stroke-width="1"/> <!-- Chin strap -->
+        </g>
+
+        <!-- Front Arm (Left - reaches down for Indy/Mute grabs at peak air) -->
+        <g class="arm-l">
+          <path d="M 0,-48 L -8,-36 L -2,-24" fill="none" stroke="#ecf0f1" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="-2" cy="-24" r="2.5" fill="#f5cdb6"/>
+        </g>
+      </g>
+
+    </g>
+  </g>
+</svg>

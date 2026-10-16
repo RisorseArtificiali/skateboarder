@@ -109,6 +109,10 @@
     <button data-ep="openrouter">openrouter</button>
     <button data-ep="local">local/self-hosted</button>
   </div>
+  <div class="filters" id="sort-filters">
+    <button data-s="recent" class="active">newest first</button>
+    <button data-s="name">A–Z</button>
+  </div>
   <div class="cmpbar">
     <button id="cmp-toggle">compare</button>
     <button id="cmp-side" style="display:none" class="active">⬌ side by side</button>
@@ -125,7 +129,7 @@
 </main>
 <script>
 const state = {
-  q:"", f:"all", ep:"all", entries:[], groups:[], selectedGroupId:null, loaded:false,
+  q:"", f:"all", ep:"all", sort:"recent", entries:[], groups:[], selectedGroupId:null, loaded:false,
   activeRunByGroup:{}, comparing:false, pickedGroupIds:[], sideBySide:true
 };
 const PROMPTS = {};
@@ -170,6 +174,28 @@ function makeGroups(entries){
     if (!group.entries.some(entry=>entry.id===current)) state.activeRunByGroup[group.id] = group.entries[0].id;
   }
   return groups.sort((a,b)=>a.entries[0].id.localeCompare(b.entries[0].id));
+}
+
+function groupTime(group){
+  let best = null;
+  for (const entry of group.entries){
+    if (!entry.timestamp) continue;
+    const time = Date.parse(entry.timestamp);
+    if (Number.isFinite(time) && (best === null || time > best)) best = time;
+  }
+  return best;
+}
+
+function sortGroups(groups){
+  const byName = (a,b)=>a.entries[0].id.localeCompare(b.entries[0].id);
+  if (state.sort === "name") return groups.sort(byName);
+  return groups.sort((a,b)=>{  // newest first; runs without a timestamp (legacy imports) keep to the bottom
+    const ta = groupTime(a), tb = groupTime(b);
+    if (ta === null && tb === null) return byName(a,b);
+    if (ta === null) return 1;
+    if (tb === null) return -1;
+    return tb - ta || byName(a,b);
+  });
 }
 
 function groupById(id){ return state.groups.find(group=>group.id===id); }
@@ -306,7 +332,7 @@ function entryFailed(entry){ return Boolean(entry.error || !safeSvg(entry)); }
 
 function renderList(){
   const list = document.getElementById("list");
-  const groups = visible();
+  const groups = sortGroups(visible());
   list.innerHTML = groups.length ? "" : "<div class='item'><span class='err'>no matches</span></div>";
   for (const group of groups){
     const entry = activeEntry(group);
@@ -317,8 +343,9 @@ function renderList(){
       ? `<span class="err">err</span>`
       : `<span class="ok">${Number.isFinite(+entry.svg_len) ? (+entry.svg_len/1024).toFixed(1)+"kB" : "ok"}</span>`;
     const modes = group.entries.length > 1 ? `<span class="modecount">${group.entries.length} modes</span>` : "";
+    const when = entry.timestamp ? `<span class="modecount">${esc(String(entry.timestamp).slice(0,10))}</span>` : "";
     item.innerHTML = `<input type="checkbox" class="cmpbox" data-group-id="${esc(group.id)}" ${state.pickedGroupIds.includes(group.id)?"checked":""} title="pick for compare">` +
-      `<span>${esc(entry.model || group.id)}${entry.prompt ? ` · ${esc(entry.prompt)}` : ""}</span>${modes}${status}`;
+      `<span>${esc(entry.model || group.id)}${entry.prompt ? ` · ${esc(entry.prompt)}` : ""}</span>${modes}${when}${status}`;
     item.querySelector(".cmpbox").onclick = event=>{
       event.stopPropagation();
       togglePick(group, event.target.checked);
@@ -546,6 +573,13 @@ document.querySelectorAll("#ep-filters button").forEach(button=>button.onclick=(
   document.querySelectorAll("#ep-filters button").forEach(item=>item.classList.remove("active"));
   button.classList.add("active");
   state.ep = button.dataset.ep;
+  renderList();
+});
+
+document.querySelectorAll("#sort-filters button").forEach(button=>button.onclick=()=>{
+  document.querySelectorAll("#sort-filters button").forEach(item=>item.classList.remove("active"));
+  button.classList.add("active");
+  state.sort = button.dataset.s;
   renderList();
 });
 

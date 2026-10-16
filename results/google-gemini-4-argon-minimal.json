@@ -1,0 +1,61 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "minimal",
+  "model": "google/gemini-4-argon",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": "2026-10-16T08:04:46+02:00",
+  "params": {
+    "max_tokens": 128000
+  },
+  "reasoning": {
+    "requested": "default",
+    "effort": null,
+    "provider_default": {
+      "source": "openrouter-models",
+      "checked_at": "2026-10-16T06:04:47+00:00",
+      "supported": true,
+      "enabled": null,
+      "effort": "medium",
+      "mandatory": true,
+      "supported_efforts": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "supports_max_tokens": false
+    }
+  },
+  "contributor": "maeste",
+  "seconds": 91.1,
+  "usage": {
+    "prompt_tokens": 55,
+    "completion_tokens": 8051,
+    "total_tokens": 8106,
+    "cost": 0.08062,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.08062,
+      "upstream_inference_prompt_cost": 0.00011,
+      "upstream_inference_completions_cost": 0.08051
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "reasoning_tokens": 0,
+  "finish_reason": "stop",
+  "content_len": 20642,
+  "svg_len": 18590,
+  "has_animation": true,
+  "uses_js": false,
+  "error": null,
+  "file": "results/google-gemini-4-argon-minimal.svg"
+}

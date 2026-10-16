@@ -1,0 +1,61 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "minimal",
+  "model": "stepfun/step-5-preview",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": "2026-10-16T08:32:55+02:00",
+  "params": {
+    "max_tokens": 128000
+  },
+  "reasoning": {
+    "requested": "default",
+    "effort": null,
+    "provider_default": {
+      "source": "openrouter-models",
+      "checked_at": "2026-10-16T06:32:56+00:00",
+      "supported": true,
+      "enabled": null,
+      "effort": "medium",
+      "mandatory": true,
+      "supported_efforts": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "supports_max_tokens": false
+    }
+  },
+  "contributor": "maeste",
+  "seconds": 48.3,
+  "usage": {
+    "prompt_tokens": 36,
+    "completion_tokens": 7049,
+    "total_tokens": 7085,
+    "cost": 0.0190683,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0190683,
+      "upstream_inference_prompt_cost": 3.6e-05,
+      "upstream_inference_completions_cost": 0.0190323
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 433,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "reasoning_tokens": 433,
+  "finish_reason": "stop",
+  "content_len": 23705,
+  "svg_len": 4618,
+  "has_animation": false,
+  "uses_js": false,
+  "error": null,
+  "file": "results/stepfun-step-5-preview-minimal.svg"
+}

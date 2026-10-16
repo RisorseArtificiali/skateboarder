@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "count": 57,
+  "count": 63,
   "entries": [
     {
       "id": "anthropic-claude-haiku-5-5-constrained",
@@ -961,6 +961,140 @@
       "svg": null
     },
     {
+      "id": "google-gemini-4-argon-constrained",
+      "group_id": "google-gemini-4-argon-constrained-c52c0218fafa",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-16T06:03:31+00:00",
+          "supported": true,
+          "enabled": null,
+          "effort": "medium",
+          "mandatory": true,
+          "supported_efforts": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "google/gemini-4-argon",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-16T08:03:30+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 276,
+        "completion_tokens": 4572,
+        "total_tokens": 4848,
+        "cost": 0.046272,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.046272,
+          "upstream_inference_prompt_cost": 0.000552,
+          "upstream_inference_completions_cost": 0.04572
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 0,
+      "finish_reason": "stop",
+      "svg_len": 11314,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 49.7,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/google-gemini-4-argon-constrained.svg"
+    },
+    {
+      "id": "google-gemini-4-argon-minimal",
+      "group_id": "google-gemini-4-argon-minimal-3ece984daf21",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-16T06:04:47+00:00",
+          "supported": true,
+          "enabled": null,
+          "effort": "medium",
+          "mandatory": true,
+          "supported_efforts": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "google/gemini-4-argon",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-16T08:04:46+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 55,
+        "completion_tokens": 8051,
+        "total_tokens": 8106,
+        "cost": 0.08062,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.08062,
+          "upstream_inference_prompt_cost": 0.00011,
+          "upstream_inference_completions_cost": 0.08051
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 0,
+      "finish_reason": "stop",
+      "svg_len": 18590,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 91.1,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/google-gemini-4-argon-minimal.svg"
+    },
+    {
       "id": "gpt-5-6-luna-constrained-constrained",
       "group_id": "openai-gpt-5-6-luna-constrained-bdeb4622d5ac",
       "reasoning": {
@@ -1410,6 +1544,146 @@
       "engine": null,
       "quantization": null,
       "svg": null
+    },
+    {
+      "id": "meta-muse-wonder-constrained",
+      "group_id": "meta-muse-wonder-constrained-ec82cad1e39d",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-16T06:28:26+00:00",
+          "supported": true,
+          "enabled": null,
+          "effort": "medium",
+          "mandatory": true,
+          "supported_efforts": [
+            "max",
+            "xhigh",
+            "high",
+            "medium",
+            "low",
+            "minimal"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "meta/muse-wonder",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-16T08:28:25+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 244,
+        "completion_tokens": 8536,
+        "total_tokens": 8780,
+        "cost": 0.171696,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.171696,
+          "upstream_inference_prompt_cost": 0.000976,
+          "upstream_inference_completions_cost": 0.17072
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 5486,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 5486,
+      "finish_reason": "stop",
+      "svg_len": 8709,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 81.2,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/meta-muse-wonder-constrained.svg"
+    },
+    {
+      "id": "meta-muse-wonder-minimal",
+      "group_id": "meta-muse-wonder-minimal-2286abaa8540",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-16T06:27:40+00:00",
+          "supported": true,
+          "enabled": null,
+          "effort": "medium",
+          "mandatory": true,
+          "supported_efforts": [
+            "max",
+            "xhigh",
+            "high",
+            "medium",
+            "low",
+            "minimal"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "meta/muse-wonder",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-16T08:27:39+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 31,
+        "completion_tokens": 11588,
+        "total_tokens": 11619,
+        "cost": 0.231884,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.231884,
+          "upstream_inference_prompt_cost": 0.000124,
+          "upstream_inference_completions_cost": 0.23176
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 7185,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 7185,
+      "finish_reason": "stop",
+      "svg_len": 11035,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 111.1,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/meta-muse-wonder-minimal.svg"
     },
     {
       "id": "mimo-v2-6-flash-constrained__wave8-new-models",
@@ -2284,6 +2558,140 @@
       },
       "quantization": "ROCmFP4-FAST-imatrix",
       "svg": "results/qwen38-flash-next-minimal-reasoning_xhigh.svg"
+    },
+    {
+      "id": "stepfun-step-5-preview-constrained",
+      "group_id": "stepfun-step-5-preview-constrained-573bfe54eb70",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-16T06:33:11+00:00",
+          "supported": true,
+          "enabled": null,
+          "effort": "medium",
+          "mandatory": true,
+          "supported_efforts": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "stepfun/step-5-preview",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-16T08:33:11+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 252,
+        "completion_tokens": 1963,
+        "total_tokens": 2215,
+        "cost": 0.0055521,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0055521,
+          "upstream_inference_prompt_cost": 0.000252,
+          "upstream_inference_completions_cost": 0.0053001
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 711,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 711,
+      "finish_reason": "stop",
+      "svg_len": 3433,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 16.7,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/stepfun-step-5-preview-constrained.svg"
+    },
+    {
+      "id": "stepfun-step-5-preview-minimal",
+      "group_id": "stepfun-step-5-preview-minimal-78ac295b9196",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-16T06:32:56+00:00",
+          "supported": true,
+          "enabled": null,
+          "effort": "medium",
+          "mandatory": true,
+          "supported_efforts": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "stepfun/step-5-preview",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-16T08:32:55+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 36,
+        "completion_tokens": 7049,
+        "total_tokens": 7085,
+        "cost": 0.0190683,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0190683,
+          "upstream_inference_prompt_cost": 3.6e-05,
+          "upstream_inference_completions_cost": 0.0190323
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 433,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 433,
+      "finish_reason": "stop",
+      "svg_len": 4618,
+      "has_animation": false,
+      "uses_js": false,
+      "error": null,
+      "seconds": 48.3,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/stepfun-step-5-preview-minimal.svg"
     },
     {
       "id": "tensorfold-glm-5-3-flash-constrained-2769a87db1",
