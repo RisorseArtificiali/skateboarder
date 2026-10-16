@@ -53,7 +53,7 @@
   "reasoning_tokens": 0,
   "finish_reason": "stop",
   "content_len": 11325,
-  "svg_len": 11314,
+  "svg_len": 11326,
   "has_animation": true,
   "uses_js": false,
   "error": null,

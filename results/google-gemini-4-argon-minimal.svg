@@ -32,7 +32,7 @@
 
   <style>
     /* 
-      PHYSICS ENGINE & TIMING 
+      PHYSICS ENGINE &amp; TIMING 
       Total Loop: 4 seconds.
       0% - 25%: Drop in from Left to Flat
       25% - 37.5%: Up Right Transition to Air
@@ -154,13 +154,13 @@
       0%, 20%, 35%, 54.5%, 69%, 85%, 100% { 
         d: path("M -12,-15 L -18,-35 L -5,-55 L 5,-55 L 18,-35 L 12,-15"); 
       }
-      /* Deep crouch (Transition G-force & Air tuck) */
+      /* Deep crouch (Transition G-force &amp; Air tuck) */
       12.5%, 26%, 46%, 62%, 75%, 90%, 96% { 
         d: path("M -14,-15 L -25,-25 L -5,-35 L 5,-35 L 25,-25 L 14,-15"); 
       }
     }
 
-    /* SKATEBOARD TRICKS (Kickflip & Stall) */
+    /* SKATEBOARD TRICKS (Kickflip &amp; Stall) */
     @keyframes board-tricks {
       0%, 37.5% { transform: translateY(0) rotate(0deg) scaleY(1); }
       /* Pop */

@@ -18,7 +18,7 @@
 
   <style>
     /* 
-      Physics & Animation Timing (4s total seamless loop):
+      Physics &amp; Animation Timing (4s total seamless loop):
       0% - 50%: Drop-in from left, fast flat bottom (25%), decelerate up right wall to a 540 McTwist air (50%).
       50% - 100%: Re-enter right wall, fast flat bottom (75%), decelerate up left wall to a Kickflip Indy (100%).
     */
@@ -55,7 +55,7 @@
       }
       32% {
         transform: translate(490px, 380px);
-        animation-timing-function: cubic-bezier(0.15, 0.5, 0.45, 0.95); /* Decelerate up & into air */
+        animation-timing-function: cubic-bezier(0.15, 0.5, 0.45, 0.95); /* Decelerate up &amp; into air */
       }
       50% {
         transform: translate(650px, 110px); /* Peak Right Air */
@@ -67,7 +67,7 @@
       }
       82% {
         transform: translate(310px, 380px);
-        animation-timing-function: cubic-bezier(0.15, 0.5, 0.45, 0.95); /* Decelerate up & into air */
+        animation-timing-function: cubic-bezier(0.15, 0.5, 0.45, 0.95); /* Decelerate up &amp; into air */
       }
       100% {
         transform: translate(150px, 120px); /* Peak Left Air (matches 0%) */
