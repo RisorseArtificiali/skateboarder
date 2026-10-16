@@ -1,0 +1,294 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" width="1200" height="620">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7ed6ff"/>
+      <stop offset="65%" stop-color="#dff7ff"/>
+      <stop offset="100%" stop-color="#fff3c9"/>
+    </linearGradient>
+
+    <linearGradient id="ramp" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#cfd8dc"/>
+      <stop offset="100%" stop-color="#78909c"/>
+    </linearGradient>
+
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1200" height="620" fill="url(#sky)"/>
+
+  <!-- Sun -->
+  <g transform="translate(1035,82)">
+    <g fill="none" stroke="#ffd54f" stroke-width="5" stroke-linecap="round" opacity="0.8">
+      <animateTransform attributeName="transform" type="rotate"
+        from="0" to="360" dur="45s" repeatCount="indefinite"/>
+      <path d="M0,-48 V-66"/>
+      <path d="M34,-34 L47,-47"/>
+      <path d="M48,0 H66"/>
+      <path d="M34,34 L47,47"/>
+      <path d="M0,48 V66"/>
+      <path d="M-34,34 L-47,47"/>
+      <path d="M-48,0 H-66"/>
+      <path d="M-34,-34 L-47,-47"/>
+    </g>
+    <circle r="34" fill="#ffecb3" stroke="#ffd54f" stroke-width="4"/>
+  </g>
+
+  <!-- Slow clouds: almost no acceleration, just drift -->
+  <g fill="#ffffff" opacity="0.9">
+    <g>
+      <animateTransform attributeName="transform" type="translate"
+        values="-180 0; 1250 0" dur="85s" repeatCount="indefinite"/>
+      <ellipse cx="160" cy="82" rx="58" ry="22"/>
+      <ellipse cx="195" cy="70" rx="48" ry="28"/>
+      <ellipse cx="225" cy="84" rx="52" ry="20"/>
+    </g>
+
+    <g opacity="0.65">
+      <animateTransform attributeName="transform" type="translate"
+        values="1120 0; -260 0" dur="110s" repeatCount="indefinite"/>
+      <ellipse cx="180" cy="142" rx="46" ry="17"/>
+      <ellipse cx="208" cy="132" rx="38" ry="22"/>
+      <ellipse cx="232" cy="144" rx="42" ry="16"/>
+    </g>
+  </g>
+
+  <!-- Back fence -->
+  <g stroke="#546e7a" stroke-width="4" opacity="0.45">
+    <path d="M40 246 H1160"/>
+    <path d="M40 278 H1160"/>
+    <path d="M90 230 V300 M230 230 V300 M390 230 V300 M550 230 V300
+             M710 230 V300 M870 230 V300 M1010 230 V300 M1120 230 V300"/>
+  </g>
+
+  <!-- Half-pipe body -->
+  <path d="M66 190
+           H232
+           C232 342, 282 470, 382 470
+           H818
+           C918 470, 968 342, 968 190
+           H1134
+           V548
+           H66 Z"
+        fill="url(#ramp)"
+        stroke="#455a64"
+        stroke-width="6"/>
+
+  <!-- Ramp shading -->
+  <path d="M232 190 C232 342,282 470,382 470 H818
+           C918 470,968 342,968 190"
+        fill="none" stroke="#eceff1" stroke-width="10" opacity="0.45"/>
+
+  <!-- Flat bottom guide -->
+  <path d="M382 470 H818" stroke="#ffffff" stroke-width="4"
+        stroke-dasharray="18 14" opacity="0.55"/>
+
+  <!-- Decks -->
+  <rect x="56" y="176" width="188" height="18" rx="6" fill="#8d6e63"/>
+  <rect x="956" y="176" width="188" height="18" rx="6" fill="#8d6e63"/>
+
+  <!-- Coping: metal pipe at each lip -->
+  <circle cx="236" cy="193" r="11" fill="#eceff1" stroke="#607d8b" stroke-width="4"/>
+  <circle cx="964" cy="193" r="11" fill="#eceff1" stroke="#607d8b" stroke-width="4"/>
+
+  <!-- Faint ideal trajectory -->
+  <path d="M222 72 L235 202 C250 360,330 468,600 468
+           C870 468,950 360,965 202 L977 72
+           L965 202 C950 360,870 468,600 468
+           C330 468,250 360,235 202 Z"
+        fill="none" stroke="#ffffff" stroke-width="3"
+        stroke-dasharray="3 15" opacity="0.5"/>
+
+  <!-- Physics labels -->
+  <g font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="bold">
+    <text x="600" y="522" text-anchor="middle" fill="#16425b">
+      bottom: maximum speed
+      <animate attributeName="opacity"
+        values="0;0;1;1;0;0;1;1;0"
+        keyTimes="0;0.20;0.26;0.32;0.40;0.70;0.78;0.85;1"
+        dur="10s" repeatCount="indefinite"/>
+    </text>
+
+    <text x="978" y="42" text-anchor="middle" fill="#6a1b1b">
+      aerial peak: vertical v ≈ 0
+      <animate attributeName="opacity"
+        values="0;0;1;1;0;0"
+        keyTimes="0;0.47;0.52;0.57;0.63;1"
+        dur="10s" repeatCount="indefinite"/>
+    </text>
+
+    <text x="222" y="42" text-anchor="middle" fill="#6a1b1b">
+      PE high • KE low
+      <animate attributeName="opacity"
+        values="1;1;0;0;1;1"
+        keyTimes="0;0.05;0.12;0.93;0.98;1"
+        dur="10s" repeatCount="indefinite"/>
+    </text>
+  </g>
+
+  <!-- Gravity arrow during airborne phases -->
+  <g stroke="#d32f2f" fill="#d32f2f" stroke-width="4">
+    <animate attributeName="opacity"
+      values="1;1;0;0;1;1;0;0;1;1"
+      keyTimes="0;0.08;0.12;0.44;0.48;0.60;0.64;0.94;0.98;1"
+      dur="10s" repeatCount="indefinite"/>
+    <path d="M1045 118 V178"/>
+    <path d="M1033 164 L1045 184 L1057 164 Z" fill="#d32f2f" stroke="none"/>
+    <text x="1062" y="158" font-family="Arial" font-size="20"
+          font-weight="bold" fill="#d32f2f" stroke="none">g ↓</text>
+  </g>
+
+  <!-- Landing sparks -->
+  <g fill="#ffca28">
+    <circle cx="238" cy="203" r="5">
+      <animate attributeName="opacity"
+        values="0;1;0;0" keyTimes="0;0.09;0.15;1"
+        dur="10s" repeatCount="indefinite"/>
+      <animate attributeName="r"
+        values="2;9;2;2" keyTimes="0;0.09;0.15;1"
+        dur="10s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="962" cy="203" r="5">
+      <animate attributeName="opacity"
+        values="0;0;1;0;0" keyTimes="0;0.58;0.62;0.69;1"
+        dur="10s" repeatCount="indefinite"/>
+      <animate attributeName="r"
+        values="2;2;10;2;2" keyTimes="0;0.58;0.62;0.69;1"
+        dur="10s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- ================= SKATER ================= -->
+  <!-- Outer group: position along the pipe / ballistic arc -->
+  <g>
+    <animateTransform attributeName="transform" type="translate"
+      dur="10s" repeatCount="indefinite"
+      calcMode="spline"
+      keyTimes="0;0.045;0.09;0.14;0.19;0.26;0.33;0.38;0.43;0.475;0.52;0.565;0.61;0.66;0.71;0.78;0.85;0.90;0.945;0.972;1"
+      values="222,72;226,130;235,202;270,340;360,462;600,468;840,462;930,340;965,202;974,128;977,72;974,128;965,202;930,340;840,462;600,468;360,462;270,340;235,202;226,130;222,72"
+      keySplines="0.5 0 1 1;
+                  0.5 0 1 1;
+                  0.5 0 1 1;
+                  0.3 0 0.7 1;
+                  0.3 0 0.7 1;
+                  0.3 0 0.7 1;
+                  0 0 0.4 1;
+                  0 0 0.4 1;
+                  0 0 0.4 1;
+                  0 0 0.3 1;
+                  0.5 0 1 1;
+                  0.5 0 1 1;
+                  0.5 0 1 1;
+                  0.3 0 0.7 1;
+                  0.3 0 0.7 1;
+                  0.3 0 0.7 1;
+                  0 0 0.4 1;
+                  0 0 0.4 1;
+                  0 0 0.4 1;
+                  0 0 0.3 1"/>
+
+    <!-- Middle group: body orientation.
+         0° on flat, ±90° on the vertical walls.
+         On the right aerial it rotates a full 360° at constant rate,
+         because angular momentum is conserved while airborne. -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate"
+        dur="10s" repeatCount="indefinite"
+        calcMode="spline"
+        keyTimes="0;0.045;0.09;0.14;0.19;0.26;0.33;0.38;0.43;0.475;0.52;0.565;0.61;0.66;0.71;0.78;0.85;0.90;0.945;0.972;1"
+        values="0;40;90;50;8;0;-8;-50;-90;-180;-270;-360;-450;-410;-368;-360;-352;-310;-270;-315;-360"
+        keySplines="0.4 0 0.6 1;
+                    0.4 0 0.6 1;
+                    0.4 0 0.6 1;
+                    0.4 0 0.6 1;
+                    0.4 0 0.6 1;
+                    0.4 0 0.6 1;
+                    0.4 0 0.6 1;
+                    0.4 0 0.6 1;
+                    0 0 1 1;
+                    0 0 1 1;
+                    0 0 1 1;
+                    0 0 1 1;
+                    0.4 0 0.6 1;
+                    0.4 0 0.6 1;
+                    0.4 0 0.6 1;
+                    0.4 0 0.6 1;
+                    0.4 0 0.6 1;
+                    0.4 0 0.6 1;
+                    0.4 0 0.6 1;
+                    0.4 0 0.6 1"/>
+
+      <!-- Soft contact shadow attached under board -->
+      <ellipse cx="0" cy="10" rx="42" ry="7"
+               fill="#263238" opacity="0.22" filter="url(#softShadow)"/>
+
+      <!-- Board: spins independently only on the left aerial -->
+      <g>
+        <animateTransform attributeName="transform" type="rotate"
+          dur="10s" repeatCount="indefinite"
+          keyTimes="0;0.09;0.43;0.61;0.945;1"
+          values="140;360;360;360;360;500"/>
+        <rect x="-40" y="-5" width="80" height="9" rx="5"
+              fill="#ff7043" stroke="#5d4037" stroke-width="2"/>
+        <circle cx="-24" cy="8" r="5" fill="#263238"/>
+        <circle cx="24" cy="8" r="5" fill="#263238"/>
+      </g>
+
+      <!-- Legs: bent knees absorb landing and pump through transitions -->
+      <g fill="none" stroke="#263238" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M-14,-3 L-22,-34 L-7,-58"/>
+        <path d="M15,-3 L22,-32 L7,-58"/>
+      </g>
+
+      <!-- Shoes -->
+      <ellipse cx="-15" cy="-3" rx="10" ry="5" fill="#111"/>
+      <ellipse cx="16" cy="-3" rx="10" ry="5" fill="#111"/>
+
+      <!-- Torso -->
+      <path d="M0,-58 C-2,-74 -4,-84 -5,-94"
+            fill="none" stroke="#1976d2" stroke-width="14" stroke-linecap="round"/>
+
+      <!-- Rear arm -->
+      <g>
+        <animateTransform attributeName="transform" type="rotate"
+          dur="10s" repeatCount="indefinite"
+          values="-8 -5 -94; 14 -5 -94; -8 -5 -94; -22 -5 -94; -8 -5 -94"
+          keyTimes="0;0.26;0.52;0.78;1"/>
+        <path d="M-5,-94 L-30,-78 L-42,-56"
+              fill="none" stroke="#f2b28a" stroke-width="8"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+
+      <!-- Front arm -->
+      <g>
+        <animateTransform attributeName="transform" type="rotate"
+          dur="10s" repeatCount="indefinite"
+          values="10 -5 -94; -12 -5 -94; 18 -5 -94; -10 -5 -94; 10 -5 -94"
+          keyTimes="0;0.26;0.52;0.78;1"/>
+        <path d="M-5,-94 L22,-84 L38,-66"
+              fill="none" stroke="#f2b28a" stroke-width="8"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+
+      <!-- Head and helmet -->
+      <circle cx="-3" cy="-110" r="13" fill="#f2b28a"/>
+      <path d="M-17,-112 A14 14 0 0 1 11,-112 L11,-106 L-17,-106 Z"
+            fill="#d32f2f"/>
+      <rect x="-18" y="-108" width="31" height="5" rx="2.5" fill="#8e1414"/>
+    </g>
+  </g>
+
+  <!-- Ground -->
+  <rect x="0" y="548" width="1200" height="72" fill="#66bb6a"/>
+  <rect x="0" y="548" width="1200" height="10" fill="#43a047"/>
+
+  <!-- Caption -->
+  <text x="600" y="596" text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="21" font-weight="bold" fill="#ffffff">
+    Energy: PE ⇄ KE &nbsp;•&nbsp; In the air: gravity only &nbsp;•&nbsp; Spin: angular momentum conserved
+  </text>
+</svg>

@@ -1,0 +1,390 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" width="100%" height="100%">
+  <defs>
+    <!-- Sky & Background Gradients -->
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a0b2e"/>
+      <stop offset="40%" stop-color="#5c164e"/>
+      <stop offset="75%" stop-color="#b52b45"/>
+      <stop offset="100%" stop-color="#f9813a"/>
+    </linearGradient>
+    
+    <linearGradient id="sun" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffea79"/>
+      <stop offset="100%" stop-color="#ff3864"/>
+    </linearGradient>
+
+    <linearGradient id="ramp-surface" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3d3a4b"/>
+      <stop offset="50%" stop-color="#2c2938"/>
+      <stop offset="100%" stop-color="#1c1926"/>
+    </linearGradient>
+
+    <linearGradient id="ramp-side" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#120f1a"/>
+      <stop offset="100%" stop-color="#231f30"/>
+    </linearGradient>
+    
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <style>
+    /* 
+      PHYSICS ENGINE & TIMING 
+      Total Loop: 4 seconds.
+      0% - 25%: Drop in from Left to Flat
+      25% - 37.5%: Up Right Transition to Air
+      37.5% - 50%: Peak Right Air (Kickflip) to Right Transition
+      50% - 75%: Down Right, across Flat, up Left Transition
+      75% - 100%: Stall on Left Coping (Blunt Stall)
+      
+      Bezier curves used:
+      Ease-In (Gravity pulling down): cubic-bezier(0.5, 0, 0.8, 0.4)
+      Ease-Out (Fighting gravity going up): cubic-bezier(0.2, 0.6, 0.5, 1)
+      Air-Peak (Hangtime parabola): cubic-bezier(0.3, 0.7, 0.7, 1)
+    */
+
+    .world-track {
+      animation: track-movement 4s infinite;
+    }
+
+    .skater-body {
+      animation: body-physics 4s infinite;
+      transform-origin: 0px 0px;
+    }
+
+    .skateboard {
+      animation: board-tricks 4s infinite;
+      transform-origin: 0px -10px;
+    }
+
+    /* Arms and Legs for Pumping (Generating Momentum) */
+    .legs-pump {
+      animation: leg-compression 4s infinite;
+    }
+    
+    .arm-left {
+      animation: arm-l-physics 4s infinite;
+      transform-origin: 0px -75px;
+    }
+    
+    .arm-right {
+      animation: arm-r-physics 4s infinite;
+      transform-origin: 0px -75px;
+    }
+
+    .head-track {
+      animation: head-bob 4s infinite;
+      transform-origin: 0px -85px;
+    }
+
+    .shadow {
+      animation: shadow-track 4s infinite;
+      transform-origin: center;
+    }
+
+    /* MAIN TRAJECTORY (X, Y, and Slope Angle) */
+    @keyframes track-movement {
+      /* 0%: Stall on Left Coping */
+      0% { transform: translate(150px, 250px) rotate(82deg); animation-timing-function: cubic-bezier(0.4, 0, 0.9, 0.5); }
+      
+      /* 12.5%: Hitting left transition (Max G-Force) */
+      12.5% { transform: translate(230px, 470px) rotate(45deg); animation-timing-function: cubic-bezier(0.2, 0.5, 0.4, 1); }
+      
+      /* 20%: Flat bottom (Max Velocity) */
+      20% { transform: translate(400px, 550px) rotate(0deg); animation-timing-function: linear; }
+      25% { transform: translate(600px, 550px) rotate(0deg); animation-timing-function: cubic-bezier(0.1, 0.4, 0.7, 0.9); }
+      
+      /* 32.5%: Going up right transition */
+      32.5% { transform: translate(770px, 470px) rotate(-45deg); animation-timing-function: cubic-bezier(0.1, 0.4, 0.4, 0.9); }
+      
+      /* 37.5%: Leaving right coping (Launch) */
+      37.5% { transform: translate(850px, 250px) rotate(-85deg); animation-timing-function: cubic-bezier(0.2, 0.8, 0.6, 1); }
+      
+      /* 46%: PEAK AIR (Zero Vertical Velocity) */
+      46% { transform: translate(855px, 90px) rotate(0deg); animation-timing-function: cubic-bezier(0.4, 0, 0.8, 0.2); }
+      
+      /* 54.5%: Re-entering right coping */
+      54.5% { transform: translate(850px, 250px) rotate(-85deg); animation-timing-function: cubic-bezier(0.5, 0.2, 0.8, 0.6); }
+      
+      /* 62%: Right transition */
+      62% { transform: translate(770px, 470px) rotate(-45deg); animation-timing-function: cubic-bezier(0.2, 0.5, 0.4, 1); }
+      
+      /* 69%: Flat bottom */
+      69% { transform: translate(600px, 550px) rotate(0deg); animation-timing-function: linear; }
+      74% { transform: translate(400px, 550px) rotate(0deg); animation-timing-function: cubic-bezier(0.1, 0.4, 0.7, 0.9); }
+      
+      /* 81.5%: Left transition (Pumping up) */
+      81.5% { transform: translate(230px, 470px) rotate(45deg); animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1); }
+      
+      /* 90%: Locking into Blunt Stall on Left Coping */
+      90% { transform: translate(140px, 245px) rotate(65deg); animation-timing-function: ease-out; }
+      
+      /* 96%: Holding the stall */
+      96% { transform: translate(140px, 245px) rotate(60deg); animation-timing-function: ease-in; }
+      
+      /* 100%: Dropping back in */
+      100% { transform: translate(150px, 250px) rotate(82deg); }
+    }
+
+    /* BODY PHYSICS (Pumping, Jumping, Absorbing Impact) */
+    @keyframes body-physics {
+      0% { transform: translateY(0px) rotate(-10deg); }
+      6% { transform: translateY(15px) rotate(5deg); } /* Crouch to drop in */
+      12.5% { transform: translateY(25px) rotate(0deg); } /* Compress at transition */
+      20% { transform: translateY(5px) rotate(0deg); } /* Stand up on flat */
+      26% { transform: translateY(25px) rotate(0deg); } /* Pre-load for jump */
+      35% { transform: translateY(-5px) rotate(-5deg); } /* Pop/Extend */
+      46% { transform: translateY(-25px) rotate(0deg); } /* Float in air (feet tucked) */
+      54.5% { transform: translateY(0px) rotate(10deg); } /* Spot landing */
+      62% { transform: translateY(28px) rotate(5deg); } /* Heavy compression on landing */
+      69% { transform: translateY(5px) rotate(0deg); } /* Recover */
+      75% { transform: translateY(20px) rotate(0deg); } /* Pump up left side */
+      85% { transform: translateY(0px) rotate(-15deg); } /* Extend into stall */
+      90% { transform: translateY(15px) rotate(-35deg); } /* Balance over coping */
+      96% { transform: translateY(15px) rotate(-35deg); } 
+      100% { transform: translateY(0px) rotate(-10deg); }
+    }
+
+    /* LEG COMPRESSION (Morphing Leg SVG Path to simulate knee bend) */
+    @keyframes leg-compression {
+      /* Normal stance vs Deep crouch */
+      0%, 20%, 35%, 54.5%, 69%, 85%, 100% { 
+        d: path("M -12,-15 L -18,-35 L -5,-55 L 5,-55 L 18,-35 L 12,-15"); 
+      }
+      /* Deep crouch (Transition G-force & Air tuck) */
+      12.5%, 26%, 46%, 62%, 75%, 90%, 96% { 
+        d: path("M -14,-15 L -25,-25 L -5,-35 L 5,-35 L 25,-25 L 14,-15"); 
+      }
+    }
+
+    /* SKATEBOARD TRICKS (Kickflip & Stall) */
+    @keyframes board-tricks {
+      0%, 37.5% { transform: translateY(0) rotate(0deg) scaleY(1); }
+      /* Pop */
+      40% { transform: translateY(-5px) rotate(-15deg) scaleY(1); }
+      /* Kickflip (ScaleY simulates 3D roll along longitudinal axis) */
+      43% { transform: translateY(-15px) rotate(0deg) scaleY(-1); }
+      46% { transform: translateY(-18px) rotate(5deg) scaleY(1); }
+      49% { transform: translateY(-15px) rotate(10deg) scaleY(-1); }
+      /* Catch the board in air */
+      51% { transform: translateY(-5px) rotate(0deg) scaleY(1); }
+      54.5%, 85% { transform: translateY(0) rotate(0deg) scaleY(1); }
+      /* Blunt Stall (Tail hook on coping) */
+      90%, 96% { transform: translate(-10px, 5px) rotate(-30deg) scaleY(1); }
+      100% { transform: translateY(0) rotate(0deg) scaleY(1); }
+    }
+
+    /* SECONDARY MOTION: ARMS (Counter-balance) */
+    @keyframes arm-l-physics {
+      0% { transform: rotate(40deg); }
+      12.5% { transform: rotate(-20deg); }
+      25% { transform: rotate(10deg); }
+      37.5% { transform: rotate(110deg); } /* Throw arms up for air */
+      46% { transform: rotate(140deg); }
+      54.5% { transform: rotate(30deg); }
+      62% { transform: rotate(-40deg); } /* Absorb impact */
+      85% { transform: rotate(90deg); }
+      90%, 96% { transform: rotate(130deg); } /* Balance stall */
+      100% { transform: rotate(40deg); }
+    }
+
+    @keyframes arm-r-physics {
+      0% { transform: rotate(-60deg); }
+      12.5% { transform: rotate(30deg); }
+      25% { transform: rotate(-20deg); }
+      37.5% { transform: rotate(-100deg); }
+      46% { transform: rotate(-130deg); }
+      54.5% { transform: rotate(-40deg); }
+      62% { transform: rotate(50deg); }
+      85% { transform: rotate(-70deg); }
+      90%, 96% { transform: rotate(-120deg); }
+      100% { transform: rotate(-60deg); }
+    }
+    
+    @keyframes head-bob {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      12.5%, 62% { transform: translateY(20px) rotate(10deg); }
+      26%, 75% { transform: translateY(15px) rotate(-5deg); }
+      46% { transform: translateY(-25px) rotate(15deg); } /* Looking down at board in air */
+      90%, 96% { transform: translateY(15px) rotate(-25deg); } /* Looking back into ramp */
+    }
+
+    /* DYNAMIC SHADOW */
+    @keyframes shadow-track {
+      0% { transform: translate(150px, 250px) rotate(82deg) scale(1); opacity: 0.4; animation-timing-function: cubic-bezier(0.4, 0, 0.9, 0.5); }
+      12.5% { transform: translate(230px, 470px) rotate(45deg) scale(1); opacity: 0.6; animation-timing-function: cubic-bezier(0.2, 0.5, 0.4, 1); }
+      20% { transform: translate(400px, 550px) rotate(0deg) scale(1); opacity: 0.7; animation-timing-function: linear; }
+      25% { transform: translate(600px, 550px) rotate(0deg) scale(1); opacity: 0.7; animation-timing-function: cubic-bezier(0.1, 0.4, 0.7, 0.9); }
+      32.5% { transform: translate(770px, 470px) rotate(-45deg) scale(1); opacity: 0.6; animation-timing-function: cubic-bezier(0.1, 0.4, 0.4, 0.9); }
+      37.5% { transform: translate(850px, 250px) rotate(-85deg) scale(1); opacity: 0.4; }
+      /* Shadow stays on coping and shrinks as skater goes airborne */
+      46% { transform: translate(850px, 250px) rotate(0deg) scale(0.3); opacity: 0.1; }
+      54.5% { transform: translate(850px, 250px) rotate(-85deg) scale(1); opacity: 0.4; animation-timing-function: cubic-bezier(0.5, 0.2, 0.8, 0.6); }
+      62% { transform: translate(770px, 470px) rotate(-45deg) scale(1); opacity: 0.6; animation-timing-function: cubic-bezier(0.2, 0.5, 0.4, 1); }
+      69% { transform: translate(600px, 550px) rotate(0deg) scale(1); opacity: 0.7; animation-timing-function: linear; }
+      74% { transform: translate(400px, 550px) rotate(0deg) scale(1); opacity: 0.7; animation-timing-function: cubic-bezier(0.1, 0.4, 0.7, 0.9); }
+      81.5% { transform: translate(230px, 470px) rotate(45deg) scale(1); opacity: 0.6; animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1); }
+      90%, 96% { transform: translate(140px, 250px) rotate(0deg) scale(0.8); opacity: 0.5; }
+      100% { transform: translate(150px, 250px) rotate(82deg) scale(1); opacity: 0.4; }
+    }
+    
+    /* Ambient Clouds */
+    .cloud-1 { animation: drift 25s linear infinite; }
+    .cloud-2 { animation: drift 35s linear infinite reverse; }
+    @keyframes drift {
+      from { transform: translateX(-200px); }
+      to { transform: translateX(1200px); }
+    }
+  </style>
+
+  <!-- ================= BACKGROUND ================= -->
+  <rect width="1000" height="650" fill="url(#sky)"/>
+  
+  <!-- Sunset Sun -->
+  <circle cx="500" cy="400" r="180" fill="url(#sun)" opacity="0.8" filter="url(#glow)"/>
+  
+  <!-- Distant Mountains / City Silhouette -->
+  <polygon points="0,550 0,450 120,400 250,480 400,380 550,490 700,420 850,470 1000,390 1000,550" fill="#1a0b2e" opacity="0.7"/>
+  
+  <!-- Clouds -->
+  <g fill="#ff9a76" opacity="0.2">
+    <path class="cloud-1" d="M 100,150 Q 130,130 160,150 Q 190,140 210,160 Q 150,170 100,150 Z" transform="scale(1.5)" />
+    <path class="cloud-2" d="M 50,80 Q 90,50 130,80 Q 160,70 180,90 Q 110,100 50,80 Z" transform="scale(2)" />
+  </g>
+
+
+  <!-- ================= HALF-PIPE RAMP ================= -->
+  <g id="skatepark">
+    <!-- Left Deck Fence -->
+    <line x1="30" y1="190" x2="145" y2="190" stroke="#5c576b" stroke-width="3"/>
+    <line x1="30" y1="220" x2="145" y2="220" stroke="#5c576b" stroke-width="3"/>
+    <line x1="40" y1="190" x2="40" y2="250" stroke="#5c576b" stroke-width="4"/>
+    <line x1="90" y1="190" x2="90" y2="250" stroke="#5c576b" stroke-width="4"/>
+    <line x1="140" y1="190" x2="140" y2="250" stroke="#5c576b" stroke-width="4"/>
+
+    <!-- Right Deck Fence -->
+    <line x1="855" y1="190" x2="970" y2="190" stroke="#5c576b" stroke-width="3"/>
+    <line x1="855" y1="220" x2="970" y2="220" stroke="#5c576b" stroke-width="3"/>
+    <line x1="860" y1="190" x2="860" y2="250" stroke="#5c576b" stroke-width="4"/>
+    <line x1="910" y1="190" x2="910" y2="250" stroke="#5c576b" stroke-width="4"/>
+    <line x1="960" y1="190" x2="960" y2="250" stroke="#5c576b" stroke-width="4"/>
+
+    <!-- 3D Depth / Back of Ramp -->
+    <path d="M 20,250 L 150,250 C 150,415 235,550 400,550 L 600,550 C 765,550 850,415 850,250 L 980,250 L 980,620 L 20,620 Z" fill="url(#ramp-surface)" transform="translate(0, -15)" opacity="0.5"/>
+
+    <!-- Main Ramp Structure -->
+    <path d="M 20,250 L 150,250 C 150,415 235,550 400,550 L 600,550 C 765,550 850,415 850,250 L 980,250 L 980,650 L 20,650 Z" fill="url(#ramp-side)"/>
+    
+    <!-- Ramp Skatable Surface (Thick stroke) -->
+    <path d="M 150,250 C 150,415 235,550 400,550 L 600,550 C 765,550 850,415 850,250" fill="none" stroke="url(#ramp-surface)" stroke-width="16"/>
+    <path d="M 150,250 C 150,415 235,550 400,550 L 600,550 C 765,550 850,415 850,250" fill="none" stroke="#554e66" stroke-width="2"/>
+
+    <!-- Ramp Decks (Top Platforms) -->
+    <rect x="20" y="242" width="130" height="15" fill="#2c2938"/>
+    <rect x="850" y="242" width="130" height="15" fill="#2c2938"/>
+
+    <!-- Metal Coping (The pipe edges) -->
+    <circle cx="150" cy="250" r="6" fill="#d1d1e0" stroke="#120f1a" stroke-width="2"/>
+    <circle cx="850" cy="250" r="6" fill="#d1d1e0" stroke="#120f1a" stroke-width="2"/>
+    
+    <!-- Ramp Graffiti / Details -->
+    <path d="M 450,552 C 470,552 480,545 500,545 C 520,545 540,552 550,552" stroke="#ff3864" stroke-width="3" fill="none" opacity="0.3"/>
+  </g>
+
+
+  <!-- ================= SKATER & BOARD ================= -->
+  
+  <!-- Dynamic Drop Shadow -->
+  <g class="shadow">
+    <ellipse cx="0" cy="0" rx="32" ry="4" fill="#09070d" filter="url(#glow)"/>
+  </g>
+
+  <!-- Main Physics Track (Moves along the ramp curve) -->
+  <g class="world-track">
+    
+    <!-- SKATEBOARD -->
+    <g class="skateboard">
+      <!-- Deck -->
+      <path d="M -32,-12 L -22,-9 L 22,-9 L 32,-12" fill="none" stroke="#ff3864" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M -31,-13 L -22,-10 L 22,-10 L 31,-13" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round"/> <!-- Griptape -->
+      
+      <!-- Trucks -->
+      <polygon points="-18,-9 -14,-9 -15,-4 -17,-4" fill="#a3a3c2"/>
+      <polygon points="18,-9 14,-9 15,-4 17,-4" fill="#a3a3c2"/>
+      
+      <!-- Wheels -->
+      <circle cx="-16" cy="-4" r="4.5" fill="#f9f9f9"/>
+      <circle cx="-16" cy="-4" r="1.5" fill="#ff3864"/> <!-- Bearings -->
+      <circle cx="16" cy="-4" r="4.5" fill="#f9f9f9"/>
+      <circle cx="16" cy="-4" r="1.5" fill="#ff3864"/>
+    </g>
+
+    <!-- SKATER -->
+    <g id="skater">
+      <!-- Shoes (Attached to body slightly, mostly tracks board) -->
+      <g class="skater-body" style="animation-name: none;"> <!-- Static relative to track, overridden by body in air -->
+      </g>
+      
+      <!-- Legs (Morphing path for knee bends) -->
+      <!-- Wait: In order to make feet leave the board during kickflip, we attach legs to the body group, 
+           and adjust the path so feet stay near 0,-12 -->
+      <path class="legs-pump" d="M -12,-15 L -18,-35 L -5,-55 L 5,-55 L 18,-35 L 12,-15" fill="none" stroke="#1e2238" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+      
+      <!-- Upper Body Group (Moves up and down based on knee bend) -->
+      <g class="skater-body">
+        
+        <!-- Shoes (Attached to the body so they tuck up during the air/kickflip!) -->
+        <!-- Wait, if they are in .skater-body, they will sink into the ramp when he crouches. 
+             Instead, let's put shoes on the board, and they detach only in the air. 
+             Actually, leaving them at the base of the legs-pump is cleaner. -->
+             
+        <!-- Back Arm (Right) -->
+        <g class="arm-right">
+          <path d="M 0,-75 Q 15,-65 25,-50" fill="none" stroke="#d98a6c" stroke-width="7" stroke-linecap="round"/>
+          <!-- T-Shirt Sleeve -->
+          <path d="M 0,-75 L 8,-68" fill="none" stroke="#f4f4f6" stroke-width="9" stroke-linecap="round"/>
+        </g>
+
+        <!-- Torso / T-Shirt -->
+        <path d="M -7,-50 L -10,-80 L 10,-80 L 8,-50 Z" fill="#f4f4f6"/>
+        <!-- Shirt Stripe -->
+        <path d="M -9,-68 L 9,-68" stroke="#ff3864" stroke-width="4"/>
+        <path d="M -9,-62 L 9,-62" stroke="#1a0b2e" stroke-width="2"/>
+
+        <!-- Front Arm (Left) -->
+        <g class="arm-left">
+          <path d="M -2,-75 Q -15,-65 -25,-50" fill="none" stroke="#e5987b" stroke-width="7" stroke-linecap="round"/>
+          <!-- T-Shirt Sleeve -->
+          <path d="M -2,-75 L -10,-68" fill="none" stroke="#f4f4f6" stroke-width="9" stroke-linecap="round"/>
+        </g>
+      </g>
+
+      <!-- Head (Separate group for independent bobbing/looking) -->
+      <g class="head-track">
+        <!-- Neck -->
+        <line x1="0" y1="-78" x2="0" y2="-86" stroke="#d98a6c" stroke-width="6"/>
+        <!-- Head Base -->
+        <circle cx="0" cy="-92" r="9" fill="#e5987b"/>
+        <!-- Beanie / Hat -->
+        <path d="M -9,-90 C -10,-100 10,-100 9,-90 Z" fill="#ff3864"/>
+        <rect x="-10" y="-93" width="20" height="4" rx="2" fill="#b52b45"/>
+      </g>
+      
+      <!-- Shoes (Placed at the bottom of the leg path) -->
+      <g>
+        <!-- Left Shoe -->
+        <path d="M -18,-12 L -8,-12 L -8,-16 L -15,-16 Z" fill="#ffffff" stroke="#120f1a" stroke-width="1"/>
+        <!-- Right Shoe -->
+        <path d="M 8,-12 L 18,-12 L 15,-16 L 8,-16 Z" fill="#ffffff" stroke="#120f1a" stroke-width="1"/>
+      </g>
+
+    </g>
+  </g>
+
+  <!-- ================= FOREGROUND OVERLAY ================= -->
+  <!-- Vignette / Lighting effect -->
+  <rect width="1000" height="650" fill="url(#sky)" opacity="0.05" style="mix-blend-mode: overlay; pointer-events: none;"/>
+</svg>

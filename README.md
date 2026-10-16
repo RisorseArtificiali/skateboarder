@@ -109,8 +109,9 @@ generated SVG and JSON sidecar manually.
 ## Browse the gallery
 
 GitHub Pages serves `index.html`: on first load (no model picked yet) an intro page explains the benchmark
-with a link to the repo; the sidebar has search + filters (minimal / constrained / ok / errors),
-live SVG preview and raw metadata. Runs that differ only by reasoning are grouped into one row. A selector
+with a link to the repo; the sidebar has search + filters (minimal / constrained / ok / errors) and a sort
+switch (newest first — the default — or A–Z; runs without a timestamp, i.e. legacy imports, stay at the
+bottom), live SVG preview and raw metadata. Runs that differ only by reasoning are grouped into one row. A selector
 switches the visible reasoning result, and every model in comparison mode has an independent selector.
 `max_tokens` is deliberately ignored when forming these groups so larger reasoning budgets remain comparable;
 the exact value is still available in each run's technical details.
