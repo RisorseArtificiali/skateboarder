@@ -1,0 +1,68 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#87CEEB"/>
+      <stop offset="100%" stop-color="#E0F7FA"/>
+    </linearGradient>
+    <linearGradient id="pipeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#999"/>
+      <stop offset="100%" stop-color="#666"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#skyGrad)"/>
+
+  <!-- Sun -->
+  <circle cx="700" cy="100" r="40" fill="#FFD700" opacity="0.8"/>
+
+  <!-- Halfpipe surface -->
+  <path d="M120,200 L120,320 Q120,400 200,400 L600,400 Q680,400 680,320 L680,200" 
+        stroke="#777" stroke-width="24" fill="none" stroke-linecap="round"/>
+  <path d="M120,200 L120,320 Q120,400 200,400 L600,400 Q680,400 680,320 L680,200" 
+        stroke="#aaa" stroke-width="8" fill="none" stroke-linecap="round"/>
+  
+  <!-- Coping -->
+  <circle cx="120" cy="200" r="12" fill="#555"/>
+  <circle cx="120" cy="200" r="6" fill="#ccc"/>
+  <circle cx="680" cy="200" r="12" fill="#555"/>
+  <circle cx="680" cy="200" r="6" fill="#ccc"/>
+
+  <!-- Skater group -->
+  <g id="skater">
+    <!-- Position animation (translate) -->
+    <animateTransform attributeName="transform" type="translate" 
+      values="400,375; 600,375; 627.5,367.63; 647.63,347.5; 655,320; 655,200; 655,137.5; 655,100; 655,87.5; 655,100; 655,137.5; 655,200; 655,320; 647.63,347.5; 627.5,367.63; 600,375; 400,375; 200,375; 157.68,362.32; 145,320; 145,200; 145,137.5; 145,100; 145,87.5; 145,100; 145,137.5; 145,200; 145,320; 157.68,362.32; 200,375; 400,375" 
+      keyTimes="0; 0.081818; 0.090909; 0.109091; 0.133091; 0.181818; 0.204545; 0.227273; 0.25; 0.272727; 0.295455; 0.318182; 0.363636; 0.381818; 0.4; 0.414909; 0.5; 0.581818; 0.590909; 0.633091; 0.681818; 0.704545; 0.727273; 0.75; 0.772727; 0.795455; 0.818182; 0.863636; 0.881818; 0.905818; 1" 
+      dur="11s" repeatCount="indefinite" />
+    
+    <!-- Rotation animation -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" 
+        values="0; 0; -30; -60; -90; -90; -30; 30; 90; 150; 210; 270; 270; 300; 330; 360; 360; 360; 405; 450; 450; 510; 570; 630; 690; 750; 810; 810; 765; 720; 720" 
+        keyTimes="0; 0.081818; 0.090909; 0.109091; 0.133091; 0.181818; 0.204545; 0.227273; 0.25; 0.272727; 0.295455; 0.318182; 0.363636; 0.381818; 0.4; 0.414909; 0.5; 0.581818; 0.590909; 0.633091; 0.681818; 0.704545; 0.727273; 0.75; 0.772727; 0.795455; 0.818182; 0.863636; 0.881818; 0.905818; 1" 
+        dur="11s" repeatCount="indefinite" />
+
+      <!-- Skater drawing (origin at center of mass) -->
+      <!-- Skateboard -->
+      <rect x="-20" y="20" width="40" height="5" rx="2" fill="#8B4513" />
+      <!-- Wheels -->
+      <circle cx="-15" cy="25" r="3" fill="#555" />
+      <circle cx="15" cy="25" r="3" fill="#555" />
+      
+      <!-- Legs -->
+      <line x1="-5" y1="20" x2="-5" y2="5" stroke="#333" stroke-width="4" stroke-linecap="round" />
+      <line x1="5" y1="20" x2="5" y2="5" stroke="#333" stroke-width="4" stroke-linecap="round" />
+      
+      <!-- Torso -->
+      <line x1="0" y1="5" x2="0" y2="-15" stroke="#333" stroke-width="6" stroke-linecap="round" />
+      
+      <!-- Arms -->
+      <line x1="0" y1="-5" x2="-15" y2="-10" stroke="#333" stroke-width="4" stroke-linecap="round" />
+      <line x1="0" y1="-5" x2="15" y2="-10" stroke="#333" stroke-width="4" stroke-linecap="round" />
+      
+      <!-- Head -->
+      <circle cx="0" cy="-25" r="8" fill="#333" />
+    </g>
+  </g>
+</svg>
