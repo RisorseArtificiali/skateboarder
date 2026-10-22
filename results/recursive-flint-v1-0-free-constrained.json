@@ -1,0 +1,57 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "constrained",
+  "model": "recursive/flint-v1.0:free",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": "2026-10-22T22:54:35+02:00",
+  "params": {
+    "max_tokens": 128000
+  },
+  "reasoning": {
+    "requested": "default",
+    "effort": null,
+    "provider_default": {
+      "source": "openrouter-models",
+      "checked_at": "2026-10-22T20:54:35+00:00",
+      "supported": true,
+      "enabled": null,
+      "effort": null,
+      "mandatory": true,
+      "supported_efforts": null,
+      "supports_max_tokens": false
+    }
+  },
+  "contributor": "maeste",
+  "seconds": 125.2,
+  "usage": {
+    "prompt_tokens": 235,
+    "completion_tokens": 18237,
+    "total_tokens": 18472,
+    "cost": 0,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0,
+      "upstream_inference_prompt_cost": 0,
+      "upstream_inference_completions_cost": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 15606,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "reasoning_tokens": 15606,
+  "finish_reason": "stop",
+  "content_len": 2162,
+  "svg_len": 2151,
+  "has_animation": true,
+  "uses_js": false,
+  "error": null,
+  "file": "results/recursive-flint-v1-0-free-constrained.svg"
+}

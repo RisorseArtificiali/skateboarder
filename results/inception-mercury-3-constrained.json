@@ -1,0 +1,62 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "constrained",
+  "model": "inception/mercury-3",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": "2026-10-22T22:58:47+02:00",
+  "params": {
+    "max_tokens": 128000
+  },
+  "reasoning": {
+    "requested": "default",
+    "effort": null,
+    "provider_default": {
+      "source": "openrouter-models",
+      "checked_at": "2026-10-22T20:58:47+00:00",
+      "supported": true,
+      "enabled": true,
+      "effort": "medium",
+      "mandatory": false,
+      "supported_efforts": [
+        "high",
+        "medium",
+        "low",
+        "none"
+      ],
+      "supports_max_tokens": false
+    }
+  },
+  "contributor": "maeste",
+  "seconds": 119.1,
+  "usage": {
+    "prompt_tokens": 236,
+    "completion_tokens": 55940,
+    "total_tokens": 56176,
+    "cost": 0.01960251,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 1,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01960251,
+      "upstream_inference_prompt_cost": 2.351e-05,
+      "upstream_inference_completions_cost": 0.019579
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 54055,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "reasoning_tokens": 54055,
+  "finish_reason": "stop",
+  "content_len": 5184,
+  "svg_len": 5173,
+  "has_animation": true,
+  "uses_js": false,
+  "error": null,
+  "file": "results/inception-mercury-3-constrained.svg"
+}

@@ -1,0 +1,63 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "constrained",
+  "model": "minimax/minimax-m3.1-flash",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": "2026-10-22T22:57:25+02:00",
+  "params": {
+    "max_tokens": 128000
+  },
+  "reasoning": {
+    "requested": "default",
+    "effort": null,
+    "provider_default": {
+      "source": "openrouter-models",
+      "checked_at": "2026-10-22T20:57:26+00:00",
+      "supported": true,
+      "enabled": null,
+      "effort": "max",
+      "mandatory": true,
+      "supported_efforts": [
+        "max",
+        "xhigh",
+        "high",
+        "medium",
+        "low"
+      ],
+      "supports_max_tokens": false
+    }
+  },
+  "contributor": "maeste",
+  "seconds": 460.5,
+  "usage": {
+    "prompt_tokens": 441,
+    "completion_tokens": 43502,
+    "total_tokens": 43943,
+    "cost": 0.02615007,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 128,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.02615007,
+      "upstream_inference_prompt_cost": 4.887e-05,
+      "upstream_inference_completions_cost": 0.0261012
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 38704,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "reasoning_tokens": 38704,
+  "finish_reason": "stop",
+  "content_len": 12833,
+  "svg_len": 12822,
+  "has_animation": true,
+  "uses_js": false,
+  "error": null,
+  "file": "results/minimax-minimax-m3-1-flash-constrained.svg"
+}
