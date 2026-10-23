@@ -116,6 +116,42 @@ switches the visible reasoning result, and every model in comparison mode has an
 `max_tokens` is deliberately ignored when forming these groups so larger reasoning budgets remain comparable;
 the exact value is still available in each run's technical details.
 
+## Results dashboard
+
+`dashboard.html` is a static, dependency-free page: no build step, no backend, no `npm install`. It reads
+`results/index.json` and shows KPIs, awards (fastest / slowest / cheapest / most expensive run, most / least
+reliable model, largest / smallest SVG), a sortable model leaderboard, bar-chart comparisons and a sortable table
+of all runs with SVG preview. Filter by model, prompt and cloud/local.
+
+### Set it up
+
+1. Make sure you have Python 3 (only needed to rebuild the index and serve the files).
+2. Generate (or refresh) the index from the JSON sidecars in `results/`:
+
+   ```bash
+   python3 build_index.py
+   ```
+
+   Re-run it every time you add or change a result.
+3. Serve the repository root with any static server and open the page:
+
+   ```bash
+   python3 -m http.server 8000
+   # then open http://localhost:8000/dashboard.html
+   ```
+
+   Opening the file directly (`file://`) works too, but browsers block reading `results/index.json` that way:
+   the page then shows a file picker, so select `results/index.json` manually.
+4. To publish it, commit `results/index.json` and enable GitHub Pages: the dashboard will be at
+   `https://<user>.github.io/skateboarder/dashboard.html`.
+
+### Notes
+
+- SVGs that are not valid XML (browsers refuse to render them) are detected on load and counted as failed runs
+  with an "invalid SVG" status.
+- Quality can't be measured from the metadata, so you can rate runs 1–5 ★ in the preview. Ratings live in your
+  browser (localStorage) and unlock the "best / worst rated" awards.
+
 ## License
 
 MIT

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "count": 65,
+  "count": 72,
   "entries": [
     {
       "id": "anthropic-claude-haiku-5-5-constrained",
@@ -277,6 +277,37 @@
       "engine": null,
       "quantization": null,
       "svg": "results/anthropic-claude-sonnet-5-5-minimal.svg"
+    },
+    {
+      "id": "baseten-mammoth-1-free-minimal",
+      "group_id": "baseten-mammoth-1-free-minimal-94006eac8f86",
+      "reasoning": {
+        "requested": "default",
+        "effort": null
+      },
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "baseten/mammoth-1:free",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-22T22:55:17+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": null,
+      "reasoning_tokens": null,
+      "finish_reason": null,
+      "svg_len": null,
+      "has_animation": null,
+      "uses_js": null,
+      "error": "HTTP 400: {\"error\":{\"message\":\"baseten/mammoth-1:free is a decisions model and cannot be used with the chat/completions endpoint. Use the /api/alpha/decisions endpoint instead.\",\"code\":400},\"user_id\":\"user_36J4X7MEAyvTS4FQHk26iCEFb4S\"}",
+      "seconds": 0.1,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": null
     },
     {
       "id": "claude-fable-5-1-constrained-constrained",
@@ -1574,6 +1605,142 @@
       "svg": "results/gpt-6-sol-minimal-minimal.svg"
     },
     {
+      "id": "inception-mercury-3-constrained",
+      "group_id": "inception-mercury-3-constrained-1ff10884ee69",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-22T20:58:47+00:00",
+          "supported": true,
+          "enabled": true,
+          "effort": "medium",
+          "mandatory": false,
+          "supported_efforts": [
+            "high",
+            "medium",
+            "low",
+            "none"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "inception/mercury-3",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-22T22:58:47+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 236,
+        "completion_tokens": 55940,
+        "total_tokens": 56176,
+        "cost": 0.01960251,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 1,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.01960251,
+          "upstream_inference_prompt_cost": 2.351e-05,
+          "upstream_inference_completions_cost": 0.019579
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 54055,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 54055,
+      "finish_reason": "stop",
+      "svg_len": 5173,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 119.1,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/inception-mercury-3-constrained.svg"
+    },
+    {
+      "id": "inception-mercury-3-minimal",
+      "group_id": "inception-mercury-3-minimal-524af521d3e8",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-22T20:58:32+00:00",
+          "supported": true,
+          "enabled": true,
+          "effort": "medium",
+          "mandatory": false,
+          "supported_efforts": [
+            "high",
+            "medium",
+            "low",
+            "none"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "inception/mercury-3",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-22T22:58:31+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 24,
+        "completion_tokens": 34177,
+        "total_tokens": 34201,
+        "cost": 0.01196426,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 1,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.01196426,
+          "upstream_inference_prompt_cost": 2.31e-06,
+          "upstream_inference_completions_cost": 0.01196195
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 31426,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 31426,
+      "finish_reason": "stop",
+      "svg_len": 7988,
+      "has_animation": false,
+      "uses_js": true,
+      "error": null,
+      "seconds": 69.2,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/inception-mercury-3-minimal.svg"
+    },
+    {
       "id": "kimi-k3-constrained__wave3",
       "group_id": "kimi-k3-constrained-unknown-2b810975e12c",
       "reasoning": {
@@ -1912,6 +2079,144 @@
       "engine": null,
       "quantization": null,
       "svg": null
+    },
+    {
+      "id": "minimax-minimax-m3-1-flash-constrained",
+      "group_id": "minimax-minimax-m3-1-flash-constrained-72bb67e92000",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-22T20:57:26+00:00",
+          "supported": true,
+          "enabled": null,
+          "effort": "max",
+          "mandatory": true,
+          "supported_efforts": [
+            "max",
+            "xhigh",
+            "high",
+            "medium",
+            "low"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "minimax/minimax-m3.1-flash",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-22T22:57:25+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 441,
+        "completion_tokens": 43502,
+        "total_tokens": 43943,
+        "cost": 0.02615007,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 128,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.02615007,
+          "upstream_inference_prompt_cost": 4.887e-05,
+          "upstream_inference_completions_cost": 0.0261012
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 38704,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 38704,
+      "finish_reason": "stop",
+      "svg_len": 12822,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 460.5,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/minimax-minimax-m3-1-flash-constrained.svg"
+    },
+    {
+      "id": "minimax-minimax-m3-1-flash-minimal",
+      "group_id": "minimax-minimax-m3-1-flash-minimal-bf35d0e1728a",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-22T20:57:08+00:00",
+          "supported": true,
+          "enabled": null,
+          "effort": "max",
+          "mandatory": true,
+          "supported_efforts": [
+            "max",
+            "xhigh",
+            "high",
+            "medium",
+            "low"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "minimax/minimax-m3.1-flash",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-22T22:57:07+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 226,
+        "completion_tokens": 62109,
+        "total_tokens": 62335,
+        "cost": 0.037272975,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 195,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.037272975,
+          "upstream_inference_prompt_cost": 7.575e-06,
+          "upstream_inference_completions_cost": 0.0372654
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 53311,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 53311,
+      "finish_reason": "stop",
+      "svg_len": 28704,
+      "has_animation": true,
+      "uses_js": true,
+      "error": null,
+      "seconds": 550.6,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/minimax-minimax-m3-1-flash-minimal.svg"
     },
     {
       "id": "mistralai-mistral-large-4-0-constrained",
@@ -2652,6 +2957,132 @@
       },
       "quantization": "ROCmFP4-FAST-imatrix",
       "svg": "results/qwen38-flash-next-minimal-reasoning_xhigh.svg"
+    },
+    {
+      "id": "recursive-flint-v1-0-free-constrained",
+      "group_id": "recursive-flint-v1-0-free-constrained-3f632219e60f",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-22T20:54:35+00:00",
+          "supported": true,
+          "enabled": null,
+          "effort": null,
+          "mandatory": true,
+          "supported_efforts": null,
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "recursive/flint-v1.0:free",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-22T22:54:35+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 235,
+        "completion_tokens": 18237,
+        "total_tokens": 18472,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 15606,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 15606,
+      "finish_reason": "stop",
+      "svg_len": 2151,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 125.2,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/recursive-flint-v1-0-free-constrained.svg"
+    },
+    {
+      "id": "recursive-flint-v1-0-free-minimal",
+      "group_id": "recursive-flint-v1-0-free-minimal-8103fa5c9dd4",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-10-22T20:53:57+00:00",
+          "supported": true,
+          "enabled": null,
+          "effort": null,
+          "mandatory": true,
+          "supported_efforts": null,
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "recursive/flint-v1.0:free",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-22T22:53:57+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 26,
+        "completion_tokens": 14128,
+        "total_tokens": 14154,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 10588,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 10588,
+      "finish_reason": "stop",
+      "svg_len": 3142,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 87.7,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/recursive-flint-v1-0-free-minimal.svg"
     },
     {
       "id": "stepfun-step-5-preview-constrained",

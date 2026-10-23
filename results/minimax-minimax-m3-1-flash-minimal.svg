@@ -1,0 +1,1039 @@
+<svg
+  id="skateScene"
+  xmlns="http://www.w3.org/2000/svg"
+  width="1000"
+  height="620"
+  viewBox="0 0 1000 620"
+  role="img"
+  aria-labelledby="title description"
+>
+  <title id="title">Physics-driven skateboard tricks on a concrete pipe</title>
+  <desc id="description">
+    A stylized skateboarder rolls through a curved concrete bowl, pumps for
+    speed, performs a jumping kickflip and grab, then lands back on the
+    transition. Motion is calculated using gravity and projectile physics.
+  </desc>
+
+  <defs>
+    <linearGradient id="skyGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7dd3fc"/>
+      <stop offset="0.58" stop-color="#bae6fd"/>
+      <stop offset="1" stop-color="#fef3c7"/>
+    </linearGradient>
+
+    <linearGradient id="concreteGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#94a3b8"/>
+      <stop offset="0.45" stop-color="#64748b"/>
+      <stop offset="1" stop-color="#334155"/>
+    </linearGradient>
+
+    <linearGradient id="deckGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e2e8f0"/>
+      <stop offset="1" stop-color="#94a3b8"/>
+    </linearGradient>
+
+    <radialGradient id="sunGradient">
+      <stop offset="0" stop-color="#fff7ad"/>
+      <stop offset="0.55" stop-color="#fde68a"/>
+      <stop offset="1" stop-color="#fbbf24" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+
+    <filter id="skaterShadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow
+        dx="0"
+        dy="5"
+        stdDeviation="4"
+        flood-color="#0f172a"
+        flood-opacity="0.24"
+      />
+    </filter>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1000" height="620" fill="url(#skyGradient)"/>
+
+  <circle cx="830" cy="105" r="94" fill="url(#sunGradient)" filter="url(#softGlow)"/>
+  <circle cx="830" cy="105" r="38" fill="#fef3c7" opacity="0.95"/>
+
+  <!-- Slow-moving clouds -->
+  <g fill="#ffffff" opacity="0.46">
+    <g transform="translate(90 100)">
+      <ellipse cx="0" cy="0" rx="56" ry="17"/>
+      <ellipse cx="35" cy="-12" rx="43" ry="25"/>
+      <ellipse cx="79" cy="0" rx="61" ry="16"/>
+      <animateTransform
+        attributeName="transform"
+        type="translate"
+        values="90 100; 150 100; 90 100"
+        dur="24s"
+        repeatCount="indefinite"
+      />
+    </g>
+
+    <g transform="translate(570 155)">
+      <ellipse cx="0" cy="0" rx="70" ry="18"/>
+      <ellipse cx="44" cy="-10" rx="47" ry="23"/>
+      <ellipse cx="-44" cy="-7" rx="39" ry="20"/>
+      <animateTransform
+        attributeName="transform"
+        type="translate"
+        values="570 155; 450 155; 570 155"
+        dur="31s"
+        repeatCount="indefinite"
+      />
+    </g>
+  </g>
+
+  <!-- Distant skyline -->
+  <g fill="#64748b" opacity="0.22">
+    <path d="M0 365H55V300H90V365H130V270H185V365H225V315H270V365H315V250H365V365H410V290H455V365H510V265H560V365H610V310H655V365H705V280H760V365H815V245H870V365H925V300H1000V620H0Z"/>
+  </g>
+
+  <g fill="#e2e8f0" opacity="0.26">
+    <rect x="145" y="286" width="10" height="13"/>
+    <rect x="165" y="286" width="10" height="13"/>
+    <rect x="332" y="267" width="12" height="15"/>
+    <rect x="352" y="267" width="12" height="15"/>
+    <rect x="529" y="281" width="12" height="14"/>
+    <rect x="831" y="262" width="12" height="15"/>
+    <rect x="849" y="262" width="12" height="15"/>
+  </g>
+
+  <!-- Concrete pipe / bowl -->
+  <g id="park">
+    <!-- Main concrete body -->
+    <path
+      d="
+        M60 270
+        H270
+        V310
+        A230 230 0 0 0 730 310
+        V270
+        H940
+        V620
+        H60
+        Z
+      "
+      fill="url(#concreteGradient)"
+      stroke="#475569"
+      stroke-width="3"
+    />
+
+    <!-- Lower structural shadow -->
+    <path
+      d="M270 320 A230 230 0 0 0 730 320"
+      fill="none"
+      stroke="#334155"
+      stroke-width="22"
+      opacity="0.55"
+    />
+
+    <!-- Riding surface -->
+    <path
+      d="M270 310 A230 230 0 0 0 730 310"
+      fill="none"
+      stroke="#d8e2e8"
+      stroke-width="15"
+      stroke-linecap="round"
+    />
+
+    <path
+      d="M270 303 A230 230 0 0 0 730 303"
+      fill="none"
+      stroke="#f8fafc"
+      stroke-width="3"
+      stroke-linecap="round"
+      opacity="0.85"
+    />
+
+    <!-- Vertical transition edges -->
+    <path d="M270 270V310" stroke="#dbe4ea" stroke-width="15"/>
+    <path d="M730 270V310" stroke="#dbe4ea" stroke-width="15"/>
+
+    <!-- Raised decks -->
+    <rect x="60" y="248" width="210" height="22" rx="4" fill="url(#deckGradient)"/>
+    <rect x="730" y="248" width="210" height="22" rx="4" fill="url(#deckGradient)"/>
+
+    <path d="M60 270H270M730 270H940" stroke="#f8fafc" stroke-width="3" opacity="0.8"/>
+
+    <!-- Metal coping -->
+    <path d="M258 266H282" stroke="#475569" stroke-width="8" stroke-linecap="round"/>
+    <path d="M718 266H742" stroke="#475569" stroke-width="8" stroke-linecap="round"/>
+    <path d="M260 264H280M720 264H740" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Concrete seams -->
+    <g stroke="#475569" stroke-width="2" opacity="0.32">
+      <path d="M500 540V617"/>
+      <path d="M390 580L377 617"/>
+      <path d="M610 580L623 617"/>
+      <path d="M105 350H250"/>
+      <path d="M750 350H895"/>
+    </g>
+
+    <!-- Deck rails -->
+    <g fill="none" stroke="#64748b" stroke-width="6" stroke-linecap="round">
+      <path d="M95 235V205M235 235V205M95 205H235"/>
+      <path d="M765 235V205M905 235V205M765 205H905"/>
+    </g>
+  </g>
+
+  <!-- Actual simulated airborne path -->
+  <polyline
+    id="trajectory"
+    points=""
+    fill="none"
+    stroke="#7dd3fc"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-dasharray="5 9"
+    opacity="0"
+  />
+
+  <!-- Ground shadow -->
+  <ellipse
+    id="riderShadow"
+    cx="0"
+    cy="0"
+    rx="45"
+    ry="7"
+    fill="#0f172a"
+    opacity="0.24"
+  />
+
+  <!-- Landing compression ring -->
+  <ellipse
+    id="impactRing"
+    cx="0"
+    cy="0"
+    rx="8"
+    ry="3"
+    fill="none"
+    stroke="#f8fafc"
+    stroke-width="3"
+    opacity="0"
+  />
+
+  <!-- Skateboarder -->
+  <g id="skater" transform="translate(500 540)" filter="url(#skaterShadow)">
+    <!-- Side projection of a frontside body rotation -->
+    <g id="yawGroup">
+      <!-- Board -->
+      <g id="boardPivot">
+        <g id="deckFlip">
+          <path
+            id="deckBase"
+            d="M-46-13 Q-40-18-31-16H31Q42-16 46-11L43-8H-43Z"
+            fill="#fb6b3b"
+            stroke="#7c2d12"
+            stroke-width="2"
+          />
+
+          <path
+            id="deckGraphic"
+            d="M-12-13H10M-7-10H5"
+            fill="none"
+            stroke="#fff7ed"
+            stroke-width="3"
+            stroke-linecap="round"
+            opacity="1"
+          />
+
+          <path
+            id="noseMark"
+            d="M35-14L43-11L35-9Z"
+            fill="#fff7ed"
+            opacity="0.95"
+          />
+
+          <!-- Trucks -->
+          <path d="M-29-8V-5M29-8V-5" stroke="#94a3b8" stroke-width="4"/>
+
+          <!-- Wheels -->
+          <g transform="translate(-29 -5)">
+            <g id="wheelSpinL">
+              <circle r="5.5" fill="#0f172a"/>
+              <circle r="2.2" fill="#cbd5e1"/>
+              <path d="M-3 0H3M0-3V3" stroke="#64748b" stroke-width="1"/>
+            </g>
+          </g>
+
+          <g transform="translate(29 -5)">
+            <g id="wheelSpinR">
+              <circle r="5.5" fill="#0f172a"/>
+              <circle r="2.2" fill="#cbd5e1"/>
+              <path d="M-3 0H3M0-3V3" stroke="#64748b" stroke-width="1"/>
+            </g>
+          </g>
+        </g>
+      </g>
+
+      <!-- Human figure -->
+      <g id="human">
+        <!-- Far leg -->
+        <line id="backThigh" stroke="#1e293b" stroke-width="12" stroke-linecap="round"/>
+        <line id="backShin" stroke="#263449" stroke-width="11" stroke-linecap="round"/>
+
+        <!-- Far arm -->
+        <line id="backUpperArm" stroke="#c98c67" stroke-width="8" stroke-linecap="round"/>
+        <line id="backForearm" stroke="#d9a27f" stroke-width="7" stroke-linecap="round"/>
+        <circle id="backHand" r="4.5" fill="#d9a27f"/>
+
+        <!-- Hips and torso -->
+        <line id="hips" stroke="#1e293b" stroke-width="16" stroke-linecap="round"/>
+        <line id="torso" stroke="#0f766e" stroke-width="22" stroke-linecap="round"/>
+
+        <!-- Head -->
+        <circle id="head" r="13" fill="#d9a27f" stroke="#9a5f43" stroke-width="1.5"/>
+        <path id="cap" fill="#172554"/>
+        <path id="brim" fill="#1e3a8a"/>
+        <path id="face" fill="none" stroke="#7c3f2d" stroke-width="1.7" stroke-linecap="round"/>
+
+        <!-- Near leg -->
+        <line id="frontThigh" stroke="#273449" stroke-width="12" stroke-linecap="round"/>
+        <line id="frontShin" stroke="#334155" stroke-width="11" stroke-linecap="round"/>
+
+        <!-- Shoes -->
+        <path d="M-29-14H-13L-11-9H-30Z" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5"/>
+        <path d="M12-14H28L30-9H11Z" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5"/>
+
+        <!-- Near arm -->
+        <line id="frontUpperArm" stroke="#d9a27f" stroke-width="9" stroke-linecap="round"/>
+        <line id="frontForearm" stroke="#d9a27f" stroke-width="8" stroke-linecap="round"/>
+        <circle id="frontHand" r="5" fill="#d9a27f"/>
+        <circle id="grip" r="7" fill="none" stroke="#fff7ed" stroke-width="2" opacity="0"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Physics telemetry -->
+  <g transform="translate(675 22)">
+    <rect width="295" height="92" rx="12" fill="#0f172a" opacity="0.78"/>
+    <text
+      id="modeText"
+      x="16"
+      y="25"
+      fill="#67e8f9"
+      font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+      font-size="13"
+      font-weight="700"
+      letter-spacing="0.7"
+    >DROP IN</text>
+
+    <text
+      id="speedText"
+      x="16"
+      y="49"
+      fill="#f8fafc"
+      font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+      font-size="15"
+    >0.0 m/s</text>
+
+    <text
+      id="heightText"
+      x="157"
+      y="49"
+      fill="#f8fafc"
+      font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+      font-size="15"
+    >0.00 m</text>
+
+    <text
+      x="16"
+      y="75"
+      fill="#94a3b8"
+      font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+      font-size="10"
+    >ENERGY</text>
+
+    <rect x="78" y="66" width="195" height="8" rx="4" fill="#334155"/>
+    <rect id="energyBar" x="78" y="66" width="0" height="8" rx="4" fill="#22d3ee"/>
+  </g>
+
+  <text
+    id="pauseText"
+    x="500"
+    y="598"
+    text-anchor="middle"
+    fill="#e2e8f0"
+    font-family="ui-monospace, SFMono-Regular, Menlo, monospace"
+    font-size="11"
+    letter-spacing="1"
+    opacity="0.75"
+  >CLICK TO PAUSE</text>
+
+  <script type="application/ecmascript"><![CDATA[
+  (() => {
+    "use strict";
+
+    const root = document.getElementById("skateScene");
+
+    const $ = id => document.getElementById(id);
+
+    /*
+      Circular-pipe approximation.
+
+      While the board is on the surface:
+        theta'' = -(g / R) sin(theta)
+
+      The ollie applies a short impulse normal to the surface. During flight,
+      position follows ordinary projectile motion. On landing, only the
+      velocity component tangent to the pipe is retained.
+    */
+
+    const C = {
+      cx: 500,
+      cy: 310,
+      radius: 230
+    };
+
+    const PIXELS_PER_METRE = 92;
+    const GRAVITY = 9.81 * PIXELS_PER_METRE;
+    const PHYSICS_STEP = 1 / 120;
+
+    const TRIGGER_ANGLE = 0.72;
+    const TARGET_TRIGGER_SPEED = 335;
+    const PUMP_DURATION = 0.42;
+    const PUMP_ACCELERATION = 150;
+    const GROUND_DRAG = 0.025;
+
+    const state = {
+      mode: "ground",
+      theta: 0,
+      omega: 455 / C.radius,
+
+      x: C.cx,
+      y: C.cy + C.radius,
+      previousX: C.cx,
+      previousY: C.cy + C.radius,
+
+      vx: 0,
+      vy: 0,
+      airTime: 0,
+      launchTheta: 0,
+      boardAngle: 0,
+
+      yaw: 0,
+      yawStart: 0,
+      roll: 0,
+
+      wheelAngle: 0,
+      pumpTimer: PUMP_DURATION,
+      landingTimer: 0,
+
+      trail: [],
+      trailTick: 0,
+      trailFade: 0,
+
+      impactTime: 0,
+      impactX: 0,
+      impactY: 0,
+
+      elapsed: 0,
+      hasLaunched: false
+    };
+
+    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    function setLine(id, x1, y1, x2, y2) {
+      const element = $(id);
+      element.setAttribute("x1", x1.toFixed(2));
+      element.setAttribute("y1", y1.toFixed(2));
+      element.setAttribute("x2", x2.toFixed(2));
+      element.setAttribute("y2", y2.toFixed(2));
+    }
+
+    function surfaceYAt(x) {
+      const dx = clamp(x - C.cx, -C.radius, C.radius);
+      return C.cy + Math.sqrt(C.radius * C.radius - dx * dx);
+    }
+
+    function pumpCrouch() {
+      if (state.pumpTimer <= 0) return 0;
+
+      const phase = 1 - state.pumpTimer / PUMP_DURATION;
+
+      if (phase < 0.42) {
+        return phase / 0.42;
+      }
+
+      return 1 - (phase - 0.42) / 0.58;
+    }
+
+    function launch() {
+      const theta = state.theta;
+      const speed = state.omega * C.radius;
+
+      const sin = Math.sin(theta);
+      const cos = Math.cos(theta);
+
+      /*
+        Choose the pop impulse so the takeoff is slightly inward.
+        This resembles turning the shoulders/board into the transition
+        while extending the legs.
+      */
+      const desiredInwardSpeed = -18;
+      const jumpSpeed = clamp(
+        (speed * cos - desiredInwardSpeed) / sin,
+        240,
+        520
+      );
+
+      state.vx = speed * cos - jumpSpeed * sin;
+      state.vy = -speed * sin - jumpSpeed * cos;
+
+      state.x = C.cx + C.radius * sin;
+      state.y = C.cy + C.radius * cos;
+      state.previousX = state.x;
+      state.previousY = state.y;
+
+      state.mode = "air";
+      state.airTime = 0;
+      state.launchTheta = theta;
+      state.boardAngle = -theta;
+
+      state.yawStart = state.yaw;
+      state.roll = 0;
+
+      state.trail = [[state.x, state.y]];
+      state.trailTick = 0;
+      state.trailFade = 0;
+
+      state.hasLaunched = true;
+    }
+
+    /*
+      Find the first non-zero intersection of a line segment with the
+      lower half of the circular riding surface.
+    */
+    function circleSegmentHit(x0, y0, x1, y1) {
+      const ox = x0 - C.cx;
+      const oy = y0 - C.cy;
+      const dx = x1 - x0;
+      const dy = y1 - y0;
+
+      const a = dx * dx + dy * dy;
+      const b = 2 * (ox * dx + oy * dy);
+      const c = ox * ox + oy * oy - C.radius * C.radius;
+
+      if (a < 1e-8) return null;
+
+      const discriminant = b * b - 4 * a * c;
+      if (discriminant < 0) return null;
+
+      const root = Math.sqrt(discriminant);
+      const candidates = [
+        (-b - root) / (2 * a),
+        (-b + root) / (2 * a)
+      ].sort((aValue, bValue) => aValue - bValue);
+
+      for (const u of candidates) {
+        if (u <= 0.025 || u > 1) continue;
+
+        const hitX = x0 + dx * u;
+        const hitY = y0 + dy * u;
+
+        // Only the lower semicircle is a rideable surface.
+        if (hitY >= C.cy - 1) {
+          return { x: hitX, y: hitY };
+        }
+      }
+
+      return null;
+    }
+
+    function land(hit) {
+      const theta = Math.atan2(hit.x - C.cx, hit.y - C.cy);
+      const tangentX = Math.cos(theta);
+      const tangentY = -Math.sin(theta);
+
+      // Project the flight velocity onto the surface tangent.
+      const tangentVelocity = state.vx * tangentX + state.vy * tangentY;
+
+      state.x = hit.x;
+      state.y = hit.y;
+      state.previousX = hit.x;
+      state.previousY = hit.y;
+
+      state.theta = theta;
+      state.omega = clamp((tangentVelocity * 0.94) / C.radius, -4.5, 4.5);
+      state.boardAngle = -theta;
+
+      state.mode = "ground";
+      state.yaw = state.yawStart + Math.PI;
+      state.roll = 0;
+
+      state.pumpTimer = 0;
+      state.landingTimer = 0.3;
+      state.trailFade = 1;
+
+      state.impactTime = 0.38;
+      state.impactX = hit.x;
+      state.impactY = hit.y;
+    }
+
+    function stepGround(dt) {
+      const oldTheta = state.theta;
+
+      // Gravity projected along the circular surface.
+      state.omega += -(GRAVITY / C.radius) * Math.sin(state.theta) * dt;
+
+      // A short extension pulse near the flat adds tangential work.
+      if (state.pumpTimer > 0) {
+        state.pumpTimer = Math.max(0, state.pumpTimer - dt);
+        const phase = 1 - state.pumpTimer / PUMP_DURATION;
+
+        if (phase > 0.42 && Math.abs(state.omega) > 0.05) {
+          const extension = (phase - 0.42) / 0.58;
+          const workShape = Math.sin(Math.PI * extension);
+
+          state.omega +=
+            Math.sign(state.omega) *
+            PUMP_ACCELERATION *
+            workShape *
+            dt /
+            C.radius;
+        }
+      }
+
+      /*
+        Light transition scrub prevents the takeoff from becoming
+        unrealistically fast after repeated tricks. It represents
+        controlled edge drag/carving in the steep part of the pipe.
+      */
+      if (state.theta > 0.42 && state.omega > 0) {
+        const speed = state.omega * C.radius;
+        const excess = Math.max(0, speed - TARGET_TRIGGER_SPEED);
+        const deceleration = Math.min(300, excess * 2.4);
+
+        state.omega -= deceleration * dt / C.radius;
+      }
+
+      // Rolling resistance.
+      state.omega *= Math.exp(-GROUND_DRAG * dt);
+      state.theta += state.omega * dt;
+
+      // Start the compression/extension cycle at each bottom passage.
+      if (
+        oldTheta * state.theta < 0 &&
+        state.pumpTimer <= 0 &&
+        Math.abs(state.omega) > 0.1
+      ) {
+        state.pumpTimer = PUMP_DURATION;
+      }
+
+      // The wheels roll only while the board is on the surface.
+      state.wheelAngle -= state.omega * C.radius * dt / 5.5;
+
+      if (
+        state.theta >= TRIGGER_ANGLE &&
+        state.omega > 0 &&
+        state.elapsed > 0.1
+      ) {
+        launch();
+      }
+    }
+
+    function stepAir(dt) {
+      state.previousX = state.x;
+      state.previousY = state.y;
+
+      state.vy += GRAVITY * dt;
+      state.x += state.vx * dt;
+      state.y += state.vy * dt;
+      state.airTime += dt;
+
+      const progress = clamp(state.airTime / 1.05, 0, 1);
+
+      // A smooth body yaw and a full board rotation.
+      state.yaw = state.yawStart + Math.PI * progress;
+      state.roll = Math.PI * 2 * progress;
+
+      state.trailTick++;
+      if (state.trailTick % 4 === 0) {
+        state.trail.push([state.x, state.y]);
+        if (state.trail.length > 80) state.trail.shift();
+      }
+
+      const hit = circleSegmentHit(
+        state.previousX,
+        state.previousY,
+        state.x,
+        state.y
+      );
+
+      if (hit) {
+        land(hit);
+      } else if (state.airTime > 2.4) {
+        // Defensive fallback for unusual numerical states.
+        const dx = clamp(state.x - C.cx, -C.radius + 1, C.radius - 1);
+        const theta = Math.atan2(dx, Math.sqrt(C.radius * C.radius - dx * dx));
+
+        land({
+          x: C.cx + C.radius * Math.sin(theta),
+          y: C.cy + C.radius * Math.cos(theta)
+        });
+      }
+    }
+
+    function step(dt) {
+      state.elapsed += dt;
+
+      if (state.landingTimer > 0) {
+        state.landingTimer = Math.max(0, state.landingTimer - dt);
+      }
+
+      if (state.impactTime > 0) {
+        state.impactTime = Math.max(0, state.impactTime - dt);
+      }
+
+      if (state.mode === "ground") {
+        if (state.trailFade > 0) {
+          state.trailFade = Math.max(0, state.trailFade - dt * 0.8);
+        }
+        stepGround(dt);
+      } else {
+        stepAir(dt);
+      }
+    }
+
+    function updatePose() {
+      const airborne = state.mode === "air";
+      const progress = airborne ? clamp(state.airTime / 1.05, 0, 1) : 0;
+
+      let crouch = 0;
+
+      if (airborne) {
+        crouch = 0.55 + 0.18 * Math.sin(Math.PI * progress);
+      } else {
+        crouch = Math.max(
+          pumpCrouch(),
+          state.landingTimer > 0 ? state.landingTimer / 0.3 : 0
+        );
+      }
+
+      const hipY = -53 + crouch * 20;
+      const kneeY = -32 + crouch * 15;
+      const shoulderY = -91 + crouch * 19;
+      const headY = shoulderY - 24;
+
+      const lean = airborne ? -5 * Math.sin(progress * Math.PI * 2) : 0;
+
+      const gripAmount = airborne
+        ? Math.sin(
+            Math.PI * clamp((progress - 0.08) / 0.84, 0, 1)
+          )
+        : 0;
+
+      // Legs remain planted on the deck while the body compresses.
+      setLine("backThigh", -4 + lean * 0.2, hipY, -15, kneeY);
+      setLine("backShin", -15, kneeY, -21, -14);
+
+      setLine("frontThigh", 4 + lean * 0.2, hipY, 15, kneeY);
+      setLine("frontShin", 15, kneeY, 20, -14);
+
+      setLine("hips", -9 + lean * 0.2, hipY, 9 + lean * 0.2, hipY);
+      setLine("torso", lean * 0.25, hipY, lean, shoulderY);
+
+      // Back arm counterbalances the rotation.
+      const backElbowX = -28 + lean;
+      const backElbowY = shoulderY + 3;
+      const backHandX = -45 + lean;
+      const backHandY = shoulderY - 6;
+
+      setLine(
+        "backUpperArm",
+        lean - 5,
+        shoulderY + 2,
+        backElbowX,
+        backElbowY
+      );
+      setLine(
+        "backForearm",
+        backElbowX,
+        backElbowY,
+        backHandX,
+        backHandY
+      );
+      $("backHand").setAttribute("cx", backHandX.toFixed(2));
+      $("backHand").setAttribute("cy", backHandY.toFixed(2));
+
+      // The front hand moves from a balance position to a board grab.
+      const frontElbowX = lerp(28 + lean, 25, gripAmount);
+      const frontElbowY = lerp(
+        shoulderY + 5,
+        -54 + crouch * 10,
+        gripAmount
+      );
+      const frontHandX = lerp(43 + lean, 18, gripAmount);
+      const frontHandY = lerp(shoulderY - 4, -14, gripAmount);
+
+      setLine(
+        "frontUpperArm",
+        lean + 5,
+        shoulderY + 2,
+        frontElbowX,
+        frontElbowY
+      );
+      setLine(
+        "frontForearm",
+        frontElbowX,
+        frontElbowY,
+        frontHandX,
+        frontHandY
+      );
+
+      $("frontHand").setAttribute("cx", frontHandX.toFixed(2));
+      $("frontHand").setAttribute("cy", frontHandY.toFixed(2));
+
+      $("grip").setAttribute("cx", frontHandX.toFixed(2));
+      $("grip").setAttribute("cy", frontHandY.toFixed(2));
+      $("grip").setAttribute("opacity", (gripAmount * 0.9).toFixed(3));
+
+      // Head, cap and face.
+      $("head").setAttribute("cx", lean.toFixed(2));
+      $("head").setAttribute("cy", headY.toFixed(2));
+
+      $("cap").setAttribute(
+        "d",
+        `M${lean - 13},${headY + 1}
+         C${lean - 15},${headY - 14}
+         ${lean + 13},${headY - 17}
+         ${lean + 13},${headY - 1}
+         L${lean + 9},${headY + 2}Z`
+      );
+
+      $("brim").setAttribute(
+        "d",
+        `M${lean + 7},${headY - 1}
+         Q${lean + 20},${headY + 1}
+         ${lean + 18},${headY + 4}
+         L${lean + 6},${headY + 2}Z`
+      );
+
+      $("face").setAttribute(
+        "d",
+        `M${lean + 7},${headY - 1}L${lean + 10},${headY + 2}`
+      );
+    }
+
+    function updateTrail() {
+      const points = state.trail
+        .map(point => `${point[0].toFixed(1)},${point[1].toFixed(1)}`)
+        .join(" ");
+
+      $("trajectory").setAttribute("points", points);
+      $("trajectory").setAttribute(
+        "opacity",
+        state.mode === "air"
+          ? "0.45"
+          : (state.trailFade * 0.35).toFixed(3)
+      );
+    }
+
+    function updateImpact() {
+      if (state.impactTime <= 0) {
+        $("impactRing").setAttribute("opacity", "0");
+        return;
+      }
+
+      const progress = 1 - state.impactTime / 0.38;
+
+      $("impactRing").setAttribute(
+        "transform",
+        `translate(${state.impactX} ${state.impactY})`
+      );
+      $("impactRing").setAttribute("rx", (8 + progress * 42).toFixed(2));
+      $("impactRing").setAttribute("ry", (3 + progress * 11).toFixed(2));
+      $("impactRing").setAttribute(
+        "opacity",
+        ((1 - progress) * 0.58).toFixed(3)
+      );
+    }
+
+    function updateTelemetry() {
+      let speedPixels;
+      let heightPixels = 0;
+
+      if (state.mode === "air") {
+        speedPixels = Math.hypot(state.vx, state.vy);
+        heightPixels = Math.max(0, surfaceYAt(state.x) - state.y);
+      } else {
+        speedPixels = Math.abs(state.omega) * C.radius;
+      }
+
+      const kinetic = 0.5 * speedPixels * speedPixels;
+      const potential = GRAVITY * heightPixels;
+      const energy = (kinetic + potential) / PIXELS_PER_METRE;
+
+      let mode = "ROLLING";
+
+      if (state.mode === "air") {
+        mode = "AIR - 360 FLIP + GRAB";
+      } else if (!state.hasLaunched && state.elapsed < 1) {
+        mode = "DROP IN";
+      } else {
+        const phase = state.pumpTimer > 0
+          ? 1 - state.pumpTimer / PUMP_DURATION
+          : 0;
+
+        if (phase > 0.42) {
+          mode = "PUMP";
+        } else {
+          mode = state.omega >= 0 ? "TRANSITION RIGHT" : "TRANSITION LEFT";
+        }
+      }
+
+      $("modeText").textContent = mode;
+      $("speedText").textContent =
+        `${(speedPixels / PIXELS_PER_METRE).toFixed(1)} m/s`;
+      $("heightText").textContent =
+        `${(heightPixels / PIXELS_PER_METRE).toFixed(2)} m`;
+
+      $("energyBar").setAttribute(
+        "width",
+        (clamp(energy / 1200, 0, 1) * 195).toFixed(2)
+      );
+    }
+
+    function updateDom() {
+      const airborne = state.mode === "air";
+      const theta = airborne ? state.launchTheta : state.theta;
+      const angle = airborne ? state.boardAngle : -theta;
+
+      $("skater").setAttribute(
+        "transform",
+        `translate(${state.x.toFixed(2)} ${state.y.toFixed(2)})`
+      );
+
+      $("yawGroup").setAttribute(
+        "transform",
+        `scale(${Math.cos(state.yaw).toFixed(5)} 1)`
+      );
+
+      $("boardPivot").setAttribute(
+        "transform",
+        `rotate(${angle.toFixed(3)})`
+      );
+
+      $("human").setAttribute(
+        "transform",
+        `rotate(${angle.toFixed(3)})`
+      );
+
+      // A kickflip rotates the deck about its longitudinal axis.
+      const flipScale = 0.18 + 0.82 * Math.abs(Math.cos(state.roll));
+      $("deckFlip").setAttribute(
+        "transform",
+        `scale(1 ${flipScale.toFixed(4)})`
+      );
+
+      $("deckBase").setAttribute(
+        "fill",
+        Math.cos(state.roll) >= 0 ? "#fb6b3b" : "#2563eb"
+      );
+
+      $("deckGraphic").setAttribute(
+        "opacity",
+        Math.max(0, Math.cos(state.roll)).toFixed(3)
+      );
+
+      $("noseMark").setAttribute(
+        "opacity",
+        Math.max(0, Math.cos(state.roll)).toFixed(3)
+      );
+
+      $("wheelSpinL").setAttribute(
+        "transform",
+        `rotate(${state.wheelAngle.toFixed(2)})`
+      );
+      $("wheelSpinR").setAttribute(
+        "transform",
+        `rotate(${state.wheelAngle.toFixed(2)})`
+      );
+
+      updatePose();
+      updateTrail();
+      updateImpact();
+      updateTelemetry();
+
+      // Shadow follows either the rider or its projection onto the bowl.
+      let shadowX = state.x;
+      let shadowY = state.y;
+      let shadowAngle = airborne ? 0 : -theta;
+      let shadowOpacity = 0.25;
+
+      if (airborne) {
+        shadowY = surfaceYAt(state.x) + 2;
+        const height = Math.max(0, shadowY - state.y);
+        shadowOpacity = 0.27 * (1 - clamp(height / 360, 0, 0.78));
+      } else {
+        shadowY += 2;
+      }
+
+      $("riderShadow").setAttribute(
+        "transform",
+        `translate(${shadowX.toFixed(2)} ${shadowY.toFixed(2)}) ` +
+        `rotate(${shadowAngle.toFixed(2)})`
+      );
+      $("riderShadow").setAttribute(
+        "opacity",
+        shadowOpacity.toFixed(3)
+      );
+    }
+
+    let paused = false;
+    let lastTime = performance.now();
+    let accumulator = 0;
+
+    const reducedMotion =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reducedMotion) {
+      paused = true;
+      $("pauseText").textContent = "CLICK TO PLAY";
+    }
+
+    root.style.cursor = "pointer";
+
+    root.addEventListener("click", () => {
+      paused = !paused;
+      $("pauseText").textContent = paused ? "CLICK TO PLAY" : "CLICK TO PAUSE";
+      lastTime = performance.now();
+      updateDom();
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      lastTime = performance.now();
+      accumulator = 0;
+    });
+
+    function frame(now) {
+      const frameTime = Math.min(0.05, (now - lastTime) / 1000);
+      lastTime = now;
+
+      if (!paused) {
+        accumulator += frameTime;
+
+        while (accumulator >= PHYSICS_STEP) {
+          step(PHYSICS_STEP);
+          accumulator -= PHYSICS_STEP;
+        }
+
+        updateDom();
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    updateDom();
+    requestAnimationFrame(frame);
+  })();
+  ]]></script>
+</svg>

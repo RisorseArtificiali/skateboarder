@@ -1,0 +1,209 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7EC8E3"/>
+      <stop offset="100%" stop-color="#EAF6FF"/>
+    </linearGradient>
+    <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8BC34A"/>
+      <stop offset="100%" stop-color="#33691E"/>
+    </linearGradient>
+    <radialGradient id="pipeGrad" cx="0.4" cy="0.3" r="0.9">
+      <stop offset="0%" stop-color="#CFD8DC"/>
+      <stop offset="100%" stop-color="#607D8B"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="800" height="600" fill="url(#sky)"/>
+
+  <!-- Sun -->
+  <circle cx="680" cy="80" r="40" fill="#FFD54F"/>
+  <circle cx="680" cy="80" r="28" fill="#FFF9C4"/>
+
+  <!-- Distant hills -->
+  <path d="M0,450 Q200,380 400,450 T800,450 V600 H0Z" fill="#AED581" opacity="0.5"/>
+
+  <!-- Ground -->
+  <rect x="0" y="450" width="800" height="150" fill="url(#groundGrad)"/>
+  <line x1="0" y1="450" x2="800" y2="450" stroke="#558B2F" stroke-width="4"/>
+
+  <!-- Pipe -->
+  <circle cx="400" cy="370" r="80" fill="url(#pipeGrad)" stroke="#37474F" stroke-width="6"/>
+  <circle cx="400" cy="370" r="68" fill="#263238"/>
+  <ellipse cx="398" cy="365" rx="20" ry="10" fill="#FFFFFF" opacity="0.2"/>
+  <ellipse cx="400" cy="452" rx="85" ry="8" fill="#000" opacity="0.15"/>
+
+  <!-- Predicted jump trajectory -->
+  <path id="trail" d="" fill="none" stroke="#FFF176" stroke-width="3" stroke-dasharray="8,5" opacity="0.7"/>
+
+  <!-- Skater -->
+  <g id="skaterPos">
+    <g id="skaterRot">
+      <!-- Skateboard deck -->
+      <rect x="-32" y="-5" width="64" height="4" rx="2" fill="#E53935"/>
+      <line x1="-32" y1="-4" x2="-39" y2="-11" stroke="#E53935" stroke-width="5" stroke-linecap="round"/>
+      <line x1="32" y1="-4" x2="39" y2="-11" stroke="#E53935" stroke-width="5" stroke-linecap="round"/>
+      <!-- Trucks -->
+      <rect x="-27" y="-1" width="6" height="4" rx="1" fill="#455A64"/>
+      <rect x="21" y="-1" width="6" height="4" rx="1" fill="#455A64"/>
+      <!-- Wheels -->
+      <circle cx="-24" cy="7" r="4" fill="#212121"/>
+      <circle cx="24" cy="7" r="4" fill="#212121"/>
+
+      <!-- Standing rider pose -->
+      <g id="riderStand">
+        <path d="M-8,0 L-4,-14 L0,-35" fill="none" stroke="#283593" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8,0 L4,-14 L0,-35" fill="none" stroke="#283593" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <ellipse cx="-8" cy="0" rx="5" ry="2.5" fill="#1A237E"/>
+        <ellipse cx="8" cy="0" rx="5" ry="2.5" fill="#1A237E"/>
+        <path d="M0,-35 L1,-66" fill="none" stroke="#F57C00" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="2" cy="-79" r="9" fill="#FFCCBC"/>
+        <path d="M-5,-87 Q2,-93 9,-87 Q2,-82 -5,-87" fill="#3E2723"/>
+        <path d="M1,-66 L-15,-55" fill="none" stroke="#F57C00" stroke-width="5" stroke-linecap="round"/>
+        <path d="M1,-66 L17,-59" fill="none" stroke="#F57C00" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="-15" cy="-55" r="3" fill="#FFCCBC"/>
+        <circle cx="17" cy="-59" r="3" fill="#FFCCBC"/>
+      </g>
+
+      <!-- Tucked / flipping rider pose -->
+      <g id="riderTuck" style="display:none">
+        <path d="M-8,0 L-18,-13 L0,-32" fill="none" stroke="#283593" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8,0 L18,-13 L0,-32" fill="none" stroke="#283593" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <ellipse cx="-8" cy="0" rx="5" ry="2.5" fill="#1A237E"/>
+        <ellipse cx="8" cy="0" rx="5" ry="2.5" fill="#1A237E"/>
+        <path d="M0,-32 Q-3,-50 0,-64" fill="none" stroke="#F57C00" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="0" cy="-76" r="9" fill="#FFCCBC"/>
+        <path d="M-7,-84 Q0,-90 7,-84 Q0,-79 -7,-84" fill="#3E2723"/>
+        <path d="M0,-64 L-11,-34" fill="none" stroke="#F57C00" stroke-width="5" stroke-linecap="round"/>
+        <path d="M0,-64 L11,-34" fill="none" stroke="#F57C00" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="-11" cy="-34" r="3" fill="#FFCCBC"/>
+        <circle cx="11" cy="-34" r="3" fill="#FFCCBC"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Shadow -->
+  <ellipse id="shadow" cx="100" cy="450" rx="20" ry="5" fill="#2E2E2E" opacity="0.3"/>
+
+  <!-- Trick label -->
+  <text id="trickLabel" x="400" y="140" text-anchor="middle" font-size="30" font-weight="bold" fill="#FFF" stroke="#333" stroke-width="1" opacity="0" style="font-family:Arial">BACKFLIP!</text>
+
+  <script type="text/javascript"><![CDATA[
+    var skaterPos = document.getElementById('skaterPos');
+    var skaterRot = document.getElementById('skaterRot');
+    var riderStand = document.getElementById('riderStand');
+    var riderTuck = document.getElementById('riderTuck');
+    var shadow = document.getElementById('shadow');
+    var trail = document.getElementById('trail');
+    var trickLabel = document.getElementById('trickLabel');
+
+    // Physics constants
+    var G = 900; // px/s^2
+    var VX = 250; // horizontal speed px/s
+    var JUMP_SPEED = 700; // upward launch speed
+    var JUMP_X = 300; // takeoff x
+    var GROUND_Y = 450;
+    var BOARD_Y = GROUND_Y - 11;
+    var RESET_X = 850;
+    var START_X = 50;
+
+    var state = 'ground';
+    var x = START_X;
+    var y = BOARD_Y;
+    var vy = 0;
+    var flightTime = 0;
+    var totalFlightTime = 2 * JUMP_SPEED / G;
+    var rot = 0;
+    var lastTime = null;
+
+    // Precompute the theoretical jump curve for display
+    var d = 'M' + JUMP_X + ' ' + BOARD_Y;
+    for (var i = 0; i <= 40; i++) {
+      var t = (i / 40) * totalFlightTime;
+      var px = JUMP_X + VX * t;
+      var py = BOARD_Y - JUMP_SPEED * t + 0.5 * G * t * t;
+      d += ' L' + px.toFixed(1) + ' ' + py.toFixed(1);
+    }
+    trail.setAttribute('d', d);
+
+    function setPose(tuck) {
+      if (tuck) {
+        riderStand.style.display = 'none';
+        riderTuck.style.display = '';
+      } else {
+        riderStand.style.display = '';
+        riderTuck.style.display = 'none';
+      }
+    }
+
+    function updateDisplay() {
+      skaterPos.setAttribute('transform', 'translate(' + x.toFixed(1) + ',' + y.toFixed(1) + ')');
+      skaterRot.setAttribute('transform', 'rotate(' + rot.toFixed(1) + ', 0, -40)');
+
+      var height = BOARD_Y - y;
+      if (height < 0) height = 0;
+      var opac = Math.max(0.1, 0.35 - height / 400);
+      shadow.setAttribute('opacity', opac.toFixed(2));
+      shadow.setAttribute('rx', (20 - Math.min(15, height / 20)).toFixed(1));
+      shadow.setAttribute('cx', x.toFixed(1));
+
+      if (state === 'air') {
+        trickLabel.setAttribute('opacity', Math.min(1, (flightTime / 0.3) * 0.9).toFixed(2));
+      } else {
+        trickLabel.setAttribute('opacity', '0');
+      }
+    }
+
+    function reset() {
+      x = START_X;
+      y = BOARD_Y;
+      vy = 0;
+      state = 'ground';
+      rot = 0;
+      setPose(false);
+    }
+
+    function animate(time) {
+      if (lastTime === null) lastTime = time;
+      var dt = (time - lastTime) / 1000;
+      lastTime = time;
+      if (dt > 0.05) dt = 0.05;
+
+      if (state === 'ground') {
+        x += VX * dt;
+        if (x >= JUMP_X) {
+          x = JUMP_X;
+          state = 'air';
+          vy = -JUMP_SPEED;
+          flightTime = 0;
+          setPose(true);
+        }
+        if (x >= RESET_X) {
+          reset();
+        }
+      } else if (state === 'air') {
+        flightTime += dt;
+        x += VX * dt;
+        vy += G * dt;
+        y += vy * dt;
+        rot = (flightTime / totalFlightTime) * 360;
+
+        if (y >= BOARD_Y) {
+          y = BOARD_Y;
+          vy = 0;
+          state = 'ground';
+          rot = 0;
+          setPose(false);
+        }
+      }
+
+      updateDisplay();
+      requestAnimationFrame(animate);
+    }
+
+    setPose(false);
+    updateDisplay();
+    requestAnimationFrame(animate);
+  ]]></script>
+</svg>
