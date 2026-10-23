@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "count": 72,
+  "count": 73,
   "entries": [
     {
       "id": "anthropic-claude-haiku-5-5-constrained",
@@ -277,37 +277,6 @@
       "engine": null,
       "quantization": null,
       "svg": "results/anthropic-claude-sonnet-5-5-minimal.svg"
-    },
-    {
-      "id": "baseten-mammoth-1-free-minimal",
-      "group_id": "baseten-mammoth-1-free-minimal-94006eac8f86",
-      "reasoning": {
-        "requested": "default",
-        "effort": null
-      },
-      "benchmark": "skateboard",
-      "prompt": "minimal",
-      "model": "baseten/mammoth-1:free",
-      "endpoint": "https://openrouter.ai/api/v1",
-      "timestamp": "2026-10-22T22:55:17+02:00",
-      "params": {
-        "max_tokens": 128000
-      },
-      "usage": null,
-      "reasoning_tokens": null,
-      "finish_reason": null,
-      "svg_len": null,
-      "has_animation": null,
-      "uses_js": null,
-      "error": "HTTP 400: {\"error\":{\"message\":\"baseten/mammoth-1:free is a decisions model and cannot be used with the chat/completions endpoint. Use the /api/alpha/decisions endpoint instead.\",\"code\":400},\"user_id\":\"user_36J4X7MEAyvTS4FQHk26iCEFb4S\"}",
-      "seconds": 0.1,
-      "contributor": "maeste",
-      "cost_usd": null,
-      "note": null,
-      "hardware": null,
-      "engine": null,
-      "quantization": null,
-      "svg": null
     },
     {
       "id": "claude-fable-5-1-constrained-constrained",
@@ -2349,6 +2318,112 @@
       "engine": null,
       "quantization": null,
       "svg": "results/mistralai-mistral-large-4-0-minimal.svg"
+    },
+    {
+      "id": "moonshotai-kimi-k3-1-pro-constrained",
+      "group_id": "moonshotai-kimi-k3-1-pro-constrained-a96fd65386b7",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "moonshotai/kimi-k3.1-pro",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-23T21:26:54",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 327,
+        "completion_tokens": 33804,
+        "total_tokens": 34131,
+        "cost": 0.338694,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.338694,
+          "upstream_inference_prompt_cost": 0.000654,
+          "upstream_inference_completions_cost": 0.33804
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 29557,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 29557,
+      "finish_reason": "stop",
+      "svg_len": 12202,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 462.4,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/moonshotai-kimi-k3-1-pro-constrained.svg"
+    },
+    {
+      "id": "moonshotai-kimi-k3-1-pro-minimal",
+      "group_id": "moonshotai-kimi-k3-1-pro-minimal-75b4fc751650",
+      "reasoning": {
+        "requested": "unknown",
+        "effort": null
+      },
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "moonshotai/kimi-k3.1-pro",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-10-23T21:18:45",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 109,
+        "completion_tokens": 34513,
+        "total_tokens": 34622,
+        "cost": 0.345348,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.345348,
+          "upstream_inference_prompt_cost": 0.000218,
+          "upstream_inference_completions_cost": 0.34513
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 29090,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 29090,
+      "finish_reason": "stop",
+      "svg_len": 16261,
+      "has_animation": false,
+      "uses_js": true,
+      "error": null,
+      "seconds": 489.2,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/moonshotai-kimi-k3-1-pro-minimal.svg"
     },
     {
       "id": "openai-gpt-6-1-sol-constrained",
