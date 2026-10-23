@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "count": 63,
+  "count": 65,
   "entries": [
     {
       "id": "anthropic-claude-haiku-5-5-constrained",
@@ -617,6 +617,100 @@
       "engine": null,
       "quantization": null,
       "svg": null
+    },
+    {
+      "id": "deepseek-v4-1-flash-1017-constrained",
+      "group_id": "deepseek-v4-1-flash-1017-constrained-9c04be2cdabc",
+      "reasoning": {
+        "requested": "default",
+        "effort": null
+      },
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "DeepSeek-V4.1-Flash-1017",
+      "endpoint": "http://192.168.11.36:8001/v1",
+      "timestamp": "2026-10-19T15:22:02+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 271,
+        "completion_tokens": 26594,
+        "total_tokens": 26865,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 24827
+        }
+      },
+      "reasoning_tokens": 24827,
+      "finish_reason": "stop",
+      "svg_len": 4856,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 368.4,
+      "contributor": "beelzetron",
+      "cost_usd": null,
+      "note": "nvidia GB10 pair",
+      "hardware": {
+        "os": "Linux 7.0.0-1019-nvidia",
+        "cpu": "Cortex-X925",
+        "ram_gb": 256
+      },
+      "engine": {
+        "name": "TensorFold"
+      },
+      "quantization": "EXL3-EAQ-v1-2.9-bpw",
+      "svg": "results/deepseek-v4-1-flash-1017-constrained.svg"
+    },
+    {
+      "id": "deepseek-v4-1-flash-1017-minimal",
+      "group_id": "deepseek-v4-1-flash-1017-minimal-c8fdf23b6275",
+      "reasoning": {
+        "requested": "default",
+        "effort": null
+      },
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "DeepSeek-V4.1-Flash-1017",
+      "endpoint": "http://192.168.11.36:8001/v1",
+      "timestamp": "2026-10-19T15:28:27+02:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 55,
+        "completion_tokens": 41692,
+        "total_tokens": 41747,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 40055
+        }
+      },
+      "reasoning_tokens": 40055,
+      "finish_reason": "stop",
+      "svg_len": 3598,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 552.0,
+      "contributor": "beelzetron",
+      "cost_usd": null,
+      "note": "nvidia GB10 pair",
+      "hardware": {
+        "os": "Linux 7.0.0-1019-nvidia",
+        "cpu": "Cortex-X925",
+        "ram_gb": 256
+      },
+      "engine": {
+        "name": "TensorFold"
+      },
+      "quantization": "EXL3-EAQ-v1-2.9-bpw",
+      "svg": "results/deepseek-v4-1-flash-1017-minimal.svg"
     },
     {
       "id": "deepseek-v4-1-flash-constrained-constrained",
