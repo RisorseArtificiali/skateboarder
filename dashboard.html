@@ -36,6 +36,7 @@
   .award.empty { cursor:default; opacity:.55; }
   .award.empty:hover { border-color:var(--border); }
   .thumb { background:#fff; border-radius:6px; object-fit:contain; display:block; }
+  iframe.thumb { border:0; pointer-events:none; }
   .nothumb { background:#0d0d0d; border:1px dashed var(--border); border-radius:6px; color:var(--mut);
              display:flex; align-items:center; justify-content:center; font-size:.7rem; }
   .tablewrap { overflow-x:auto; border:1px solid var(--border); border-radius:10px; background:var(--card); }
@@ -68,7 +69,8 @@
   .mhead button, .btn { background:#0d0d0d; color:var(--txt); border:1px solid var(--border); border-radius:6px; padding:.3rem .7rem; cursor:pointer; }
   .mhead button:hover, .btn:hover { border-color:var(--accent); color:var(--accent); }
   .mbody { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1fr); gap:1rem; padding:1rem; overflow:auto; }
-  .mbody img { width:100%; aspect-ratio:1/1; max-height:70vh; }
+  .mbody .thumb { width:100%; height:auto; aspect-ratio:1/1; max-height:70vh; }
+  .mbody iframe.thumb { pointer-events:auto; }
   @media (max-width:760px) { .mbody { grid-template-columns:1fr; } .bar .name { width:120px; } }
   dl { display:grid; grid-template-columns:auto 1fr; gap:.25rem .8rem; margin:0; font-size:.85rem; }
   dt { color:var(--mut); } dd { margin:0; word-break:break-word; }
@@ -194,6 +196,7 @@ function aggregate(list) {
     const ok = runs.filter(r => r.ok);
     const rated = runs.map(ratingOf).filter(Boolean);
     const named = runs.find(r => r.model.includes("/")) || runs[0];
+    const preview = [...ok].sort((a, b) => (ratingOf(b) || 0) - (ratingOf(a) || 0))[0];
     return {
       name: named.model, runs, n: runs.length, okN: ok.length,
       success: ok.length / runs.length,
@@ -203,7 +206,7 @@ function aggregate(list) {
       js: ok.filter(r => r.js).length,
       rating: rated.length ? avg(rated) : null, ratedN: rated.length,
       local: runs.some(r => r.local),
-      thumb: (ok.sort((a, b) => (ratingOf(b) || 0) - (ratingOf(a) || 0))[0] || {}).svg,
+      thumb: preview && preview.svg, thumbJs: preview && preview.js,
     };
   });
 }
@@ -219,7 +222,8 @@ function sortBy(list, st, getters = {}) {
   });
 }
 
-function thumb(svg, size) {
+function thumb(svg, size, js = false) {
+  if (svg && js) return `<iframe class="thumb" sandbox="allow-scripts" loading="lazy" src="${esc(svg)}" width="${size}" height="${size}" title="Animated SVG preview" tabindex="-1"></iframe>`;
   return svg ? `<img class="thumb" loading="lazy" src="${esc(svg)}" width="${size}" height="${size}" alt="">`
              : `<div class="nothumb" style="width:${size}px;height:${size}px">n/a</div>`;
 }
@@ -266,7 +270,7 @@ function renderAwards(list) {
   ];
   window.__awardRuns = awards.map(a => a.e);
   $("#awards").innerHTML = awards.map((a, i) => a.label
-    ? `<div class="card award" data-i="${i}">${thumb(a.e && a.e.svg, 64)}<div><div class="l">${a.title}</div><div class="m">${esc(a.label)}</div><div class="d">${esc(a.detail)}</div></div></div>`
+    ? `<div class="card award" data-i="${i}">${thumb(a.e && a.e.svg, 64, a.e && a.e.js)}<div><div class="l">${a.title}</div><div class="m">${esc(a.label)}</div><div class="d">${esc(a.detail)}</div></div></div>`
     : `<div class="card award empty"><div class="nothumb" style="width:64px;height:64px">—</div><div><div class="l">${a.title}</div><div class="d">${a.title.includes("yours") ? "Open a run and rate it" : "No data"}</div></div></div>`).join("");
 }
 
@@ -295,7 +299,7 @@ function renderModels(list) {
   const rows = sortBy(aggregate(list), st, { name: m => m.name.toLowerCase() });
   $("#models").innerHTML = sortableHeader("models", MODEL_COLS, st) + "<tbody>" + rows.map((m, i) => {
     const cls = m.success === 1 ? "ok" : m.success === 0 ? "fail" : "warn";
-    return `<tr class="click" data-model="${esc(m.runs[0].key)}"><td>${m.thumb ? thumb(m.thumb, 28).replace('class="thumb"', 'class="thumb" style="display:inline-block;vertical-align:middle;margin-right:.5rem"') : ""}${esc(m.name)}${m.local ? ' <span class="badge">local</span>' : ""}</td>
+    return `<tr class="click" data-model="${esc(m.runs[0].key)}"><td>${m.thumb ? thumb(m.thumb, 28, m.thumbJs).replace('class="thumb"', 'class="thumb" style="display:inline-block;vertical-align:middle;margin-right:.5rem"') : ""}${esc(m.name)}${m.local ? ' <span class="badge">local</span>' : ""}</td>
       <td class="num">${m.n}</td><td class="num"><span class="badge ${cls}">${fmtPct(m.success)} (${m.okN}/${m.n})</span></td>
       <td class="num">${fmtTime(m.secs)}</td><td class="num">${fmtNum(m.tokens)}</td><td class="num">${fmtCost(m.cost)}</td>
       <td class="num">${fmtKB(m.svgLen)}</td><td class="num">${fmtPct(m.animated)}</td><td class="num">${m.js || ""}</td><td class="num">${fmtRate(m.rating)}</td></tr>`;
@@ -337,7 +341,7 @@ function renderRuns(list) {
     <td>${e.ok ? '<span class="badge ok">OK</span>' : `<span class="badge fail" title="${esc(e.error)}">${esc((e.error || "fail").slice(0, 24))}</span>`}</td>
     <td class="num">${fmtTime(e.secs)}</td><td class="num">${fmtNum(e.tokens)}</td><td class="num">${fmtCost(e.cost)}</td><td class="num">${fmtKB(e.svgLen)}</td>
     <td>${e.animated == null ? "—" : e.animated ? "✓" : "✗"}</td><td>${e.js ? '<span class="badge warn">JS</span>' : ""}</td>
-    <td class="num">${fmtRate(ratingOf(e))}</td><td>${e.svg ? thumb(e.svg, 36) : ""}</td></tr>`).join("") + "</tbody>";
+    <td class="num">${fmtRate(ratingOf(e))}</td><td>${e.svg ? thumb(e.svg, 36, e.js) : ""}</td></tr>`).join("") + "</tbody>";
   bindSort("runs", st, () => render());
   $("#runs").querySelectorAll("tbody tr").forEach(tr => tr.onclick = () => openRun(ENTRIES.find(e => e.id === tr.dataset.id)));
 }
@@ -353,7 +357,7 @@ function openRun(e) {
     ["Hardware", r.hardware ? [r.hardware.cpu, r.hardware.gpu].filter(Boolean).join(" / ") : "—"], ["Note", r.note || "—"],
   ];
   $("#dTitle").textContent = e.model;
-  $("#dBody").innerHTML = `<div>${e.svg ? `<img class="thumb" src="${esc(e.svg)}" alt="">` : `<div class="nothumb" style="height:300px">${e.brokenSvg ? "Invalid SVG (not renderable)" : "No SVG produced"}</div>`}
+  $("#dBody").innerHTML = `<div>${e.svg ? thumb(e.svg, 480, e.js) : `<div class="nothumb" style="height:300px">${e.brokenSvg ? "Invalid SVG (not renderable)" : "No SVG produced"}</div>`}
     ${e.svg || e.brokenSvg ? `<p><a href="${esc(e.svg || e.brokenSvg)}" target="_blank" rel="noopener">Open raw SVG ↗</a></p>` : ""}</div>
     <div><div class="stars" id="stars" title="Your rating (click again to clear)">${[1, 2, 3, 4, 5].map(i => `<span data-v="${i}" class="${i <= (ratingOf(e) || 0) ? "on" : ""}">★</span>`).join("")}</div>
     <dl>${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}</dl></div>`;
