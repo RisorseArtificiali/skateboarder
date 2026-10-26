@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>skateboarder — results dashboard</title>
+<style>
+  :root { --bg:#111; --card:#1c1c1c; --card2:#161616; --border:#333; --accent:#ffd700; --txt:#ddd; --mut:#888;
+          --good:#4ade80; --bad:#f87171; --warn:#fbbf24; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt); font:15px/1.45 -apple-system,"Segoe UI",Roboto,sans-serif; }
+  a { color:var(--accent); }
+  header { display:flex; flex-wrap:wrap; gap:.75rem 1.5rem; align-items:center; padding:1rem 1.5rem;
+           border-bottom:1px solid var(--border); background:var(--card2); position:sticky; top:0; z-index:5; }
+  header h1 { font-size:1.15rem; margin:0; color:var(--accent); }
+  header nav a { color:var(--mut); text-decoration:none; font-size:.85rem; margin-right:1rem; }
+  header nav a:hover { color:var(--accent); }
+  .ctl { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; margin-left:auto; }
+  .ctl input, .ctl select { background:#0d0d0d; color:var(--txt); border:1px solid var(--border); border-radius:6px;
+                            padding:.35rem .6rem; font-size:.85rem; }
+  .ctl input:focus, .ctl select:focus { outline:none; border-color:var(--accent); }
+  main { max-width:1400px; margin:0 auto; padding:1.25rem 1.5rem 3rem; }
+  h2 { font-size:1rem; margin:2rem 0 .75rem; color:var(--accent); font-weight:600; }
+  h2 small { color:var(--mut); font-weight:400; margin-left:.5rem; }
+  .grid { display:grid; gap:.75rem; }
+  .kpis { grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); }
+  .awards { grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:.8rem .9rem; }
+  .kpi .v { font-size:1.6rem; font-weight:700; }
+  .kpi .l, .award .l { color:var(--mut); font-size:.75rem; text-transform:uppercase; letter-spacing:.04em; }
+  .award { display:flex; gap:.7rem; align-items:center; cursor:pointer; }
+  .award:hover { border-color:var(--accent); }
+  .award .thumb { width:64px; height:64px; flex:none; }
+  .award .m { font-weight:600; word-break:break-word; }
+  .award .d { color:var(--mut); font-size:.8rem; }
+  .award.empty { cursor:default; opacity:.55; }
+  .award.empty:hover { border-color:var(--border); }
+  .thumb { background:#fff; border-radius:6px; object-fit:contain; display:block; }
+  iframe.thumb { border:0; pointer-events:none; }
+  .nothumb { background:#0d0d0d; border:1px dashed var(--border); border-radius:6px; color:var(--mut);
+             display:flex; align-items:center; justify-content:center; font-size:.7rem; }
+  .tablewrap { overflow-x:auto; border:1px solid var(--border); border-radius:10px; background:var(--card); }
+  table { border-collapse:collapse; width:100%; font-size:.85rem; }
+  th, td { padding:.45rem .65rem; text-align:left; white-space:nowrap; border-bottom:1px solid #262626; }
+  th { color:var(--mut); font-weight:600; cursor:pointer; user-select:none; background:var(--card2); position:sticky; top:0; }
+  th:hover { color:var(--accent); }
+  th.sorted::after { content:attr(data-dir); color:var(--accent); margin-left:.3rem; }
+  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+  tbody tr:hover { background:#222; }
+  tr.click { cursor:pointer; }
+  .badge { display:inline-block; padding:.05rem .45rem; border-radius:999px; font-size:.72rem; border:1px solid var(--border); color:var(--mut); }
+  .badge.ok { color:var(--good); border-color:#2d6a45; }
+  .badge.fail { color:var(--bad); border-color:#7a3333; }
+  .badge.warn { color:var(--warn); border-color:#7a6125; }
+  .rank { color:var(--mut); width:2rem; }
+  .bar { display:flex; align-items:center; gap:.6rem; margin:.25rem 0; font-size:.82rem; }
+  .bar .name { width:230px; flex:none; text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .bar .track { flex:1; background:#0d0d0d; border-radius:4px; height:18px; }
+  .bar .fill { height:100%; border-radius:4px; background:linear-gradient(90deg,#b8960a,var(--accent)); min-width:2px; }
+  .bar .val { width:90px; flex:none; color:var(--mut); font-variant-numeric:tabular-nums; }
+  .row { display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; margin-bottom:.6rem; }
+  .row select { background:#0d0d0d; color:var(--txt); border:1px solid var(--border); border-radius:6px; padding:.3rem .5rem; }
+  .muted { color:var(--mut); }
+  #msg { display:none; margin:1rem 0; padding:1rem; border:1px solid var(--warn); border-radius:10px; color:var(--warn); }
+  dialog { background:var(--card); color:var(--txt); border:1px solid var(--border); border-radius:12px; padding:0;
+           width:min(920px,94vw); max-height:92vh; }
+  dialog::backdrop { background:rgba(0,0,0,.7); }
+  .mhead { display:flex; justify-content:space-between; align-items:center; padding:.8rem 1rem; border-bottom:1px solid var(--border); }
+  .mhead button, .btn { background:#0d0d0d; color:var(--txt); border:1px solid var(--border); border-radius:6px; padding:.3rem .7rem; cursor:pointer; }
+  .mhead button:hover, .btn:hover { border-color:var(--accent); color:var(--accent); }
+  .mbody { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1fr); gap:1rem; padding:1rem; overflow:auto; }
+  .mbody .thumb { width:100%; height:auto; aspect-ratio:1/1; max-height:70vh; }
+  .mbody iframe.thumb { pointer-events:auto; }
+  @media (max-width:760px) { .mbody { grid-template-columns:1fr; } .bar .name { width:120px; } }
+  dl { display:grid; grid-template-columns:auto 1fr; gap:.25rem .8rem; margin:0; font-size:.85rem; }
+  dt { color:var(--mut); } dd { margin:0; word-break:break-word; }
+  .stars { font-size:1.4rem; letter-spacing:.1rem; cursor:pointer; user-select:none; }
+  .stars span { color:#444; } .stars span.on { color:var(--accent); }
+  .stars span:hover { color:var(--warn); }
+  footer { color:var(--mut); font-size:.78rem; text-align:center; padding:1rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🛹 skateboarder · dashboard</h1>
+  <nav><a href="index.html">Gallery</a><a href="https://github.com/Fabryprog/skateboarder">GitHub</a></nav>
+  <div class="ctl">
+    <input id="q" type="search" placeholder="Filter model…">
+    <select id="fPrompt"><option value="">All prompts</option></select>
+    <select id="fSource"><option value="">Cloud + local</option><option value="cloud">Cloud only</option><option value="local">Local only</option></select>
+  </div>
+</header>
+
+<main>
+  <div id="msg"></div>
+  <div class="grid kpis" id="kpis"></div>
+
+  <h2>Awards <small>based on successful runs in the current filter</small></h2>
+  <div class="grid awards" id="awards"></div>
+
+  <h2>Model leaderboard <small>click a header to sort · aggregated over all runs of a model</small></h2>
+  <div class="tablewrap"><table id="models"></table></div>
+
+  <h2>Compare models</h2>
+  <div class="row">
+    <label class="muted">Metric
+      <select id="chartMetric">
+        <option value="success">Success rate</option>
+        <option value="secs">Avg time</option>
+        <option value="tokens">Avg output tokens</option>
+        <option value="cost">Avg cost</option>
+        <option value="svgLen">Avg SVG size</option>
+        <option value="rating">Avg rating</option>
+      </select>
+    </label>
+    <label class="muted">Order
+      <select id="chartDir"><option value="desc">Highest first</option><option value="asc">Lowest first</option></select>
+    </label>
+  </div>
+  <div class="card" id="chart"></div>
+
+  <h2>All runs <small id="runCount"></small></h2>
+  <div class="tablewrap"><table id="runs"></table></div>
+</main>
+
+<footer>Static page: reads <code>results/index.json</code> (regenerate with <code>python3 build_index.py</code>). Ratings are stored in your browser only.<br>Created by Claude Sonnet</footer>
+
+<dialog id="dlg">
+  <div class="mhead"><strong id="dTitle"></strong><button id="dClose">Close ✕</button></div>
+  <div class="mbody" id="dBody"></div>
+</dialog>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const slug = v => String(v || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const PROMPT_SUFFIX = /-(constrained|minimal)(-(constrained|minimal))?$/;
+
+let ENTRIES = [];
+let ratings = {};
+try { ratings = JSON.parse(localStorage.getItem("skateboarder.ratings") || "{}"); } catch (e) {}
+const saveRatings = () => { try { localStorage.setItem("skateboarder.ratings", JSON.stringify(ratings)); } catch (e) {} };
+
+const sortState = { models: { key: "success", dir: -1 }, runs: { key: "secs", dir: 1 } };
+
+function normalize(raw) {
+  let model = raw.model || raw.id || "unknown";
+  let prompt = raw.prompt;
+  if (!prompt) {
+    const m = slug(model).match(PROMPT_SUFFIX);
+    if (m) { prompt = m[1]; model = model.replace(/[-_ ]?(constrained|minimal)(-(constrained|minimal))?$/i, ""); }
+  }
+  const short = model.includes("/") ? model.split("/").slice(1).join("/") : model;
+  const usage = raw.usage || {};
+  const r = raw.reasoning || {};
+  return {
+    id: raw.id, raw, model, prompt: prompt || "?",
+    key: slug(short),
+    ok: !!raw.svg && !raw.error,
+    error: raw.error || (raw.svg ? null : "no SVG"),
+    secs: raw.seconds ?? null,
+    tokens: usage.completion_tokens ?? null,
+    reasoningTokens: raw.reasoning_tokens ?? null,
+    cost: usage.cost ?? raw.cost_usd ?? null,
+    svgLen: raw.svg_len || null,
+    animated: raw.has_animation,
+    js: raw.uses_js,
+    local: !!raw.hardware,
+    reasoning: r.requested === "effort" ? r.effort : r.requested === "disabled" ? "off" : r.requested === "default" ? "default" : "—",
+    svg: raw.svg, time: raw.timestamp,
+  };
+}
+
+const fmtTime = s => s == null ? "—" : s < 60 ? s.toFixed(0) + "s" : s < 3600 ? Math.floor(s / 60) + "m " + String(Math.round(s % 60)).padStart(2, "0") + "s" : (s / 3600).toFixed(1) + "h";
+const fmtNum = n => n == null ? "—" : Math.round(n).toLocaleString("en-US");
+const fmtCost = c => c == null ? "—" : c < 0.01 ? "$" + c.toFixed(4) : "$" + c.toFixed(3);
+const fmtKB = n => n == null ? "—" : (n / 1024).toFixed(1) + " KB";
+const fmtPct = n => n == null ? "—" : Math.round(n * 100) + "%";
+const fmtRate = n => n == null ? "—" : n.toFixed(1) + " ★";
+const avg = a => { a = a.filter(x => x != null); return a.length ? a.reduce((x, y) => x + y, 0) / a.length : null; };
+const ratingOf = e => ratings[e.id] || null;
+
+function filtered() {
+  const q = $("#q").value.trim().toLowerCase(), p = $("#fPrompt").value, s = $("#fSource").value;
+  return ENTRIES.filter(e => (!q || e.model.toLowerCase().includes(q)) && (!p || e.prompt === p)
+    && (!s || (s === "local") === e.local));
+}
+
+function aggregate(list) {
+  const by = new Map();
+  for (const e of list) {
+    if (!by.has(e.key)) by.set(e.key, []);
+    by.get(e.key).push(e);
+  }
+  return [...by.values()].map(runs => {
+    const ok = runs.filter(r => r.ok);
+    const rated = runs.map(ratingOf).filter(Boolean);
+    const named = runs.find(r => r.model.includes("/")) || runs[0];
+    const preview = [...ok].sort((a, b) => (ratingOf(b) || 0) - (ratingOf(a) || 0))[0];
+    return {
+      name: named.model, runs, n: runs.length, okN: ok.length,
+      success: ok.length / runs.length,
+      secs: avg(ok.map(r => r.secs)), tokens: avg(ok.map(r => r.tokens)),
+      cost: avg(ok.map(r => r.cost)), svgLen: avg(ok.map(r => r.svgLen)),
+      animated: ok.length ? ok.filter(r => r.animated).length / ok.length : null,
+      js: ok.filter(r => r.js).length,
+      rating: rated.length ? avg(rated) : null, ratedN: rated.length,
+      local: runs.some(r => r.local),
+      thumb: preview && preview.svg, thumbJs: preview && preview.js,
+    };
+  });
+}
+
+function sortBy(list, st, getters = {}) {
+  const get = x => (getters[st.key] || (y => y[st.key]))(x);
+  return [...list].sort((a, b) => {
+    const A = get(a), B = get(b);
+    if (A == null && B == null) return 0;
+    if (A == null) return 1;
+    if (B == null) return -1;
+    return (typeof A === "string" ? A.localeCompare(B) : A - B) * st.dir;
+  });
+}
+
+function thumb(svg, size, js = false) {
+  if (svg && js) return `<iframe class="thumb" sandbox="allow-scripts" loading="lazy" src="${esc(svg)}" width="${size}" height="${size}" title="Animated SVG preview" tabindex="-1"></iframe>`;
+  return svg ? `<img class="thumb" loading="lazy" src="${esc(svg)}" width="${size}" height="${size}" alt="">`
+             : `<div class="nothumb" style="width:${size}px;height:${size}px">n/a</div>`;
+}
+
+function renderKpis(list) {
+  const ok = list.filter(e => e.ok);
+  const models = new Set(list.map(e => e.key)).size;
+  const costs = list.map(e => e.cost).filter(c => c != null);
+  const cards = [
+    ["Runs", list.length], ["Models", models],
+    ["Success rate", list.length ? fmtPct(ok.length / list.length) : "—"],
+    ["Failed", list.length - ok.length],
+    ["Animated", ok.length ? fmtPct(ok.filter(e => e.animated).length / ok.length) : "—"],
+    ["Use JS", ok.filter(e => e.js).length],
+    ["Avg time", fmtTime(avg(ok.map(e => e.secs)))],
+    ["Known cost", costs.length ? fmtCost(costs.reduce((a, b) => a + b, 0)) : "—"],
+  ];
+  $("#kpis").innerHTML = cards.map(([l, v]) => `<div class="card kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+}
+
+function renderAwards(list) {
+  const ok = list.filter(e => e.ok);
+  const pick = (arr, f, dir) => arr.filter(e => f(e) != null).sort((a, b) => (f(a) - f(b)) * dir)[0];
+  const runAward = (title, e, detail) => ({ title, e, label: e && e.model, detail: e && detail(e) });
+  const models = aggregate(list);
+  const reliable = models.filter(m => m.n >= 2);
+  const mPick = (arr, f, dir) => arr.filter(m => f(m) != null).sort((a, b) => (f(a) - f(b)) * dir || b.n - a.n)[0];
+  const modelAward = (title, m, detail) => ({ title, e: m && m.runs.filter(r => r.ok).sort((a, b) => (ratingOf(b) || 0) - (ratingOf(a) || 0))[0], label: m && m.name, detail: m && detail(m) });
+  const hasRatings = models.some(m => m.rating != null);
+
+  const awards = [
+    modelAward("🏆 Best rated (yours)", hasRatings ? mPick(models, m => m.rating, -1) : null, m => `${m.rating.toFixed(1)} ★ over ${m.ratedN} rated run(s)`),
+    modelAward("💩 Worst rated (yours)", hasRatings ? mPick(models, m => m.rating, 1) : null, m => `${m.rating.toFixed(1)} ★ over ${m.ratedN} rated run(s)`),
+    modelAward("✅ Most reliable", mPick(reliable, m => m.success, -1), m => `${m.okN}/${m.n} runs OK`),
+    modelAward("❌ Least reliable", mPick(reliable, m => m.success, 1), m => `${m.okN}/${m.n} runs OK`),
+    runAward("⚡ Fastest run", pick(ok, e => e.secs, 1), e => `${fmtTime(e.secs)} · ${e.prompt}`),
+    runAward("🐢 Slowest run", pick(ok, e => e.secs, -1), e => `${fmtTime(e.secs)} · ${e.prompt}`),
+    runAward("💸 Cheapest run", pick(ok, e => e.cost, 1), e => `${fmtCost(e.cost)} · ${e.prompt}`),
+    runAward("🔥 Most expensive run", pick(ok, e => e.cost, -1), e => `${fmtCost(e.cost)} · ${e.prompt}`),
+    runAward("🪶 Fewest output tokens", pick(ok, e => e.tokens, 1), e => `${fmtNum(e.tokens)} tokens · ${e.prompt}`),
+    runAward("🧠 Most output tokens", pick(ok, e => e.tokens, -1), e => `${fmtNum(e.tokens)} tokens · ${e.prompt}`),
+    runAward("📏 Largest SVG", pick(ok, e => e.svgLen, -1), e => `${fmtKB(e.svgLen)} · ${e.prompt}`),
+    runAward("🔬 Smallest SVG", pick(ok, e => e.svgLen, 1), e => `${fmtKB(e.svgLen)} · ${e.prompt}`),
+  ];
+  window.__awardRuns = awards.map(a => a.e);
+  $("#awards").innerHTML = awards.map((a, i) => a.label
+    ? `<div class="card award" data-i="${i}">${thumb(a.e && a.e.svg, 64, a.e && a.e.js)}<div><div class="l">${a.title}</div><div class="m">${esc(a.label)}</div><div class="d">${esc(a.detail)}</div></div></div>`
+    : `<div class="card award empty"><div class="nothumb" style="width:64px;height:64px">—</div><div><div class="l">${a.title}</div><div class="d">${a.title.includes("yours") ? "Open a run and rate it" : "No data"}</div></div></div>`).join("");
+}
+
+function sortableHeader(table, cols, st) {
+  return "<thead><tr>" + cols.map(c => `<th class="${c.num ? "num" : ""}${st.key === c.key ? " sorted" : ""}" data-key="${c.key}" data-dir="${st.dir > 0 ? "▲" : "▼"}">${c.label}</th>`).join("") + "</tr></thead>";
+}
+
+function bindSort(tableId, st, render) {
+  $("#" + tableId).querySelectorAll("th").forEach(th => th.onclick = () => {
+    const k = th.dataset.key;
+    st.dir = st.key === k ? -st.dir : (k === "name" || k === "model" ? 1 : -1);
+    st.key = k;
+    render();
+  });
+}
+
+const MODEL_COLS = [
+  { key: "name", label: "Model" }, { key: "n", label: "Runs", num: 1 }, { key: "success", label: "Success", num: 1 },
+  { key: "secs", label: "Avg time", num: 1 }, { key: "tokens", label: "Avg tokens", num: 1 }, { key: "cost", label: "Avg cost", num: 1 },
+  { key: "svgLen", label: "Avg SVG", num: 1 }, { key: "animated", label: "Animated", num: 1 }, { key: "js", label: "JS", num: 1 },
+  { key: "rating", label: "Rating", num: 1 },
+];
+
+function renderModels(list) {
+  const st = sortState.models;
+  const rows = sortBy(aggregate(list), st, { name: m => m.name.toLowerCase() });
+  $("#models").innerHTML = sortableHeader("models", MODEL_COLS, st) + "<tbody>" + rows.map((m, i) => {
+    const cls = m.success === 1 ? "ok" : m.success === 0 ? "fail" : "warn";
+    return `<tr class="click" data-model="${esc(m.runs[0].key)}"><td>${m.thumb ? thumb(m.thumb, 28, m.thumbJs).replace('class="thumb"', 'class="thumb" style="display:inline-block;vertical-align:middle;margin-right:.5rem"') : ""}${esc(m.name)}${m.local ? ' <span class="badge">local</span>' : ""}</td>
+      <td class="num">${m.n}</td><td class="num"><span class="badge ${cls}">${fmtPct(m.success)} (${m.okN}/${m.n})</span></td>
+      <td class="num">${fmtTime(m.secs)}</td><td class="num">${fmtNum(m.tokens)}</td><td class="num">${fmtCost(m.cost)}</td>
+      <td class="num">${fmtKB(m.svgLen)}</td><td class="num">${fmtPct(m.animated)}</td><td class="num">${m.js || ""}</td><td class="num">${fmtRate(m.rating)}</td></tr>`;
+  }).join("") + "</tbody>";
+  bindSort("models", st, () => render());
+  $("#models").querySelectorAll("tbody tr").forEach(tr => tr.onclick = () => {
+    $("#q").value = rows.find(m => m.runs[0].key === tr.dataset.model).name.split("/").pop();
+    render();
+    $("#runs").scrollIntoView({ behavior: "smooth" });
+  });
+}
+
+function renderChart(list) {
+  const metric = $("#chartMetric").value, dir = $("#chartDir").value === "desc" ? -1 : 1;
+  const fmt = { success: fmtPct, secs: fmtTime, tokens: fmtNum, cost: fmtCost, svgLen: fmtKB, rating: fmtRate }[metric];
+  const rows = aggregate(list).filter(m => m[metric] != null).sort((a, b) => (a[metric] - b[metric]) * dir);
+  const max = Math.max(...rows.map(m => m[metric]), 0) || 1;
+  $("#chart").innerHTML = rows.length
+    ? rows.map(m => `<div class="bar"><div class="name" title="${esc(m.name)}">${esc(m.name)}</div><div class="track"><div class="fill" style="width:${(m[metric] / max * 100).toFixed(1)}%"></div></div><div class="val">${fmt(m[metric])}</div></div>`).join("")
+    : '<span class="muted">No data for this metric.</span>';
+}
+
+const RUN_COLS = [
+  { key: "model", label: "Model" }, { key: "prompt", label: "Prompt" }, { key: "reasoning", label: "Reasoning" },
+  { key: "status", label: "Status" }, { key: "secs", label: "Time", num: 1 }, { key: "tokens", label: "Out tokens", num: 1 },
+  { key: "cost", label: "Cost", num: 1 }, { key: "svgLen", label: "SVG", num: 1 }, { key: "animated", label: "Anim" },
+  { key: "js", label: "JS" }, { key: "rating", label: "Rating", num: 1 }, { key: "preview", label: "" },
+];
+
+function renderRuns(list) {
+  const st = sortState.runs;
+  const rows = sortBy(list, st, {
+    model: e => e.model.toLowerCase(), status: e => +e.ok, rating: e => ratingOf(e), animated: e => e.animated == null ? null : +e.animated,
+    js: e => e.js == null ? null : +e.js,
+  });
+  $("#runCount").textContent = `${rows.length} run(s)`;
+  $("#runs").innerHTML = sortableHeader("runs", RUN_COLS, st) + "<tbody>" + rows.map(e => `
+    <tr class="click" data-id="${esc(e.id)}"><td>${esc(e.model)}${e.local ? ' <span class="badge">local</span>' : ""}</td><td>${esc(e.prompt)}</td><td>${esc(e.reasoning)}</td>
+    <td>${e.ok ? '<span class="badge ok">OK</span>' : `<span class="badge fail" title="${esc(e.error)}">${esc((e.error || "fail").slice(0, 24))}</span>`}</td>
+    <td class="num">${fmtTime(e.secs)}</td><td class="num">${fmtNum(e.tokens)}</td><td class="num">${fmtCost(e.cost)}</td><td class="num">${fmtKB(e.svgLen)}</td>
+    <td>${e.animated == null ? "—" : e.animated ? "✓" : "✗"}</td><td>${e.js ? '<span class="badge warn">JS</span>' : ""}</td>
+    <td class="num">${fmtRate(ratingOf(e))}</td><td>${e.svg ? thumb(e.svg, 36, e.js) : ""}</td></tr>`).join("") + "</tbody>";
+  bindSort("runs", st, () => render());
+  $("#runs").querySelectorAll("tbody tr").forEach(tr => tr.onclick = () => openRun(ENTRIES.find(e => e.id === tr.dataset.id)));
+}
+
+function openRun(e) {
+  if (!e) return;
+  const r = e.raw, rows = [
+    ["Prompt", e.prompt], ["Reasoning", e.reasoning], ["Status", e.ok ? "OK" : e.error], ["Time", fmtTime(e.secs)],
+    ["Output tokens", fmtNum(e.tokens)], ["Reasoning tokens", fmtNum(e.reasoningTokens)], ["Cost", fmtCost(e.cost)],
+    ["SVG size", fmtKB(e.svgLen)], ["Animated", e.animated == null ? "—" : e.animated ? "yes" : "no"],
+    ["Uses JS", e.js == null ? "—" : e.js ? "yes" : "no"], ["Finish reason", r.finish_reason || "—"], ["Endpoint", r.endpoint || "—"],
+    ["Contributor", r.contributor || "—"], ["Timestamp", r.timestamp || "—"],
+    ["Hardware", r.hardware ? [r.hardware.cpu, r.hardware.gpu].filter(Boolean).join(" / ") : "—"], ["Note", r.note || "—"],
+  ];
+  $("#dTitle").textContent = e.model;
+  $("#dBody").innerHTML = `<div>${e.svg ? thumb(e.svg, 480, e.js) : `<div class="nothumb" style="height:300px">${e.brokenSvg ? "Invalid SVG (not renderable)" : "No SVG produced"}</div>`}
+    ${e.svg || e.brokenSvg ? `<p><a href="${esc(e.svg || e.brokenSvg)}" target="_blank" rel="noopener">Open raw SVG ↗</a></p>` : ""}</div>
+    <div><div class="stars" id="stars" title="Your rating (click again to clear)">${[1, 2, 3, 4, 5].map(i => `<span data-v="${i}" class="${i <= (ratingOf(e) || 0) ? "on" : ""}">★</span>`).join("")}</div>
+    <dl>${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}</dl></div>`;
+  $("#stars").onclick = ev => {
+    const v = +ev.target.dataset.v;
+    if (!v) return;
+    if (ratings[e.id] === v) delete ratings[e.id]; else ratings[e.id] = v;
+    saveRatings();
+    openRun(e);
+    render();
+  };
+  if (!$("#dlg").open) $("#dlg").showModal();
+}
+
+function render() {
+  const list = filtered();
+  renderKpis(list); renderAwards(list); renderModels(list); renderChart(list); renderRuns(list);
+}
+
+// A file can exist yet not be valid XML (browsers then refuse to render it): treat it as a failed run.
+async function validateSvgs() {
+  await Promise.all(ENTRIES.filter(e => e.ok && e.svg).map(async e => {
+    try {
+      const res = await fetch(e.svg);
+      if (!res.ok) return;
+      const doc = new DOMParser().parseFromString(await res.text(), "image/svg+xml");
+      const err = doc.querySelector("parsererror");
+      if (err || doc.documentElement.localName !== "svg") {
+        e.brokenSvg = e.svg;
+        e.svg = null;
+        e.ok = false;
+        e.error = "invalid SVG: " + (err ? err.textContent.trim().split("\n")[0] : "root is not <svg>");
+      }
+    } catch (_) {}
+  }));
+  render();
+}
+
+function init(data) {
+  ENTRIES = (data.entries || []).map(normalize);
+  for (const p of [...new Set(ENTRIES.map(e => e.prompt))].sort()) $("#fPrompt").insertAdjacentHTML("beforeend", `<option>${esc(p)}</option>`);
+  render();
+  validateSvgs();
+}
+
+["#q", "#fPrompt", "#fSource", "#chartMetric", "#chartDir"].forEach(s => $(s).addEventListener("input", render));
+$("#dClose").onclick = () => $("#dlg").close();
+$("#dlg").addEventListener("click", ev => { if (ev.target === $("#dlg")) $("#dlg").close(); });
+$("#awards").addEventListener("click", ev => {
+  const c = ev.target.closest(".award[data-i]");
+  if (c) openRun(window.__awardRuns[+c.dataset.i]);
+});
+
+fetch("results/index.json").then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }).then(init).catch(err => {
+  const m = $("#msg");
+  m.style.display = "block";
+  m.innerHTML = `Could not load <code>results/index.json</code> (${esc(err.message)}). Serve the folder with <code>python3 -m http.server</code> and open
+    <code>/dashboard.html</code>, or pick the file manually: <input type="file" id="pick" accept=".json">`;
+  $("#pick").onchange = async ev => {
+    try { init(JSON.parse(await ev.target.files[0].text())); m.style.display = "none"; }
+    catch (e) { m.append(" — invalid file"); }
+  };
+});
+</script>
+</body>
+</html>

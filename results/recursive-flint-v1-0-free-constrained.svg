@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#e0f7fa"/>
+  
+  <!-- Half-pipe / vert ramp -->
+  <g id="halfpipe">
+    <!-- Left quarter pipe wall -->
+    <line x1="150" y1="150" x2="150" y2="350" stroke="#555" stroke-width="15" />
+    <!-- Right quarter pipe wall -->
+    <line x1="650" y1="150" x2="650" y2="350" stroke="#555" stroke-width="15" />
+    <!-- Bottom of half-pipe -->
+    <path d="M 150,350 A 250,250 0 0 1 650,350" fill="none" stroke="#555" stroke-width="15" />
+    <!-- Coping -->
+    <line x1="150" y1="150" x2="650" y2="150" stroke="#222" stroke-width="20" />
+  </g>
+  
+  <!-- Skater performing aerial trick -->
+  <g id="skater">
+    <!-- Skateboard deck and trucks/wheels -->
+    <g id="board">
+      <rect x="-30" y="-8" width="60" height="16" rx="5" fill="#333" />
+      <rect x="-20" y="-12" width="8" height="8" fill="#666" />
+      <rect x="12" y="-12" width="8" height="8" fill="#666" />
+      <circle cx="-25" cy="-20" r="6" fill="#111" />
+      <circle cx="-15" cy="-20" r="6" fill="#111" />
+      <circle cx="12" cy="-20" r="6" fill="#111" />
+      <circle cx="22" cy="-20" r="6" fill="#111" />
+      <!-- Board 360 flip -->
+      <animateTransform attributeName="transform" type="rotate" values="0;360" keyTimes="0;1" dur="0.8s" repeatCount="indefinite" />
+    </g>
+    <!-- Skater body -->
+    <g id="body">
+      <circle cx="0" cy="-30" r="8" fill="#f4a460" />
+      <line x1="0" y1="-22" x2="0" y2="10" stroke="#f4a460" stroke-width="6" />
+      <line x1="-10" y1="-15" x2="-5" y2="-5" stroke="#f4a460" stroke-width="4" />
+      <line x1="10" y1="-15" x2="5" y2="-5" stroke="#f4a460" stroke-width="4" />
+      <line x1="-5" y1="5" x2="-10" y2="15" stroke="#f4a460" stroke-width="4" />
+      <line x1="5" y1="5" x2="10" y2="15" stroke="#f4a460" stroke-width="4" />
+    </g>
+    <!-- Pendulum swing and parabolic jump -->
+    <animateTransform attributeName="transform" type="translate" 
+      values="180,250; 230,100; 180,250" 
+      keyTimes="0;0.5;1" 
+      dur="2s" 
+      repeatCount="indefinite" />
+  </g>
+</svg>

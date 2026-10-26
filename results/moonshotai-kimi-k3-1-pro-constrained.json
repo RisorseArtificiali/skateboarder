@@ -1,0 +1,43 @@
+{
+  "benchmark": "skateboard",
+  "contributor": "maeste",
+  "prompt": "constrained",
+  "model": "moonshotai/kimi-k3.1-pro",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": "2026-10-23T21:26:54",
+  "params": {
+    "max_tokens": 128000
+  },
+  "seconds": 462.4,
+  "usage": {
+    "prompt_tokens": 327,
+    "completion_tokens": 33804,
+    "total_tokens": 34131,
+    "cost": 0.338694,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.338694,
+      "upstream_inference_prompt_cost": 0.000654,
+      "upstream_inference_completions_cost": 0.33804
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 29557,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "reasoning_tokens": 29557,
+  "finish_reason": "stop",
+  "content_len": 12213,
+  "svg_len": 12202,
+  "has_animation": true,
+  "uses_js": false,
+  "error": null,
+  "file": "results/moonshotai-kimi-k3-1-pro-constrained.svg"
+}
