@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <!-- Gradient for pipe -->
+    <linearGradient id="pipeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#888888;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#CCCCCC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#777777;stop-opacity:1" />
+    </linearGradient>
+    <!-- Shadow -->
+    <ellipse id="shadow" cx="300" cy="480" rx="50" ry="10" fill="rgba(0,0,0,0.3)" />
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="#87CEEB" />
+  
+  <!-- Ground -->
+  <rect x="0" y="450" width="800" height="150" fill="#8B7355" />
+  <rect x="0" y="450" width="800" height="10" fill="#6B5B3E" />
+
+  <!-- Pipe -->
+  <rect x="430" y="100" width="40" height="300" fill="url(#pipeGrad)" stroke="#555555" stroke-width="2" />
+  <rect x="430" y="100" width="15" height="300" fill="#FFFFFF" opacity="0.3" />
+  <rect x="430" y="100" width="40" height="10" fill="#999999" />
+  <rect x="430" y="390" width="40" height="10" fill="#999999" />
+
+  <!-- Skateboarder Group -->
+  <g id="skater">
+    <!-- Board Group -->
+    <g id="boardGroup">
+      <!-- Board Deck -->
+      <rect x="-20" y="3" width="40" height="4" rx="2" fill="#222222" />
+      <!-- Wheels -->
+      <circle cx="-15" cy="8" r="4" fill="#111111" />
+      <circle cx="15" cy="8" r="4" fill="#111111" />
+      <!-- Animate board rotation for kickflip -->
+      <animateTransform attributeName="transform" type="rotate" from="0 0" to="360 0" dur="0.75s" begin="0.75s" end="1.5s" repeatCount="indefinite" />
+    </g>
+    
+    <!-- Body Parts -->
+    <circle cx="0" cy="-20" r="5" fill="#F5D0A9" />
+    <line x1="0" y1="-20" x2="0" y2="-10" stroke="#F5D0A9" stroke-width="4" />
+    <line x1="0" y1="-15" x2="-8" y2="-8" stroke="#F5D0A9" stroke-width="3" />
+    <line x1="0" y1="-15" x2="8" y2="-8" stroke="#F5D0A9" stroke-width="3" />
+    <line x1="0" y1="-10" x2="-6" y2="0" stroke="#F5D0A9" stroke-width="4" />
+    <line x1="0" y1="-10" x2="6" y2="0" stroke="#F5D0A9" stroke-width="4" />
+
+    <!-- Animate skater movement with parabolic jump -->
+    <animateTransform attributeName="transform" type="translate" 
+      values="100 450; 300 450; 300 400; 300 300; 300 400; 300 450; 100 450" 
+      keyTimes="0; 0.5; 0.75; 1; 1.25; 1.5; 2" 
+      dur="2s" repeatCount="indefinite" />
+  </g>
+
+  <!-- Optional shadow (static, could be animated too) -->
+  <ellipse cx="300" cy="480" rx="50" ry="10" fill="rgba(0,0,0,0.3)" />
+</svg>

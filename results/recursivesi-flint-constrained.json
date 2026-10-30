@@ -1,0 +1,41 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "constrained",
+  "model": "RecursiveSI/flint",
+  "endpoint": "http://192.168.11.36:30000/v1",
+  "timestamp": "2026-10-26T21:10:34+01:00",
+  "params": {
+    "max_tokens": 128000
+  },
+  "reasoning": {
+    "requested": "default",
+    "effort": null
+  },
+  "contributor": "beelzetron",
+  "hardware": {
+    "os": "Linux 7.0.0-1019-nvidia",
+    "cpu": "Cortex-X925",
+    "ram_gb": 128
+  },
+  "engine": {
+    "name": "sglang"
+  },
+  "quantization": "nvfp4",
+  "note": "nvidia GB10",
+  "seconds": 354.1,
+  "usage": {
+    "prompt_tokens": 235,
+    "total_tokens": 12089,
+    "completion_tokens": 11854,
+    "prompt_tokens_details": null,
+    "reasoning_tokens": 0
+  },
+  "reasoning_tokens": null,
+  "finish_reason": "stop",
+  "content_len": 2388,
+  "svg_len": 2377,
+  "has_animation": true,
+  "uses_js": false,
+  "error": null,
+  "file": "results/recursivesi-flint-constrained.svg"
+}
