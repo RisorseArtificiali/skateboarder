@@ -1,0 +1,64 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "minimal",
+  "model": "openai/gpt-6.1-terra",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": "2026-10-30T09:45:31+01:00",
+  "params": {
+    "max_tokens": 128000
+  },
+  "reasoning": {
+    "requested": "default",
+    "effort": null,
+    "provider_default": {
+      "source": "openrouter-models",
+      "checked_at": "2026-10-30T08:45:31+00:00",
+      "supported": true,
+      "enabled": true,
+      "effort": "medium",
+      "mandatory": false,
+      "supported_efforts": [
+        "max",
+        "xhigh",
+        "high",
+        "medium",
+        "low",
+        "none"
+      ],
+      "supports_max_tokens": false
+    }
+  },
+  "contributor": "maeste",
+  "seconds": 28.8,
+  "usage": {
+    "prompt_tokens": 30,
+    "completion_tokens": 2485,
+    "total_tokens": 2515,
+    "cost": 0.012455,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.012455,
+      "upstream_inference_prompt_cost": 3e-05,
+      "upstream_inference_completions_cost": 0.012425
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1142,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "reasoning_tokens": 1142,
+  "finish_reason": "stop",
+  "content_len": 3901,
+  "svg_len": 3740,
+  "has_animation": true,
+  "uses_js": false,
+  "error": null,
+  "file": "results/openai-gpt-6-1-terra-minimal.svg"
+}

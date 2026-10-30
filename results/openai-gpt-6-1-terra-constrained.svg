@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="A skateboarder swings through a half-pipe and performs an aerial kickflip">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1">
+      <stop stop-color="#a8d9eb"/>
+      <stop offset="1" stop-color="#e8f4ef"/>
+    </linearGradient>
+    <linearGradient id="ramp" x2="0" y2="1">
+      <stop stop-color="#dca76c"/>
+      <stop offset="1" stop-color="#a76b45"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background and distant scenery -->
+  <rect width="900" height="520" fill="url(#sky)"/>
+  <circle cx="752" cy="75" r="32" fill="#fff2bd" opacity=".85"/>
+  <path d="M0 360 Q100 300 200 350 T400 345 T600 355 T900 330 V520 H0Z"
+        fill="#b7d0be"/>
+  <path d="M0 390 Q120 350 240 385 T480 380 T720 390 T900 375 V520 H0Z"
+        fill="#91b5a3"/>
+
+  <!-- Half-pipe: two opposing quarter-pipes and a flat bottom -->
+  <path d="M0 190 H120 V260 C120 359.4 200.6 440 300 440
+           H600 C699.4 440 780 359.4 780 260 V190 H900 V520 H0Z"
+        fill="url(#ramp)"/>
+  <path d="M0 190 H120 V260 C120 359.4 200.6 440 300 440
+           H600 C699.4 440 780 359.4 780 260 V190 H900"
+        fill="none" stroke="#764b37" stroke-width="5"/>
+  <path d="M120 260 C120 359.4 200.6 440 300 440 M780 260 C780 359.4 699.4 440 600 440"
+        fill="none" stroke="#f4c994" stroke-width="2" opacity=".7"/>
+  <path d="M0 197 H120 M780 197 H900" stroke="#8c593e" stroke-width="4"/>
+  <path d="M0 476 H900 M0 505 H900" stroke="#85563e" stroke-width="2" opacity=".45"/>
+  <path d="M80 440 V520 M220 440 V520 M360 440 V520 M500 440 V520 M640 440 V520 M780 440 V520"
+        stroke="#85563e" stroke-width="2" opacity=".35"/>
+
+  <!-- Metal coping at the two lips -->
+  <circle cx="120" cy="190" r="5" fill="#dbe4e5" stroke="#52616a" stroke-width="2"/>
+  <circle cx="780" cy="190" r="5" fill="#dbe4e5" stroke="#52616a" stroke-width="2"/>
+
+  <!-- The path follows the transitions; the vertical airborne portions ease under gravity. -->
+  <g>
+    <animateMotion dur="7.21s" repeatCount="indefinite" calcMode="spline"
+      path="M769 190 L769 93 L769 190 L769 260
+            C769 353.34 693.34 429 600 429 L300 429
+            C206.66 429 131 353.34 131 260 L131 190
+            L131 93 L131 190 L131 260
+            C131 353.34 206.66 429 300 429 L600 429
+            C693.34 429 769 353.34 769 260 L769 190"
+      keyPoints="0;.04163;.08326;.11330;.22725;.35601;.46996;.5;.54163;.58326;.61330;.72725;.85601;.96996;1"
+      keyTimes="0;.086408;.172816;.227046;.300555;.372261;.445770;.5;.586408;.672816;.727046;.800555;.872261;.945770;1"
+      keySplines=".333 .667 .667 1;
+                  .333 0 .667 .333;
+                  .333 .289 .667 .623;
+                  .333 .270 .667 .613;
+                  .333 .333 .667 .667;
+                  .333 .387 .667 .730;
+                  .333 .377 .667 .711;
+                  .333 .667 .667 1;
+                  .333 0 .667 .333;
+                  .333 .289 .667 .623;
+                  .333 .270 .667 .613;
+                  .333 .333 .667 .667;
+                  .333 .387 .667 .730;
+                  .333 .377 .667 .711"/>
+
+    <!-- The rider and board turn with the slope of the ramp. -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" dur="7.21s"
+        repeatCount="indefinite"
+        values="-90;-90;-90;0;0;90;90;90;90;0;0;-90;-90"
+        keyTimes="0;.172816;.227046;.300555;.372261;.445770;.5;.672816;.727046;.800555;.872261;.945770;1"/>
+
+      <!-- Skater: shoes, bent legs, torso, arms, and head -->
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <path d="M-14 -4 L-8 -19 L-15 -31 M13 -4 L8 -19 L14 -31"
+              fill="none" stroke="#26394a" stroke-width="9"/>
+        <path d="M-20 -3 L-11 -3 M9 -3 L19 -3"
+              fill="none" stroke="#f4eee2" stroke-width="5"/>
+        <path d="M-15 -29 Q0 -34 14 -29 L12 -52 Q0 -58 -12 -51Z"
+              fill="#e75d43" stroke="#a83c32" stroke-width="2"/>
+        <path d="M-10 -48 L-22 -38 L-30 -43 M10 -48 L21 -38 L30 -45"
+              fill="none" stroke="#e75d43" stroke-width="7"/>
+        <path d="M-30 -43 L-33 -45 M30 -45 L33 -47"
+              fill="none" stroke="#d89972" stroke-width="5"/>
+        <path d="M-3 -54 V-59" stroke="#d89972" stroke-width="6"/>
+        <circle cx="-2" cy="-66" r="10" fill="#d89972"/>
+        <path d="M-12 -68 Q-10 -79 0 -78 Q9 -78 9 -69 Z" fill="#26394a"/>
+        <path d="M-12 -69 Q-3 -72 10 -69" fill="none" stroke="#1b2935" stroke-width="3"/>
+        <circle cx="3" cy="-66" r="1" fill="#26394a"/>
+      </g>
+
+      <!-- Skateboard: four wheels, two trucks, and a deck.
+           The scale animation projects a full kickflip about the deck's long axis. -->
+      <g>
+        <animateTransform attributeName="transform" type="scale" dur="7.21s"
+          repeatCount="indefinite"
+          values="1 1;1 1;1 .03;1 -1;1 .03;1 1;1 1;1 1"
+          keyTimes="0;.011;.033;.055;.077;.100;.173;1"/>
+        <g fill="#f4d16b" stroke="#70543c" stroke-width="1">
+          <circle cx="-21" cy="7" r="3.5"/>
+          <circle cx="-14" cy="7" r="3.5"/>
+          <circle cx="14" cy="7" r="3.5"/>
+          <circle cx="21" cy="7" r="3.5"/>
+        </g>
+        <path d="M-21 5 H-14 M14 5 H21 M-17.5 2 V6 M17.5 2 V6"
+              stroke="#8a989a" stroke-width="3"/>
+        <path d="M-29 -3 Q-27 2 -22 2 H22 Q27 2 29 -3
+                 L27 -5 Q24 -2 21 -2 H-21 Q-24 -2 -27 -5Z"
+              fill="#e3aa4e" stroke="#493e36" stroke-width="1.5"/>
+        <path d="M-24 -3 H24" stroke="#343d41" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>
