@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 640 400"
+     width="640" height="400"
+     role="img" aria-label="A skateboarder riding a half-pipe and doing ollies">
+
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1">
+      <stop stop-color="#d8f3fc"/>
+      <stop offset="1" stop-color="#f8fbfd"/>
+    </linearGradient>
+    <linearGradient id="ramp" x2="0" y2="1">
+      <stop stop-color="#db9b65"/>
+      <stop offset="1" stop-color="#b66f45"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="640" height="400" fill="url(#sky)"/>
+  <circle cx="530" cy="70" r="28" fill="#ffe4a0"/>
+  <path d="M0 350 Q100 320 190 350 T380 350 T640 345 V400 H0Z"
+        fill="#c8e5d7"/>
+
+  <!-- Half-pipe. The upper edge is also the skater's motion path. -->
+  <path d="M135 190
+           C155 265 220 300 320 300
+           C420 300 485 265 505 190
+           L520 360 H120 Z"
+        fill="url(#ramp)" stroke="#865335" stroke-width="3"/>
+  <path d="M135 190
+           C155 265 220 300 320 300
+           C420 300 485 265 505 190"
+        fill="none" stroke="#f4d0a8" stroke-width="5"
+        stroke-linecap="round"/>
+
+  <!-- Ramp supports -->
+  <path d="M154 264 L148 360 M216 291 L212 360
+           M320 301 V360 M424 291 L428 360
+           M486 264 L492 360"
+        fill="none" stroke="#9e6240" stroke-width="3" opacity=".6"/>
+  <path d="M113 362 H527" stroke="#76523e" stroke-width="6"
+        stroke-linecap="round"/>
+
+  <!-- The rider follows the ramp, with the board aligned to its surface. -->
+  <g>
+    <animateMotion
+        dur="4s" repeatCount="indefinite" rotate="auto"
+        path="M135 190 C155 265 220 300 320 300 C420 300 485 265 505 190"
+        keyPoints="0;1;0"
+        keyTimes="0;0.5;1"
+        calcMode="spline"
+        keySplines=".42 0 .58 1; .42 0 .58 1"/>
+
+    <!-- Small parabolic hops near the bottom of each pass. -->
+    <g>
+      <animateTransform attributeName="transform" type="translate"
+          dur="4s" repeatCount="indefinite"
+          values="0 0; 0 0; 0 -18; 0 0; 0 0; 0 -18; 0 0; 0 0"
+          keyTimes="0; .18; .25; .32; .68; .75; .82; 1"
+          calcMode="spline"
+          keySplines="0 0 1 1;
+                      .333 .667 .667 1;
+                      .333 0 .667 .333;
+                      0 0 1 1;
+                      .333 .667 .667 1;
+                      .333 0 .667 .333;
+                      0 0 1 1"/>
+
+      <!-- Wheels and deck -->
+      <circle cx="-17" cy="-4" r="4" fill="#29343c"/>
+      <circle cx="17" cy="-4" r="4" fill="#29343c"/>
+      <path d="M-27 -13 Q-25 -9 -20 -9 H20 Q25 -9 27 -13"
+            fill="none" stroke="#263640" stroke-width="5"
+            stroke-linecap="round"/>
+
+      <!-- Legs and shoes -->
+      <path d="M-3 -40 L-13 -26 L-17 -14
+               M-3 -40 L10 -29 L16 -14"
+            fill="none" stroke="#304c68" stroke-width="7"
+            stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M-21 -13 H-12 M12 -13 H21"
+            stroke="#25333c" stroke-width="5" stroke-linecap="round"/>
+
+      <!-- Body and arms -->
+      <path d="M-9 -65 Q0 -69 8 -63 L7 -43 Q0 -38 -9 -42 Z"
+            fill="#e86d4a" stroke="#b94c35" stroke-width="2"/>
+      <path d="M-6 -61 L-18 -51 L-28 -55
+               M6 -61 L16 -50 L27 -54"
+            fill="none" stroke="#d8946d" stroke-width="5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Head and helmet -->
+      <path d="M-4 -65 V-70" stroke="#d8946d" stroke-width="5"/>
+      <circle cx="-3" cy="-77" r="9" fill="#e4a27a"/>
+      <path d="M-12 -79 Q-12 -90 -2 -90 Q7 -90 7 -79 Z"
+            fill="#426b80"/>
+      <path d="M-12 -79 H8" stroke="#294c60" stroke-width="3"
+            stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>

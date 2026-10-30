@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 600 430"
+     role="img"
+     aria-label="A skateboarder rides back and forth in a half-pipe">
+
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1">
+      <stop stop-color="#b9e5f6"/>
+      <stop offset="1" stop-color="#f3fbff"/>
+    </linearGradient>
+
+    <linearGradient id="ramp" x2="0" y2="1">
+      <stop stop-color="#d5a574"/>
+      <stop offset="1" stop-color="#ad754d"/>
+    </linearGradient>
+
+    <!-- The wheels follow this same curve. -->
+    <path id="ride"
+          d="M 90 125
+             C 90 235, 140 340, 260 340
+             L 340 340
+             C 460 340, 510 235, 510 125"/>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="430" fill="url(#sky)"/>
+  <circle cx="495" cy="65" r="25" fill="#fff3c4" opacity=".9"/>
+
+  <path d="M0 305 Q80 270 160 305 T320 305 T480 305 T640 305
+           V430 H0Z"
+        fill="#b9d9cb"/>
+
+  <!-- Ramp -->
+  <path d="M90 125
+           C90 235 140 340 260 340
+           L340 340
+           C460 340 510 235 510 125
+           L555 125 L555 410 L45 410 L45 125Z"
+        fill="url(#ramp)" stroke="#825735" stroke-width="3"/>
+
+  <!-- Panel seams -->
+  <path d="M75 155 V405 M525 155 V405
+           M130 300 V405 M200 333 V405
+           M300 340 V405 M400 333 V405 M470 300 V405"
+        fill="none" stroke="#946641" stroke-width="2" opacity=".55"/>
+
+  <use href="#ride" fill="none" stroke="#634936"
+       stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Coping -->
+  <path d="M45 125 H91 M509 125 H555"
+        stroke="#536471" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- Motion follows the ramp tangent. Easing slows at each wall. -->
+  <g>
+    <animateMotion dur="6s" repeatCount="indefinite"
+                   rotate="auto"
+                   calcMode="spline"
+                   keyPoints="0;1;0"
+                   keyTimes="0;0.5;1"
+                   keySplines=".42 0 .58 1; .42 0 .58 1">
+      <mpath href="#ride"/>
+    </animateMotion>
+
+    <!-- Foreshortening suggests a kickturn at each turnaround. -->
+    <g>
+      <animateTransform attributeName="transform"
+                        type="scale"
+                        dur="6s"
+                        repeatCount="indefinite"
+                        values=".38 1; 1 1; 1 1; .38 1; 1 1; 1 1; .38 1"
+                        keyTimes="0;.04;.46;.5;.54;.96;1"/>
+
+      <!-- Wheels touch the ramp at local y=0. -->
+      <circle cx="-17" cy="-3" r="3" fill="#f5d45c" stroke="#303943"/>
+      <circle cx="17" cy="-3" r="3" fill="#f5d45c" stroke="#303943"/>
+
+      <!-- Board -->
+      <path d="M-27 -9 Q-23 -5 -19 -5 H19 Q23 -5 27 -9"
+            fill="#ec7957" stroke="#303943" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Legs and shoes -->
+      <path d="M-5 -39 L-12 -25 L-17 -10
+               M5 -39 L12 -25 L16 -10"
+            fill="none" stroke="#34495e" stroke-width="7"
+            stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M-22 -9 H-12 M11 -9 H21"
+            stroke="#24313b" stroke-width="5" stroke-linecap="round"/>
+
+      <!-- Body -->
+      <path d="M-10 -62 Q0 -66 10 -62 L9 -39
+               Q0 -36 -9 -39Z"
+            fill="#e75c48" stroke="#35434b" stroke-width="2"/>
+
+      <!-- Arms shift subtly for balance. -->
+      <g>
+        <animateTransform attributeName="transform"
+                          type="rotate"
+                          values="-7 0 -59; 8 0 -59; -7 0 -59"
+                          dur="3s" repeatCount="indefinite"/>
+        <path d="M-9 -58 L-19 -48 L-29 -52
+                 M9 -58 L20 -49 L29 -57"
+              fill="none" stroke="#35434b" stroke-width="5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="-29" cy="-52" r="3" fill="#efb48f"/>
+        <circle cx="29" cy="-57" r="3" fill="#efb48f"/>
+      </g>
+
+      <!-- Head and helmet -->
+      <path d="M-3 -65 V-69 H4 V-65"
+            fill="#efb48f"/>
+      <circle cx="0" cy="-76" r="9" fill="#efb48f"
+              stroke="#35434b" stroke-width="1.5"/>
+      <path d="M-9 -77 A9 9 0 0 1 9 -77 L10 -76 H-10Z"
+            fill="#355f87" stroke="#35434b" stroke-width="1.5"/>
+      <path d="M7 -76 H13" stroke="#35434b" stroke-width="2"
+            stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>
