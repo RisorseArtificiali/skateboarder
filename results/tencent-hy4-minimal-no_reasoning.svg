@@ -1,0 +1,248 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 800 500"
+     width="800" height="500"
+     style="background:#1a1d24">
+
+  <title>Physically‑aware skateboard half‑pipe air</title>
+
+  <!-- ===================== DEFS ===================== -->
+  <defs>
+    <!-- Ramp gradient -->
+    <linearGradient id="rampGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#3a3f4b"/>
+      <stop offset="1"   stop-color="#23262e"/>
+    </linearGradient>
+
+    <!-- Coping -->
+    <linearGradient id="coping" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#cfd6df"/>
+      <stop offset=".5" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#9aa3af"/>
+    </linearGradient>
+
+    <!-- Soft shadow -->
+    <radialGradient id="shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#000" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Gravity‑like ballistic path (used by animateMotion) -->
+    <path id="airArc"
+          d="M 250,250
+             C 300,150  420,135  470,205
+             C 495,240  480,268  430,290"/>
+
+    <!-- Ramp surface path (quarter circle, r=180) -->
+    <path id="rampSurface"
+          d="M 120,400
+             A 180,180 0 0 1 300,220
+             L 300,400 Z"/>
+
+    <clipPath id="rampClip">
+      <use href="#rampSurface"/>
+    </clipPath>
+  </defs>
+
+  <!-- ===================== SCENE ===================== -->
+  <!-- Floor -->
+  <rect x="0" y="400" width="800" height="100" fill="#15171c"/>
+
+  <!-- Half‑pipe (left transition + flat + right lip hint) -->
+  <use href="#rampSurface" fill="url(#rampGrad)"/>
+  <use href="#rampSurface" fill="none" stroke="#4b5260" stroke-width="2"/>
+
+  <!-- Coping (real contact point) -->
+  <rect x="292" y="214" width="16" height="8" rx="4"
+        fill="url(#coping)" stroke="#6b7280" stroke-width="1"/>
+
+  <!-- Deck lines (perspective cue) -->
+  <g clip-path="url(#rampClip)" stroke="#2b2f38" stroke-width="1" opacity=".6">
+    <line x1="140" y1="380" x2="300" y2="380"/>
+    <line x1="155" y1="340" x2="300" y2="340"/>
+    <line x1="180" y1="300" x2="300" y2="300"/>
+    <line x1="220" y1="260" x2="300" y2="260"/>
+  </g>
+
+  <!-- Ground shadow (scales with height → physics cue) -->
+  <ellipse cx="300" cy="402" rx="70" ry="10"
+           fill="url(#shadow)">
+    <animate attributeName="rx"
+             values="70;38;30;42;70"
+             keyTimes="0;.35;.55;.8;1"
+             dur="3.2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity"
+             values=".9;.35;.25;.5;.9"
+             keyTimes="0;.35;.55;.8;1"
+             dur="3.2s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- ===================== SKATER ===================== -->
+  <!--
+    GROUP STRUCTURE (important for physics):
+    translate  → follows ramp / ballistic path
+      rotate   → board‑tangent angle while rolling, free rotation in air
+        board + body (knees absorb impact)
+  -->
+  <g id="skater">
+
+    <!-- PATH FOLLOW: ramp roll‑up → ballistic air → re‑entry -->
+    <animateMotion dur="3.2s" repeatCount="indefinite"
+                   rotate="0"
+                   keyPoints="0;0.18;0.30;0.62;0.82;1"
+                   keyTimes="0;.18;.30;.62;.82;1"
+                   calcMode="spline"
+                   keySplines="
+                     .4 0 .8 1;
+                     .2 0 .4 1;
+                     .3 0 .7 1;
+                     .5 0 .6 1;
+                     .4 0 .9 1">
+      <mpath href="#airArc"/>
+    </animateMotion>
+
+    <!-- ORIENTATION:
+         0–30%  → board matches ramp tangent (0° → -78°)
+         30–62% → smooth 180° backside air (angular momentum)
+         62–82% → counter‑rotate to match ramp again
+         82–100%→ roll away flat
+    -->
+    <animateTransform attributeName="transform"
+                      type="rotate"
+                      dur="3.2s" repeatCount="indefinite"
+                      keyTimes="0;.18;.30;.46;.62;.82;1"
+                      values="
+                        0;
+                        -42;
+                        -78;
+                        -168;
+                        -258;
+                        -78;
+                        0"
+                      calcMode="spline"
+                      keySplines="
+                        .3 0 .7 1;
+                        .2 0 .6 1;
+                        .25 0 .55 1;
+                        .45 0 .55 1;
+                        .35 0 .65 1;
+                        .3 0 .8 1"/>
+
+    <!-- ---------- BOARD (pivot = centre) ---------- -->
+    <g id="board">
+      <!-- deck -->
+      <rect x="-42" y="-6" width="84" height="9" rx="4.5"
+            fill="#e8552d" stroke="#7a2412" stroke-width="1.5"/>
+      <!-- grip -->
+      <rect x="-38" y="-6" width="76" height="3" rx="1.5"
+            fill="#2a2a2a" opacity=".85"/>
+      <!-- trucks -->
+      <rect x="-28" y="3" width="6" height="6" fill="#9aa3af"/>
+      <rect x="22"  y="3" width="6" height="6" fill="#9aa3af"/>
+      <!-- wheels -->
+      <circle cx="-28" cy="10" r="5" fill="#f2c94c" stroke="#7a5c10"/>
+      <circle cx="26"  cy="10" r="5" fill="#f2c94c" stroke="#7a5c10"/>
+      <animateTransform attributeName="transform"
+                        type="rotate"
+                        values="0;0;180;180;0;0"
+                        keyTimes="0;.30;.32;.60;.63;1"
+                        dur="3.2s" repeatCount="indefinite"/>
+    </g>
+
+    <!-- ---------- BODY (knees = spring damper) ---------- -->
+    <g id="body"
+       transform="translate(0,-6)">
+
+      <!-- legs -->
+      <g stroke="#d8dee9" stroke-width="7" stroke-linecap="round" fill="none">
+        <path id="legBack"  d="M-16,-2 L-22,-30 L-30,-46"/>
+        <path id="legFront" d="M 14,-2 L 20,-32 L 30,-48"/>
+
+        <!-- knee compression on landing -->
+        <animate attributeName="d"
+                 dur="3.2s" repeatCount="indefinite"
+                 keyTimes="0;.30;.62;.80;.86;1"
+                 values="
+                   M-16,-2 L-22,-30 L-30,-46;
+                   M-16,-2 L-22,-30 L-30,-46;
+                   M-16,-2 L-20,-26 L-28,-40;
+                   M-16,-2 L-24,-22 L-32,-34;
+                   M-16,-2 L-22,-30 L-30,-46;
+                   M-16,-2 L-22,-30 L-30,-46"
+                 targetElement="legBack"/>
+        <animate attributeName="d"
+                 dur="3.2s" repeatCount="indefinite"
+                 keyTimes="0;.30;.62;.80;.86;1"
+                 values="
+                   M14,-2 L20,-32 L30,-48;
+                   M14,-2 L20,-32 L30,-48;
+                   M14,-2 L18,-28 L28,-42;
+                   M14,-2 L22,-22 L32,-34;
+                   M14,-2 L20,-32 L30,-48;
+                   M14,-2 L20,-32 L30,-48"
+                 targetElement="legFront"/>
+      </g>
+
+      <!-- torso (leans into the transition) -->
+      <g>
+        <rect x="-13" y="-74" width="26" height="42" rx="10"
+              fill="#3f7fd6"/>
+        <animateTransform attributeName="transform"
+                          type="rotate"
+                          values="6;14;-8;-14;10;6"
+                          keyTimes="0;.18;.40;.62;.82;1"
+                          dur="3.2s" repeatCount="indefinite"/>
+      </g>
+
+      <!-- arms (counter‑balance, angular momentum) -->
+      <g stroke="#d8dee9" stroke-width="6" stroke-linecap="round" fill="none">
+        <path d="M-12,-66 L-34,-54 L-46,-34">
+          <animate attributeName="d"
+                   dur="3.2s" repeatCount="indefinite"
+                   keyTimes="0;.30;.46;.62;.82;1"
+                   values="
+                     M-12,-66 L-34,-54 L-46,-34;
+                     M-12,-66 L-38,-60 L-52,-44;
+                     M-12,-66 L-30,-78 L-38,-96;
+                     M-12,-66 L-26,-56 L-14,-40;
+                     M-12,-66 L-34,-54 L-46,-34;
+                     M-12,-66 L-34,-54 L-46,-34"/>
+        </path>
+        <path d="M12,-66 L34,-58 L44,-38">
+          <animate attributeName="d"
+                   dur="3.2s" repeatCount="indefinite"
+                   keyTimes="0;.30;.46;.62;.82;1"
+                   values="
+                     M12,-66 L34,-58 L44,-38;
+                     M12,-66 L36,-64 L50,-50;
+                     M12,-66 L28,-80 L34,-98;
+                     M12,-66 L30,-54 L18,-38;
+                     M12,-66 L34,-58 L44,-38;
+                     M12,-66 L34,-58 L44,-38"/>
+        </path>
+      </g>
+
+      <!-- head -->
+      <circle cx="0" cy="-86" r="11" fill="#e8b48c"/>
+      <path d="M-11,-88 a11,11 0 0 1 22,0 z" fill="#2b2f38"/>
+      <!-- helmet strap -->
+      <path d="M-8,-80 L8,-80" stroke="#2b2f38" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- ===================== LABEL (optional) ===================== -->
+  <text x="24" y="36"
+        fill="#8b93a3" font-family="monospace" font-size="13"
+        letter-spacing="1">
+    BACKSIDE AIR · tangent contact · ballistic CoM · knee damping
+  </text>
+
+  <!-- subtle speed lines (only during air) -->
+  <g stroke="#6f7a8c" stroke-width="1.5" opacity="0">
+    <line x1="330" y1="190" x2="370" y2="186"/>
+    <line x1="340" y1="205" x2="386" y2="202"/>
+    <animate attributeName="opacity"
+             values="0;0;.5;.35;0;0"
+             keyTimes="0;.28;.36;.58;.66;1"
+             dur="3.2s" repeatCount="indefinite"/>
+  </g>
+</svg>

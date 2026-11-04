@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="100%" height="100%">
+  <defs>
+    <style>
+      /* 
+        Physics-driven motion: 7.0s seamless loop.
+        - Transitions use pendulum / constant-acceleration easing (slow at coping, fast at flat).
+        - Aerial (t=3.0s to 4.2s) uses an exact parabolic arc (y = v0*t + 0.5*g*t^2).
+        - Rotation does a ~331° spin to perfectly align with the 61.6° ramp tangent upon landing.
+      */
+      @keyframes skate {
+        0.00%   { transform: translate(100.0px, 100.0px) rotate(-90.0deg); }
+        1.43%   { transform: translate(100.0px, 101.9px) rotate(-89.5deg); }
+        2.86%   { transform: translate(100.1px, 107.4px) rotate(-87.9deg); }
+        4.29%   { transform: translate(100.7px, 116.7px) rotate(-85.2deg); }
+        5.71%   { transform: translate(102.2px, 129.6px) rotate(-81.5deg); }
+        7.14%   { transform: translate(105.4px, 146.1px) rotate(-76.7deg); }
+        8.57%   { transform: translate(111.1px, 165.7px) rotate(-70.8deg); }
+        10.00%  { transform: translate(120.0px, 188.0px) rotate(-63.9deg); }
+        11.43%  { transform: translate(132.8px, 212.0px) rotate(-55.9deg); }
+        12.86%  { transform: translate(149.9px, 236.8px) rotate(-46.9deg); }
+        14.29%  { transform: translate(171.8px, 260.1px) rotate(-36.7deg); }
+        15.71%  { transform: translate(198.7px, 280.5px) rotate(-25.6deg); }
+        17.14%  { transform: translate(230.4px, 294.7px) rotate(-13.3deg); }
+        18.57%  { transform: translate(300.0px, 300.0px) rotate(0.0deg); }
+        20.00%  { transform: translate(340.0px, 300.0px) rotate(0.0deg); }
+        21.43%  { transform: translate(380.0px, 300.0px) rotate(0.0deg); }
+        22.86%  { transform: translate(420.0px, 300.0px) rotate(0.0deg); }
+        24.29%  { transform: translate(460.0px, 300.0px) rotate(0.0deg); }
+        25.71%  { transform: translate(500.0px, 300.0px) rotate(0.0deg); }
+        27.14%  { transform: translate(530.7px, 297.6px) rotate(8.8deg); }
+        28.57%  { transform: translate(560.0px, 290.8px) rotate(17.5deg); }
+        30.00%  { transform: translate(587.4px, 279.9px) rotate(25.9deg); }
+        31.43%  { transform: translate(611.8px, 265.8px) rotate(34.0deg); }
+        32.86%  { transform: translate(633.3px, 249.0px) rotate(41.8deg); }
+        34.29%  { transform: translate(652.0px, 229.8px) rotate(49.5deg); }
+        35.71%  { transform: translate(667.7px, 209.2px) rotate(56.8deg); }
+        37.14%  { transform: translate(679.8px, 187.6px) rotate(64.0deg); }
+        38.57%  { transform: translate(688.7px, 165.2px) rotate(70.9deg); }
+        40.00%  { transform: translate(695.1px, 142.5px) rotate(77.5deg); }
+        41.43%  { transform: translate(698.8px, 119.6px) rotate(83.9deg); }
+        42.86%  { transform: translate(700.0px, 100.0px) rotate(90.0deg); }
+        /* Parabolic Aerial + 360 Body Spin */
+        44.29%  { transform: translate(698.0px, 71.3px) rotate(117.6deg); }
+        45.71%  { transform: translate(696.0px, 49.3px) rotate(145.3deg); }
+        47.14%  { transform: translate(694.0px, 33.6px) rotate(172.9deg); }
+        48.57%  { transform: translate(692.0px, 24.6px) rotate(200.5deg); }
+        50.00%  { transform: translate(690.0px, 23.2px) rotate(228.2deg); }
+        51.43%  { transform: translate(688.0px, 28.5px) rotate(255.8deg); }
+        52.86%  { transform: translate(686.0px, 40.5px) rotate(283.4deg); }
+        54.29%  { transform: translate(684.0px, 59.1px) rotate(311.1deg); }
+        55.71%  { transform: translate(682.0px, 84.4px) rotate(338.7deg); }
+        57.14%  { transform: translate(680.0px, 112.7px) rotate(366.3deg); }
+        58.57%  { transform: translate(678.0px, 147.7px) rotate(393.9deg); }
+        60.00%  { transform: translate(676.0px, 195.0px) rotate(421.6deg); } /* 421.6 ≡ 61.6° (Ramp tangent) */
+        /* Landing & Return Pendulum */
+        61.43%  { transform: translate(668.0px, 208.3px) rotate(57.2deg); }
+        62.86%  { transform: translate(657.9px, 222.6px) rotate(52.2deg); }
+        64.29%  { transform: translate(645.1px, 237.5px) rotate(46.5deg); }
+        65.71%  { transform: translate(629.7px, 252.6px) rotate(40.3deg); }
+        67.14%  { transform: translate(611.5px, 266.7px) rotate(33.5deg); }
+        68.57%  { transform: translate(587.9px, 279.7px) rotate(26.0deg); }
+        70.00%  { transform: translate(561.6px, 290.3px) rotate(17.9deg); }
+        71.43%  { transform: translate(532.1px, 297.4px) rotate(9.2deg); }
+        72.86%  { transform: translate(500.0px, 300.0px) rotate(0.0deg); }
+        74.29%  { transform: translate(460.0px, 300.0px) rotate(0.0deg); }
+        75.71%  { transform: translate(420.0px, 300.0px) rotate(0.0deg); }
+        77.14%  { transform: translate(380.0px, 300.0px) rotate(0.0deg); }
+        78.57%  { transform: translate(340.0px, 300.0px) rotate(0.0deg); }
+        80.00%  { transform: translate(300.0px, 300.0px) rotate(0.0deg); }
+        81.43%  { transform: translate(257.0px, 295.3px) rotate(-12.4deg); }
+        82.86%  { transform: translate(219.0px, 282.9px) rotate(-23.9deg); }
+        84.29%  { transform: translate(186.9px, 264.9px) rotate(-34.4deg); }
+        85.71%  { transform: translate(160.9px, 243.7px) rotate(-44.1deg); }
+        87.14%  { transform: translate(140.4px, 221.0px) rotate(-52.8deg); }
+        88.57%  { transform: translate(125.1px, 198.0px) rotate(-60.7deg); }
+        90.00%  { transform: translate(115.2px, 176.6px) rotate(-67.5deg); }
+        91.43%  { transform: translate(107.9px, 156.8px) rotate(-73.5deg); }
+        92.86%  { transform: translate(103.1px, 139.4px) rotate(-78.6deg); }
+        94.29%  { transform: translate(100.8px, 124.8px) rotate(-82.9deg); }
+        95.71%  { transform: translate(100.2px, 113.3px) rotate(-86.3deg); }
+        97.14%  { transform: translate(100.0px, 104.9px) rotate(-88.8deg); }
+        98.57%  { transform: translate(100.0px, 100.6px) rotate(-89.8deg); }
+        100.00% { transform: translate(100.0px, 100.0px) rotate(-90.0deg); }
+      }
+
+      /* Independent 360° Kickflip: Board flips under the skater while airborne (t=3.1s to 4.0s) */
+      @keyframes flip {
+        0%, 42.86%, 44.29% { transform: scaleY(1); }
+        47.50%             { transform: scaleY(0); }
+        50.71%             { transform: scaleY(-1); }
+        53.93%             { transform: scaleY(0); }
+        57.14%, 100%       { transform: scaleY(1); }
+      }
+
+      .skater-group {
+        animation: skate 7s linear infinite;
+      }
+      .board-flip-group {
+        animation: flip 7s linear infinite;
+        transform-origin: 0 0;
+      }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="800" height="400" fill="#1a252f" />
+
+  <!-- Half-pipe / Vert Ramp: Two opposing quarter pipes (R=200), flat bottom, and deck extensions -->
+  <g id="half-pipe">
+    <!-- Perspective guide lines on the transitions -->
+    <g stroke="#34495e" stroke-width="2" opacity="0.6">
+      <line x1="150" y1="100" x2="150" y2="232" />
+      <line x1="200" y1="100" x2="200" y2="273" />
+      <line x1="250" y1="100" x2="250" y2="294" />
+      <line x1="550" y1="100" x2="550" y2="294" />
+      <line x1="600" y1="100" x2="600" y2="273" />
+      <line x1="650" y1="100" x2="650" y2="232" />
+    </g>
+    <!-- Ramp Surface -->
+    <path d="M 0 100 L 100 100 A 200 200 0 0 0 300 300 L 500 300 A 200 200 0 0 0 700 100 L 800 100" 
+          fill="none" stroke="#7f8c8d" stroke-width="14" stroke-linecap="square" />
+    <path d="M 0 100 L 100 100 A 200 200 0 0 0 300 300 L 500 300 A 200 200 0 0 0 700 100 L 800 100" 
+          fill="none" stroke="#95a5a6" stroke-width="4" />
+    <!-- Metal Copings -->
+    <circle cx="100" cy="100" r="7" fill="#bdc3c7" stroke="#2c3e50" stroke-width="2" />
+    <circle cx="700" cy="100" r="7" fill="#bdc3c7" stroke="#2c3e50" stroke-width="2" />
+  </g>
+
+  <!-- Skater Master Group: Driven by pendulum physics, parabolic gravity, and 360° aerial rotation -->
+  <g class="skater-group">
+    
+    <!-- Independent Kickflip Group: Contains ONLY the board so it flips beneath the rider's feet -->
+    <g class="board-flip-group">
+      <!-- Skateboard Deck with kicked nose/tail -->
+      <rect x="-35" y="-4" width="70" height="8" rx="3" fill="#e74c3c" stroke="#222" stroke-width="2" />
+      <path d="M -35 -4 Q -43 -9 -41 0 Q -43 9 -35 4" fill="#e74c3c" stroke="#222" stroke-width="2" stroke-linejoin="round" />
+      <path d="M 35 -4 Q 43 -9 41 0 Q 43 9 35 4" fill="#e74c3c" stroke="#222" stroke-width="2" stroke-linejoin="round" />
+      <!-- 2 Trucks (side profile) -->
+      <path d="M -22 4 L -22 10 M -28 10 L -16 10" stroke="#95a5a6" stroke-width="3" fill="none" stroke-linecap="round" />
+      <path d="M 22 4 L 22 10 M 16 10 L 28 10" stroke="#95a5a6" stroke-width="3" fill="none" stroke-linecap="round" />
+      <!-- 4 Wheels visible -->
+      <circle cx="-28" cy="14" r="4" fill="#f1c40f" stroke="#222" stroke-width="1.5" />
+      <circle cx="-16" cy="14" r="4" fill="#f1c40f" stroke="#222" stroke-width="1.5" />
+      <circle cx="16"  cy="14" r="4" fill="#f1c40f" stroke="#222" stroke-width="1.5" />
+      <circle cx="28"  cy="14" r="4" fill="#f1c40f" stroke="#222" stroke-width="1.5" />
+    </g>
+
+    <!-- Skater Figure: Stays dynamically crouched and upright relative to the body spin -->
+    <g id="skater-body">
+      <!-- Legs & Shoes -->
+      <path d="M -18 -4 Q -10 -20 -5 -30 M 18 -4 Q 10 -20 12 -28" stroke="#2c3e50" stroke-width="6" fill="none" stroke-linecap="round" />
+      <path d="M -23 -4 L -12 -4 M 14 -4 L 25 -4" stroke="#ecf0f1" stroke-width="5" stroke-linecap="round" />
+      <!-- Torso -->
+      <path d="M -5 -30 Q 0 -48 10 -50" stroke="#3498db" stroke-width="9" fill="none" stroke-linecap="round" />
+      <!-- Head & Helmet -->
+      <circle cx="14" cy="-56" r="8" fill="#f5b7b1" stroke="#222" stroke-width="1.5" />
+      <path d="M 6 -56 A 8 8 0 0 1 22 -56 Z" fill="#e67e22" stroke="#222" stroke-width="1.5" />
+      <!-- Arms extended for balance / grab -->
+      <path d="M 5 -45 Q -10 -40 -18 -28 M 8 -46 Q 25 -40 30 -26" stroke="#3498db" stroke-width="5" fill="none" stroke-linecap="round" />
+      <circle cx="-18" cy="-28" r="3" fill="#f5b7b1" />
+      <circle cx="30"  cy="-26" r="3" fill="#f5b7b1" />
+    </g>
+    
+  </g>
+</svg>
