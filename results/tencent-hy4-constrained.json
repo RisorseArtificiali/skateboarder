@@ -1,0 +1,61 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "constrained",
+  "model": "tencent/hy4",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "timestamp": "2026-11-04T09:46:35+01:00",
+  "params": {
+    "max_tokens": 128000
+  },
+  "reasoning": {
+    "requested": "default",
+    "effort": null,
+    "provider_default": {
+      "source": "openrouter-models",
+      "checked_at": "2026-11-04T08:46:36+00:00",
+      "supported": true,
+      "enabled": true,
+      "effort": "high",
+      "mandatory": false,
+      "supported_efforts": [
+        "high",
+        "low",
+        "none"
+      ],
+      "supports_max_tokens": false
+    }
+  },
+  "seconds": 280.0,
+  "usage": {
+    "prompt_tokens": 261,
+    "completion_tokens": 33906,
+    "total_tokens": 34167,
+    "cost": 0.04250829,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.04250829,
+      "upstream_inference_prompt_cost": 0.000108837,
+      "upstream_inference_completions_cost": 0.042399453
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 29991,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "reasoning_tokens": 29991,
+  "finish_reason": "stop",
+  "content_len": 10286,
+  "svg_len": 10275,
+  "has_animation": true,
+  "uses_js": false,
+  "error": null,
+  "file": "results/tencent-hy4-constrained.svg",
+  "contributor": "maeste"
+}
