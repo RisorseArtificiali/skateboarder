@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "count": 77,
+  "count": 82,
   "entries": [
     {
       "id": "anthropic-claude-haiku-5-5-constrained",
@@ -3438,6 +3438,92 @@
       "svg": "results/recursive-flint-v1-0-free-minimal.svg"
     },
     {
+      "id": "recursivesi-flint-constrained",
+      "group_id": "recursivesi-flint-constrained-eade35587972",
+      "reasoning": {
+        "requested": "default",
+        "effort": null
+      },
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "RecursiveSI/flint",
+      "endpoint": "http://192.168.11.36:30000/v1",
+      "timestamp": "2026-10-26T21:10:34+01:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 235,
+        "total_tokens": 12089,
+        "completion_tokens": 11854,
+        "prompt_tokens_details": null,
+        "reasoning_tokens": 0
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "stop",
+      "svg_len": 2377,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 354.1,
+      "contributor": "beelzetron",
+      "cost_usd": null,
+      "note": "nvidia GB10",
+      "hardware": {
+        "os": "Linux 7.0.0-1019-nvidia",
+        "cpu": "Cortex-X925",
+        "ram_gb": 128
+      },
+      "engine": {
+        "name": "sglang"
+      },
+      "quantization": "nvfp4",
+      "svg": "results/recursivesi-flint-constrained.svg"
+    },
+    {
+      "id": "recursivesi-flint-minimal",
+      "group_id": "recursivesi-flint-minimal-a7c30e7d5e0e",
+      "reasoning": {
+        "requested": "default",
+        "effort": null
+      },
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "RecursiveSI/flint",
+      "endpoint": "http://192.168.11.36:30000/v1",
+      "timestamp": "2026-10-26T21:02:34+01:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 10280,
+        "completion_tokens": 10254,
+        "prompt_tokens_details": null,
+        "reasoning_tokens": 0
+      },
+      "reasoning_tokens": null,
+      "finish_reason": "stop",
+      "svg_len": 2548,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 304.8,
+      "contributor": "beelzetron",
+      "cost_usd": null,
+      "note": "nvidia GB10",
+      "hardware": {
+        "os": "Linux 7.0.0-1019-nvidia",
+        "cpu": "Cortex-X925",
+        "ram_gb": 128
+      },
+      "engine": {
+        "name": "sglang"
+      },
+      "quantization": "nvfp4",
+      "svg": "results/recursivesi-flint-minimal.svg"
+    },
+    {
       "id": "stepfun-step-5-preview-constrained",
       "group_id": "stepfun-step-5-preview-constrained-573bfe54eb70",
       "reasoning": {
@@ -3570,6 +3656,208 @@
       "engine": null,
       "quantization": null,
       "svg": "results/stepfun-step-5-preview-minimal.svg"
+    },
+    {
+      "id": "tencent-hy4-constrained",
+      "group_id": "tencent-hy4-constrained-7cf04bd47f29",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-11-04T08:46:36+00:00",
+          "supported": true,
+          "enabled": true,
+          "effort": "high",
+          "mandatory": false,
+          "supported_efforts": [
+            "high",
+            "low",
+            "none"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "constrained",
+      "model": "tencent/hy4",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-11-04T09:46:35+01:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 261,
+        "completion_tokens": 33906,
+        "total_tokens": 34167,
+        "cost": 0.04250829,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.04250829,
+          "upstream_inference_prompt_cost": 0.000108837,
+          "upstream_inference_completions_cost": 0.042399453
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 29991,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 29991,
+      "finish_reason": "stop",
+      "svg_len": 10275,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 280.0,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/tencent-hy4-constrained.svg"
+    },
+    {
+      "id": "tencent-hy4-minimal-no_reasoning",
+      "group_id": "tencent-hy4-minimal-c0535d4af286",
+      "reasoning": {
+        "requested": "disabled",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-11-04T09:01:26+00:00",
+          "supported": true,
+          "enabled": true,
+          "effort": "high",
+          "mandatory": false,
+          "supported_efforts": [
+            "high",
+            "low",
+            "none"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "tencent/hy4",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-11-04T10:01:26+01:00",
+      "params": {
+        "max_tokens": 128000,
+        "no_reasoning": true
+      },
+      "usage": {
+        "prompt_tokens": 48,
+        "completion_tokens": 3374,
+        "total_tokens": 3422,
+        "cost": 0.004239203,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.004239203,
+          "upstream_inference_prompt_cost": 2.0016e-05,
+          "upstream_inference_completions_cost": 0.004219187
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 0,
+      "finish_reason": "stop",
+      "svg_len": 9241,
+      "has_animation": true,
+      "uses_js": false,
+      "error": null,
+      "seconds": 30.1,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": "diagnostic: retry after content_filter, reasoning disabled",
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": "results/tencent-hy4-minimal-no_reasoning.svg"
+    },
+    {
+      "id": "tencent-hy4-minimal",
+      "group_id": "tencent-hy4-minimal-c0535d4af286",
+      "reasoning": {
+        "requested": "default",
+        "effort": null,
+        "provider_default": {
+          "source": "openrouter-models",
+          "checked_at": "2026-11-04T08:37:46+00:00",
+          "supported": true,
+          "enabled": true,
+          "effort": "high",
+          "mandatory": false,
+          "supported_efforts": [
+            "high",
+            "low",
+            "none"
+          ],
+          "supports_max_tokens": false
+        }
+      },
+      "benchmark": "skateboard",
+      "prompt": "minimal",
+      "model": "tencent/hy4",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "timestamp": "2026-11-04T09:37:46+01:00",
+      "params": {
+        "max_tokens": 128000
+      },
+      "usage": {
+        "prompt_tokens": 25,
+        "completion_tokens": 39999,
+        "total_tokens": 40024,
+        "cost": 0.0500291745,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0500291745,
+          "upstream_inference_prompt_cost": 1.0425e-05,
+          "upstream_inference_completions_cost": 0.0500187495
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 39999,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "reasoning_tokens": 39999,
+      "finish_reason": "content_filter",
+      "svg_len": 0,
+      "has_animation": false,
+      "uses_js": false,
+      "error": "no SVG in response (finish_reason='content_filter', content_len=0)",
+      "seconds": 528.7,
+      "contributor": "maeste",
+      "cost_usd": null,
+      "note": null,
+      "hardware": null,
+      "engine": null,
+      "quantization": null,
+      "svg": null
     },
     {
       "id": "tensorfold-glm-5-3-flash-constrained-2769a87db1",
