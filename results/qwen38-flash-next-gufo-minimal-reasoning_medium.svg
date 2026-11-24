@@ -1,0 +1,97 @@
+<svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" font-family="Arial Black, Arial, sans-serif">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffb36b"/><stop offset="0.55" stop-color="#ff8f70"/><stop offset="1" stop-color="#6a5b8f"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff3c4"/><stop offset="0.7" stop-color="#ffd54f"/><stop offset="1" stop-color="#ffd54f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- background -->
+  <rect width="1000" height="600" fill="url(#sky)"/>
+  <circle cx="860" cy="140" r="130" fill="url(#sun)" opacity="0.8"/>
+  <circle cx="860" cy="140" r="45" fill="#ffe082"/>
+  <g fill="#ffffff" opacity="0.35">
+    <ellipse cx="200" cy="90" rx="70" ry="18"><animateTransform attributeName="transform" type="translate" values="0 0;60 0;0 0" dur="30s" repeatCount="indefinite"/></ellipse>
+    <ellipse cx="620" cy="60" rx="90" ry="20"><animateTransform attributeName="transform" type="translate" values="0 0;-50 0;0 0" dur="26s" repeatCount="indefinite"/></ellipse>
+  </g>
+
+  <!-- ground / ramp cross-section -->
+  <path d="M0,600 L0,200 L180,200 C180,338 292,450 430,450 L570,450 C708,450 820,338 820,200 L1000,200 L1000,600 Z" fill="#2f3b44"/>
+  <g stroke="#46565f" stroke-width="8">
+    <line x1="120" y1="230" x2="120" y2="600"/><line x1="300" y1="420" x2="300" y2="600"/>
+    <line x1="500" y1="470" x2="500" y2="600"/><line x1="700" y1="420" x2="700" y2="600"/>
+    <line x1="880" y1="230" x2="880" y2="600"/>
+  </g>
+  <!-- riding surface -->
+  <path d="M180,200 C180,338 292,450 430,450 L570,450 C708,450 820,338 820,200" fill="none" stroke="#8fa3ad" stroke-width="7" stroke-linecap="round"/>
+  <!-- copings -->
+  <circle cx="180" cy="200" r="7" fill="#ffd54f"/><circle cx="820" cy="200" r="7" fill="#ffd54f"/>
+
+  <!-- drop-in platform -->
+  <rect x="30" y="104" width="150" height="12" rx="3" fill="#46565f"/>
+  <rect x="45" y="116" width="10" height="84" fill="#46565f"/><rect x="150" y="116" width="10" height="84" fill="#46565f"/>
+
+  <!-- labels -->
+  <text x="60" y="70" font-size="26" fill="#5d4037" opacity="0">DROP IN!
+    <animate attributeName="opacity" values="1;0;0" keyTimes="0;0.10;1" calcMode="discrete" dur="4.6s" repeatCount="indefinite"/>
+  </text>
+  <text x="880" y="470" font-size="30" fill="#5d4037" text-anchor="middle" opacity="0">540!!!
+    <animate attributeName="opacity" values="0;1;0" keyTimes="0;0.402;0.62" calcMode="discrete" dur="4.6s" repeatCount="indefinite"/>
+  </text>
+
+  <!-- ================= SKATER ================= -->
+  <g>
+    <!-- 1) TRANSLATION: pendulum-like motion in the pipe (gravity easing via keySplines) -->
+    <animateMotion dur="4.6s" repeatCount="indefinite" calcMode="spline"
+      path="M180,100 L180,200 C180,338 292,450 430,450 L570,450 C708,450 820,338 820,200 L820,100 L820,200
+            C820,338 708,450 570,450 L430,450 C292,450 180,338 180,200 L180,100"
+      keyTimes="0;0.098;0.231;0.269;0.402;0.5;0.598;0.731;0.769;1"
+      keyPoints="0;0.0465;0.2291;0.2942;0.4768;0.5232;0.5697;0.7523;0.8174;1"
+      keySplines="0.5 0 0.8 0.6;  0.3 0.21 0.7 0.61;  0 0 1 1;  0.3 0.39 0.7 0.79;  0.3 0.6 0.7 1;
+                  0.5 0 0.8 0.6;  0.3 0.21 0.7 0.61;  0 0 1 1;  0.3 0.53 0.7 1"/>
+
+    <!-- 2) ROTATION: body stays tangent to ramp; 540 spin during the 0.9 s airtime -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" dur="4.6s" repeatCount="indefinite"
+        calcMode="spline"
+        keyTimes="0;0.098;0.231;0.269;0.402;0.5;0.598;0.598;0.731;0.769;1"
+        values="90;90;0;0;-90;180;450;-90;0;0;90"
+        keySplines="0 0 1 1; 0.3 0.21 0.7 1; 0 0 1 1; 0.3 0.39 0.7 0.79; 0 0 1 1; 0 0 1 1;
+                    0 0 1 1; 0.3 0.21 0.7 0.61; 0 0 1 1; 0.3 0.66 0.7 1"/>
+
+      <!-- 3) FACING: skater lands switch (mirrors after the trick) -->
+      <g>
+        <animateTransform attributeName="transform" type="scale" dur="4.6s" repeatCount="indefinite"
+          calcMode="discrete" keyTimes="0;0.598" values="1 1;-1 1"/>
+
+        <!-- POSE A: riding -->
+        <g>
+          <animate attributeName="opacity" values="1;0;1" keyTimes="0;0.402;0.598" calcMode="discrete" dur="4.6s" repeatCount="indefinite"/>
+          <circle cx="-21" cy="-4.5" r="4.5" fill="#3e2723"/><circle cx="21" cy="-4.5" r="4.5" fill="#3e2723"/>
+          <rect x="-34" y="-13" width="68" height="6" rx="3" fill="#c62828"/>
+          <g stroke="#16232e" stroke-width="5" stroke-linecap="round" fill="none">
+            <path d="M-16,-13 L-12,-28 L-2,-42"/><path d="M16,-13 L14,-28 L-2,-42"/>
+            <path d="M-2,-42 L0,-66"/>
+            <path d="M0,-62 L20,-56"/><path d="M0,-62 L-20,-52"/>
+          </g>
+          <circle cx="0" cy="-75" r="7.5" fill="#16232e"/>
+        </g>
+
+        <!-- POSE B: 540 grab (tucked) -->
+        <g opacity="0">
+          <animate attributeName="opacity" values="0;1;0" keyTimes="0;0.402;0.598" calcMode="discrete" dur="4.6s" repeatCount="indefinite"/>
+          <circle cx="-21" cy="-4.5" r="4.5" fill="#3e2723"/><circle cx="21" cy="-4.5" r="4.5" fill="#3e2723"/>
+          <rect x="-34" y="-13" width="68" height="6" rx="3" fill="#c62828"/>
+          <g stroke="#16232e" stroke-width="5" stroke-linecap="round" fill="none">
+            <path d="M-16,-13 L-8,-26 L0,-38"/><path d="M16,-13 L10,-26 L0,-38"/>
+            <path d="M0,-38 L2,-58"/>
+            <path d="M1,-54 C10,-44 16,-28 17,-13"/><path d="M1,-54 L-18,-68"/>
+          </g>
+          <circle cx="2" cy="-67" r="7.5" fill="#16232e"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

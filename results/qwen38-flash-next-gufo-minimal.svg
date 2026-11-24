@@ -1,0 +1,289 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="1200" height="720" role="img" aria-labelledby="ttl dsc">
+<title id="ttl">The Pipe — a skater running four airs on a halfpipe</title>
+<desc id="dsc">Side profile of a halfpipe at sunset. A skater oscillates between the two copings, gaining speed through the transition and going 4 feet 10 inches above the lip, doing a melon grab, a method air, a 360 and an indy grab. Motion timing is derived from energy conservation and ballistic flight.</desc>
+
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#0a2138"/><stop offset=".38" stop-color="#2d6d86"/>
+    <stop offset=".66" stop-color="#93acae"/><stop offset=".85" stop-color="#e9b07c"/><stop offset="1" stop-color="#ffd79c"/>
+  </linearGradient>
+  <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#f0b687"/><stop offset=".18" stop-color="#5b8396"/><stop offset="1" stop-color="#1b3a50"/>
+  </linearGradient>
+  <radialGradient id="corona"><stop offset="0" stop-color="#ffd692" stop-opacity=".92"/><stop offset=".42" stop-color="#ffb266" stop-opacity=".34"/><stop offset="1" stop-color="#ff9c50" stop-opacity="0"/></radialGradient>
+  <radialGradient id="disc"><stop offset="0" stop-color="#fff5d6"/><stop offset=".65" stop-color="#ffcf7c"/><stop offset="1" stop-color="#ffa457"/></radialGradient>
+  <linearGradient id="face" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c4351"/><stop offset=".55" stop-color="#1a2b36"/><stop offset="1" stop-color="#0b1419"/></linearGradient>
+  <linearGradient id="deckTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4c6472"/><stop offset="1" stop-color="#233541"/></linearGradient>
+  <radialGradient id="vig" cx=".5" cy=".42" r=".78"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#050d14" stop-opacity=".62"/></radialGradient>
+  <linearGradient id="vel" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4fd1c5"/><stop offset=".55" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff5f56"/></linearGradient>
+  <pattern id="link" width="22" height="22" patternUnits="userSpaceOnUse">
+    <path d="M0,0 L22,22 M22,0 L0,22" fill="none" stroke="#cfe4ec" stroke-opacity=".14" stroke-width="1.1"/>
+  </pattern>
+
+  <style>
+    .mono{font-family:ui-monospace,"SF Mono","DejaVu Sans Mono",Menlo,monospace;font-size:11px;letter-spacing:.15em;fill:#cfe3ea;text-transform:uppercase}
+    .mono.s{font-size:9.5px;letter-spacing:.2em;fill:#9db9c4}
+    .disp{font-family:Impact,Haettenschweiler,"Arial Narrow","Anton",sans-serif;font-weight:900}
+    .cap{font-family:Impact,Haettenschweiler,"Arial Narrow",sans-serif;font-size:27px;letter-spacing:.07em;fill:#fff2dd}
+    .capSub{font-family:ui-monospace,"DejaVu Sans Mono",monospace;font-size:10px;letter-spacing:.24em;fill:#ffd27a}
+    #hud,#guides{transition:opacity .7s ease}
+    .stage:hover #hud{opacity:1}
+    .stage:hover #guides{opacity:.9}
+    .stage{cursor:crosshair}
+    @keyframes breathe{0%,100%{opacity:.62}50%{opacity:1}}
+    @keyframes driftA{from{transform:translateX(-260px)}to{transform:translateX(1460px)}}
+    @keyframes driftB{from{transform:translateX(1300px)}to{transform:translateX(-320px)}}
+    @keyframes sway{0%,100%{transform:rotate(-2.2deg)}50%{transform:rotate(2.4deg)}}
+    @keyframes flap{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.24)}}
+    @keyframes mote{0%{transform:translateY(14px);opacity:0}22%{opacity:.75}100%{transform:translateY(-120px);opacity:0}}
+    .glow{animation:breathe 8s ease-in-out infinite}
+    .cloudA{animation:driftA 150s linear infinite}
+    .cloudB{animation:driftB 210s linear infinite}
+    .fronds{transform-box:fill-box;transform-origin:50% 96%;animation:sway 7.5s ease-in-out infinite}
+    .fronds.b{animation-duration:9.4s;animation-delay:-2s}
+    .fronds.c{animation-duration:6.6s;animation-delay:-4s}
+    .wing{transform-box:fill-box;transform-origin:center;animation:flap .42s ease-in-out infinite}
+    .mote{animation:mote 11s linear infinite}
+    .mote:nth-of-type(2){animation-duration:14s;animation-delay:-3s}
+    .mote:nth-of-type(3){animation-duration:9s;animation-delay:-6s}
+    .mote:nth-of-type(4){animation-duration:16s;animation-delay:-9s}
+    .mote:nth-of-type(5){animation-duration:12.5s;animation-delay:-1.5s}
+    @media (prefers-reduced-motion:reduce){.cloudA,.cloudB,.fronds,.wing,.mote,.glow{animation:none}}
+  </style>
+</defs>
+
+<g class="stage">
+<!-- ═══════════ SKY / DISTANCE ═══════════ -->
+<rect width="1200" height="720" fill="url(#sky)"/>
+<ellipse class="glow" cx="600" cy="350" rx="330" ry="255" fill="url(#corona)"/>
+<circle cx="600" cy="350" r="105" fill="url(#disc)"/>
+<g opacity=".5" fill="#ffe0a8"><rect x="586" y="372" width="28" height="3" rx="1.5"/><rect x="576" y="384" width="48" height="3" rx="1.5"/><rect x="592" y="396" width="18" height="3" rx="1.5"/></g>
+
+<g class="cloudA" opacity=".3"><path d="M0,150 q40,-16 92,-6 q34,-14 74,4 q30,-4 44,10 l-210,0 q-14,-6 0,-8z" fill="#ffcf9a"/></g>
+<g class="cloudB" opacity=".22"><path d="M0,268 q56,-18 118,-5 q40,-12 86,8 l-204,0z" fill="#ffe4c0"/></g>
+
+<!-- distant hills + sea -->
+<path d="M0,342 q110,-42 214,-8 q92,28 170,-6 q64,-26 122,4 L506,420 L0,420Z" fill="#1e4257" opacity=".9"/>
+<path d="M700,336 q96,-40 186,-4 q84,30 314,-16 L1200,420 L700,420Z" fill="#1a3a4e" opacity=".9"/>
+<rect x="0" y="370" width="1200" height="54" fill="url(#sea)"/>
+<g opacity=".55" fill="#ffd9a4"><rect x="560" y="374" width="82" height="3" rx="1.5"/><rect x="546" y="382" width="112" height="3" rx="1.5"/><rect x="572" y="390" width="60" height="3" rx="1.5"/><rect x="556" y="398" width="92" height="2.5" rx="1.2"/></g>
+
+<!-- chain link fence -->
+<g opacity=".75"><rect x="0" y="318" width="1200" height="106" fill="url(#link)"/><rect x="0" y="316" width="1200" height="3" fill="#9fb9c6" opacity=".38"/>
+  <g fill="#8fa9b6" opacity=".3"><rect x="118" y="316" width="3.5" height="108"/><rect x="398" y="316" width="3.5" height="108"/><rect x="800" y="316" width="3.5" height="108"/><rect x="1080" y="316" width="3.5" height="108"/></g></g>
+
+<!-- palms -->
+<g fill="#0d1f29">
+  <path d="M148,420 C142,364 156,314 172,262 l9,2 C166,318 160,368 162,420Z"/>
+  <path class="fronds" d="M176,258 q-40,-22 -74,-12 q36,-18 76,2 q-16,-36 -46,-46 q38,6 60,42 q4,-34 -12,-56 q30,20 30,60 q22,-26 50,-28 q-24,14 -38,40 q28,-6 46,8 q-30,-2 -52,10 q16,10 24,26 q-22,-16 -38,-14z"/>
+  <path d="M1092,420 C1096,372 1086,322 1070,278 l-9,2 C1082,326 1086,374 1080,420Z"/>
+  <path class="fronds b" d="M1066,274 q40,-20 72,-8 q-34,-18 -74,-2 q14,-32 44,-42 q-36,6 -58,38 q-2,-30 14,-50 q-28,18 -28,54 q-22,-24 -48,-24 q22,12 36,36 q-26,-6 -44,8 q28,-2 50,10 q-16,10 -22,24 q20,-14 38,-12z"/>
+  <path d="M228,420 C224,382 232,348 242,314 l7,2 C236,350 234,384 238,420Z"/>
+  <path class="fronds c" d="M245,312 q-32,-16 -58,-8 q28,-14 60,0 q-12,-26 -36,-34 q30,6 46,32 q4,-24 -10,-42 q24,16 22,46 q18,-20 40,-20 q-20,12 -32,30 q24,-4 38,8 q-26,-2 -42,8 q14,8 20,20 q-18,-12 -32,-12z"/>
+</g>
+
+<!-- birds -->
+<g fill="none" stroke="#12252f" stroke-width="2.2" stroke-linecap="round" opacity=".8">
+  <g class="cloudA" style="animation-duration:96s"><path class="wing" d="M300,120 q7,-8 14,0 q7,-8 14,0"/></g>
+  <g class="cloudA" style="animation-duration:112s;animation-delay:-30s"><path class="wing" d="M420,168 q5,-6 10,0 q5,-6 10,0" style="animation-duration:.5s"/></g>
+  <g class="cloudB" style="animation-duration:130s"><path class="wing" d="M700,96 q6,-7 12,0 q6,-7 12,0" style="animation-duration:.36s"/></g>
+</g>
+
+<!-- ═══════════ RAMP STRUCTURE ═══════════ -->
+<path d="M0,420 L250,420 A220,220 0 0 0 470,640 L730,640 A220,220 0 0 0 950,420 L1200,420 L1200,720 L0,720Z" fill="url(#face)"/>
+<g stroke="#3d5968" stroke-opacity=".45" stroke-width="1.1">
+  <path d="M60,420 L60,720"/><path d="M150,420 L150,720"/><path d="M1040,420 L1040,720"/><path d="M1140,420 L1140,720"/>
+  <path d="M0,540 L250,540"/><path d="M950,540 L1200,540"/><path d="M0,640 L1200,640" stroke-opacity=".22"/>
+</g>
+<g fill="none" stroke="#6d8794" stroke-opacity=".16">
+  <path d="M262,420 A208,208 0 0 0 470,628"/><path d="M274,420 A196,196 0 0 0 470,616"/><path d="M938,420 A208,208 0 0 1 730,628"/><path d="M926,420 A196,196 0 0 1 730,616"/>
+</g>
+<rect x="0" y="410" width="1200" height="11" fill="url(#deckTop)"/>
+<rect x="0" y="409" width="252" height="2.4" fill="#ffb877" opacity=".85"/><rect x="948" y="409" width="252" height="2.4" fill="#ffb877" opacity=".85"/>
+
+<!-- riding surface -->
+<path d="M250,420 A220,220 0 0 0 470,640 L730,640 A220,220 0 0 0 950,420" fill="none" stroke="#c9bfb2" stroke-opacity=".26" stroke-width="15"/>
+<path d="M250,420 A220,220 0 0 0 470,640 L730,640 A220,220 0 0 0 950,420" fill="none" stroke="#f4e6cd" stroke-opacity=".8" stroke-width="3"/>
+<g stroke="#ffffff" stroke-opacity=".2" stroke-width="1"><path d="M300,470 L292,476"/><path d="M360,545 L352,552"/><path d="M900,470 L908,476"/><path d="M840,545 L848,552"/><path d="M560,632 L560,624"/><path d="M650,632 L650,624"/></g>
+
+<!-- graffiti -->
+<g transform="translate(64 566) rotate(-4)">
+  <text class="disp" font-size="72" letter-spacing="3" fill="#ff5f56" opacity=".9">PIPE</text>
+  <text class="disp" font-size="72" letter-spacing="3" x="4" y="5" fill="none" stroke="#ffd27a" stroke-opacity=".5" stroke-width="1.6"/>
+</g>
+<text class="mono s" x="70" y="592" fill="#7fa3b0">22 FT · VERT · EST 1978</text>
+<g transform="translate(1012 600) rotate(3)"><rect width="86" height="26" rx="3" fill="#0e1c24" stroke="#7d99a6" stroke-opacity=".5"/><text class="mono s" x="9" y="17" fill="#e8c98f">SKATE EASY</text></g>
+
+<!-- copings -->
+<g><circle cx="250" cy="420" r="7" fill="#e3e8ee"/><circle cx="250" cy="421" r="7" fill="#7d8a94" opacity=".6"/><rect x="243" y="414" width="4" height="4" fill="#fff" opacity=".75"/>
+   <circle cx="950" cy="420" r="7" fill="#e3e8ee"/><circle cx="950" cy="421" r="7" fill="#7d8a94" opacity=".6"/><rect x="947" y="414" width="4" height="4" fill="#fff" opacity=".75"/></g>
+
+<!-- ═══════════ PHYSICS GUIDES ═══════════ -->
+<g id="guides" opacity=".3" fill="none" stroke="#9fe8dc" stroke-width="1.2">
+  <path d="M250,412 L250,258" stroke-dasharray="2 7"/><path d="M950,412 L950,258" stroke-dasharray="2 7"/>
+  <path d="M206,265 L470,265" stroke-dasharray="6 8" stroke-opacity=".7"/><path d="M730,265 L994,265" stroke-dasharray="6 8" stroke-opacity=".7"/>
+  <path d="M206,258 L206,272 M994,258 L994,272" stroke-opacity=".7"/>
+</g>
+<text class="mono s" x="212" y="252" fill="#7fe0d2" opacity=".7">APEX · v = 0 · 4′10″</text>
+<text class="mono s" x="988" y="252" fill="#7fe0d2" opacity=".7" text-anchor="end">APEX · v = 0 · 4′10″</text>
+
+<!-- ═══════════ IMPACT BURSTS ═══════════ -->
+<g transform="translate(250,420)"><g opacity="0" stroke="#ffe7b8" stroke-width="2.4" stroke-linecap="round">
+  <path d="M-16,-6 L-30,-14"/><path d="M-10,-16 L-16,-32"/><path d="M10,-14 L18,-30"/><path d="M18,-4 L34,-8"/><path d="M4,-18 L6,-36"/>
+  <animate attributeName="opacity" dur="8.904s" repeatCount="indefinite" keyTimes="0;0.1152;0.1202;0.147;0.6152;0.6202;0.647;1" values="0;0;1;0;0;1;0;0"/>
+  <animateTransform attributeName="transform" type="scale" additive="sum" dur="8.904s" repeatCount="indefinite" keyTimes="0;0.1152;0.147;0.6152;0.1471;0.6202;0.647;1" values=".4;.4;1.5;.4;.4;1.5;.4;.4"/></g></g>
+<g transform="translate(950,420)"><g opacity="0" stroke="#ffe7b8" stroke-width="2.4" stroke-linecap="round">
+  <path d="M16,-6 L30,-14"/><path d="M10,-16 L16,-32"/><path d="M-10,-14 L-18,-30"/><path d="M-18,-4 L-34,-8"/><path d="M-4,-18 L-6,-36"/>
+  <animate attributeName="opacity" dur="8.904s" repeatCount="indefinite" keyTimes="0;0.3652;0.3702;0.397;0.8652;0.8702;0.897;1" values="0;0;1;0;0;1;0;0"/>
+  <animateTransform attributeName="transform" type="scale" additive="sum" dur="8.904s" repeatCount="indefinite" keyTimes="0;0.3652;0.397;0.3971;0.8702;0.897;0.8971;1" values=".4;.4;1.5;.4;.4;1.5;.4;.4"/></g></g>
+
+<!-- ═══════════ SKATER ═══════════ -->
+<g id="rider">
+  <animateMotion dur="8.904s" repeatCount="indefinite" calcMode="spline"
+    path="M250,420 L250,265 L250,420 A220,220 0 0 0 470,640 L730,640 A220,220 0 0 0 950,420 L950,265 L950,420 A220,220 0 0 1 730,640 L470,640 A220,220 0 0 1 250,420 L250,265 L250,420 A220,220 0 0 0 470,640 L730,640 A220,220 0 0 0 950,420 L950,265 L950,420 A220,220 0 0 1 730,640 L470,640 A220,220 0 0 1 250,420"
+    keyTimes="0;0.05964;0.11927;0.13841;0.15413;0.16857;0.20069;0.21512;0.23084;0.25;0.30963;0.36927;0.38841;0.40413;0.41857;0.45069;0.46512;0.48084;0.5;0.55963;0.61927;0.63841;0.65413;0.66857;0.70069;0.71512;0.73084;0.75;0.80963;0.86927;0.88841;0.90413;0.91857;0.95069;0.96512;0.98084;1"
+    keyPoints="0;0.030726;0.061452;0.084286;0.107121;0.129956;0.181497;0.204331;0.227166;0.25;0.280725;0.311451;0.334286;0.357121;0.379956;0.431496;0.454331;0.477166;0.5;0.530726;0.561452;0.584287;0.607121;0.629956;0.681497;0.704331;0.727166;0.75;0.780725;0.811451;0.834286;0.857121;0.879956;0.931496;0.954331;0.977166;1"
+    keySplines="0.667 0.667 1 1;0 0 0.333 0.333;0.35 0.302 0.65 0.605;0.35 0.325 0.65 0.629;0.35 0.34 0.65 0.646;0 0 1 1;0.35 0.354 0.65 0.66;0.35 0.371 0.65 0.675;0.35 0.396 0.65 0.697;0.667 0.667 1 1;0 0 0.333 0.333;0.35 0.302 0.65 0.605;0.35 0.325 0.65 0.629;0.35 0.34 0.65 0.646;0 0 1 1;0.35 0.354 0.65 0.66;0.35 0.371 0.65 0.675;0.35 0.396 0.65 0.697;0.667 0.667 1 1;0 0 0.333 0.333;0.35 0.302 0.65 0.605;0.35 0.325 0.65 0.629;0.35 0.34 0.65 0.646;0 0 1 1;0.35 0.354 0.65 0.66;0.35 0.371 0.65 0.675;0.35 0.396 0.65 0.697;0.667 0.667 1 1;0 0 0.333 0.333;0.35 0.302 0.65 0.605;0.35 0.325 0.65 0.629;0.35 0.34 0.65 0.646;0 0 1 1;0.35 0.354 0.65 0.66;0.35 0.371 0.65 0.675;0.35 0.396 0.65 0.697"/>
+
+  <g id="yaw">
+   <animateTransform attributeName="transform" type="scale" dur="8.904s" repeatCount="indefinite"
+     keyTimes="0;0.5074;0.5213;0.5348;0.5482;0.5617;0.5751;0.5886;0.6025;0.61927;1"
+     values="1 1;1 1;0.62 1;0.06 1;-0.62 1;-1 1;-0.62 1;-0.06 1;0.7 1;1 1;1 1"/>
+
+   <g id="spinArcs" opacity="0">
+     <animate attributeName="opacity" dur="8.904s" repeatCount="indefinite" keyTimes="0;0.515;0.53;0.58;0.597;0.61927;1" values="0;0;.85;.85;0;0;0"/>
+     <g fill="none" stroke="#b6f2e8" stroke-linecap="round" stroke-width="2.6">
+       <path d="M-66,-104 A70 26 0 0 1 66,-104"/><path d="M-78,-58 A82 30 0 0 0 78,-58"/><path d="M-56,-142 A58 20 0 0 1 56,-142"/>
+     </g>
+   </g>
+
+   <!-- speed streaks (opacity ∝ |v|) -->
+   <g stroke="#ffe7c4" stroke-width="2.4" stroke-linecap="round" opacity="0" fill="none">
+     <path d="M-58,-32 L-88,-32"/><path d="M-50,-16 L-74,-16"/><path d="M54,-34 L84,-34"/><path d="M48,-14 L72,-14"/>
+     <animate attributeName="opacity" dur="8.904s" repeatCount="indefinite"
+       keyTimes="0;0.05964;0.11927;0.13841;0.15413;0.16857;0.20069;0.21512;0.23084;0.25;0.30963;0.36927;0.38841;0.40413;0.41857;0.45069;0.46512;0.48084;0.5;0.55963;0.61927;0.63841;0.65413;0.66857;0.70069;0.71512;0.73084;0.75;0.80963;0.86927;0.88841;0.90413;0.91857;0.95069;0.96512;0.98084;1"
+       values=".45;0;.45;.75;.95;1;1;.95;.75;.45;0;.45;.75;.95;1;1;.95;.75;.45;0;.45;.75;.95;1;1;.95;.75;.45;0;.45;.75;.95;1;1;.95;.75;.45"/>
+   </g>
+
+   <!-- contact shadow -->
+   <g><ellipse cx="0" cy="0" rx="44" ry="10" fill="#08131a" opacity=".38"/>
+     <animateTransform attributeName="transform" type="translate" dur="8.904s" repeatCount="indefinite"
+       keyTimes="0;0.05964;0.11927;0.25;0.30963;0.36927;0.5;0.55963;0.61927;0.75;0.80963;0.86927;1"
+       values="0,0;0,155;0,0;0,0;0,155;0,0;0,0;0,155;0,0;0,0;0,155;0,0;0,0"/>
+     <animate attributeName="opacity" dur="8.904s" repeatCount="indefinite"
+       keyTimes="0;0.05964;0.11927;0.25;0.30963;0.36927;0.5;0.55963;0.61927;0.75;0.80963;0.86927;1"
+       values=".38;.05;.38;.38;.05;.38;.38;.05;.38;.38;.05;.38;.38"/>
+   </g>
+
+   <!-- board angle a(t): locked to surface tangent, ballistic-style rotation arrest in the air -->
+   <g id="brd">
+    <animateTransform attributeName="transform" type="rotate" dur="8.904s" repeatCount="indefinite"
+      keyTimes="0;0.023854;0.05964;0.095416;0.11927;0.13841;0.15413;0.16857;0.20069;0.21512;0.23084;0.25;0.273854;0.30963;0.345416;0.36927;0.38841;0.40413;0.41857;0.45069;0.46512;0.48084;0.5;0.523854;0.55963;0.595416;0.61927;0.63841;0.65413;0.66857;0.70069;0.71512;0.73084;0.75;0.773854;0.80963;0.845416;0.86927;0.88841;0.90413;0.91857;0.95069;0.96512;0.98084;1"
+      values="90;106;58;106;90;60;30;0;0;-30;-60;-90;-106;-42;-106;-90;-60;-30;0;0;30;60;90;100;34;100;90;60;30;0;0;-30;-60;-90;-108;-70;-108;-90;-60;-30;0;0;30;60;90"
+      keySplines="0.25 0.505 0.7 1;0.42 0 0.58 1;0.42 0 0.58 1;0.2 0 0.75 0.495;0.35 0.302 0.65 0.605;0.35 0.325 0.65 0.629;0.35 0.34 0.65 0.646;0 0 1 1;0.35 0.354 0.65 0.66;0.35 0.371 0.65 0.675;0.35 0.396 0.65 0.697;0.25 0.505 0.7 1;0.42 0 0.58 1;0.42 0 0.58 1;0.2 0 0.75 0.495;0.35 0.302 0.65 0.605;0.35 0.325 0.65 0.629;0.35 0.34 0.65 0.646;0 0 1 1;0.35 0.354 0.65 0.66;0.35 0.371 0.65 0.675;0.35 0.396 0.65 0.697;0.25 0.505 0.7 1;0.42 0 0.58 1;0.42 0 0.58 1;0.2 0 0.75 0.495;0.35 0.302 0.65 0.605;0.35 0.325 0.65 0.629;0.35 0.34 0.65 0.646;0 0 1 1;0.35 0.354 0.65 0.66;0.35 0.371 0.65 0.675;0.35 0.396 0.65 0.697;0.25 0.505 0.7 1;0.42 0 0.58 1;0.42 0 0.58 1;0.2 0 0.75 0.495;0.35 0.302 0.65 0.605;0.35 0.325 0.65 0.629;0.35 0.34 0.65 0.646;0 0 1 1;0.35 0.354 0.65 0.66;0.35 0.371 0.65 0.675;0.35 0.396 0.65 0.697"/>
+
+    <!-- far leg -->
+    <path fill="none" stroke="#2b4653" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"
+      d="M0,-92 L7,-55 L-18,-26"><animate attributeName="d" dur="8.904s" repeatCount="indefinite"
+      keyTimes="0;0.05964;0.11927;0.13841;0.20069;0.23084;0.25;0.30963;0.36927;0.38841;0.45069;0.48084;0.5;0.55963;0.61927;0.63841;0.70069;0.73084;0.75;0.80963;0.86927;0.88841;0.95069;0.98084;1"
+      values="M0,-92 L7,-55 L-18,-26;M-22,-62 L13,-48 L-18,-26;M-14,-74 L13,-48 L-18,-26;M-30,-56 L12,-49 L-18,-26;M-10,-84 L10,-52 L-18,-26;M-24,-62 L12,-50 L-18,-26;M0,-92 L7,-55 L-18,-26;M-14,-60 L18,-39 L-18,-26;M-14,-74 L13,-48 L-18,-26;M-30,-56 L12,-49 L-18,-26;M-10,-84 L10,-52 L-18,-26;M-24,-62 L12,-50 L-18,-26;M0,-92 L7,-55 L-18,-26;M-20,-58 L15,-44 L-18,-26;M-14,-74 L13,-48 L-18,-26;M-30,-56 L12,-49 L-18,-26;M-10,-84 L10,-52 L-18,-26;M-24,-62 L12,-50 L-18,-26;M0,-92 L7,-55 L-18,-26;M-26,-58 L11,-50 L-18,-26;M-14,-74 L13,-48 L-18,-26;M-30,-56 L12,-49 L-18,-26;M-10,-84 L10,-52 L-18,-26;M-24,-62 L12,-50 L-18,-26;M0,-92 L7,-55 L-18,-26"/></path>
+    <path d="M-28,-20 L-28,-27 Q-28,-33 -21,-33 L-15,-33 Q-10,-33 -10,-27 L-10,-20 Z" fill="#141a21"/>
+
+    <!-- far arm -->
+    <path fill="none" stroke="#c14a34" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"
+      d="M4,-134 L-16,-112 L-30,-92"><animate attributeName="d" dur="8.904s" repeatCount="indefinite"
+      keyTimes="0;0.05964;0.11927;0.13841;0.20069;0.23084;0.25;0.30963;0.36927;0.38841;0.45069;0.48084;0.5;0.55963;0.61927;0.63841;0.70069;0.73084;0.75;0.80963;0.86927;0.88841;0.95069;0.98084;1"
+      values="M4,-134 L-16,-112 L-30,-92;M14,-84 L2,-56 L0,-22;M-6,-116 L-30,-98 L-52,-90;M6,-74 L-14,-58 L-32,-38;M8,-122 L-14,-100 L-30,-76;M10,-94 L-8,-70 L-20,-44;M4,-134 L-16,-112 L-30,-92;M-46,-86 L-70,-100 L-90,-108;M-6,-116 L-30,-98 L-52,-90;M6,-74 L-14,-58 L-32,-38;M8,-122 L-14,-100 L-30,-76;M10,-94 L-8,-70 L-20,-44;M4,-134 L-16,-112 L-30,-92;M14,-88 L0,-66 L18,-52;M-6,-116 L-30,-98 L-52,-90;M6,-74 L-14,-58 L-32,-38;M8,-122 L-14,-100 L-30,-76;M10,-94 L-8,-70 L-20,-44;M4,-134 L-16,-112 L-30,-92;M12,-80 L-2,-52 L2,-20;M-6,-116 L-30,-98 L-52,-90;M6,-74 L-14,-58 L-32,-38;M8,-122 L-14,-100 L-30,-76;M10,-94 L-8,-70 L-20,-44;M4,-134 L-16,-112 L-30,-92"/></path>
+
+    <!-- board -->
+    <g>
+      <path d="M-22,-13 L-22,-7 M22,-13 L22,-7" stroke="#8f9aa3" stroke-width="4.5" stroke-linecap="round"/>
+      <circle cx="-22" cy="-6.5" r="6.5" fill="#f2e0be"/><circle cx="22" cy="-6.5" r="6.5" fill="#f2e0be"/>
+      <circle cx="-22" cy="-6.5" r="2" fill="#2a2230"/><circle cx="22" cy="-6.5" r="2" fill="#2a2230"/>
+      <path d="M-40,-24 Q-24,-17 0,-17 Q24,-17 40,-24" fill="none" stroke="#d98a4b" stroke-width="7" stroke-linecap="round"/>
+      <path d="M-38,-26 Q-24,-19.5 0,-19.5 Q24,-19.5 38,-26" fill="none" stroke="#241d2b" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="-31" cy="-20" r="2.6" fill="#ff5f56"/>
+    </g>
+
+    <!-- near leg -->
+    <path fill="none" stroke="#37627a" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"
+      d="M0,-92 L25,-63 L16,-26"><animate attributeName="d" dur="8.904s" repeatCount="indefinite"
+      keyTimes="0;0.05964;0.11927;0.13841;0.20069;0.23084;0.25;0.30963;0.36927;0.38841;0.45069;0.48084;0.5;0.55963;0.61927;0.63841;0.70069;0.73084;0.75;0.80963;0.86927;0.88841;0.95069;0.98084;1"
+      values="M0,-92 L25,-63 L16,-26;M-22,-62 L16,-64 L16,-26;M-14,-74 L23,-64 L16,-26;M-30,-56 L10,-64 L16,-26;M-10,-84 L22,-64 L16,-26;M-24,-62 L14,-64 L16,-26;M0,-92 L25,-63 L16,-26;M-14,-60 L24,-63 L16,-26;M-14,-74 L23,-64 L16,-26;M-30,-56 L10,-64 L16,-26;M-10,-84 L22,-64 L16,-26;M-24,-62 L14,-64 L16,-26;M0,-92 L25,-63 L16,-26;M-20,-58 L18,-64 L16,-26;M-14,-74 L23,-64 L16,-26;M-30,-56 L10,-64 L16,-26;M-10,-84 L22,-64 L16,-26;M-24,-62 L14,-64 L16,-26;M0,-92 L25,-63 L16,-26;M-26,-58 L12,-64 L16,-26;M-14,-74 L23,-64 L16,-26;M-30,-56 L10,-64 L16,-26;M-10,-84 L22,-64 L16,-26;M-24,-62 L14,-64 L16,-26;M0,-92 L25,-63 L16,-26"/></path>
+    <path d="M6,-20 L6,-27 Q6,-33 13,-33 L19,-33 Q24,-33 24,-27 L24,-20 Z" fill="#191f27"/>
+
+    <!-- torso -->
+    <path fill="none" stroke="#f2664f" stroke-width="26" stroke-linecap="round"
+      d="M0,-92 L4,-134"><animate attributeName="d" dur="8.904s" repeatCount="indefinite"
+      keyTimes="0;0.05964;0.11927;0.13841;0.20069;0.23084;0.25;0.30963;0.36927;0.38841;0.45069;0.48084;0.5;0.55963;0.61927;0.63841;0.70069;0.73084;0.75;0.80963;0.86927;0.88841;0.95069;0.98084;1"
+      values="M0,-92 L4,-134;M-22,-62 L14,-84;M-14,-74 L-6,-116;M-30,-56 L6,-74;M-10,-84 L8,-122;M-24,-62 L10,-94;M0,-92 L4,-134;M-14,-60 L-46,-86;M-14,-74 L-6,-116;M-30,-56 L6,-74;M-10,-84 L8,-122;M-24,-62 L10,-94;M0,-92 L4,-134;M-20,-58 L14,-88;M-14,-74 L-6,-116;M-30,-56 L6,-74;M-10,-84 L8,-122;M-24,-62 L10,-94;M0,-92 L4,-134;M-26,-58 L12,-80;M-14,-74 L-6,-116;M-30,-56 L6,-74;M-10,-84 L8,-122;M-24,-62 L10,-94;M0,-92 L4,-134"/></path>
+
+    <!-- head -->
+    <g><animateTransform attributeName="transform" type="translate" dur="8.904s" repeatCount="indefinite"
+      keyTimes="0;0.05964;0.11927;0.13841;0.20069;0.23084;0.25;0.30963;0.36927;0.38841;0.45069;0.48084;0.5;0.55963;0.61927;0.63841;0.70069;0.73084;0.75;0.80963;0.86927;0.88841;0.95069;0.98084;1"
+      values="10,-158;35,-97;-2,-140;27,-85;18,-143;28,-111;10,-158;-65,-101;-2,-140;27,-85;18,-143;28,-111;10,-158;33,-105;-2,-140;27,-85;18,-143;28,-111;10,-158;33,-92;-2,-140;27,-85;18,-143;28,-111;10,-158"/>
+     <g><animateTransform attributeName="transform" type="rotate" additive="sum" dur="8.904s" repeatCount="indefinite"
+      keyTimes="0;0.05964;0.11927;0.13841;0.20069;0.23084;0.25;0.30963;0.36927;0.38841;0.45069;0.48084;0.5;0.55963;0.61927;0.63841;0.70069;0.73084;0.75;0.80963;0.86927;0.88841;0.95069;0.98084;1"
+      values="6;25;-5;20;8;22;6;-40;-5;20;8;22;6;24;-5;20;8;22;6;22;-5;20;8;22;6"/>
+      <circle r="14.5" fill="#241d2b"/><path d="M-14.5,-3 A14.5 14.5 0 0 1 14.5,-3 L14.5,-6 A14.5 14.5 0 0 0 -14.5,-6Z" fill="#ff5f56"/>
+      <path d="M12,-1 q7,2 6,7" fill="none" stroke="#ff5f56" stroke-width="3.4" stroke-linecap="round"/>
+      <circle cx="7" cy="2" r="1.9" fill="#ffd7a3"/></g></g>
+
+    <!-- near arm -->
+    <path fill="none" stroke="#f2664f" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"
+      d="M4,-134 L28,-146 L52,-158"><animate attributeName="d" dur="8.904s" repeatCount="indefinite"
+      keyTimes="0;0.05964;0.11927;0.13841;0.20069;0.23084;0.25;0.30963;0.36927;0.38841;0.45069;0.48084;0.5;0.55963;0.61927;0.63841;0.70069;0.73084;0.75;0.80963;0.86927;0.88841;0.95069;0.98084;1"
+      values="M4,-134 L28,-146 L52,-158;M14,-84 L34,-104 L58,-114;M-6,-116 L18,-104 L42,-98;M6,-74 L26,-58 L46,-44;M8,-122 L30,-112 L52,-108;M10,-94 L32,-82 L54,-76;M4,-134 L28,-146 L52,-158;M-46,-86 L-26,-56 L-6,-28;M-6,-116 L18,-104 L42,-98;M6,-74 L26,-58 L46,-44;M8,-122 L30,-112 L52,-108;M10,-94 L32,-82 L54,-76;M4,-134 L28,-146 L52,-158;M14,-88 L34,-72 L28,-48;M-6,-116 L18,-104 L42,-98;M6,-74 L26,-58 L46,-44;M8,-122 L30,-112 L52,-108;M10,-94 L32,-82 L54,-76;M4,-134 L28,-146 L52,-158;M12,-80 L38,-66 L64,-58;M-6,-116 L18,-104 L42,-98;M6,-74 L26,-58 L46,-44;M8,-122 L30,-112 L52,-108;M10,-94 L32,-82 L54,-76;M4,-134 L28,-146 L52,-158"/></path>
+   </g>
+  </g>
+</g>
+
+<!-- ═══════════ TRICK CAPTIONS ═══════════ -->
+<g opacity="0"><animate attributeName="opacity" dur="8.904s" repeatCount="indefinite" keyTimes="0;0.0238;0.0417;0.1012;0.1071;1" values="0;0;1;1;0;0"/>
+  <text class="cap" x="70" y="196">MELON GRAB</text><rect x="70" y="204" width="150" height="2" fill="#ff5f56"/><text class="capSub" x="70" y="222">REAR HAND · TOESIDE EDGE</text></g>
+<g opacity="0"><animate attributeName="opacity" dur="8.904s" repeatCount="indefinite" keyTimes="0;0.2738;0.2917;0.3512;0.3571;1" values="0;0;1;1;0;0"/>
+  <text class="cap" x="1130" y="196" text-anchor="end">METHOD AIR</text><rect x="982" y="204" width="148" height="2" fill="#ff5f56"/><text class="capSub" x="1130" y="222" text-anchor="end">TAIL PULLED · BACK ARCHED</text></g>
+<g opacity="0"><animate attributeName="opacity" dur="8.904s" repeatCount="indefinite" keyTimes="0;0.5238;0.5417;0.6012;0.6071;1" values="0;0;1;1;0;0"/>
+  <text class="cap" x="70" y="196">360 · TUCK</text><rect x="70" y="204" width="118" height="2" fill="#7fe0d2"/><text class="capSub" x="70" y="222">ARMS IN — I↓, ω↑</text></g>
+<g opacity="0"><animate attributeName="opacity" dur="8.904s" repeatCount="indefinite" keyTimes="0;0.7738;0.7917;0.8512;0.8571;1" values="0;0;1;1;0;0"/>
+  <text class="cap" x="1130" y="196" text-anchor="end">INDY GRAB</text><rect x="988" y="204" width="142" height="2" fill="#ff5f56"/><text class="capSub" x="1130" y="222" text-anchor="end">FULL COMMIT · NO BRAKES</text></g>
+
+<!-- ═══════════ TELEMETRY ═══════════ -->
+<g id="altgauge" opacity=".55">
+  <line x1="1156" y1="250" x2="1156" y2="640" stroke="#9fe8dc" stroke-opacity=".3"/>
+  <g stroke="#9fe8dc" stroke-opacity=".3"><path d="M1150,420 L1162,420"/><path d="M1152,530 L1160,530"/><path d="M1152,342 L1160,342"/></g>
+  <text class="mono s" x="1148" y="262" text-anchor="end" fill="#7fe0d2">4′10″</text><text class="mono s" x="1148" y="414" text-anchor="end" fill="#7fe0d2">LIP</text>
+  <circle cx="1156" r="5" fill="#ffd27a" stroke="#1b2b33" stroke-width="1.5">
+    <animate attributeName="cy" dur="8.904s" repeatCount="indefinite"
+      keyTimes="0;0.05964;0.11927;0.13841;0.15413;0.16857;0.20069;0.21512;0.23084;0.25;0.30963;0.36927;0.38841;0.40413;0.41857;0.45069;0.46512;0.48084;0.5;0.55963;0.61927;0.63841;0.65413;0.66857;0.70069;0.71512;0.73084;0.75;0.80963;0.86927;0.88841;0.90413;0.91857;0.95069;0.96512;0.98084;1"
+      values="420;265;420;530;610.5;640;640;610.5;530;420;265;420;530;610.5;640;640;610.5;530;420;265;420;530;610.5;640;640;610.5;530;420;265;420;530;610.5;640;640;610.5;530;420"/>
+  </circle>
+</g>
+
+<g id="hud" opacity=".5">
+  <text class="mono" x="46" y="644" fill="#ffd27a">ENERGY EXCHANGE · |v|</text>
+  <rect x="46" y="652" width="264" height="7" rx="3.5" fill="#0b1a22"/>
+  <rect x="46" y="652" width="167" height="7" rx="3.5" fill="url(#vel)">
+    <animate attributeName="width" dur="8.904s" repeatCount="indefinite"
+      keyTimes="0;0.05964;0.11927;0.13841;0.15413;0.16857;0.20069;0.21512;0.23084;0.25;0.30963;0.36927;0.38841;0.40413;0.41857;0.45069;0.46512;0.48084;0.5;0.55963;0.61927;0.63841;0.65413;0.66857;0.70069;0.71512;0.73084;0.75;0.80963;0.86927;0.88841;0.90413;0.91857;0.95069;0.96512;0.98084;1"
+      values="167;0;167;219;250;260;260;250;219;167;0;167;219;250;260;260;250;219;167;0;167;219;250;260;260;250;219;167;0;167;219;250;260;260;250;219;167"/>
+  </rect>
+  <text class="mono s" x="318" y="659">19.5 MPH</text>
+  <text class="mono s" x="46" y="678">LIP 12.5 MPH · HANG 1.06 S · APEX 4′10″ · G = 32.2 FT/S²</text>
+  <text class="mono s" x="46" y="694">½MV² = MGH · µ≈0 · SEAMLESS LOOP 8.904 S</text>
+</g>
+
+<!-- title -->
+<g>
+  <rect x="46" y="52" width="52" height="4" fill="#ff5f56"/>
+  <text class="disp" x="44" y="112" font-size="58" letter-spacing="7" fill="#fff2dd">THE PIPE</text>
+  <text class="mono" x="46" y="136" fill="#9fe8dc">SIDE PROFILE · 22′ HALFPIPE · SUNSET SESSION</text>
+  <text class="mono s" x="46" y="154">FOUR AIRS · FRONT DOWN, FAKIE BACK</text>
+</g>
+
+<!-- dust in the light -->
+<g fill="#ffe6bd"><circle class="mote" cx="470" cy="470" r="2"/><circle class="mote" cx="690" cy="500" r="1.6"/><circle class="mote" cx="560" cy="440" r="2.4"/><circle class="mote" cx="760" cy="470" r="1.8"/><circle class="mote" cx="620" cy="520" r="2.1"/></g>
+
+<rect width="1200" height="720" fill="url(#vig)" pointer-events="none"/>
+</g>
+</svg>

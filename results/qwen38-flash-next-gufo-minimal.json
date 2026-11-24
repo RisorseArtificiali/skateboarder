@@ -1,0 +1,150 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "minimal",
+  "model": "qwen38-flash-next-gufo",
+  "endpoint": "http://127.0.0.1:8080/v1",
+  "timestamp": "2026-11-11T02:24:45+01:00",
+  "params": {
+    "max_tokens": 260000
+  },
+  "reasoning": {
+    "requested": "default",
+    "effort": null
+  },
+  "contributor": "asoldano",
+  "hardware": {
+    "os": "Linux 6.18.13-200.fc43.x86_64 x86_64",
+    "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+    "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Strix Halo [Radeon Graphics / Radeon 8050S Graphics / Radeon 8060S Graphics] (rev c1)",
+    "ram_gb": 125
+  },
+  "engine": {
+    "name": "gufo",
+    "version": "0.31.0"
+  },
+  "quantization": "UD_Q4_K_XL",
+  "note": "--max-tokens 260000 , default reasoning",
+  "seconds": 2638.5,
+  "usage": {
+    "prompt_tokens": 76,
+    "completion_tokens": 142185,
+    "total_tokens": 142261,
+    "prompt_tokens_details": {
+      "cached_tokens": 76
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 124077
+    },
+    "cached_tokens": 76,
+    "prompt_tokens_per_second": 0,
+    "completion_tokens_per_second": 53.89248312446317,
+    "draft_tokens": 117075,
+    "draft_tokens_accepted": 92418,
+    "gufo": {
+      "component_cache": {
+        "schema": "component-cache-v1",
+        "reuse": "ram",
+        "selection_reason": 1,
+        "deepest_live_tokens": 0,
+        "deepest_ram_tokens": 76,
+        "deepest_disk_tokens": 0,
+        "selected_tokens": 76,
+        "restored_bytes": 135053776,
+        "prefilled_tokens": 0,
+        "captures": 0,
+        "captured_capacity_bytes": 0,
+        "borrowed_capacity_bytes": 0,
+        "copied_payload_bytes": 0,
+        "captured_checkpoint_ids": [],
+        "global_spill": {
+          "idle_bytes": 0,
+          "foreground_bytes": 0,
+          "idle_copy_ms": 0,
+          "foreground_copy_ms": 0,
+          "stream_wait_ms": 0,
+          "residual_wait_ms": 11.942514,
+          "reassignments": 5,
+          "idle_failures": 0
+        },
+        "global_ledger_bytes": 2487930531,
+        "global_ram_bytes": 2487930531,
+        "global_peak_ledger_bytes": 2487930531,
+        "global_peak_ram_bytes": 2487930531,
+        "global_persistence_pinned_bytes": 0,
+        "global_peak_persistence_pinned_bytes": 0,
+        "global_categories": {
+          "backing_free": {
+            "bytes": 1462239232,
+            "reserved_bytes": 0,
+            "peak_bytes": 2277244928
+          },
+          "backing_assigned": {
+            "bytes": 0,
+            "reserved_bytes": 0,
+            "peak_bytes": 0
+          },
+          "backing_materialized": {
+            "bytes": 0,
+            "reserved_bytes": 0,
+            "peak_bytes": 0
+          },
+          "private_state": {
+            "bytes": 800980992,
+            "reserved_bytes": 0,
+            "peak_bytes": 800980992
+          },
+          "private_tail": {
+            "bytes": 14024704,
+            "reserved_bytes": 0,
+            "peak_bytes": 14024704
+          },
+          "metadata": {
+            "bytes": 210685603,
+            "reserved_bytes": 0,
+            "peak_bytes": 210685603
+          },
+          "transfer_staging": {
+            "bytes": 0,
+            "reserved_bytes": 0,
+            "peak_bytes": 0
+          }
+        }
+      },
+      "cache_hit": true,
+      "cache_restore_bytes": 135053776,
+      "cache_snapshot_bytes": 0,
+      "cache_disk_queued_bytes": 0,
+      "cache_shared_bytes": 0,
+      "cache_restore_ms": 1.850547,
+      "cache_snapshot_ms": 0,
+      "cache_disk_enqueue_ms": 0,
+      "cache_disk_hit": false,
+      "draft_rounds": 48087,
+      "prefill_tokens": 0,
+      "prefill_chunks": 0,
+      "active_decode_prefill_chunks": 0,
+      "max_prefill_chunk_tokens": 0,
+      "queue_depth_at_submit": 1,
+      "client_queue_depth_at_submit": 1,
+      "resident_requests_at_admission": 1,
+      "requested_logical_concurrency": 1,
+      "physical_execution_width": 1,
+      "queue_ms": 4.860619,
+      "shared_prefix_wait_ms": 0,
+      "prefill_ms": 0,
+      "decode_ms": 2638308.5684069847,
+      "ttft_ms": 4.960878,
+      "mean_inter_token_ms": 18.557006568707937,
+      "max_inter_token_ms": 110.390181,
+      "execution_plan": "serial-c1"
+    }
+  },
+  "reasoning_tokens": 124077,
+  "finish_reason": "stop",
+  "content_len": 30738,
+  "svg_len": 28994,
+  "has_animation": true,
+  "uses_js": false,
+  "error": null,
+  "file": "results/qwen38-flash-next-gufo-minimal.svg"
+}
