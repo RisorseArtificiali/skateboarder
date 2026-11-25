@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 600">
+  <title>Vert Skateboard Jump on a Half-Pipe</title>
+  <desc>A skater pendulum-swings down a half-pipe, rides up the right transition,
+         launches off the lip, kickflips above the coping, lands in the pool and
+         swings back. Physically-inspired speeding/slowing, parabolic flight.</desc>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6fbdf2"/>
+      <stop offset="1" stop-color="#eef8ff"/>
+    </linearGradient>
+    <linearGradient id="pipeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#42567a"/>
+      <stop offset="1" stop-color="#1d2740"/>
+    </linearGradient>
+    <linearGradient id="railGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#c6d1e0"/>
+    </linearGradient>
+    <linearGradient id="deckGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2b25e"/>
+      <stop offset="1" stop-color="#cf7f34"/>
+    </linearGradient>
+
+    <!-- =====================================================================
+         THE RIDING PATH (hidden). Closed loop so the animation is seamless:
+         left coping -> down left pipe -> pool -> up right pipe -> parabolic
+         lip-launch -> land in pool -> pool -> up left pipe -> back to coping.
+         ===================================================================== -->
+    <path id="ridePath" fill="none" d="
+      M 120 280                      
+      A 190 190 0 0 0 310 470       
+      L 470 470                     
+      A 190 190 0 0 0 660 280       
+      C 560 -160 467.7 336.2 447.7 470 
+      L 310 470                      
+      A 190 190 0 0 1 120 280        
+    "/>
+  </defs>
+
+  <!-- ===================== BACKGROUND SKY ===================== -->
+  <rect width="800" height="600" fill="url(#sky)"/>
+
+  <!-- sun -->
+  <circle cx="646" cy="82" r="56" fill="#ffe9a8" opacity="0.55"/>
+  <circle cx="646" cy="82" r="36" fill="#ffd166"/>
+
+  <!-- clouds -->
+  <g fill="#ffffff" opacity="0.92">
+    <ellipse cx="118" cy="88" rx="46" ry="15"/>
+    <ellipse cx="162" cy="78" rx="30" ry="12"/>
+    <ellipse cx="352" cy="58" rx="52" ry="17"/>
+    <ellipse cx="404" cy="50" rx="28" ry="11"/>
+  </g>
+
+  <!-- distant mountain silhouettes -->
+  <path d="M0 505 L130 400 L210 460 L320 386 L420 468 L520 404 L640 478 L800 410 L800 505 Z"
+        fill="#8ea2ba" opacity="0.45"/>
+  <path d="M0 505 L170 438 L300 470 L420 430 L560 470 L800 436 L800 505 Z"
+        fill="#6b7f97" opacity="0.5"/>
+
+  <!-- ===================== GROUND ===================== -->
+  <rect x="0" y="505" width="800" height="95" fill="#45454f"/>
+  <rect x="0" y="505" width="800" height="4" fill="#383842"/>
+
+  <!-- ===================== HALF-PIPE (vert ramp) =====================
+       Two quarter pipes (left + right) facing each other with a flat pool
+       between them. Surface path is identical to the riding path. -->
+  <path d="M 120 280
+           A 190 190 0 0 0 310 470
+           L 470 470
+           A 190 190 0 0 0 660 280
+           L 660 505 L 120 505 Z"
+        fill="url(#pipeGrad)"/>
+
+  <!-- pool watermark -->
+  <text x="392" y="496" text-anchor="middle"
+        font-family="Verdana, sans-serif" font-weight="bold"
+        font-size="16" fill="#ffffff" opacity="0.18">VERT</text>
+
+  <!-- coping rail (rounded lip) -->
+  <path d="M 120 280
+           A 190 190 0 0 0 310 470
+           L 470 470
+           A 190 190 0 0 0 660 280"
+        fill="none" stroke="url(#railGrad)" stroke-width="10"
+        stroke-linecap="round"/>
+
+  <!-- ===================== SKATER =====================
+       Outer group is driven along the hidden ride path by animateMotion.
+       Speed is varied with height (slow at top, fast at pool) via
+       keyPoints + keyTimes. -->
+  <g id="riderMotion">
+    <animateMotion dur="7s" repeatCount="indefinite" calcMode="linear" rotate="0"
+                   keyPoints="0;0.0656;0.1311;0.1966;0.3021;0.3678;0.4328;0.4990;0.7135;0.8041;0.8697;0.9352;1"
+                   keyTimes="0;0.1214;0.2000;0.2600;0.3314;0.3843;0.4371;0.4886;0.7100;0.7743;0.8229;0.8800;1">
+      <mpath href="#ridePath" xlink:href="#ridePath"/>
+    </animateMotion>
+
+    <!-- landing / takeoff squash -->
+    <g id="riderSquash">
+      <animateTransform attributeName="transform" type="scale" dur="7s"
+                        repeatCount="indefinite"
+                        values="1 1;0.94 1.06;1 1;1.2 0.78;1 1"
+                        keyTimes="0.40;0.4886;0.55;0.7100;0.78"/>
+
+      <!-- body lean (pump / crouch / launch stance) -->
+      <g id="riderLean">
+        <animateTransform attributeName="transform" type="rotate" dur="7s"
+                          repeatCount="indefinite"
+                          values="0 0 -9;16 0 -9;14 0 -9;0 0 -9;-12 0 -9;12 0 -9;0 0 -9;-8 0 -9;0 0 -9"
+                          keyTimes="0;0.1214;0.2600;0.3314;0.4886;0.7100;0.7743;0.8229;1"/>
+
+        <g id="riderBody">
+          <!-- far leg + far boot -->
+          <path d="M 10 -15 L 9 -29 L 5 -37" fill="none"
+                stroke="#232836" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="5" y="-16" width="11.5" height="4.8" rx="2.2" fill="#e8e8ec" stroke="#1f1f26" stroke-width="0.8"/>
+          <!-- far arm -->
+          <path d="M 1 -53 L -9 -43" fill="none" stroke="#b22d34" stroke-width="4" stroke-linecap="round"/>
+          <!-- torso -->
+          <path d="M -1 -37 L 1.5 -56" fill="none" stroke="#e63946" stroke-width="11.5" stroke-linecap="round"/>
+          <!-- near leg + near boot -->
+          <path d="M -8 -15 L -6 -29 L -3 -38" fill="none"
+                stroke="#2f3545" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="-14" y="-16" width="12.5" height="4.8" rx="2.2" fill="#f5f5f7" stroke="#1f1f26" stroke-width="0.9"/>
+          <!-- near arm -->
+          <path d="M 2 -54 L 13 -44" fill="none" stroke="#e63946" stroke-width="4.5" stroke-linecap="round"/>
+          <!-- head -->
+          <circle cx="2" cy="-63" r="7.5" fill="#f1c27d" stroke="#1f1f26" stroke-width="1.1"/>
+          <!-- cap -->
+          <path d="M -5.2 -64.3 A 7.5 7.5 0 0 1 9.5 -64.7 Z" fill="#22304a"/>
+          <rect x="7.2" y="-66.4" width="7.5" height="2.3" rx="1.1" fill="#22304a"/>
+        </g>
+
+        <g id="boardGroup">
+          <animateTransform attributeName="transform" type="rotate" dur="7s"
+                            repeatCount="indefinite"
+                            values="0 0 -9;360 0 -9"
+                            keyTimes="0.4886;0.7100"/>
+          <!-- far-side wheels (peek behind deck) -->
+          <circle cx="-16.5" cy="-8.2" r="3.2" fill="#b8742c" stroke="#1f1f26" stroke-width="0.8"/>
+          <circle cx="16.5" cy="-8.2" r="3.2" fill="#b8742c" stroke="#1f1f26" stroke-width="0.8"/>
+          <!-- deck -->
+          <rect x="-27" y="-11.5" width="54" height="5.5" rx="2.75"
+                fill="url(#deckGrad)" stroke="#1f1f26" stroke-width="1.3"/>
+          <line x1="-14" y1="-9.3" x2="14" y2="-9.3" stroke="#d9822b" stroke-width="2" stroke-linecap="round"/>
+          <!-- trucks -->
+          <rect x="-19.4" y="-5.9" width="5.8" height="3.6" rx="1" fill="#4a4f58"/>
+          <rect x="13.6" y="-5.9" width="5.8" height="3.6" rx="1" fill="#4a4f58"/>
+          <!-- near wheels (spin) -->
+          <g transform="translate(-16.5,-3.6)">
+            <animateTransform attributeName="transform" type="rotate" dur="0.4s"
+                              repeatCount="indefinite" values="0;360" additive="sum"/>
+            <circle r="4.6" fill="#ffd166" stroke="#1f1f26" stroke-width="1.3"/>
+            <line x1="-3.4" y1="0" x2="3.4" y2="0" stroke="#1f1f26" stroke-width="1.3"/>
+          </g>
+          <g transform="translate(16.5,-3.6)">
+            <animateTransform attributeName="transform" type="rotate" dur="0.4s"
+                              repeatCount="indefinite" values="0;360" additive="sum"/>
+            <circle r="4.6" fill="#ffd166" stroke="#1f1f26" stroke-width="1.3"/>
+            <line x1="-3.4" y1="0" x2="3.4" y2="0" stroke="#1f1f26" stroke-width="1.3"/>
+          </g>
+        </g>
+
+      </g>
+    </g>
+  </g>
+</svg>

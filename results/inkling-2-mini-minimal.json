@@ -1,0 +1,160 @@
+{
+  "benchmark": "skateboard",
+  "prompt": "minimal",
+  "model": "inkling-2-mini",
+  "endpoint": "http://127.0.0.1:18081/v1",
+  "timestamp": "2026-11-25T23:03:52+01:00",
+  "params": {
+    "max_tokens": 260000
+  },
+  "reasoning": {
+    "requested": "default",
+    "effort": null
+  },
+  "contributor": "asoldano",
+  "hardware": {
+    "os": "Linux 7.3.4-200.fc44.x86_64 x86_64",
+    "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+    "gpu": "Advanced Micro Devices, Inc. [AMD/ATI] Strix Halo [Radeon Graphics / Radeon 8050S Graphics / Radeon 8060S Graphics] (rev c1)",
+    "ram_gb": 125
+  },
+  "engine": {
+    "name": "gufo",
+    "version": "0.37.0"
+  },
+  "quantization": "UD_Q4_K_XL",
+  "note": "default reasoning, max-tokens 260000",
+  "seconds": 128.3,
+  "usage": {
+    "prompt_tokens": 45,
+    "completion_tokens": 8640,
+    "total_tokens": 8685,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5534
+    },
+    "cached_tokens": 0,
+    "prompt_tokens_per_second": 307.4131408269435,
+    "completion_tokens_per_second": 67.43324928951374,
+    "draft_tokens": 6494,
+    "draft_tokens_accepted": 4641,
+    "gufo": {
+      "component_cache": {
+        "schema": "component-cache-v1",
+        "reuse": "none",
+        "selection_reason": 6,
+        "deepest_live_tokens": 0,
+        "deepest_ram_tokens": 0,
+        "deepest_disk_tokens": 0,
+        "selected_tokens": 0,
+        "restored_bytes": 0,
+        "remapped_bytes": 0,
+        "prefilled_tokens": 45,
+        "captures": 2,
+        "captured_capacity_bytes": 36438016,
+        "borrowed_capacity_bytes": 0,
+        "copied_payload_bytes": 27878480,
+        "shared_payload_bytes": 0,
+        "captured_checkpoint_ids": [
+          2,
+          3
+        ],
+        "global_spill": {
+          "idle_bytes": 0,
+          "foreground_bytes": 0,
+          "idle_copy_ms": 0,
+          "foreground_copy_ms": 0,
+          "stream_wait_ms": 0,
+          "residual_wait_ms": 0.248177,
+          "reassignments": 1,
+          "idle_failures": 0
+        },
+        "global_ledger_bytes": 2623345126,
+        "global_ram_bytes": 2623345126,
+        "global_peak_ledger_bytes": 2623345126,
+        "global_peak_ram_bytes": 2623345126,
+        "global_persistence_pinned_bytes": 0,
+        "global_peak_persistence_pinned_bytes": 0,
+        "global_categories": {
+          "backing_free": {
+            "bytes": 2111045632,
+            "reserved_bytes": 0,
+            "peak_bytes": 2147483648
+          },
+          "backing_assigned": {
+            "bytes": 0,
+            "reserved_bytes": 0,
+            "peak_bytes": 0
+          },
+          "backing_materialized": {
+            "bytes": 0,
+            "reserved_bytes": 0,
+            "peak_bytes": 0
+          },
+          "private_state": {
+            "bytes": 9699328,
+            "reserved_bytes": 0,
+            "peak_bytes": 9699328
+          },
+          "private_tail": {
+            "bytes": 26738688,
+            "reserved_bytes": 0,
+            "peak_bytes": 26738688
+          },
+          "metadata": {
+            "bytes": 475861478,
+            "reserved_bytes": 0,
+            "peak_bytes": 475861478
+          },
+          "transfer_staging": {
+            "bytes": 0,
+            "reserved_bytes": 0,
+            "peak_bytes": 0
+          }
+        }
+      },
+      "cache_hit": false,
+      "cache_miss_reason": "no_checkpoint",
+      "cache_common_prefix_tokens": 0,
+      "cache_checkpoint_tokens": 0,
+      "cache_restore_bytes": 0,
+      "cache_snapshot_bytes": 27878480,
+      "cache_disk_queued_bytes": 0,
+      "cache_shared_bytes": 0,
+      "cache_restore_ms": 0,
+      "cache_snapshot_ms": 15.530608,
+      "cache_disk_enqueue_ms": 0.001634,
+      "cache_disk_hit": false,
+      "draft_rounds": 2402,
+      "prefill_tokens": 45,
+      "prefill_chunks": 1,
+      "active_decode_prefill_chunks": 0,
+      "max_prefill_chunk_tokens": 45,
+      "max_prefill_layer_groups": 1,
+      "prefill_yield_rounds": 0,
+      "queue_depth_at_submit": 1,
+      "client_queue_depth_at_submit": 1,
+      "resident_requests_at_admission": 1,
+      "requested_logical_concurrency": 1,
+      "physical_execution_width": 1,
+      "queue_ms": 0.748759,
+      "shared_prefix_wait_ms": 0,
+      "prefill_ms": 146.382812,
+      "decode_ms": 128126.70442299997,
+      "ttft_ms": 148.163874,
+      "mean_inter_token_ms": 14.832177682254988,
+      "max_inter_token_ms": 68.397847,
+      "execution_plan": "serial-c1"
+    }
+  },
+  "reasoning_tokens": 5534,
+  "finish_reason": "stop",
+  "content_len": 6525,
+  "svg_len": 6105,
+  "has_animation": true,
+  "uses_js": false,
+  "error": null,
+  "file": "results/inkling-2-mini-minimal.svg"
+}

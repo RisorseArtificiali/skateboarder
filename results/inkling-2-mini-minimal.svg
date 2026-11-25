@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <!-- Physics-ish: scale in px, g = 1000 px/s^2.
+       Crest gain ~85-90 px, approach v ~450 px/s, crest v ~210 px/s.
+       Rider leaves the lip as a small projectile and lands on the flat.
+       This is stylized, not a full rigid-body/contact solver. -->
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7ec8ff"/>
+      <stop offset="1" stop-color="#dff3ff"/>
+    </linearGradient>
+    <linearGradient id="pipe" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e9e9ee"/>
+      <stop offset="0.45" stop-color="#9aa0ab"/>
+      <stop offset="0.55" stop-color="#565b66"/>
+      <stop offset="1" stop-color="#d7dae2"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff3a6"/>
+      <stop offset="1" stop-color="#ffd166" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="405" fill="url(#sky)"/>
+  <circle cx="660" cy="82" r="74" fill="url(#sun)"/>
+  <circle cx="660" cy="82" r="42" fill="#ffd166"/>
+
+  <g fill="#ffffff" opacity="0.85">
+    <ellipse cx="120" cy="92" rx="58" ry="22"/>
+    <ellipse cx="170" cy="98" rx="44" ry="18"/>
+    <ellipse cx="430" cy="75" rx="62" ry="20"/>
+  </g>
+
+  <rect y="405" width="800" height="95" fill="#6f7d5d"/>
+  <rect y="405" width="800" height="8" fill="#8b9a6f"/>
+  <line x1="0" y1="405" x2="800" y2="405" stroke="#4f5d41" stroke-width="3"/>
+  <rect x="0" y="455" width="800" height="6" fill="#5b6a49"/>
+
+  <!-- Pipe/rail: stroke center is ~17 px below rider path -->
+  <path d="M110 416 L205 416 C250 416 265 334 345 330 C425 325 500 330 548 356"
+        fill="none" stroke="#2f3238" stroke-width="38" stroke-linecap="round"/>
+  <path d="M110 416 L205 416 C250 416 265 334 345 330 C425 325 500 330 548 356"
+        fill="none" stroke="url(#pipe)" stroke-width="30" stroke-linecap="round"/>
+  <path d="M112 405 L203 405" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+  <path d="M270 360 C300 328 335 322 365 321" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.45"/>
+
+  <!-- Landing dust -->
+  <g opacity="0">
+    <animateMotion dur="4s" repeatCount="indefinite" path="M0 0"/>
+    <circle cx="735" cy="401" r="8" fill="#d8cdb7">
+      <animate attributeName="r" values="7;14;24;30" keyTimes="0;0.84;0.93;1" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0.0;0.75;0.25;0" keyTimes="0;0.80;0.88;0.95;1" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="760" cy="402" r="6" fill="#e7dcc9">
+      <animate attributeName="r" values="6;12;20;26" keyTimes="0;0.82;0.91;1" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0.0;0.65;0.2;0" keyTimes="0;0.79;0.88;0.95;1" dur="4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Lip grind sparks -->
+  <circle cx="548" cy="342" r="5" fill="#ffd166" opacity="0">
+    <animate attributeName="r" values="3;18;26" keyTimes="0;0.53;0.62" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;0.95;0" keyTimes="0;0.53;0.62" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <g stroke="#ffb347" stroke-width="3" stroke-linecap="round" opacity="0">
+    <animate attributeName="opacity" values="0;0;0.9;0" keyTimes="0;0.50;0.55;0.66" dur="4s" repeatCount="indefinite"/>
+    <line x1="548" y1="342" x2="585" y2="300"/>
+    <line x1="548" y1="342" x2="610" y2="340"/>
+    <line x1="548" y1="342" x2="580" y2="378"/>
+  </g>
+
+  <!-- Rider + skateboard. Origin = board contact point on the pipe/ground. -->
+  <g opacity="1">
+    <animate attributeName="opacity"
+             values="1;1;0;0;1"
+             keyTimes="0;0.90;0.955;0.985;1"
+             dur="4s" repeatCount="indefinite"/>
+    <animateMotion dur="4s" repeatCount="indefinite" rotate="auto"
+      path="M45 398 L205 398 C250 398 265 318 345 312 C425 306 505 315 548 342 C620 378 690 404 770 404"/>
+
+    <!-- Board: subtle pop/rotation synchronized near the lip -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate"
+        values="0;0;-16;10;0"
+        keyTimes="0;0.42;0.52;0.64;1"
+        dur="4s" repeatCount="indefinite" additive="sum"/>
+
+      <rect x="-39" y="-19" width="78" height="7" rx="4" fill="#22262d"/>
+      <rect x="-39" y="-19" width="78" height="3" rx="2" fill="#ff5a5f"/>
+      <circle cx="-24" cy="-6" r="6" fill="#14161a"/>
+      <circle cx="24" cy="-6" r="6" fill="#14161a"/>
+      <circle cx="-24" cy="-6" r="2.4" fill="#8f96a3"/>
+      <circle cx="24" cy="-6" r="2.4" fill="#8f96a3"/>
+
+      <!-- Feet -->
+      <rect x="-27" y="-31" width="17" height="11" rx="4" fill="#f5f0e6"/>
+      <rect x="9" y="-31" width="17" height="11" rx="4" fill="#f5f0e6"/>
+
+      <!-- Legs -->
+      <path d="M-20 -31 L-15 -62" stroke="#2b3a55" stroke-width="9" stroke-linecap="round"/>
+      <path d="M18 -31 L14 -62" stroke="#2b3a55" stroke-width="9" stroke-linecap="round"/>
+
+      <!-- Torso -->
+      <path d="M-16 -60 L16 -60 L22 -96 L-20 -96 Z" fill="#ff5a5f" stroke="#20242b" stroke-width="2"/>
+      <line x1="-14" y1="-75" x2="20" y2="-75" stroke="#ffd166" stroke-width="5" stroke-linecap="round"/>
+
+      <!-- Arms, balancing -->
+      <path d="M-20 -88 L-54 -112 L-72 -102" stroke="#ff8a65" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <path d="M20 -88 L54 -78 L72 -58" stroke="#ff8a65" stroke-width="7" stroke-linecap="round" fill="none"/>
+
+      <!-- Head -->
+      <circle cx="2" cy="-112" r="14" fill="#f2c29b" stroke="#20242b" stroke-width="2"/>
+      <path d="M-12 -116 Q2 -134 16 -116 L14 -108 Q2 -116 -12 -108 Z" fill="#26324a"/>
+      <circle cx="-2" cy="-112" r="2.2" fill="#20242b"/>
+      <circle cx="8" cy="-112" r="2.2" fill="#20242b"/>
+    </g>
+  </g>
+
+  <!-- Ground contact hints -->
+  <line x1="20" y1="406" x2="205" y2="406" stroke="#ffffff" stroke-width="2" opacity="0.25"/>
+  <line x1="620" y1="406" x2="780" y2="406" stroke="#ffffff" stroke-width="2" opacity="0.25"/>
+</svg>
